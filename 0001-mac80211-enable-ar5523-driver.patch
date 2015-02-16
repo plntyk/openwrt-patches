@@ -1,0 +1,79 @@
+From 0c3ec459a6d212410134a1ecbc04aa8ccde0d8cf Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 16 Feb 2015 15:04:44 +0100
+Subject: [PATCH] mac80211: enable ar5523 driver
+
+Only station mode. No AP.
+requested in forum
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/kernel/mac80211/Makefile | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
+
+diff --git a/package/kernel/mac80211/Makefile b/package/kernel/mac80211/Makefile
+index 814eb1c..9810dc4 100644
+--- a/package/kernel/mac80211/Makefile
++++ b/package/kernel/mac80211/Makefile
+@@ -23,7 +23,7 @@ PKG_BUILD_PARALLEL:=1
+ PKG_MAINTAINER:=Felix Fietkau <nbd@openwrt.org>
+ 
+ PKG_DRIVERS = \
+-	adm8211 ath5k libertas-usb libertas-sdio p54-common p54-pci p54-usb p54-spi \
++	adm8211 ar5523 ath5k libertas-usb libertas-sdio p54-common p54-pci p54-usb p54-spi \
+ 	rt2x00-lib rt2x00-pci rt2x00-usb rt2800-lib rt2400-pci rt2500-pci \
+ 	rt2500-usb rt61-pci rt73-usb rt2800-mmio rt2800-pci rt2800-usb rt2800-soc \
+ 	rtl8180 rtl8187 zd1211rw mac80211-hwsim carl9170 b43 b43legacy \
+@@ -543,6 +543,21 @@ define KernelPackage/ath/description
+  This module contains some common parts needed by Atheros Wireless drivers.
+ endef
+ 
++define KernelPackage/ar5523
++  $(call KernelPackage/mac80211/Default)
++  TITLE:=Atheros 5523 wireless cards support
++  URL:=http://linuxwireless.org/en/users/Drivers/ar5523
++  DEPENDS+= @PCI_SUPPORT||@USB_SPPORT  +kmod-ath +kmod-usb-core
++  FILES:=$(PKG_BUILD_DIR)/drivers/net/wireless/ath/ar5523/ar5523.ko
++  AUTOLOAD:=$(call AutoProbe,ar5523)
++endef
++
++define KernelPackage/ar5523/description
++ This module adds support for wireless adapters based on
++ Atheros 5523 chipset.
++ Only station mode is supported. No AP.
++endef
++
+ define KernelPackage/ath5k
+   $(call KernelPackage/mac80211/Default)
+   TITLE:=Atheros 5xxx wireless cards support
+@@ -1532,6 +1547,7 @@ config-$(CONFIG_ATH9K_SUPPORT_PCOEM) += ATH9K_PCOEM
+ config-$(call config_package,ath9k-htc) += ATH9K_HTC
+ config-$(call config_package,ath10k) += ATH10K ATH10K_PCI
+ 
++config-$(call config_package,ar5523) += AR5523
+ config-$(call config_package,ath5k) += ATH5K
+ ifdef CONFIG_TARGET_atheros
+   config-y += ATH5K_AHB
+@@ -1813,6 +1829,11 @@ define KernelPackage/carl9170/install
+ 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/$(PKG_LINUX_FIRMWARE_SUBDIR)/carl9170-1.fw $(1)/lib/firmware
+ endef
+ 
++define KernelPackage/ar5523/install
++	$(INSTALL_DIR) $(1)/lib/firmware
++	$(INSTALL_DATA) $(PKG_BUILD_DIR)/$(PKG_LINUX_FIRMWARE_SUBDIR)/ar5523.bin $(1)/lib/firmware
++endef
++
+ define KernelPackage/ath9k-htc/install
+ 	$(INSTALL_DIR) $(1)/lib/firmware
+ 	$(INSTALL_DATA) \
+@@ -1979,6 +2000,7 @@ endef
+ 
+ $(eval $(call KernelPackage,adm8211))
+ $(eval $(call KernelPackage,ath5k))
++$(eval $(call KernelPackage,ar5523))
+ $(eval $(call KernelPackage,lib80211))
+ $(eval $(call KernelPackage,libertas-usb))
+ $(eval $(call KernelPackage,libertas-sdio))
+-- 
+2.3.0
+
