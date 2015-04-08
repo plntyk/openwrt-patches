@@ -1,0 +1,33 @@
+From 8a4df77be0c7efea6071f19b7b13f619bc9a7b16 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 5 Apr 2015 10:24:12 +0200
+Subject: [PATCH 6/6] generic/3.18: add missing symbols
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/generic/config-3.18 | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/target/linux/generic/config-3.18 b/target/linux/generic/config-3.18
+index 0367de7..e116190 100644
+--- a/target/linux/generic/config-3.18
++++ b/target/linux/generic/config-3.18
+@@ -282,6 +282,7 @@ CONFIG_ATA_SFF=y
+ # CONFIG_ATH79 is not set
+ # CONFIG_ATH9K is not set
+ # CONFIG_ATH9K_HTC is not set
++# CONFIG_ATH_CARDS is not set
+ # CONFIG_ATH_DEBUG is not set
+ # CONFIG_ATL1 is not set
+ # CONFIG_ATL1C is not set
+@@ -2279,6 +2280,7 @@ CONFIG_MTD_SPLIT_SUPPORT=y
+ # CONFIG_MVSW6171_PHY is not set
+ # CONFIG_MVSWITCH_PHY is not set
+ # CONFIG_MWAVE is not set
++# CONFIG_MWIFIEX is not set
+ # CONFIG_MWL8K is not set
+ # CONFIG_MYRI10GE is not set
+ # CONFIG_NAMESPACES is not set
+-- 
+2.3.5
+

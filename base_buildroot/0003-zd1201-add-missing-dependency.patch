@@ -1,0 +1,28 @@
+From ea42236140eaeaad22f97a60ae31d6a909e73ad4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Apr 2015 20:14:31 +0200
+Subject: [PATCH 3/6] zd1201: add missing dependency
+
+this module gets only (?) build on omap because of config symbol differences
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/kernel/linux/modules/wireless.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package/kernel/linux/modules/wireless.mk b/package/kernel/linux/modules/wireless.mk
+index 30ba0a8..8989d79 100644
+--- a/package/kernel/linux/modules/wireless.mk
++++ b/package/kernel/linux/modules/wireless.mk
+@@ -26,7 +26,7 @@ $(eval $(call KernelPackage,net-airo))
+ define KernelPackage/net-zd1201
+   SUBMENU:=$(WIRELESS_MENU)
+   TITLE:=Zydas ZD1201 support
+-  DEPENDS:=@USB_SUPPORT +@DRIVER_WEXT_SUPPORT +kmod-usb-core
++  DEPENDS:=@USB_SUPPORT +@DRIVER_WEXT_SUPPORT +kmod-usb-core +kmod-cfg80211
+   KCONFIG:=CONFIG_USB_ZD1201
+   FILES:=$(LINUX_DIR)/drivers/net/wireless/zd1201.ko
+   AUTOLOAD:=$(call AutoProbe,zd1201)
+-- 
+2.3.5
+

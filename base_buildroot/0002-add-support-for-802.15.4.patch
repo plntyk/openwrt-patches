@@ -1,0 +1,176 @@
+From 9dcd8dbbb9516f90d9c9929545a33135d9e41fb5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Apr 2015 12:59:41 +0200
+Subject: [PATCH 2/6] add support for 802.15.4
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/kernel/linux/modules/other.mk | 148 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 141 insertions(+), 7 deletions(-)
+
+diff --git a/package/kernel/linux/modules/other.mk b/package/kernel/linux/modules/other.mk
+index 3460a55..abaade2 100644
+--- a/package/kernel/linux/modules/other.mk
++++ b/package/kernel/linux/modules/other.mk
+@@ -71,13 +71,9 @@ $(eval $(call KernelPackage,bluetooth))
+ define KernelPackage/bluetooth_6lowpan
+   SUBMENU:=$(OTHER_MENU)
+   TITLE:=Bluetooth 6LoWPAN support
+-  DEPENDS:=+kmod-bluetooth @!LINUX_3_10 @!LINUX_3_14
+-  KCONFIG:= \
+-  CONFIG_6LOWPAN=m \
+-  CONFIG_BT_6LOWPAN=m
+-  FILES:= \
+-       $(LINUX_DIR)/net/bluetooth/bluetooth_6lowpan.ko \
+-       $(LINUX_DIR)/net/6lowpan/6lowpan.ko
++  DEPENDS:=+kmod-bluetooth +kmod-6lowpan @!LINUX_3_10 @!LINUX_3_14
++  KCONFIG:=CONFIG_BT_6LOWPAN
++  FILES:=$(LINUX_DIR)/net/bluetooth/bluetooth_6lowpan.ko
+        AUTOLOAD:=$(call AutoProbe,bluetooth)
+ endef
+ 
+@@ -980,3 +976,141 @@ define KernelPackage/echo/description
+ endef
+ 
+ $(eval $(call KernelPackage,echo))
++
++
++define KernelPackage/ieee802154
++  SUBMENU:=$(OTHER_MENU)
++  TITLE:=ieee802154 support
++  KCONFIG:=CONFIG_IEEE802154
++  FILES:= $(LINUX_DIR)/net/ieee802154/ieee802154.ko \
++	  $(LINUX_DIR)/net/ieee802154/af_802154.ko
++  AUTOLOAD:=$(call AutoProbe,ieee802154 af_802154)
++endef
++
++define KernelPackage/ieee802154/description
++ Kernel support for ieee802154 devices
++endef
++
++$(eval $(call KernelPackage,ieee802154))
++
++
++define KernelPackage/ieee802154-6lowpan
++  SUBMENU:=$(OTHER_MENU)
++  TITLE:=ieee802154-6lowpan support
++  KCONFIG:=CONFIG_IEEE802154_6LOWPAN
++  DEPENDS:=+kmod-ieee802154 +kmod-6lowpan
++  FILES:= $(LINUX_DIR)/net/ieee802154/ieee802154_6lowpan.ko
++  AUTOLOAD:=$(call AutoProbe,ieee802154_6lowpan)
++endef
++
++define KernelPackage/ieee802154-6lowpan/description
++ Kernel support for 6lowpan support over IEEE 802.15.4
++endef
++
++$(eval $(call KernelPackage,ieee802154-6lowpan))
++
++
++define KernelPackage/mac802154
++  SUBMENU:=$(OTHER_MENU)
++  TITLE:=mac802154 support
++  DEPENDS:=+kmod-ieee802154 +kmod-lib-crc-ccitt +kmod-crypto-aead
++  KCONFIG:=CONFIG_MAC802154
++  FILES:= $(LINUX_DIR)/net/mac802154/mac802154.ko
++  AUTOLOAD:=$(call AutoProbe,mac802154)
++endef
++
++define KernelPackage/mac802154/description
++ Kernel support for mac802154 devices
++endef
++
++$(eval $(call KernelPackage,mac802154))
++
++
++define KernelPackage/ieee802154-drivers
++  SUBMENU:=$(OTHER_MENU)
++  TITLE:=ieee802154 support
++  DEPENDS:=+kmod-ieee802154
++  KCONFIG:= \
++	CONFIG_IEEE802154_DRIVERS \
++	CONFIG_IEEE802154_FAKEHARD=n \
++	CONFIG_IEEE802154_FAKELB=n
++  AUTOLOAD:=$(call AutoProbe,ieee802154)
++endef
++
++define KernelPackage/ieee802154-drivers/description
++ Kernel support for ieee802154 drivers
++endef
++
++$(eval $(call KernelPackage,ieee802154-drivers))
++
++
++define KernelPackage/wpan-at86rf230
++  SUBMENU:=$(OTHER_MENU)
++  TITLE:=wpan-at86rf230 support
++  DEPENDS:=+kmod-ieee802154-drivers +kmod-mac802154 +kmod-regmap
++  KCONFIG:= \
++	CONFIG_IEEE802154_AT86RF230 \
++	CONFIG_SPI=y \
++	CONFIG_SPI_MASTER=y
++  FILES:= $(LINUX_DIR)/drivers/net/ieee802154/at86rf230.ko
++  AUTOLOAD:=$(call AutoProbe,at86rf230)
++endef
++
++define KernelPackage/wpan-at86rf230/description
++ Kernel support for at86rf230/231/233/212 SPI 802.15.4 wireless
++ controller.
++endef
++
++$(eval $(call KernelPackage,wpan-at86rf230))
++
++
++define KernelPackage/wpan-mrf24j40
++  SUBMENU:=$(OTHER_MENU)
++  TITLE:=wpan-mrf24j40 support
++  DEPENDS:=+kmod-ieee802154-drivers +kmod-mac802154
++  KCONFIG:= \
++	CONFIG_IEEE802154_MRF24J40 \
++	CONFIG_SPI=y
++  FILES:= $(LINUX_DIR)/drivers/net/ieee802154/mrf24j40.ko
++  AUTOLOAD:=$(call AutoProbe,mrf24j40)
++endef
++
++define KernelPackage/wpan-mrf24j40/description
++ Kernel support for MRF24J20 SPI 802.15.4 wireless controller.
++endef
++
++$(eval $(call KernelPackage,wpan-mrf24j40))
++
++
++define KernelPackage/wpan-cc2520
++  SUBMENU:=$(OTHER_MENU)
++  TITLE:=wpan-mrf24j40 support
++  DEPENDS:=+kmod-ieee802154-drivers +kmod-mac802154
++  KCONFIG:= \
++	CONFIG_IEEE802154_CC2520 \
++	CONFIG_SPI=y
++  FILES:= $(LINUX_DIR)/drivers/net/ieee802154/cc2520.ko
++  AUTOLOAD:=$(call AutoProbe,cc2520)
++endef
++
++define KernelPackage/wpan-cc2520/description
++ Kernel support for MRF24J20 SPI 802.15.4 wireless controller.
++endef
++
++$(eval $(call KernelPackage,wpan-cc2520))
++
++
++define KernelPackage/6lowpan
++  SUBMENU:=$(OTHER_MENU)
++  TITLE:=Bluetooth 6LoWPAN support
++  DEPENDS:=@!LINUX_3_10 @!LINUX_3_14
++  KCONFIG:=CONFIG_6LOWPAN
++  FILES:=$(LINUX_DIR)/net/6lowpan/6lowpan.ko
++  AUTOLOAD:=$(call AutoProbe,6lowpan)
++endef
++
++define KernelPackage/6lowpan/description
++ Kernel support for 6LoWPAN for Bluetooth Low Energy or 802.15.4 devices
++endef
++
++$(eval $(call KernelPackage,6lowpan))
+-- 
+2.3.5
+

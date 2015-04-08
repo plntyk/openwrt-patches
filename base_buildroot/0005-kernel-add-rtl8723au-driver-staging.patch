@@ -1,0 +1,56 @@
+From 7f37ce68456d47b56274482fc8bba97feb596790 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 5 Apr 2015 09:07:48 +0200
+Subject: [PATCH 5/6] kernel: add rtl8723au driver (staging)
+
+- 8723au might be used in some USB sticks or on some sunxi boards
+- move config symbol to separate package
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/kernel/linux/modules/wireless.mk | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/package/kernel/linux/modules/wireless.mk b/package/kernel/linux/modules/wireless.mk
+index 8989d79..7ba7b28 100644
+--- a/package/kernel/linux/modules/wireless.mk
++++ b/package/kernel/linux/modules/wireless.mk
+@@ -114,7 +114,6 @@ define KernelPackage/net-rtl8188eu
+   KCONFIG:=\
+ 	CONFIG_STAGING=y \
+ 	CONFIG_R8188EU \
+-	CONFIG_R8723AU \
+ 	CONFIG_88EU_AP_MODE=y \
+ 	CONFIG_88EU_P2P=n
+   FILES:=$(LINUX_DIR)/drivers/staging/rtl8188eu/r8188eu.ko
+@@ -127,6 +126,27 @@ endef
+ 
+ $(eval $(call KernelPackage,net-rtl8188eu))
+ 
++
++define KernelPackage/net-rtl8723au
++  SUBMENU:=$(WIRELESS_MENU)
++  TITLE:=RTL8723AU support (staging)
++  DEPENDS:=@!LINUX_3_10 @USB_SUPPORT +@DRIVER_WEXT_SUPPORT +r8188eu-firmware +kmod-usb-core
++  KCONFIG:=\
++        CONFIG_STAGING=y \
++        CONFIG_R8723AU \
++        CONFIG_8723AU_AP_MODE=y \
++        CONFIG_8723AU_BT_COEXIST=y
++  FILES:=$(LINUX_DIR)/drivers/staging/rtl8723au/r8723au.ko
++  AUTOLOAD:=$(call AutoProbe,r8723au)
++endef
++
++define KernelPackage/net-rtl8723au/description
++ Kernel modules for RealTek RTL8723AU support
++endef
++
++$(eval $(call KernelPackage,net-rtl8723au))
++
++
+ define KernelPackage/net-rtl8192su
+   SUBMENU:=$(WIRELESS_MENU)
+   TITLE:=RTL8192SU support (staging)
+-- 
+2.3.5
+
