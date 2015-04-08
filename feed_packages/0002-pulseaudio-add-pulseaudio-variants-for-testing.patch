@@ -1,0 +1,370 @@
+From a648b4e722bd90dbc20c8321944fe31b1c057491 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 8 Apr 2015 21:24:36 +0200
+Subject: [PATCH 2/2] pulseaudio: add pulseaudio variants for testing
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ sound/pulseaudio/Makefile | 248 +++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 223 insertions(+), 25 deletions(-)
+
+diff --git a/sound/pulseaudio/Makefile b/sound/pulseaudio/Makefile
+index 23a8c80..86c89a9 100644
+--- a/sound/pulseaudio/Makefile
++++ b/sound/pulseaudio/Makefile
+@@ -1,5 +1,5 @@
+ #
+-# Copyright (C) 2011-2014 OpenWrt.org
++# Copyright (C) 2011-2015 OpenWrt.org
+ #
+ # This is free software, licensed under the GNU General Public License v2.
+ # See /LICENSE for more information.
+@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=pulseaudio
+ PKG_VERSION:=6.0
+-PKG_RELEASE:=1
++PKG_RELEASE:=2
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+ PKG_SOURCE_URL:=http://freedesktop.org/software/pulseaudio/releases/
+@@ -17,6 +17,7 @@ PKG_MD5SUM:=b691e83b7434c678dffacfa3a027750e
+ PKG_LICENSE:=LGPL-2.1+
+ PKG_LICENSE_FILES:=GPL LICENSE
+ 
++PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
+ PKG_BUILD_DEPENDS:=intltool/host
+ 
+ PKG_FIXUP:=autoreconf
+@@ -24,6 +25,7 @@ PKG_USE_MIPS16:=0
+ 
+ PKG_INSTALL = 1
+ 
++
+ include $(INCLUDE_DIR)/package.mk
+ include $(INCLUDE_DIR)/nls.mk
+ 
+@@ -31,8 +33,8 @@ include $(INCLUDE_DIR)/nls.mk
+ define Package/pulseaudio/Default
+   SECTION:=sound
+   CATEGORY:=Sound
+-  DEPENDS:=+libspeexdsp +libsndfile +libltdl +libpthread \
+-	+librt +alsa-lib +libjson +libopenssl +libwrap +libcap $(ICONV_DEPENDS) $(INTL_DEPENDS)
++  DEPENDS:=+libsndfile +libltdl +libpthread \
++	+librt +alsa-lib +libwrap +libcap $(ICONV_DEPENDS) $(INTL_DEPENDS)
+   TITLE:=Network sound server
+   MAINTAINER:=Peter Wagner <tripolar@gmx.at>
+   URL:=http://www.pulseaudio.org
+@@ -40,17 +42,29 @@ define Package/pulseaudio/Default
+   USERID:=pulse=51:pulse=51
+ endef
+ 
+-define Package/pulseaudio-daemon
+-  $(call Package/pulseaudio/Default)
+-  DEPENDS+=+libjson-c
+-endef
+-
+ define Package/pulseaudio/Default/description
+   PulseAudio (formerly Polypaudio) is a cross-platform, networked sound server.
+ endef
+ 
+-define Package/pulseaudio-daemon/description
+-  $(call Package/pulseaudio/Default/description)
++define Package/pulseaudio-daemon-mini
++$(call Package/pulseaudio/Default)
++ TITLE+=(mini)
++ DEPENDS+=+libjson-c
++ VARIANT:=mini
++endef
++
++define Package/pulseaudio-daemon-full
++  $(call Package/pulseaudio/Default)
++  TITLE+=(full)
++  DEPENDS+=+libjson-c +libspeexdsp
++  VARIANT:=full
++endef
++
++define Package/pulseaudio-daemon-ext
++$(call Package/pulseaudio/Default)
++  TITLE+=(ext)
++  DEPENDS+=+libjson-c +libspeexdsp +bluez-libs +dbus +sbc +libavahi-client +avahi-dbus-daemon +libopenssl
++  VARIANT:=ext
+ endef
+ 
+ define Package/pulseaudio-daemon/conffiles
+@@ -63,7 +77,7 @@ endef
+ define Package/pulseaudio-tools
+   SECTION:=sound
+   CATEGORY:=Sound
+-  DEPENDS:=+libsndfile pulseaudio
++  DEPENDS:=+libsndfile pulseaudio +PULSEAUDIO_BLUEZ5:dbus
+   TITLE:=Tools for Pulseaudio
+   URL:=http://www.pulseaudio.org
+ endef
+@@ -76,39 +90,80 @@ define Package/pulseaudio-profiles
+   URL:=http://www.pulseaudio.org
+ endef
+ 
++PULSE_MODULES_MINI:= \
++	detect \
++	native-protocol \
++	stream-restore \
++	device-restore \
++	default-device-restore \
++	rescue-streams \
++	always-sink \
++	suspend-on-idle
++
+ CONFIGURE_ARGS += \
+ 	--with-system-user=pulse \
+ 	--with-system-group=pulse \
+ 	--with-access-group=audio \
+ 	--with-database=simple \
+ 	--enable-alsa \
+-	--disable-hal \
++	--disable-hal-compat \
+ 	--disable-gconf \
+ 	--disable-nls \
+ 	--disable-manpages \
+-	--enable-oss-output \
+ 	--disable-oss-wrapper \
+ 	--disable-samplerate \
+ 	--disable-per-user-esound-socket \
+ 	--disable-solaris \
+-	--disable-gtk2 \
+ 	--disable-glib2 \
+ 	--disable-jack \
+ 	--disable-asyncns \
+ 	--disable-lirc \
+-	--disable-bluez \
+ 	--disable-udev \
+-	--without-fftw \
+-	--disable-avahi \
+-	--disable-dbus
++	--without-fftw
+ 
+ CONFIGURE_VARS += \
+ 	PKG_CONFIG_LIBDIR="$(STAGING_DIR)/usr/lib/pkgconfig"
+ 
+-#SUPP_LIBS:=-L$(INTL_PREFIX)/lib -L$(ICONV_PREFIX)/lib
++ifeq ($(BUILD_VARIANT),mini)
++
++CONFIGURE_ARGS += \
++	--disable-avahi \
++	--disable-bluez5 \
++	--disable-dbus \
++	--disable-esound \
++	--disable-openssl \
++	--disable-oss-output \
++	--without-speex
++
++endif
++
++ifeq ($(BUILD_VARIANT),full)
++
++CONFIGURE_ARGS += \
++	--enable-oss-output \
++	--disable-avahi \
++	--disable-bluez5 \
++	--disable-dbus \
++	--disable-openssl \
++	--with-speex
++
++endif
++
++ifeq ($(BUILD_VARIANT),ext)
++
++CONFIGURE_ARGS += \
++	--enable-oss-output \
++	--enable-openssl \
++	--enable-avahi \
++	--enable-bluez5 \
++	--enable-dbus \
++	--with-speex
++
++endif
++
+ TARGET_CFLAGS += -std=gnu99
+ 
+-define Build/InstallDev
++define Build/InstallDev/mini
+ 	$(INSTALL_DIR) \
+ 		$(1)/usr/lib/pkgconfig \
+ 		$(1)/usr/include/pulse \
+@@ -128,7 +183,56 @@ define Build/InstallDev
+ 		$(1)/usr/lib/pulseaudio/
+ endef
+ 
+-define Package/pulseaudio-daemon/install
++define Build/InstallDev/full
++	$(INSTALL_DIR) \
++		$(1)/usr/lib/pkgconfig \
++		$(1)/usr/include/pulse \
++		$(1)/usr/lib \
++		$(1)/usr/lib/pulseaudio
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/include/pulse/* \
++		$(1)/usr/include/pulse
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pkgconfig/*.pc \
++		$(1)/usr/lib/pkgconfig
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/*.so* \
++		$(1)/usr/lib/
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulseaudio/* \
++		$(1)/usr/lib/pulseaudio/
++endef
++
++define Build/InstallDev/ext
++	$(INSTALL_DIR) \
++		$(1)/usr/lib/pkgconfig \
++		$(1)/usr/include/pulse \
++		$(1)/usr/lib \
++		$(1)/usr/lib/pulseaudio
++endef
++
++ifeq ($(BUILD_VARIANT),full)
++  # XXX: always install "full" dev files if -full is selected
++  Build/InstallDev = $(Build/InstallDev/full)
++endif
++ifeq ($(BUILD_VARIANT),mini)
++  # XXX: only install "mini" dev files if -full is not selected
++  ifeq ($(CONFIG_PACKAGE_pulseaudio-daemon-full),)
++    Build/InstallDev = $(Build/InstallDev/mini)
++  endif
++endif
++ifeq ($(BUILD_VARIANT),ext)
++  # XXX: only install "extended" dev files if -full is not selected
++  ifeq ($(CONFIG_PACKAGE_pulseaudio-daemon-full),)
++    Build/InstallDev = $(Build/InstallDev/ext)
++  endif
++endif
++
++PA_MINI_MODULES:=detect,alsa,native-protocol,simple-protocol,cli-protocol
++PA_FULL_MODULES:=$(PA_MINI_MODULES),http-protocol,stream-restore,device-restore,default-device-restore,rescue-streams,always-sink,suspend-on-idle
++PA_EXTENDED_MODULES:=$(PA_MINI_MODULES),stream,device,default-device,rescue,always-sink,virtual,tunnel,rtp,raop,esound-protocol
++
++define Package/pulseaudio-daemon-full/install
+ 	$(INSTALL_DIR) \
+ 		$(1)/etc/pulse \
+ 		$(1)/etc/init.d \
+@@ -158,11 +262,103 @@ define Package/pulseaudio-daemon/install
+ 		$(1)/usr/lib/pulseaudio/
+ 
+ 	$(CP) \
+-		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/lib*.so \
++		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/{libalsa-util,libcli}* \
++		$(1)/usr/lib/
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/libprotocol-{cli,native,simple,http}.so \
++		$(1)/usr/lib/
++
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/module-{$(PA_FULL_MODULES)}*.so \
++		$(1)/usr/lib/pulse-$(PKG_VERSION)/modules/
++
++	chmod -R 0644 $(1)/etc/pulse/*
++endef
++
++
++define Package/pulseaudio-daemon-mini/install
++	$(INSTALL_DIR) \
++		$(1)/etc/pulse \
++		$(1)/etc/init.d \
++		$(1)/usr/bin \
++		$(1)/usr/lib \
++		$(1)/usr/lib/pulseaudio \
++		$(1)/usr/lib/pulse-$(PKG_VERSION)/modules
++
++	$(INSTALL_BIN) \
++		$(PKG_INSTALL_DIR)/usr/bin/pulseaudio \
++		$(1)/usr/bin/pulseaudio
++
++	$(INSTALL_BIN) \
++		./files/pulseaudio.init \
++		$(1)/etc/init.d/pulseaudio
++
++	$(INSTALL_CONF) \
++		$(PKG_INSTALL_DIR)/etc/pulse/* \
++		$(1)/etc/pulse
++	$(CP) \
++		./files/daemon.example.conf \
++		$(1)/etc/pulse
++
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/*.so* \
+ 		$(1)/usr/lib/
+ 
+ 	$(CP) \
+-		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/module*.so \
++		$(PKG_INSTALL_DIR)/usr/lib/pulseaudio/* \
++		$(1)/usr/lib/pulseaudio/
++
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/{libalsa-util,libcli}.so \
++		$(1)/usr/lib/
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/libprotocol-{cli,native,simple}.so \
++		$(1)/usr/lib/
++
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/module-{$(PA_MINI_MODULES)}*.so \
++		$(1)/usr/lib/pulse-$(PKG_VERSION)/modules/
++
++	chmod -R 0644 $(1)/etc/pulse/*
++endef
++
++define Package/pulseaudio-daemon-ext/install
++	$(INSTALL_DIR) \
++		$(1)/etc/pulse \
++		$(1)/etc/init.d \
++		$(1)/usr/bin \
++		$(1)/usr/lib \
++		$(1)/usr/lib/pulseaudio \
++		$(1)/usr/lib/pulse-$(PKG_VERSION)/modules
++
++	$(INSTALL_BIN) \
++		$(PKG_INSTALL_DIR)/usr/bin/pulseaudio \
++		$(1)/usr/bin/pulseaudio
++
++	$(INSTALL_BIN) \
++		./files/pulseaudio.init \
++		$(1)/etc/init.d/pulseaudio
++
++	$(INSTALL_CONF) \
++		$(PKG_INSTALL_DIR)/etc/pulse/* \
++		$(1)/etc/pulse
++	$(CP) \
++		./files/daemon.example.conf \
++		$(1)/etc/pulse
++
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/*.so* \
++		$(1)/usr/lib/
++
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulseaudio/* \
++		$(1)/usr/lib/pulseaudio/
++
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/lib*.so \
++		$(1)/usr/lib/
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/lib/pulse-$(PKG_VERSION)/modules/module-{$(PA_EXTENDED_MODULES)}*.so \
+ 		$(1)/usr/lib/pulse-$(PKG_VERSION)/modules/
+ 
+ 	chmod -R 0644 $(1)/etc/pulse/*
+@@ -191,6 +387,8 @@ define Package/pulseaudio-profiles/install
+ 		$(1)/usr/share/pulseaudio/alsa-mixer/profile-sets
+ endef
+ 
+-$(eval $(call BuildPackage,pulseaudio-daemon))
++$(eval $(call BuildPackage,pulseaudio-daemon-full))
++$(eval $(call BuildPackage,pulseaudio-daemon-mini))
++$(eval $(call BuildPackage,pulseaudio-daemon-ext))
+ $(eval $(call BuildPackage,pulseaudio-tools))
+ $(eval $(call BuildPackage,pulseaudio-profiles))
+-- 
+2.3.5
+

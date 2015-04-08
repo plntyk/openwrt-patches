@@ -1,0 +1,35 @@
+From 07a83abd4ba35f6ddc6d5fea541d577ae0f1d6d0 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 8 Apr 2015 21:24:08 +0200
+Subject: [PATCH 1/2] flac: remove deprecated configure args
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/flac/Makefile | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/libs/flac/Makefile b/libs/flac/Makefile
+index 7d94cb6..8b321ab 100644
+--- a/libs/flac/Makefile
++++ b/libs/flac/Makefile
+@@ -17,6 +17,7 @@ PKG_MD5SUM:=b9922c9a0378c88d3e901b234f852698
+ PKG_MAINTAINER:=Ted Hess <thess@kitschensync.net>
+ 
+ PKG_INSTALL:=1
++PKG_BUILD_PARALLEL:=0
+ 
+ PKG_LICENSE:=GFDL-1.2 GPL-2 LGPL-2.1 BSD-3-Clause
+ PKG_LICENSE_FILES:=README COPYING.FDL COPYING.GPL COPYING.LGPL COPYING.Xiph
+@@ -36,9 +37,7 @@ endef
+ CONFIGURE_ARGS += \
+ 	--disable-cpplibs \
+ 	--disable-sse \
+-	--disable-3dnow \
+ 	--disable-altivec \
+-	--disable-doxgen-docs \
+ 	--disable-local-xmms-plugin \
+ 	--disable-xmms-plugin \
+ 	--disable-ogg \
+-- 
+2.3.5
+
