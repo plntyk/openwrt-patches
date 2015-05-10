@@ -1,0 +1,125 @@
+From 7780001f0cdd27a3fea13ef5f9daab7cdad9ccf5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 2 May 2015 10:26:47 +0200
+Subject: [PATCH 10/16] kernel: fix symbols Kernel 4.1
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/generic/config-3.18 | 7 +++++++
+ target/linux/generic/config-4.0  | 9 +++++++++
+ target/linux/malta/config-3.18   | 1 -
+ 3 files changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/target/linux/generic/config-3.18 b/target/linux/generic/config-3.18
+index 8cc909f..f7bee10 100644
+--- a/target/linux/generic/config-3.18
++++ b/target/linux/generic/config-3.18
+@@ -1660,15 +1660,20 @@ CONFIG_IP_ROUTE_VERBOSE=y
+ # CONFIG_IRQ_ALL_CPUS is not set
+ # CONFIG_IRQ_DOMAIN_DEBUG is not set
+ # CONFIG_IRQ_TIME_ACCOUNTING is not set
++# CONFIG_IR_ENE is not set
++# CONFIG_IR_FINTEK is not set
+ # CONFIG_IR_GPIO_CIR is not set
+ # CONFIG_IR_HIX5HD2 is not set
++# CONFIG_IR_IGORPLUGUSB is not set
+ # CONFIG_IR_IGUANA is not set
+ # CONFIG_IR_IMG is not set
+ # CONFIG_IR_IMON is not set
++# CONFIG_IR_ITE_CIR is not set
+ # CONFIG_IR_JVC_DECODER is not set
+ # CONFIG_IR_LIRC_CODEC is not set
+ # CONFIG_IR_MCEUSB is not set
+ # CONFIG_IR_NEC_DECODER is not set
++# CONFIG_IR_NUVOTON is not set
+ # CONFIG_IR_RC5_DECODER is not set
+ # CONFIG_IR_RC5_SZ_DECODER is not set
+ # CONFIG_IR_RC6_DECODER is not set
+@@ -1676,6 +1681,7 @@ CONFIG_IP_ROUTE_VERBOSE=y
+ # CONFIG_IR_SONY_DECODER is not set
+ # CONFIG_IR_STREAMZAP is not set
+ # CONFIG_IR_TTUSBIR is not set
++# CONFIG_IR_WINBOND_CIR is not set
+ # CONFIG_ISCSI_BOOT_SYSFS is not set
+ # CONFIG_ISCSI_TCP is not set
+ CONFIG_ISDN=y
+@@ -2481,6 +2487,7 @@ CONFIG_NET_SCH_FQ_CODEL=y
+ # CONFIG_NET_SCH_SFQ is not set
+ # CONFIG_NET_SCH_TBF is not set
+ # CONFIG_NET_SCH_TEQL is not set
++# CONFIG_NET_SCTPPROBE is not set
+ # CONFIG_NET_TCPPROBE is not set
+ # CONFIG_NET_TEAM is not set
+ # CONFIG_NET_TULIP is not set
+diff --git a/target/linux/generic/config-4.0 b/target/linux/generic/config-4.0
+index b5c952e..98fd77f 100644
+--- a/target/linux/generic/config-4.0
++++ b/target/linux/generic/config-4.0
+@@ -1685,15 +1685,20 @@ CONFIG_IP_ROUTE_VERBOSE=y
+ # CONFIG_IRQ_ALL_CPUS is not set
+ # CONFIG_IRQ_DOMAIN_DEBUG is not set
+ # CONFIG_IRQ_TIME_ACCOUNTING is not set
++# CONFIG_IR_ENE is not set
++# CONFIG_IR_FINTEK is not set
+ # CONFIG_IR_GPIO_CIR is not set
+ # CONFIG_IR_HIX5HD2 is not set
++# CONFIG_IR_IGORPLUGUSB is not set
+ # CONFIG_IR_IGUANA is not set
+ # CONFIG_IR_IMG is not set
+ # CONFIG_IR_IMON is not set
++# CONFIG_IR_ITE_CIR is not set
+ # CONFIG_IR_JVC_DECODER is not set
+ # CONFIG_IR_LIRC_CODEC is not set
+ # CONFIG_IR_MCEUSB is not set
+ # CONFIG_IR_NEC_DECODER is not set
++# CONFIG_IR_NUVOTON is not set
+ # CONFIG_IR_RC5_DECODER is not set
+ # CONFIG_IR_RC5_SZ_DECODER is not set
+ # CONFIG_IR_RC6_DECODER is not set
+@@ -1701,6 +1706,7 @@ CONFIG_IP_ROUTE_VERBOSE=y
+ # CONFIG_IR_SONY_DECODER is not set
+ # CONFIG_IR_STREAMZAP is not set
+ # CONFIG_IR_TTUSBIR is not set
++# CONFIG_IR_WINBOND_CIR is not set
+ # CONFIG_ISCSI_BOOT_SYSFS is not set
+ # CONFIG_ISCSI_TCP is not set
+ CONFIG_ISDN=y
+@@ -1893,6 +1899,7 @@ CONFIG_LEDS_TRIGGER_TIMER=y
+ # CONFIG_LINE6_USB is not set
+ # CONFIG_LIRC_STAGING is not set
+ # CONFIG_LIS3L02DQ is not set
++# CONFIG_LIVEPATCH is not set
+ # CONFIG_LKDTM is not set
+ CONFIG_LLC=y
+ # CONFIG_LLC2 is not set
+@@ -2522,6 +2529,7 @@ CONFIG_NET_SCH_FQ_CODEL=y
+ # CONFIG_NET_SCH_SFQ is not set
+ # CONFIG_NET_SCH_TBF is not set
+ # CONFIG_NET_SCH_TEQL is not set
++# CONFIG_NET_SCTPPROBE is not set
+ # CONFIG_NET_SWITCHDEV is not set
+ # CONFIG_NET_TCPPROBE is not set
+ # CONFIG_NET_TEAM is not set
+@@ -3748,6 +3756,7 @@ CONFIG_SND_PCM_OSS_PLUGINS=y
+ # CONFIG_SND_SOC_IMX_ES8328 is not set
+ # CONFIG_SND_SOC_IMX_SPDIF is not set
+ # CONFIG_SND_SOC_IMX_WM8962 is not set
++# CONFIG_SND_SOC_INTEL_BYTCR_RT5640_MACH is not set
+ # CONFIG_SND_SOC_INTEL_SST is not set
+ # CONFIG_SND_SOC_MPC5200_AC97 is not set
+ # CONFIG_SND_SOC_MPC5200_I2S is not set
+diff --git a/target/linux/malta/config-3.18 b/target/linux/malta/config-3.18
+index d9757de..8feead1 100644
+--- a/target/linux/malta/config-3.18
++++ b/target/linux/malta/config-3.18
+@@ -9,7 +9,6 @@ CONFIG_ARCH_WANT_IPC_PARSE_VERSION=y
+ # CONFIG_AX88796_93CX6 is not set
+ CONFIG_BLK_DEV_BSG=y
+ CONFIG_BLK_DEV_BSGLIB=y
+-# CONFIG_BLK_DEV_DM is not set
+ # CONFIG_BLK_DEV_INITRD is not set
+ # CONFIG_BLK_DEV_MD is not set
+ CONFIG_BLK_DEV_RAM=y
+-- 
+2.4.0
+

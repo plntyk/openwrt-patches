@@ -1,0 +1,102 @@
+From 45a57be562b0ba23a40b39c9d8274e757cd85c5c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 7 May 2015 06:21:18 +0200
+Subject: [PATCH 07/16] oprofile: update to 1.0.0
+
+build error with x86-64 0.9.9:
+oprofile-0.9.9/libutil++/bfd_support.cpp:639: undefined reference to `bfd_elf64_powerpc_vec'
+oprofile-0.9.9/libutil++/bfd_support.cpp:639: undefined reference to `bfd_elf64_powerpcle_vec'
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/devel/oprofile/Makefile                    |  6 ++---
+ .../100-use_insmod_instead_of_modprobe.patch       | 11 --------
+ .../oprofile/patches/110-fix_compile_error.patch   | 30 ----------------------
+ 3 files changed, 3 insertions(+), 44 deletions(-)
+ delete mode 100644 package/devel/oprofile/patches/100-use_insmod_instead_of_modprobe.patch
+ delete mode 100644 package/devel/oprofile/patches/110-fix_compile_error.patch
+
+diff --git a/package/devel/oprofile/Makefile b/package/devel/oprofile/Makefile
+index 49937c9..d3d81f9 100644
+--- a/package/devel/oprofile/Makefile
++++ b/package/devel/oprofile/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=oprofile
+-PKG_VERSION:=0.9.9
++PKG_VERSION:=1.0.0
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=@SF/oprofile/
+-PKG_MD5SUM:=00aec1287da2dfffda17a9b1c0a01868
++PKG_MD5SUM:=ba0b340e5c421a93959776c836ed35b3
+ 
+ PKG_MAINTAINER:=Felix Fietkau <nbd@openwrt.org>
+ 
+@@ -85,7 +85,7 @@ define Package/oprofile/install
+ 	$(INSTALL_DIR) $(1)/usr/share/oprofile
+ 	$(CP) \
+ 		$(PKG_INSTALL_DIR)/usr/share/oprofile/stl.pat \
+-		$(PKG_INSTALL_DIR)/usr/share/oprofile/$(patsubst x86,i386,$(LINUX_KARCH)) \
++		$(PKG_INSTALL_DIR)/usr/share/oprofile/$(patsubst x86,i386,$(patsubst arm64,arm,$(LINUX_KARCH))) \
+ 		$(1)/usr/share/oprofile/
+ endef
+ 
+diff --git a/package/devel/oprofile/patches/100-use_insmod_instead_of_modprobe.patch b/package/devel/oprofile/patches/100-use_insmod_instead_of_modprobe.patch
+deleted file mode 100644
+index cd71d0d..0000000
+--- a/package/devel/oprofile/patches/100-use_insmod_instead_of_modprobe.patch
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- a/utils/opcontrol
+-+++ b/utils/opcontrol
+-@@ -249,7 +249,7 @@ load_module_26()
+- {
+- 	grep oprofilefs /proc/filesystems >/dev/null
+- 	if test "$?" -ne 0; then
+--		modprobe oprofile
+-+		insmod oprofile
+- 		if test "$?" != "0"; then
+- 			# couldn't load the module
+- 			return
+diff --git a/package/devel/oprofile/patches/110-fix_compile_error.patch b/package/devel/oprofile/patches/110-fix_compile_error.patch
+deleted file mode 100644
+index 708f83e..0000000
+--- a/package/devel/oprofile/patches/110-fix_compile_error.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+---- a/libop/op_cpu_type.c
+-+++ b/libop/op_cpu_type.c
+-@@ -250,6 +250,7 @@ static void release_at_hw_platform(void)
+- 	}
+- }
+- 
+-+#ifdef PPC64
+- static op_cpu _try_ppc64_arch_generic_cpu(void)
+- {
+- 	const char * platform, * base_platform;
+-@@ -312,6 +313,7 @@ static op_cpu _get_ppc64_cpu_type(void)
+- 	cpu_type = op_get_cpu_number(cpu_type_str);
+- 	return cpu_type;
+- }
+-+#endif
+- 
+- static op_cpu _get_arm_cpu_type(void)
+- {
+-@@ -592,9 +594,11 @@ static op_cpu __get_cpu_type_alt_method(
+- 	    fnmatch("i?86", uname_info.machine, 0) == 0) {
+- 		return _get_x86_64_cpu_type();
+- 	}
+-+#ifdef PPC64
+- 	if (strncmp(uname_info.machine, "ppc64", 5) == 0) {
+- 		return _get_ppc64_cpu_type();
+- 	}
+-+#endif
+- 	if (strncmp(uname_info.machine, "arm", 3) == 0) {
+- 		return _get_arm_cpu_type();
+- 	}
+-- 
+2.4.0
+

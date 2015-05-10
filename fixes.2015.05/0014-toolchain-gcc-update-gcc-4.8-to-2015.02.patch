@@ -1,0 +1,32 @@
+From 79e20d4399160171708caa15b054a30e8279c1c6 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 14:57:56 +0200
+Subject: [PATCH 14/16] toolchain/gcc: update gcc 4.8 to 2015.02
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ toolchain/gcc/common.mk | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/toolchain/gcc/common.mk b/toolchain/gcc/common.mk
+index d07f607..3880d51 100644
+--- a/toolchain/gcc/common.mk
++++ b/toolchain/gcc/common.mk
+@@ -35,10 +35,11 @@ ifeq ($(findstring linaro, $(CONFIG_GCC_VERSION)),linaro)
+       PKG_COMP:=bz2
+     endif
+     ifeq ($(CONFIG_GCC_VERSION),"4.8-linaro")
+-      PKG_REV:=4.8-2014.04
+-      PKG_VERSION:=4.8.3
++      LINARO_RELEASE:=15.02
++      PKG_REV:=4.8-2015.02
++      PKG_VERSION:=4.8.4
+       PKG_VERSION_MAJOR:=4.8
+-      PKG_MD5SUM:=5ba2f3a449b1658ccc09d27cc7ab3c03
++      PKG_MD5SUM:=a887d66c0931b5cef8b007d387b1735f
+       PKG_COMP:=xz
+     endif
+     ifeq ($(CONFIG_GCC_VERSION),"4.9-linaro")
+-- 
+2.4.0
+

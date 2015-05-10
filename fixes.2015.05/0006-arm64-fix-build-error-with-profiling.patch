@@ -1,0 +1,92 @@
+From 43c7cbba0da5025f94735fe85650c952230383dd Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 7 May 2015 05:48:22 +0200
+Subject: [PATCH 06/16] arm64: fix build error with profiling
+
+build error in psci.c:
+Assembler messages
+Error: .err encountered
+
+The same error was observed & fixed in Ubuntu but with gcc 4.9
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1414002
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ ...64_psci_tell_the_compiler_which_registers.patch | 65 ++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 target/linux/arm64/patches-3.18/100-arm64_psci_tell_the_compiler_which_registers.patch
+
+diff --git a/target/linux/arm64/patches-3.18/100-arm64_psci_tell_the_compiler_which_registers.patch b/target/linux/arm64/patches-3.18/100-arm64_psci_tell_the_compiler_which_registers.patch
+new file mode 100644
+index 0000000..da2369f
+--- /dev/null
++++ b/target/linux/arm64/patches-3.18/100-arm64_psci_tell_the_compiler_which_registers.patch
+@@ -0,0 +1,65 @@
++commit e132c437968b5487605aaf49eb433710795d3352
++Author: Andy Whitcroft <apw@canonical.com>
++Date:   Fri Jan 23 16:57:15 2015 +0000
++
++    UBUNTU: SAUCE: arm64 -- psci tell the compiler which registers we are needing values in
++    
++    When compiling the kernel with very recent gcc-4.9 compilers we see the
++    following errors:
++    
++        /tmp/ccEayz7S.s: Assembler messages:
++        /tmp/ccEayz7S.s:41: Error: .err encountered
++        /tmp/ccEayz7S.s:42: Error: .err encountered
++        /tmp/ccEayz7S.s:43: Error: .err encountered
++        /tmp/ccEayz7S.s:101: Error: .err encountered
++        /tmp/ccEayz7S.s:102: Error: .err encountered
++        /tmp/ccEayz7S.s:103: Error: .err encountered
++    
++    This is due to assumptions about the register assignments made by gcc on
++    function entry.  The errors above occur when these assignments are not
++    as expected.  It turns out that when you enable mcount preables (-pg)
++    these are altered and the compilation failed.
++    
++    Inform the compiler of these register requirements.
++    
++    BugLink: http://bugs.launchpad.net/bugs/1414002
++    Signed-off-by: Andy Whitcroft <apw@canonical.com>
++
++diff --git a/arch/arm64/kernel/psci.c b/arch/arm64/kernel/psci.c
++index f1dbca7..425cf78 100644
++--- a/arch/arm64/kernel/psci.c
+++++ b/arch/arm64/kernel/psci.c
++@@ -113,9 +113,14 @@ static void psci_power_state_unpack(u32 power_state,
++  * The following two functions are invoked via the invoke_psci_fn pointer
++  * and will not be inlined, allowing us to piggyback on the AAPCS.
++  */
++-static noinline int __invoke_psci_fn_hvc(u64 function_id, u64 arg0, u64 arg1,
++-					 u64 arg2)
+++static noinline int __invoke_psci_fn_hvc(u64 _function_id, u64 _arg0,
+++					 u64 _arg1, u64 _arg2)
++ {
+++	register u64 function_id asm("x0") = _function_id;
+++	register u64 arg0 asm("x1") = _arg0;
+++	register u64 arg1 asm("x2") = _arg1;
+++	register u64 arg2 asm("x3") = _arg2;
+++
++ 	asm volatile(
++ 			__asmeq("%0", "x0")
++ 			__asmeq("%1", "x1")
++@@ -128,9 +133,14 @@ static noinline int __invoke_psci_fn_hvc(u64 function_id, u64 arg0, u64 arg1,
++ 	return function_id;
++ }
++ 
++-static noinline int __invoke_psci_fn_smc(u64 function_id, u64 arg0, u64 arg1,
++-					 u64 arg2)
+++static noinline int __invoke_psci_fn_smc(u64 _function_id, u64 _arg0,
+++					 u64 _arg1, u64 _arg2)
++ {
+++	register u64 function_id asm("x0") = _function_id;
+++	register u64 arg0 asm("x1") = _arg0;
+++	register u64 arg1 asm("x2") = _arg1;
+++	register u64 arg2 asm("x3") = _arg2;
+++
++ 	asm volatile(
++ 			__asmeq("%0", "x0")
++ 			__asmeq("%1", "x1")
+-- 
+2.4.0
+

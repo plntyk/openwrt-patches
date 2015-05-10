@@ -1,0 +1,25 @@
+From 631b43e121016c42e99921e9a85d0fe0ed5bb949 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 5 May 2015 08:45:25 +0200
+Subject: [PATCH 01/16] x86: fix missing symbol
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/x86/config-3.18 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/target/linux/x86/config-3.18 b/target/linux/x86/config-3.18
+index d7a2d61..82a8211 100644
+--- a/target/linux/x86/config-3.18
++++ b/target/linux/x86/config-3.18
+@@ -384,6 +384,7 @@ CONFIG_X86_ALIGNMENT_16=y
+ # CONFIG_X86_CHECK_BIOS_CORRUPTION is not set
+ # CONFIG_X86_CPUFREQ_NFORCE2 is not set
+ # CONFIG_X86_CPUID is not set
++# CONFIG_X86_DECODER_SELFTEST is not set
+ # CONFIG_X86_EXTENDED_PLATFORM is not set
+ CONFIG_X86_F00F_BUG=y
+ CONFIG_X86_FEATURE_NAMES=y
+-- 
+2.4.0
+

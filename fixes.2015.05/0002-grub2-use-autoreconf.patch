@@ -1,0 +1,27 @@
+From 3af190540a6cdbad6ee3472524c120e2a7d81ff0 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 6 May 2015 07:52:11 +0200
+Subject: [PATCH 02/16] grub2: use autoreconf
+
+fix host compile error regarding wrong aclocal version
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/boot/grub2/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/package/boot/grub2/Makefile b/package/boot/grub2/Makefile
+index 64a3058..5feaf32 100644
+--- a/package/boot/grub2/Makefile
++++ b/package/boot/grub2/Makefile
+@@ -18,6 +18,7 @@ PKG_MD5SUM:=be62932eade308a364ea4bbc91295930
+ 
+ HOST_BUILD_PARALLEL:=1
+ PKG_BUILD_DEPENDS:=grub2/host
++PKG_FIXUP:=autoreconf
+ 
+ include $(INCLUDE_DIR)/host-build.mk
+ include $(INCLUDE_DIR)/package.mk
+-- 
+2.4.0
+
