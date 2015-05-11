@@ -1,7 +1,7 @@
-From 257e2121aad39a13816dc2bc7027a24c5db9b742 Mon Sep 17 00:00:00 2001
+From a30e312b3a57474af5be0d6940a0c90ba93e80ae Mon Sep 17 00:00:00 2001
 From: Dirk Neukirchen <dirkneukirchen@web.de>
 Date: Sat, 2 May 2015 10:28:31 +0200
-Subject: [PATCH 5/7] kernel: fix module symbols for Kernel 4.1
+Subject: [PATCH 05/10] kernel: fix module symbols for Kernel 4.1
 
 Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
 ---
@@ -75,5 +75,5 @@ index 082c74a..77fb7b9 100644
  	CONFIG_HID_SUPPORT=y
    $(call AddDepends/rfkill)
 -- 
-2.3.7
+2.4.0
 

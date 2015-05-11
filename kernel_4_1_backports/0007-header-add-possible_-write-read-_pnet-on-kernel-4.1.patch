@@ -1,0 +1,41 @@
+From cd0e9497633bef7057d684e6378cfba2f37459cd Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 11 May 2015 19:42:54 +0200
+Subject: [PATCH 07/10] header: add possible_{write,read}_pnet() on kernel >=
+ 4.1
+
+backports only adds the possible_{write,read}_pnet() functions for
+kernel < 4.1. This results in a compile error on kernel 4.1. This patch
+make it use the original functions on these kernel versions. This fixes
+a problem introduced in 3d418885971.
+
+Signed-off-by: Hauke Mehrtens <hauke@hauke-m.de>
+---
+ package/kernel/mac80211/patches/999-hauke.patch | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 package/kernel/mac80211/patches/999-hauke.patch
+
+diff --git a/package/kernel/mac80211/patches/999-hauke.patch b/package/kernel/mac80211/patches/999-hauke.patch
+new file mode 100644
+index 0000000..6d7db74
+--- /dev/null
++++ b/package/kernel/mac80211/patches/999-hauke.patch
+@@ -0,0 +1,15 @@
++diff --git a/backport-include/net/net_namespace.h b/backport-include/net/net_namespace.h
++index 90c044f..4d0b721 100644
++--- a/backport-include/net/net_namespace.h
+++++ b/backport-include/net/net_namespace.h
++@@ -57,6 +57,9 @@ static inline struct net *possible_read_pnet(const possible_net_t *pnet)
++ 	return &init_net;
++ #endif
++ }
+++#else
+++#define possible_write_pnet(pnet, net) write_pnet(pnet, net)
+++#define possible_read_pnet(pnet) read_pnet(pnet)
++ #endif /* LINUX_VERSION_CODE < KERNEL_VERSION(4,1,0) */
++ 
++ #endif	/* _COMPAT_NET_NET_NAMESPACE_H */
++
+-- 
+2.4.0
+

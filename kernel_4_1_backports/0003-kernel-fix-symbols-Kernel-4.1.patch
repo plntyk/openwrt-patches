@@ -1,7 +1,7 @@
-From a0f335e821035e4d48e4f2e9039e646e57e3e6e4 Mon Sep 17 00:00:00 2001
+From d27177caa3216de5ef0a1a3efad4c3fd4ea7bec2 Mon Sep 17 00:00:00 2001
 From: Dirk Neukirchen <dirkneukirchen@web.de>
 Date: Sat, 2 May 2015 10:26:47 +0200
-Subject: [PATCH 3/7] kernel: fix symbols Kernel 4.1
+Subject: [PATCH 03/10] kernel: fix symbols Kernel 4.1
 
 Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
 ---
@@ -12,10 +12,10 @@ Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
  4 files changed, 43 insertions(+), 1 deletion(-)
 
 diff --git a/target/linux/generic/config-3.18 b/target/linux/generic/config-3.18
-index 8cc909f..f7bee10 100644
+index 13e172f..7999f7c 100644
 --- a/target/linux/generic/config-3.18
 +++ b/target/linux/generic/config-3.18
-@@ -1660,15 +1660,20 @@ CONFIG_IP_ROUTE_VERBOSE=y
+@@ -1661,15 +1661,20 @@ CONFIG_IP_ROUTE_VERBOSE=y
  # CONFIG_IRQ_ALL_CPUS is not set
  # CONFIG_IRQ_DOMAIN_DEBUG is not set
  # CONFIG_IRQ_TIME_ACCOUNTING is not set
@@ -36,7 +36,7 @@ index 8cc909f..f7bee10 100644
  # CONFIG_IR_RC5_DECODER is not set
  # CONFIG_IR_RC5_SZ_DECODER is not set
  # CONFIG_IR_RC6_DECODER is not set
-@@ -1676,6 +1681,7 @@ CONFIG_IP_ROUTE_VERBOSE=y
+@@ -1677,6 +1682,7 @@ CONFIG_IP_ROUTE_VERBOSE=y
  # CONFIG_IR_SONY_DECODER is not set
  # CONFIG_IR_STREAMZAP is not set
  # CONFIG_IR_TTUSBIR is not set
@@ -44,7 +44,7 @@ index 8cc909f..f7bee10 100644
  # CONFIG_ISCSI_BOOT_SYSFS is not set
  # CONFIG_ISCSI_TCP is not set
  CONFIG_ISDN=y
-@@ -2481,6 +2487,7 @@ CONFIG_NET_SCH_FQ_CODEL=y
+@@ -2482,6 +2488,7 @@ CONFIG_NET_SCH_FQ_CODEL=y
  # CONFIG_NET_SCH_SFQ is not set
  # CONFIG_NET_SCH_TBF is not set
  # CONFIG_NET_SCH_TEQL is not set
@@ -53,10 +53,10 @@ index 8cc909f..f7bee10 100644
  # CONFIG_NET_TEAM is not set
  # CONFIG_NET_TULIP is not set
 diff --git a/target/linux/generic/config-4.0 b/target/linux/generic/config-4.0
-index 364d320..3a53c47 100644
+index afdc2ed..4b63bc1 100644
 --- a/target/linux/generic/config-4.0
 +++ b/target/linux/generic/config-4.0
-@@ -1685,15 +1685,20 @@ CONFIG_IP_ROUTE_VERBOSE=y
+@@ -1686,15 +1686,20 @@ CONFIG_IP_ROUTE_VERBOSE=y
  # CONFIG_IRQ_ALL_CPUS is not set
  # CONFIG_IRQ_DOMAIN_DEBUG is not set
  # CONFIG_IRQ_TIME_ACCOUNTING is not set
@@ -77,7 +77,7 @@ index 364d320..3a53c47 100644
  # CONFIG_IR_RC5_DECODER is not set
  # CONFIG_IR_RC5_SZ_DECODER is not set
  # CONFIG_IR_RC6_DECODER is not set
-@@ -1701,6 +1706,7 @@ CONFIG_IP_ROUTE_VERBOSE=y
+@@ -1702,6 +1707,7 @@ CONFIG_IP_ROUTE_VERBOSE=y
  # CONFIG_IR_SONY_DECODER is not set
  # CONFIG_IR_STREAMZAP is not set
  # CONFIG_IR_TTUSBIR is not set
@@ -85,7 +85,7 @@ index 364d320..3a53c47 100644
  # CONFIG_ISCSI_BOOT_SYSFS is not set
  # CONFIG_ISCSI_TCP is not set
  CONFIG_ISDN=y
-@@ -1893,6 +1899,7 @@ CONFIG_LEDS_TRIGGER_TIMER=y
+@@ -1894,6 +1900,7 @@ CONFIG_LEDS_TRIGGER_TIMER=y
  # CONFIG_LINE6_USB is not set
  # CONFIG_LIRC_STAGING is not set
  # CONFIG_LIS3L02DQ is not set
@@ -93,7 +93,7 @@ index 364d320..3a53c47 100644
  # CONFIG_LKDTM is not set
  CONFIG_LLC=y
  # CONFIG_LLC2 is not set
-@@ -2522,6 +2529,7 @@ CONFIG_NET_SCH_FQ_CODEL=y
+@@ -2523,6 +2530,7 @@ CONFIG_NET_SCH_FQ_CODEL=y
  # CONFIG_NET_SCH_SFQ is not set
  # CONFIG_NET_SCH_TBF is not set
  # CONFIG_NET_SCH_TEQL is not set
@@ -101,7 +101,7 @@ index 364d320..3a53c47 100644
  # CONFIG_NET_SWITCHDEV is not set
  # CONFIG_NET_TCPPROBE is not set
  # CONFIG_NET_TEAM is not set
-@@ -3749,6 +3757,7 @@ CONFIG_SND_PCM_OSS_PLUGINS=y
+@@ -3750,6 +3758,7 @@ CONFIG_SND_PCM_OSS_PLUGINS=y
  # CONFIG_SND_SOC_IMX_ES8328 is not set
  # CONFIG_SND_SOC_IMX_SPDIF is not set
  # CONFIG_SND_SOC_IMX_WM8962 is not set
@@ -254,5 +254,5 @@ index d9757de..8feead1 100644
  # CONFIG_BLK_DEV_MD is not set
  CONFIG_BLK_DEV_RAM=y
 -- 
-2.3.7
+2.4.0
 

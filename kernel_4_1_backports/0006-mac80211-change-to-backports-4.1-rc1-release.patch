@@ -1,7 +1,7 @@
-From 87a9060e0057302142111477331e2d5da2812e28 Mon Sep 17 00:00:00 2001
+From 911609ec10a21f27a01861a291998633dd5462e4 Mon Sep 17 00:00:00 2001
 From: Dirk Neukirchen <dirkneukirchen@web.de>
 Date: Sat, 2 May 2015 10:29:22 +0200
-Subject: [PATCH 6/7] mac80211: change to backports 4.1-rc1 release
+Subject: [PATCH 06/10] mac80211: change to backports 4.1-rc1 release
 
 - some patches are upstream -> removed
 - remove patches that do not apply cleanly
@@ -9558,5 +9558,5 @@ index 856dea8..0000000
 - }
 - 
 -- 
-2.3.7
+2.4.0
 

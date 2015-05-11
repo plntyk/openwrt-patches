@@ -1,7 +1,7 @@
-From 292dfdf821d5d4761d460abddf3cd29c390ae6be Mon Sep 17 00:00:00 2001
+From 7b193428e4b73300ec4cf92aad1d6b88311d1209 Mon Sep 17 00:00:00 2001
 From: Dirk Neukirchen <dirkneukirchen@web.de>
 Date: Thu, 30 Apr 2015 16:16:12 +0200
-Subject: [PATCH 2/7] kernel 4.1 symbols
+Subject: [PATCH 02/10] kernel 4.1 symbols
 
 Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
 ---
@@ -33,10 +33,10 @@ Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
  create mode 100644 target/linux/x86/patches-4.1/160-kexec-fix.patch
 
 diff --git a/target/linux/generic/config-4.0 b/target/linux/generic/config-4.0
-index b5c952e..364d320 100644
+index c3bb7fc..afdc2ed 100644
 --- a/target/linux/generic/config-4.0
 +++ b/target/linux/generic/config-4.0
-@@ -3392,6 +3392,7 @@ CONFIG_SELECT_MEMORY_MODEL=y
+@@ -3393,6 +3393,7 @@ CONFIG_SELECT_MEMORY_MODEL=y
  # CONFIG_SENSORS_HMC5843_I2C is not set
  # CONFIG_SENSORS_HMC5843_SPI is not set
  # CONFIG_SENSORS_HTU21 is not set
@@ -1707,5 +1707,5 @@ index 0000000..ea32494
 + 	movl	%eax, %cr3
 + 	movl	CR0(%edi), %eax
 -- 
-2.3.7
+2.4.0
 
