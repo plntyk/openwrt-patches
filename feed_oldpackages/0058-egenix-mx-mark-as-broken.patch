@@ -1,0 +1,40 @@
+From 3a0ab8c14a9e08525c806b7dfa934e4409c9bfb6 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:14:10 +0200
+Subject: [PATCH 058/158] egenix-mx: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/egenix-mx/Makefile | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/lang/egenix-mx/Makefile b/lang/egenix-mx/Makefile
+index 934c53e..fb96977 100644
+--- a/lang/egenix-mx/Makefile
++++ b/lang/egenix-mx/Makefile
+@@ -25,7 +25,7 @@ define Package/python-egenix-mx
+   SUBMENU:=Python
+   SECTION:=lang
+   CATEGORY:=Languages
+-  DEPENDS:=+python
++  DEPENDS:=+python @BROKEN
+   TITLE:=Egenix mxBase
+   URL:=http://www.egenix.com/products/python/mxBase/
+ endef
+@@ -38,11 +38,8 @@ endef
+ TARGET_CFLAGS += $(FPIC)
+ 
+ define Build/Compile
+-	$(if $(Build/Compile/PyMod),,@echo Python packaging code not found.; false)
+-	$(call Build/Compile/PyMod,., \
+-		build --build-lib="foo", \
+-		BASECFLAGS="$(TARGET_CFLAGS)" \
+-		OPT="" \
++	$(call Build/Compile/PyMod,,\
++	install --prefix="$(PKG_INSTALL_DIR)/usr" \
+ 	)
+ endef
+ 
+-- 
+2.4.0
+

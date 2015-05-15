@@ -1,0 +1,28 @@
+From df962c9f3b14fd21b5a3d9d826d0bf3fcf315f18 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:24:01 +0200
+Subject: [PATCH 068/158] pysqlite: fix python dependency
+
+python-mini was changed to python
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/pysqlite/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/pysqlite/Makefile b/lang/pysqlite/Makefile
+index ffdcbd3..da27e39 100644
+--- a/lang/pysqlite/Makefile
++++ b/lang/pysqlite/Makefile
+@@ -26,7 +26,7 @@ define Package/python-sqlite
+  CATEGORY:=Languages
+  TITLE:=SQLite database adapter for Python
+  URL:=http://www.initd.org/tracker/pysqlite/wiki/pysqlite
+- DEPENDS:=+python-mini +libsqlite3
++ DEPENDS:=+python +libsqlite3
+ endef
+ 
+ define Package/python-sqlite/description
+-- 
+2.4.0
+

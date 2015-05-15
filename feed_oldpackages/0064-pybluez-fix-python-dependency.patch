@@ -1,0 +1,28 @@
+From 86a6fb21fb7fef8f3962653d9e0aafd84ee49d6e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:21:31 +0200
+Subject: [PATCH 064/158] pybluez: fix python dependency
+
+python-mini was changed to python
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/pybluez/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/pybluez/Makefile b/lang/pybluez/Makefile
+index 8e7686c..300b218 100644
+--- a/lang/pybluez/Makefile
++++ b/lang/pybluez/Makefile
+@@ -26,7 +26,7 @@ define Package/python-bluez
+   CATEGORY:=Languages
+   TITLE:=Python wrapper for the BlueZ Bluetooth stack
+   URL:=https://github.com/karulis/pybluez
+-  DEPENDS:=+python-mini +bluez-libs
++  DEPENDS:=+python +bluez-libs
+ endef
+ 
+ define Package/python-psycopg/description
+-- 
+2.4.0
+

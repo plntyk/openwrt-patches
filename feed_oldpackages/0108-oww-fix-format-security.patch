@@ -1,0 +1,42 @@
+From b3218b353d69a5d52d1374a42561f9dab347d975 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 28 Apr 2015 10:25:55 +0200
+Subject: [PATCH 108/158] oww: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/oww/patches/001-fix_format_string.patch | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 utils/oww/patches/001-fix_format_string.patch
+
+diff --git a/utils/oww/patches/001-fix_format_string.patch b/utils/oww/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..0befe83
+--- /dev/null
++++ b/utils/oww/patches/001-fix_format_string.patch
+@@ -0,0 +1,22 @@
++--- a/src/file.c
+++++ b/src/file.c
++@@ -152,7 +152,7 @@ int file_check_file(char *file_name, int
++ 
++       fp = fopen(file_name, "w") ;
++       if (!fp) return 0 ;
++-      fprintf(fp, setup_format_loghead) ;
+++      fprintf(fp, "%s", setup_format_loghead) ;
++       fprintf(fp, "\n") ;
++       fclose(fp) ;
++       return 1 ;
++--- a/src/werr_linux.c
+++++ b/src/werr_linux.c
++@@ -331,7 +331,7 @@ void werr(int flags, char* format, ...)
++        else
++          syslog_level = LOG_DEBUG ;
++ 
++-       syslog(syslog_level, message) ;
+++       syslog(syslog_level, "%s", message) ;
++      }
++ #    endif
++ #    else  // i.e. ifndef NOGUI
+-- 
+2.4.0
+

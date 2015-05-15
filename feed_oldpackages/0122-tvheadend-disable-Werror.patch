@@ -1,0 +1,35 @@
+From 43dd71a534f86982bd0c2da6751ea4b2d6557a99 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 9 May 2015 11:22:38 +0200
+Subject: [PATCH 122/158] tvheadend: disable -Werror
+
+fix building error on mips64:
+error: format '%llx' expects argument of type 'long long unsigned int',
+but argument 6 has type 'v4l2_std_id' [-Werror=format]
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ multimedia/tvheadend/patches/002-remove_werror.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 multimedia/tvheadend/patches/002-remove_werror.patch
+
+diff --git a/multimedia/tvheadend/patches/002-remove_werror.patch b/multimedia/tvheadend/patches/002-remove_werror.patch
+new file mode 100644
+index 0000000..2408ca0
+--- /dev/null
++++ b/multimedia/tvheadend/patches/002-remove_werror.patch
+@@ -0,0 +1,11 @@
++--- a/Makefile
+++++ b/Makefile
++@@ -27,7 +27,7 @@ PROG = ${BUILDDIR}/tvheadend
++ # Common compiler flags
++ #
++ 
++-CFLAGS  += -Wall -Werror -Wwrite-strings -Wno-deprecated-declarations
+++CFLAGS  += -Wall -Wwrite-strings -Wno-deprecated-declarations
++ CFLAGS  += -Wmissing-prototypes -fms-extensions
++ CFLAGS  += -g -funsigned-char -O2 
++ CFLAGS  += -D_FILE_OFFSET_BITS=64
+-- 
+2.4.0
+

@@ -1,0 +1,25 @@
+From cd3185858526a7bc5c07bffd513019691489203e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Fri, 20 Mar 2015 10:23:37 +0100
+Subject: [PATCH 030/158] gpiotoggling: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/gpiotoggling/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/utils/gpiotoggling/Makefile b/utils/gpiotoggling/Makefile
+index 84360b4..8c52a60 100644
+--- a/utils/gpiotoggling/Makefile
++++ b/utils/gpiotoggling/Makefile
+@@ -25,6 +25,7 @@ define KernelPackage/gpiotoggling
+   SUBMENU:=Other modules
+   TITLE:=Toggle GPIOs in kernel space
+   FILES:=$(PKG_BUILD_DIR)/gpiotoggling.ko
++  DEPENDS:=@BROKEN
+ endef
+ 
+ define Build/Compile
+-- 
+2.4.0
+

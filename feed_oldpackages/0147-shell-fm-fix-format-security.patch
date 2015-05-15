@@ -1,0 +1,31 @@
+From e81ea28af3cafd924b21d2a1f01911d6b4079d15 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:47:06 +0200
+Subject: [PATCH 147/158] shell-fm: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ sound/shell-fm/patches/001-fix_format_string.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 sound/shell-fm/patches/001-fix_format_string.patch
+
+diff --git a/sound/shell-fm/patches/001-fix_format_string.patch b/sound/shell-fm/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..d75db4e
+--- /dev/null
++++ b/sound/shell-fm/patches/001-fix_format_string.patch
+@@ -0,0 +1,11 @@
++--- a/source/interface.c
+++++ b/source/interface.c
++@@ -133,7 +133,7 @@ void interface(int interactive) {
++ 				break;
++ 
++ 			case 'A':
++-				printf(meta("Really ban all tracks by artist %a? [yN]", M_COLORED, & track));
+++				printf("%s", meta("Really ban all tracks by artist %a? [yN]", M_COLORED, & track));
++ 				fflush(stdout);
++ 				if(fetchkey(5000000) != 'y')
++ 					puts("\nAbort.");
+-- 
+2.4.0
+

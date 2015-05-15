@@ -1,0 +1,26 @@
+From 42932ff25cc6a25225d90ce64a0c7617d99f352f Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Fri, 15 May 2015 14:31:42 +0200
+Subject: [PATCH 153/158] numpy: fix python dependency
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/numpy/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/numpy/Makefile b/lang/numpy/Makefile
+index e9985cc..e4057db 100644
+--- a/lang/numpy/Makefile
++++ b/lang/numpy/Makefile
+@@ -23,7 +23,7 @@ define Package/numpy
+   CATEGORY:=Languages
+   TITLE:=numpy
+   URL:=http://numpy.sf.net
+-  DEPENDS:=+python-mini @TARGET_x86||TARGET_olpc||TARGET_uml @BROKEN
++  DEPENDS:=+python @TARGET_x86||TARGET_olpc||TARGET_uml @BROKEN
+ endef
+ 
+ define Package/numpy/description
+-- 
+2.4.0
+

@@ -1,0 +1,31 @@
+From b1e7a4c4067220713b12800f8ae29adcb0d97c24 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:45:09 +0200
+Subject: [PATCH 143/158] sysstat: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/sysstat/patches/001-fix_format_string.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 utils/sysstat/patches/001-fix_format_string.patch
+
+diff --git a/utils/sysstat/patches/001-fix_format_string.patch b/utils/sysstat/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..e1a834f
+--- /dev/null
++++ b/utils/sysstat/patches/001-fix_format_string.patch
+@@ -0,0 +1,11 @@
++--- a/prf_stats.c
+++++ b/prf_stats.c
++@@ -131,7 +131,7 @@ static void render(int isdb, char *pre,
++ 			}
++ 		}
++ 		else {
++-			printf(txt[isdb]);	/* No args */
+++			printf("%s", txt[isdb]);	/* No args */
++ 		}
++ 	}
++ 
+-- 
+2.4.0
+

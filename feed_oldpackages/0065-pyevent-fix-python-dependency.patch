@@ -1,0 +1,28 @@
+From 69f084169c0ddb00c058d202b5cc9c86981463fe Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:22:23 +0200
+Subject: [PATCH 065/158] pyevent: fix python dependency
+
+python-mini was changed to python
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/pyevent/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/pyevent/Makefile b/lang/pyevent/Makefile
+index d578e6e..16fa25c 100644
+--- a/lang/pyevent/Makefile
++++ b/lang/pyevent/Makefile
+@@ -26,7 +26,7 @@ define Package/python-event
+   CATEGORY:=Languages
+   TITLE:=Python interface to libevent
+   URL:=http://code.google.com/p/pyevent/
+-  DEPENDS:=+python-mini +libevent2
++  DEPENDS:=+python +libevent2
+ endef
+ 
+ define PyPackage/python-event/filespec
+-- 
+2.4.0
+

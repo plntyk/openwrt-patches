@@ -1,0 +1,25 @@
+From 44503dec95191aa6dae46cd775e0d31cc4dff24c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 15 Apr 2015 16:54:10 +0200
+Subject: [PATCH 090/158] mii-tool: BROKEN on musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/mii-tool/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/mii-tool/Makefile b/net/mii-tool/Makefile
+index 3e4c395..38d424b 100644
+--- a/net/mii-tool/Makefile
++++ b/net/mii-tool/Makefile
+@@ -23,6 +23,7 @@ define Package/mii-tool
+   SECTION:=net
+   CATEGORY:=Network
+   TITLE:=configure media type using MII commands
++  DEPENDS:=@BROKEN
+   URL:=http://freshmeat.net/projects/mii-tool/
+ endef
+ 
+-- 
+2.4.0
+

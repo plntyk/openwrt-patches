@@ -1,0 +1,56 @@
+From 506071d9c76dd1be32ecb0d0e53fc735634c1375 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 28 Apr 2015 10:26:13 +0200
+Subject: [PATCH 109/158] wx200d: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/wx200d/patches/001-format_security.patch | 36 ++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 utils/wx200d/patches/001-format_security.patch
+
+diff --git a/utils/wx200d/patches/001-format_security.patch b/utils/wx200d/patches/001-format_security.patch
+new file mode 100644
+index 0000000..54a6412
+--- /dev/null
++++ b/utils/wx200d/patches/001-format_security.patch
+@@ -0,0 +1,36 @@
++--- a/pg_api.c
+++++ b/pg_api.c
++@@ -128,14 +128,14 @@ PGconn *pg_init( const char *szConnInfo,
++   	pCreate = PQexec( pConn, szCommand );
++   	if( PQresultStatus( pCreate ) != PGRES_COMMAND_OK )
++   	{ sprintf( szErrorMsg, "(%s):%s", PG_API_NAME, PQerrorMessage( pConn ) );
++-  	  syslog( LOG_WARNING, szErrorMsg );
+++  	  syslog( LOG_WARNING, "%s", szErrorMsg );
++   	}
++   	PQclear( pCreate );
++       }
++     }
++     else
++     { sprintf( szErrorMsg, "(%s):%s", PG_API_NAME, PQerrorMessage( pConn ) );
++-      syslog( LOG_WARNING, szErrorMsg );
+++      syslog( LOG_WARNING, "%s", szErrorMsg );
++     }
++     PQclear( pResult );
++   }
++@@ -334,14 +334,14 @@ int pg_insert( PGconn *pConn, const char
++     pInsert = PQexec( pConn, szCommand );
++     if( PQresultStatus( pInsert ) != PGRES_COMMAND_OK )
++     { sprintf( szErrorMsg, "(%s):%s", PG_API_NAME, PQerrorMessage( pConn ) );
++-      syslog( LOG_WARNING, szErrorMsg );
+++      syslog( LOG_WARNING, "%s", szErrorMsg );
++       nRet = -1; 
++     }
++   }
++   else 
++   { /* the connection was no good: retry */
++     sprintf( szErrorMsg, "(%s):%s", PG_API_NAME, "The connection was no good: retying..." );
++-    syslog( LOG_WARNING, szErrorMsg );
+++    syslog( LOG_WARNING, "%s", szErrorMsg );
++     nRet = -2;
++   }
++ 
+-- 
+2.4.0
+

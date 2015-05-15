@@ -1,0 +1,25 @@
+From 5d02c1e17bc2b81e4651941c09cffac9650dbc9d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 28 Apr 2015 10:15:17 +0200
+Subject: [PATCH 098/158] sqlite2: mark as broken since its deprecated
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/sqlite2/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libs/sqlite2/Makefile b/libs/sqlite2/Makefile
+index 5cc703e..9f40a50 100644
+--- a/libs/sqlite2/Makefile
++++ b/libs/sqlite2/Makefile
+@@ -31,6 +31,7 @@ define Package/sqlite2/Default
+   SUBMENU:=database
+   TITLE:=SQLite (v2.x) database engine
+   URL:=http://www.sqlite.org/
++  DEPENDS:=@BROKEN
+ endef
+ 
+ define Package/libsqlite2
+-- 
+2.4.0
+

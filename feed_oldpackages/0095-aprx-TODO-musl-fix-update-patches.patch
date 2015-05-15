@@ -1,0 +1,47 @@
+From d4bd3899213bd04b40e6d7af0a40e9c7621c4df4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 16 Apr 2015 07:52:53 +0200
+Subject: [PATCH 095/158] aprx: TODO musl fix update patches
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/aprx/patches/100-Makefile_in.patch | 27 ---------------------------
+ 1 file changed, 27 deletions(-)
+ delete mode 100644 net/aprx/patches/100-Makefile_in.patch
+
+diff --git a/net/aprx/patches/100-Makefile_in.patch b/net/aprx/patches/100-Makefile_in.patch
+deleted file mode 100644
+index cb06f79..0000000
+--- a/net/aprx/patches/100-Makefile_in.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-diff -ruN aprx-2.00_r421.orig/Makefile.in aprx-2.00_r421/Makefile.in
+---- aprx-2.00_r421.orig/Makefile.in	2010-06-19 15:13:47.000000000 +0000
+-+++ aprx-2.00_r421/Makefile.in	2010-08-22 00:14:35.000000000 +0000
+-@@ -27,8 +27,9 @@
+- CFLAGS=		@CFLAGS@
+- 
+- # Linker and flags
+--LD=		@LD@
+-+LD=		@CC@
+- LDFLAGS=	@LDFLAGS@ $(PROF)
+-+datarootdir = @datarootdir@
+- 
+- INSTALL=	$(srcdir)/install-sh
+- INSTALL_PROGRAM=$(INSTALL)  -m 755
+-@@ -89,10 +90,10 @@
+- 
+- 
+- $(PROGAPRX):	$(OBJSAPRX) VERSION Makefile
+--		$(LD) $(LDFLAGS) -o $@ $(OBJSAPRX) $(LIBS)
+-+		$(CC) $(CFLAGS) -o $@ $(OBJSAPRX) $(LIBS)
+- 
+- $(PROGSTAT):	$(OBJSSTAT) VERSION Makefile
+--		$(LD) $(LDFLAGS) -o $@ $(OBJSSTAT) $(LIBS)
+-+		$(CC) $(CFLAGS) -o $@ $(OBJSSTAT) $(LIBS)
+- 
+- .PHONY:		man
+- man:		$(MAN)
+-- 
+2.4.0
+

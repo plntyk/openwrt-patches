@@ -1,0 +1,80 @@
+From 21a06f6129779ef47551a9b5e82f225d76e51a7a Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:28:34 +0200
+Subject: [PATCH 127/158] gnokii: update to 0.6.31
+
+fix build errors with using host libpq
+by disabling dependency
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/gnokii/Makefile | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
+
+diff --git a/utils/gnokii/Makefile b/utils/gnokii/Makefile
+index 45f8f91..3ff8568 100644
+--- a/utils/gnokii/Makefile
++++ b/utils/gnokii/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=gnokii
+-PKG_VERSION:=0.6.21
+-PKG_RELEASE:=3
++PKG_VERSION:=0.6.31
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=http://gnokii.org/download/gnokii/0.6.x
+-PKG_MD5SUM:=bbf0aabe2436d8e927f3e2edb4efcac8
++PKG_MD5SUM:=b2bab39d799fd95dd18b4b454403157c
+ 
+ PKG_FIXUP:=autoreconf
+ PKG_INSTALL:=1
+@@ -24,7 +24,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/gnokii
+   SECTION:=utils
+   CATEGORY:=Utilities
+-  DEPENDS:=+libusb-compat
++  DEPENDS:=+libusb-compat +glib2 +libncurses +libreadline
+   TITLE:=Gnokii - Datasuite for the mobile phones
+   URL:=http://www.gnokii.org/
+ endef
+@@ -36,8 +36,7 @@ define Package/gnokii/description
+ 	capable mobiles as well as Symbian phones.
+ endef
+ 
+-define Build/Configure
+-	$(call Build/Configure/Default, \
++CONFIGURE_ARGS+= \
+ 		--without-libiconv-prefix \
+ 		--without-libintl-prefix \
+ 		--disable-rlpdebug \
+@@ -49,19 +48,18 @@ define Build/Configure
+ 		--disable-libical \
+ 		--disable-irda \
+ 		--disable-bluetooth \
+-		--without-x \
+-		)
+-endef
++		--disable-postgres \
++		--without-x
+ 
+ define Package/gnokii/install
+ 	$(INSTALL_DIR) $(1)/usr/bin
+ 	$(INSTALL_DIR) $(1)/usr/sbin
+ 	$(INSTALL_DIR) $(1)/usr/lib
+ 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/gnokii $(1)/usr/bin
+-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/gnokiid $(1)/usr/sbin
++	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/gnokiid $(1)/usr/sbin
+ 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/mgnokiidev $(1)/usr/sbin
+-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgnokii.so.3.5.0 $(1)/usr/lib
+-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgnokii.so.3 $(1)/usr/lib
++	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgnokii.so.7.0.0 $(1)/usr/lib
++	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgnokii.so.7 $(1)/usr/lib
+ 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgnokii.so $(1)/usr/lib
+ endef
+ 
+-- 
+2.4.0
+

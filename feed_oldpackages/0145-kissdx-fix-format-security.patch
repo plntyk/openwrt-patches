@@ -1,0 +1,58 @@
+From f83a3d91a636c8258be17cbdb088712db1d93866 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:46:32 +0200
+Subject: [PATCH 145/158] kissdx: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ .../kissdx/patches/001-fix_format_string.patch     | 38 ++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+ create mode 100644 multimedia/kissdx/patches/001-fix_format_string.patch
+
+diff --git a/multimedia/kissdx/patches/001-fix_format_string.patch b/multimedia/kissdx/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..64b9e50
+--- /dev/null
++++ b/multimedia/kissdx/patches/001-fix_format_string.patch
+@@ -0,0 +1,38 @@
++--- a/kissdx.h
+++++ b/kissdx.h
++@@ -86,9 +86,9 @@ char * extended_logfile_format(const cha
++ #define log0(txt)								\
++ 	do {										\
++ 		if (options.daemonize)					\
++-			syslog(LOG_WARNING, extended_logfile_format(txt));	\
+++			syslog(LOG_WARNING, "%s", extended_logfile_format(txt));	\
++ 		else									\
++-			fprintf(stderr, extended_logfile_format(txt "\n"));	\
+++			fprintf(stderr, "%s", extended_logfile_format(txt "\n"));	\
++ 	} while(0)
++ 
++ // =====================================================================================
++@@ -107,9 +107,9 @@ char * extended_logfile_format(const cha
++ 	do {											\
++ 		if (config.loglevel == LOGDEBUG) {						\
++ 			if (options.daemonize)					\
++-				syslog(LOG_INFO, extended_logfile_format(txt));	\
+++				syslog(LOG_INFO, "%s", extended_logfile_format(txt));	\
++ 			else									\
++-				fprintf(stderr, extended_logfile_format(txt "\n"));	\
+++				fprintf(stderr, "%s", extended_logfile_format(txt "\n"));	\
++ 		}											\
++ 	} while(0)
++ 
++@@ -131,9 +131,9 @@ char * extended_logfile_format(const cha
++ 	do {											\
++ 		if (config.loglevel>=minlevel) {						\
++ 			if (options.daemonize)					\
++-				syslog(LOG_INFO, extended_logfile_format(txt));	\
+++				syslog(LOG_INFO, "%s", extended_logfile_format(txt));	\
++ 			else									\
++-				fprintf(stderr, extended_logfile_format(txt "\n"));	\
+++				fprintf(stderr, "%s", extended_logfile_format(txt "\n"));	\
++ 		}											\
++ 	} while(0)
++ // =====================================================================================
+-- 
+2.4.0
+

@@ -1,0 +1,137 @@
+From 0d9bfd28f4333fee9d8b0bd4660ccea9e29ddf00 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 28 Apr 2015 10:20:26 +0200
+Subject: [PATCH 101/158] powertop: fix compile
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/powertop/Makefile                          | 20 +++++++---
+ utils/powertop/patches/100-no-wide-ncurses.patch | 11 ------
+ utils/powertop/patches/200-no-gettext.patch      | 48 ------------------------
+ 3 files changed, 14 insertions(+), 65 deletions(-)
+ delete mode 100644 utils/powertop/patches/100-no-wide-ncurses.patch
+ delete mode 100644 utils/powertop/patches/200-no-gettext.patch
+
+diff --git a/utils/powertop/Makefile b/utils/powertop/Makefile
+index 2e8e58e..1d48393 100644
+--- a/utils/powertop/Makefile
++++ b/utils/powertop/Makefile
+@@ -8,23 +8,25 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=powertop
+-PKG_VERSION:=1.11
+-PKG_RELEASE:=2
++PKG_VERSION:=2.7
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+-PKG_SOURCE_URL:=http://www.lesswatts.org/projects/powertop/download/
+-PKG_MD5SUM:=3498f5983c683c3a57dce7379a722082
++PKG_SOURCE_URL:=https://01.org/sites/default/files/downloads/powertop/
++PKG_MD5SUM:=e0d686e47daaf7e9d89031f7763432ef
+ 
+ PKG_INSTALL:=1
+-PKG_FIXUP:=autoreconf
++PKG_FIXUP:=gettext-version autoreconf
++INTL_FULL:=1
+ 
+ include $(INCLUDE_DIR)/package.mk
++include $(INCLUDE_DIR)/nls.mk
+ 
+ define Package/powertop
+   SECTION:=utils
+   CATEGORY:=Utilities
+   TITLE:=PowerTOP
+-  DEPENDS:=+libncurses
++  DEPENDS:=+libncursesw +libstdcpp +libnl $(INTL_DEPENDS)
+   URL:=http://www.lesswatts.org
+ endef
+ 
+@@ -33,6 +35,12 @@ define Package/powertop/description
+  misbehaving while your computer is idle.
+ endef
+ 
++
++CONFIGURE_ARGS += \
++	 --without-libiconv-prefix \
++	 --with-libintl-prefix=$(INTL_PREFIX)
++
++
+ define Package/powertop/install
+ 	$(CP) $(PKG_INSTALL_DIR)/* $(1)
+ endef
+diff --git a/utils/powertop/patches/100-no-wide-ncurses.patch b/utils/powertop/patches/100-no-wide-ncurses.patch
+deleted file mode 100644
+index 61c93a3..0000000
+--- a/utils/powertop/patches/100-no-wide-ncurses.patch
++++ /dev/null
+@@ -1,11 +0,0 @@
+---- a/Makefile
+-+++ b/Makefile
+-@@ -20,7 +20,7 @@ OBJS = powertop.o config.o process.o mis
+- 	
+- 
+- powertop: $(OBJS) Makefile powertop.h
+--	$(CC) ${CFLAGS}  $(OBJS) -lncursesw -o powertop
+-+	$(CC)  ${LDFLAGS}  $(OBJS) -lncurses -o powertop
+- 	@(cd po/ && $(MAKE))
+- 
+- powertop.1.gz: powertop.1
+diff --git a/utils/powertop/patches/200-no-gettext.patch b/utils/powertop/patches/200-no-gettext.patch
+deleted file mode 100644
+index 623f240..0000000
+--- a/utils/powertop/patches/200-no-gettext.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+---- a/powertop.c
+-+++ b/powertop.c
+-@@ -30,7 +30,9 @@
+- #include <stdint.h>
+- #include <sys/types.h>
+- #include <dirent.h>
+-+#ifdef ENABLE_GETTEXT
+- #include <libintl.h>
+-+#endif
+- #include <ctype.h>
+- #include <assert.h>
+- #include <locale.h>
+-@@ -783,9 +785,11 @@ int main(int argc, char **argv)
+- 	uint64_t cur_usage[8], cur_duration[8];
+- 	double wakeups_per_second = 0;
+- 
+-+#ifdef ENABLE_GETTEXT
+- 	setlocale (LC_ALL, "");
+- 	bindtextdomain ("powertop", "/usr/share/locale");
+- 	textdomain ("powertop");
+-+#endif
+- 
+-  	while (1) {
+-  		static struct option opts[] = {
+---- a/powertop.h
+-+++ b/powertop.h
+-@@ -26,7 +26,9 @@
+- #ifndef __INCLUDE_GUARD_POWERTOP_H_
+- #define __INCLUDE_GUARD_POWERTOP_H_
+- 
+-+#ifdef ENABLE_GETTEXT
+- #include <libintl.h>
+-+#endif
+- 
+- struct line {
+- 	char	*string;
+-@@ -86,7 +88,11 @@ extern suggestion_func *suggestion_activ
+-         _x < _y ? _x : _y; })
+- 
+- 
+-+#ifdef ENABLE_GETTEXT
+- #define _(STRING)    gettext(STRING)
+-+#else
+-+#define _(STRING)    STRING
+-+#endif
+- 
+- 
+- #define PT_COLOR_DEFAULT    1
+-- 
+2.4.0
+

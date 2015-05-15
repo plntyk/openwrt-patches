@@ -1,0 +1,28 @@
+From bc94838a5792f30ce27d56a22dfffca3b4e5d92a Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 29 Jan 2015 17:24:50 +0100
+Subject: [PATCH 007/158] gupnp-dlna: mark as @BROKEN
+
+it need old gst 0.10 versions not supported in trunk
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/gupnp-dlna/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/gupnp-dlna/Makefile b/libs/gupnp-dlna/Makefile
+index b99cfce..14cc028 100644
+--- a/libs/gupnp-dlna/Makefile
++++ b/libs/gupnp-dlna/Makefile
+@@ -26,7 +26,7 @@ define Package/libgupnp-dlna
+   CATEGORY:=Libraries
+   TITLE:=Library for dealing with DLNA-related tasks
+   URL:=http://www.gupnp.org/
+-  DEPENDS:=+libgupnp +gstreamer +libgstpbutils
++  DEPENDS:=+libgupnp +gstreamer +libgstpbutils @BROKEN
+ endef
+ 
+ define Package/libgupnp-dlna/description
+-- 
+2.4.0
+

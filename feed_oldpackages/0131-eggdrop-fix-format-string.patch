@@ -1,0 +1,64 @@
+From eae14e03bb59d5227d503a7a03cf442a9e537c53 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:40:27 +0200
+Subject: [PATCH 131/158] eggdrop: fix format string
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/eggdrop/patches/005-fix_format_string.patch | 44 ++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+ create mode 100644 lang/eggdrop/patches/005-fix_format_string.patch
+
+diff --git a/lang/eggdrop/patches/005-fix_format_string.patch b/lang/eggdrop/patches/005-fix_format_string.patch
+new file mode 100644
+index 0000000..b57a236
+--- /dev/null
++++ b/lang/eggdrop/patches/005-fix_format_string.patch
+@@ -0,0 +1,44 @@
++--- a/src/mod/transfer.mod/transfer.c
+++++ b/src/mod/transfer.mod/transfer.c
++@@ -777,7 +777,7 @@ static void display_dcc_send(int idx, ch
++ 
++ static void display_dcc_fork_send(int idx, char *buf)
++ {
++-  sprintf(buf, TRANSFER_CONN_SEND);
+++  sprintf(buf, "%s", TRANSFER_CONN_SEND);
++ }
++ 
++ static int expmem_dcc_xfer(void *x)
++--- a/src/main.c
+++++ b/src/main.c
++@@ -492,7 +492,7 @@ static void do_arg(char *s)
++         break;                  /* this should never be reached */
++       case 'h':
++         printf("\n%s\n\n", version);
++-        printf(EGG_USAGE);
+++        printf("%s", EGG_USAGE);
++         printf("\n");
++         bg_send_quit(BG_ABORT);
++         exit(0);
++@@ -813,7 +813,7 @@ int main(int argc, char **argv)
++   putlog(LOG_ALL, "*", "--- Loading %s (%s)", ver, s);
++   chanprog();
++   if (!encrypt_pass) {
++-    printf(MOD_NOCRYPT);
+++    printf("%s", MOD_NOCRYPT);
++     bg_send_quit(BG_ABORT);
++     exit(1);
++   }
++--- a/src/misc.c
+++++ b/src/misc.c
++@@ -577,8 +577,8 @@ void putlog EGG_VARARGS_DEF(int, arg1)
++                * then reset repeats. We want the current time here,
++                * so put that in the file first.
++                */
++-              fprintf(logs[i].f, stamp);
++-              fprintf(logs[i].f, MISC_LOGREPEAT, logs[i].repeats);
+++              fprintf(logs[i].f, "%s", stamp);
+++              fprintf(logs[i].f, "%s%s", MISC_LOGREPEAT, logs[i].repeats);
++               logs[i].repeats = 0;
++               /* No need to reset logs[i].szlast here
++                * because we update it later on...
+-- 
+2.4.0
+

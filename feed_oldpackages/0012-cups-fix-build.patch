@@ -1,0 +1,26 @@
+From 0284919a823d2160cb32142903c4d51b384b5e6b Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 29 Jan 2015 17:30:48 +0100
+Subject: [PATCH 012/158] cups: fix build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/cups/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/cups/Makefile b/net/cups/Makefile
+index a8d6425..4709e0d 100644
+--- a/net/cups/Makefile
++++ b/net/cups/Makefile
+@@ -98,7 +98,7 @@ define Package/libcups
+ $(call Package/cups/Default)
+   SECTION:=libs
+   CATEGORY:=Libraries
+-  DEPENDS:=+zlib +libpthread +libpng +libjpeg
++  DEPENDS:=+zlib +libpthread +libpng +libjpeg +libacl
+   TITLE:=Common UNIX Printing System - Core library
+ endef
+ 
+-- 
+2.4.0
+

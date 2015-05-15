@@ -1,0 +1,28 @@
+From cae556c1fed9ac1b7e6b7fd3d1a77ce14ad265d6 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:37:01 +0200
+Subject: [PATCH 082/158] weechat: dont include weechat-curses
+
+TODO: investigate why it's not built anymore
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/weechat/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/weechat/Makefile b/net/weechat/Makefile
+index 79bc5b6..7ebb123 100644
+--- a/net/weechat/Makefile
++++ b/net/weechat/Makefile
+@@ -48,7 +48,7 @@ TARGET_LDFLAGS += \
+ 
+ define Package/weechat/install
+ 	$(INSTALL_DIR) $(1)/usr/bin
+-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/weechat-curses $(1)/usr/bin/
++	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/weechat $(1)/usr/bin/
+ 	$(INSTALL_DIR) $(1)/usr/lib/weechat/plugins
+ 	$(CP) \
+ 		$(PKG_INSTALL_DIR)/usr/lib/weechat/plugins/* \
+-- 
+2.4.0
+

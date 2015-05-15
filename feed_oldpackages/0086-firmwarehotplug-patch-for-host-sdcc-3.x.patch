@@ -1,0 +1,391 @@
+From 0e2979ab07e05e7c4f238b2952841b0c109d1dbb Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:42:38 +0200
+Subject: [PATCH 086/158] firmwarehotplug: patch for host sdcc 3.x
+
+sdcc 3.0 was released in 2010
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ .../200-make_source_sdcc_3.x_compatible.patch      | 369 +++++++++++++++++++++
+ 1 file changed, 369 insertions(+)
+ create mode 100644 utils/firmwarehotplug/patches/200-make_source_sdcc_3.x_compatible.patch
+
+diff --git a/utils/firmwarehotplug/patches/200-make_source_sdcc_3.x_compatible.patch b/utils/firmwarehotplug/patches/200-make_source_sdcc_3.x_compatible.patch
+new file mode 100644
+index 0000000..83063d0
+--- /dev/null
++++ b/utils/firmwarehotplug/patches/200-make_source_sdcc_3.x_compatible.patch
+@@ -0,0 +1,369 @@
++--- a/ezusb/midi/original/ezusb_reg.h
+++++ b/ezusb/midi/original/ezusb_reg.h
++@@ -23,49 +23,49 @@
++ 
++ typedef unsigned char byte;
++ 
++-sbit  at 0x8c TR0; // TCON.4
++-sbit  at 0x8e TR1; // TCON.6
++-sbit  at 0x98 RI_0;// SCON.0
++-sbit  at 0x99 TI_0;// SCON.1
++-sbit  at 0xa9 ET0; // IE.1
++-sbit  at 0xac ES0; // IE.4
++-sbit  at 0xad ET2; // IE.5
++-sbit  at 0xae ES1; // IE.6
++-sbit  at 0xaf EA;  // IE.7
++-sbit  at 0xc0 RI_1;// SCON0.0
++-sbit  at 0xc1 TI_1;// SCON1.1
++-sbit  at 0xca TR2; // T2CON.2
++-sbit  at 0xcf TF2; // T2CON.7
++-sbit  at 0xe8 EUSB;// EIE.0
++-
++-sfr   at 0x87 PCON;
++-sfr   at 0x89 TMOD;
++-sfr   at 0x8a TL0;
++-sfr   at 0x8b TL1;
++-sfr   at 0x8c TH0;
++-sfr   at 0x8d TH1;
++-sfr   at 0x91 EXIF;
++-sfr   at 0xe8 EIE;
++-sfr   at 0x98 SCON0;
++-sfr   at 0xc0 SCON1;
++-sfr   at 0x99 SBUF0;
++-sfr   at 0xc1 SBUF1;
++-sfr   at 0x8e CKCON;
++-sfr   at 0xc8 T2CON;
++-sfr   at 0xca RCAP2L;
++-sfr   at 0xcb RCAP2H;
++-sfr   at 0xcc TL2;
++-sfr   at 0xcd TH2;
++-sfr   at 0xd8 EICON;
+++__sbit __at 0x8c TR0; // TCON.4
+++__sbit __at 0x8e TR1; // TCON.6
+++__sbit __at 0x98 RI_0;// SCON.0
+++__sbit __at 0x99 TI_0;// SCON.1
+++__sbit __at 0xa9 ET0; // IE.1
+++__sbit __at 0xac ES0; // IE.4
+++__sbit __at 0xad ET2; // IE.5
+++__sbit __at 0xae ES1; // IE.6
+++__sbit __at 0xaf EA;  // IE.7
+++__sbit __at 0xc0 RI_1;// SCON0.0
+++__sbit __at 0xc1 TI_1;// SCON1.1
+++__sbit __at 0xca TR2; // T2CON.2
+++__sbit __at 0xcf TF2; // T2CON.7
+++__sbit __at 0xe8 EUSB;// EIE.0
+++
+++__sfr __at 0x87 PCON;
+++__sfr __at 0x89 TMOD;
+++__sfr __at 0x8a TL0;
+++__sfr __at 0x8b TL1;
+++__sfr __at 0x8c TH0;
+++__sfr __at 0x8d TH1;
+++__sfr __at 0x91 EXIF;
+++__sfr __at 0xe8 EIE;
+++__sfr __at 0x98 SCON0;
+++__sfr __at 0xc0 SCON1;
+++__sfr __at 0x99 SBUF0;
+++__sfr __at 0xc1 SBUF1;
+++__sfr __at 0x8e CKCON;
+++__sfr __at 0xc8 T2CON;
+++__sfr __at 0xca RCAP2L;
+++__sfr __at 0xcb RCAP2H;
+++__sfr __at 0xcc TL2;
+++__sfr __at 0xcd TH2;
+++__sfr __at 0xd8 EICON;
++ 
++ struct EPCSBC
++ {
++   byte CS;
++   byte BC;
++ };
++-xdata at 0x7fb4 struct EPCSBC EPx[];
++-//xdata at 0x7fc4 byte OUT0CS;  //FIXME: marked as "reserved"
++-//xdata at 0x7fb4 byte EP0CS;
+++__xdata __at 0x7fb4 struct EPCSBC EPx[];
+++//__xdata __at 0x7fc4 byte OUT0CS;  //FIXME: marked as "reserved"
+++//__xdata __at 0x7fb4 byte EP0CS;
++ 
++ struct USBRequest
++ {
++@@ -82,55 +82,55 @@ struct USBRequest
++ 
++ #define STALL 0x01 // EPxCS.0
++ #define HSNAK 0x02 // EPxCS.1
++-xdata at 0x7d00 byte IN4BUF;
++-xdata at 0x7dc0 byte OUT2BUF;
++-xdata at 0x7e00 byte IN2BUF;
++-xdata at 0x7e40 byte OUT1BUF[64];
++-xdata at 0x7e80 byte IN1BUF[64];
++-xdata at 0x7ec0 byte OUT0BUF;
++-xdata at 0x7f00 byte IN0BUF[64];
++-xdata at 0x7f92 byte CPUCS;
++-xdata at 0x7f93 byte PORTACFG;
++-xdata at 0x7f94 byte PORTBCFG;
++-xdata at 0x7f95 byte PORTCCFG;
++-xdata at 0x7f97 byte OUTB;
++-xdata at 0x7f98 byte OUTC;
++-xdata at 0x7f9a byte PINSB;
++-xdata at 0x7f9b byte PINSC;
++-xdata at 0x7f9d byte OEB;
++-xdata at 0x7f9e byte OEC;
++-xdata at 0x7f9f byte UART230;
++-xdata at 0x7fa5 byte I2CS;
++-xdata at 0x7fa6 byte I2DAT;
++-xdata at 0x7fa9 byte IN07IRQ;
++-xdata at 0x7faa byte OUT07IRQ;
++-xdata at 0x7fab byte USBIRQ;
++-xdata at 0x7fac byte IN07IEN;
++-xdata at 0x7fad byte OUT07IEN;
++-xdata at 0x7fae byte USBIEN;
++-xdata at 0x7faf byte USBBAV;
++-xdata at 0x7fb4 byte EP0CS;
++-xdata at 0x7fb5 byte IN0BC;
++-xdata at 0x7fb6 byte IN1CS;
++-xdata at 0x7fb7 byte IN1BC;
++-xdata at 0x7fb8 byte IN2CS;
++-xdata at 0x7fb9 byte IN2BC;
++-xdata at 0x7fbc byte IN4CS;
++-xdata at 0x7fbd byte IN4BC;
++-xdata at 0x7fc5 byte OUT0BC;
++-xdata at 0x7fc6 byte OUT1CS;
++-xdata at 0x7fc7 byte OUT1BC;
++-xdata at 0x7fc8 byte OUT2CS;
++-xdata at 0x7fc9 byte OUT2BC;
++-xdata at 0x7fd4 byte SUDPTRH;
++-xdata at 0x7fd5 byte SUDPTRL;
++-xdata at 0x7fd6 byte USBCS;
++-xdata at 0x7fd8 byte USBFRAMEL;
++-xdata at 0x7fd9 byte USBFRAMEH;
++-xdata at 0x7fdd byte USBPAIR;
++-xdata at 0x7fde byte IN07VAL;
++-xdata at 0x7fdf byte OUT07VAL;
++-xdata at 0x7fe3 byte AUTOPTRH;
++-xdata at 0x7fe4 byte AUTOPTRL;
++-xdata at 0x7fe5 byte AUTODATA;
++-xdata at 0x7fe8 struct USBRequest SETUPDAT;
+++__xdata __at 0x7d00 byte IN4BUF;
+++__xdata __at 0x7dc0 byte OUT2BUF;
+++__xdata __at 0x7e00 byte IN2BUF;
+++__xdata __at 0x7e40 byte OUT1BUF[64];
+++__xdata __at 0x7e80 byte IN1BUF[64];
+++__xdata __at 0x7ec0 byte OUT0BUF;
+++__xdata __at 0x7f00 byte IN0BUF[64];
+++__xdata __at 0x7f92 byte CPUCS;
+++__xdata __at 0x7f93 byte PORTACFG;
+++__xdata __at 0x7f94 byte PORTBCFG;
+++__xdata __at 0x7f95 byte PORTCCFG;
+++__xdata __at 0x7f97 byte OUTB;
+++__xdata __at 0x7f98 byte OUTC;
+++__xdata __at 0x7f9a byte PINSB;
+++__xdata __at 0x7f9b byte PINSC;
+++__xdata __at 0x7f9d byte OEB;
+++__xdata __at 0x7f9e byte OEC;
+++__xdata __at 0x7f9f byte UART230;
+++__xdata __at 0x7fa5 byte I2CS;
+++__xdata __at 0x7fa6 byte I2DAT;
+++__xdata __at 0x7fa9 byte IN07IRQ;
+++__xdata __at 0x7faa byte OUT07IRQ;
+++__xdata __at 0x7fab byte USBIRQ;
+++__xdata __at 0x7fac byte IN07IEN;
+++__xdata __at 0x7fad byte OUT07IEN;
+++__xdata __at 0x7fae byte USBIEN;
+++__xdata __at 0x7faf byte USBBAV;
+++__xdata __at 0x7fb4 byte EP0CS;
+++__xdata __at 0x7fb5 byte IN0BC;
+++__xdata __at 0x7fb6 byte IN1CS;
+++__xdata __at 0x7fb7 byte IN1BC;
+++__xdata __at 0x7fb8 byte IN2CS;
+++__xdata __at 0x7fb9 byte IN2BC;
+++__xdata __at 0x7fbc byte IN4CS;
+++__xdata __at 0x7fbd byte IN4BC;
+++__xdata __at 0x7fc5 byte OUT0BC;
+++__xdata __at 0x7fc6 byte OUT1CS;
+++__xdata __at 0x7fc7 byte OUT1BC;
+++__xdata __at 0x7fc8 byte OUT2CS;
+++__xdata __at 0x7fc9 byte OUT2BC;
+++__xdata __at 0x7fd4 byte SUDPTRH;
+++__xdata __at 0x7fd5 byte SUDPTRL;
+++__xdata __at 0x7fd6 byte USBCS;
+++__xdata __at 0x7fd8 byte USBFRAMEL;
+++__xdata __at 0x7fd9 byte USBFRAMEH;
+++__xdata __at 0x7fdd byte USBPAIR;
+++__xdata __at 0x7fde byte IN07VAL;
+++__xdata __at 0x7fdf byte OUT07VAL;
+++__xdata __at 0x7fe3 byte AUTOPTRH;
+++__xdata __at 0x7fe4 byte AUTOPTRL;
+++__xdata __at 0x7fe5 byte AUTODATA;
+++__xdata __at 0x7fe8 struct USBRequest SETUPDAT;
++--- a/ezusb/midi/original/ezusbmidi.c
+++++ b/ezusb/midi/original/ezusbmidi.c
++@@ -33,60 +33,60 @@
++ 
++ // Static Variables (initialized) //////////////////////////////////
++ 
++-static bit bitSUDAVSeen = 0;
++-static bit bitSUSPSeen  = 0;
+++static __bit bitSUDAVSeen = 0;
+++static __bit bitSUSPSeen  = 0;
++ 
++-static bit ledIN  = 0;
++-static bit ledOUT = 0;
++-static bit ledUSB = 0;
+++static __bit ledIN  = 0;
+++static __bit ledOUT = 0;
+++static __bit ledUSB = 0;
++ #ifdef CONFIG_MidiSport2x2
++-static bit ledIN1  = 0;
++-static bit ledOUT1 = 0;
+++static __bit ledIN1  = 0;
+++static __bit ledOUT1 = 0;
++ #endif
++ 
++ #ifdef HAS_TIMER_0
++-static volatile data byte timerTicksL = 0x00; // ca  1/2 ms counter
++-static volatile data byte timerTicksH = 0x00; // ca  1 sec counter
+++static volatile __data byte timerTicksL = 0x00; // ca  1/2 ms counter
+++static volatile __data byte timerTicksH = 0x00; // ca  1 sec counter
++ #endif
++ 
++ // Here come the variable for the Petri net. /////////////////////////
++ 
++ // USB EP (in/out)
++ 
++-static volatile data  struct LINSYN  inusbCtl;        // EP 1 IN control
++-static xdata at 0x7e80 byte          inusbBuf[0x40];  // IN1BUF
+++static volatile __data  struct LINSYN  inusbCtl;        // EP 1 IN control
+++static __xdata __at 0x7e80 byte          inusbBuf[0x40];  // IN1BUF
++ 
++ // EP 1 OUT -> UART (0) IN pipeline
++ 
++-static volatile data  struct LINSYN  outusbCtl;       // EP 1 OUT control
++-static xdata at 0x7e40 byte          outusbBuf[0x40]; // OUT1BUF
+++static volatile __data  struct LINSYN  outusbCtl;       // EP 1 OUT control
+++static __xdata __at 0x7e40 byte          outusbBuf[0x40]; // OUT1BUF
++ 
++ // UART (0) -> EP 1 pipeline
++ 
++-static volatile data  struct CYCSYN  inserCtl;        // UART->serial
++-static xdata  at 0x7b80              inserBuf[0x40];  // IN7BUF
+++static volatile __data  struct CYCSYN  inserCtl;        // UART->serial
+++static __xdata __at 0x7b80              inserBuf[0x40];  // IN7BUF
++ 
++-static volatile data  struct CYCSYN  outserCtl;       // serial->UART
++-static xdata at 0x7b40 byte          outserBuf[0x40]; // OUT7BUF, tmp
+++static volatile __data  struct CYCSYN  outserCtl;       // serial->UART
+++static __xdata __at 0x7b40 byte          outserBuf[0x40]; // OUT7BUF, tmp
++ 
++-static volatile data  struct LINSYN  outuarCtl;       // -> UART
+++static volatile __data  struct LINSYN  outuarCtl;       // -> UART
++ //                                   SBUF0
++ 
++ #ifdef CONFIG_MidiSport2x2
++ // UART (1) -> EP 1 pipeline
++ 
++-static volatile data  struct CYCSYN  inserCtl1;        // UART->serial
++-static xdata  at 0x7c00              inserBuf1[0x40];  // IN7BUF
+++static volatile __data  struct CYCSYN  inserCtl1;        // UART->serial
+++static __xdata __at 0x7c00              inserBuf1[0x40];  // IN7BUF
++ 
++ // EP 1 OUT -> UART (1) IN pipeline
++ 
++-static volatile data  struct CYCSYN  outserCtl1;       // serial->UART
++-static xdata at 0x7c80 byte          outserBuf1[0x40]; // OUT7BUF, tmp
+++static volatile __data  struct CYCSYN  outserCtl1;       // serial->UART
+++static __xdata __at 0x7c80 byte          outserBuf1[0x40]; // OUT7BUF, tmp
++ 
++-static volatile data  struct LINSYN  outuarCtl1;       // -> UART
+++static volatile __data  struct LINSYN  outuarCtl1;       // -> UART
++ #endif
++ 
++-static data byte configuration; // 1 if in configured state
+++static __data byte configuration; // 1 if in configured state
++ 
++ 
++ // ///////////////////////////////////////////////////////////////////////
++@@ -217,13 +217,13 @@ static void isrWakeup() //interrupt FIXM
++ }
++ 
++ #if HAS_TIMER_0
++-static void isrTime0() interrupt 1 using 1 //critical // 244 Hz
+++static void isrTime0() __interrupt 1 __using 1 //critical // 244 Hz
++ {
++   if (++timerTicksL == 0) ++timerTicksH;
++ }
++ #endif
++ 
++-static void isrUart0() interrupt 4 using 1 //critical
+++static void isrUart0() __interrupt 4 __using 1 //critical
++ {
++   if (TI_0)
++   {
++@@ -240,7 +240,7 @@ static void isrUart0() interrupt 4 using
++ }
++ 
++ #ifdef CONFIG_MidiSport2x2
++-static void isrUart1() interrupt 7 using 2 //critical
+++static void isrUart1() __interrupt 7 __using 2 //critical
++ {
++   if (TI_1)
++   {
++@@ -260,7 +260,7 @@ static void isrUart1() interrupt 7 using
++ //FIXME: we should properly stall EP0 SETUP
++ //       if we did not complete processing SETUP
++ 
++-static void isrUsb(void) interrupt 8 using 3 //critical
+++static void isrUsb(void) __interrupt 8 __using 3 //critical
++ {
++    EXIF &= 0xef; // clear INT2 interrupt
++    if (  USBIRQ & 0x01) {   USBIRQ = 0x01; bitSUDAVSeen = 1;       } // Setup Data avail
++@@ -279,7 +279,7 @@ static void isrUsb(void) interrupt 8 usi
++ //
++ // ///////////////////////////////////////////////////////////////////////
++ 
++-static code byte Descriptors[] =
+++static __code byte Descriptors[] =
++ {
++ //FIXME check bmAttributes & MaxPower
++   0x12, 0x01, 0x10, 0x01, 0x00, 0x00, 0x00, 0x40, 0x63, // Device ...
++@@ -345,7 +345,7 @@ static code byte Descriptors[] =
++ };
++ 
++ #define IsSelfPowerDevice 0
++-static bit bitRemoteWakeup = 0; // deactivated at reset
+++static __bit bitRemoteWakeup = 0; // deactivated at reset
++ 
++ #define EP2EP(EP) ((((EP)>>4)&0x08)|(EP)&0x07)
++ static void ctrlGetStatus()
++@@ -513,21 +513,21 @@ static void doSETUP()
++ //
++ // ////////////////////////////////////////////////////////////////////////
++ 
++-static data byte rawMidiMode = RAW_MIDI;
+++static __data byte rawMidiMode = RAW_MIDI;
++ 
++-static data byte msgBuf[3] = { 0,0,0 };
++-static data byte msgCnt = 0;
++-static data byte curCmd = 0;
+++static __data byte msgBuf[3] = { 0,0,0 };
+++static __data byte msgCnt = 0;
+++static __data byte curCmd = 0;
++ #ifdef CONFIG_MidiSport2x2
++-static data byte msgBuf1[3] = { 0,0,0 };
++-static data byte msgCnt1 = 0;
++-static data byte curCmd1 = 0;
+++static __data byte msgBuf1[3] = { 0,0,0 };
+++static __data byte msgCnt1 = 0;
+++static __data byte curCmd1 = 0;
++ #endif
++ 
++-static code byte msgLenA[] = {                   3,3,3,3, 2,2,3   }; // 8x..Ex
++-static code byte msgLenB[] = { 3,2,3,2, 0,0,1,0, 1,0,1,1, 1,0,1,1 }; // F0..FF
++-static code byte cinTbl [] = { 5,2,3 };
++-static code byte cidlen [] = { 0,0,2,3, 3,1,2,3, 3,3,3,3, 2,2,3,1 };
+++static __code byte msgLenA[] = {                   3,3,3,3, 2,2,3   }; // 8x..Ex
+++static __code byte msgLenB[] = { 3,2,3,2, 0,0,1,0, 1,0,1,1, 1,0,1,1 }; // F0..FF
+++static __code byte cinTbl [] = { 5,2,3 };
+++static __code byte cidlen [] = { 0,0,2,3, 3,1,2,3, 3,3,3,3, 2,2,3,1 };
++ 
++ static byte msgLen(byte cmd)
++ {
+-- 
+2.4.0
+

@@ -1,0 +1,38 @@
+From 106c9ba790574981c377ca6fbd167ac7184d4b23 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 11 Nov 2014 12:05:14 +0100
+Subject: [PATCH 001/158] fetchmail: update project URLs
+
+fetchmail moved to its own domain
+download via sourceforge
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ mail/fetchmail/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/mail/fetchmail/Makefile b/mail/fetchmail/Makefile
+index 97a3d49..bf1460d 100644
+--- a/mail/fetchmail/Makefile
++++ b/mail/fetchmail/Makefile
+@@ -12,7 +12,7 @@ PKG_VERSION:=6.3.26
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+-PKG_SOURCE_URL:=http://download.berlios.de/fetchmail
++PKG_SOURCE_URL:=@SF/fetchmail
+ PKG_MD5SUM:=61b66faad044afa26e142bb1791aa2b3
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
+@@ -25,7 +25,7 @@ define Package/fetchmail/Default
+   CATEGORY:=Mail
+   TITLE:=Remote mail retriever
+   MAINTAINER:=Peter Wagner <tripolar@gmx.at>
+-  URL:=http://fetchmail.berlios.de/
++  URL:=http://www.fetchmail.info/
+ endef
+ 
+ define Package/fetchmail/Default/description
+-- 
+2.4.0
+

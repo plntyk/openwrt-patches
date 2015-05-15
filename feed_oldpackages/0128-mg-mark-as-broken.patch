@@ -1,0 +1,87 @@
+From 4c387b03e0d349dc3a280543da4392ed7b0d07a2 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:29:43 +0200
+Subject: [PATCH 128/158] mg: mark as broken
+
+no support for mips64 or arm64
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/mg/Makefile                             |  2 +-
+ utils/mg/patches/002-dead_compile_fixes.patch | 51 +++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+), 1 deletion(-)
+ create mode 100644 utils/mg/patches/002-dead_compile_fixes.patch
+
+diff --git a/utils/mg/Makefile b/utils/mg/Makefile
+index 2842e6e..c8847fd 100644
+--- a/utils/mg/Makefile
++++ b/utils/mg/Makefile
+@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/mg
+   SECTION:=utils
+   CATEGORY:=Utilities
+-  DEPENDS:=+libncurses
++  DEPENDS:=+libncurses @BROKEN
+   TITLE:=microscopic GNU Emacs-style editor
+   URL:=http://homepage.boetes.org/software/mg/
+   SUBMENU:=Editors
+diff --git a/utils/mg/patches/002-dead_compile_fixes.patch b/utils/mg/patches/002-dead_compile_fixes.patch
+new file mode 100644
+index 0000000..9bb0007
+--- /dev/null
++++ b/utils/mg/patches/002-dead_compile_fixes.patch
+@@ -0,0 +1,51 @@
++--- a/main.c
+++++ b/main.c
++@@ -21,6 +21,10 @@
++ #include "funmap.h"
++ #include "macro.h"
++ 
+++#ifndef __dead2
+++#define __dead2
+++#endif
+++
++ int		 thisflag;			/* flags, this command	*/
++ int		 lastflag;			/* flags, last command	*/
++ int		 curgoal;			/* goal column		*/
++--- a/undo.c
+++++ b/undo.c
++@@ -246,9 +246,9 @@ undo_add_boundary(int f, int n)
++ void
++ undo_add_modified(void)
++ {
++-	struct undo_rec *rec, *trec;
+++	struct undo_rec *rec, *trec, *next;
++ 
++-	TAILQ_FOREACH_SAFE(rec, &curbp->b_undo, next, trec)
+++	TAILQ_FOREACH_SAFE(rec, &curbp->b_undo, next, trec);
++ 		if (rec->type == MODIFIED) {
++ 			TAILQ_REMOVE(&curbp->b_undo, rec, next);
++ 			free_undo_record(rec);
++--- a/tags.c
+++++ b/tags.c
++@@ -8,7 +8,9 @@
++ 
++ #include <sys/queue.h>
++ #include <sys/stat.h>
+++#ifndef __linux__
++ #include <sys/tree.h>
+++#endif
++ #include <sys/types.h>
++ #include <ctype.h>
++ #include <err.h>
++@@ -18,11 +20,6 @@
++ #include <stdlib.h>
++ #include <string.h>
++ #include <unistd.h>
++-#if defined(LIBBSD_OVERLAY) || defined(__FreeBSD__) || defined(__GLIBC__)
++-#  include <libutil.h>
++-#else
++-#include <util.h>
++-#endif
++ 
++ #include "def.h"
++ 
+-- 
+2.4.0
+

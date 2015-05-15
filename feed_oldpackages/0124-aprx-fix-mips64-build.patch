@@ -1,0 +1,58 @@
+From 5ee67d86045db319439bcd939a6ac6a9ed86193f Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:26:03 +0200
+Subject: [PATCH 124/158] aprx: fix mips64 build
+
+use gcc as linker instead of binutils
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/aprx/Makefile                       |  6 ++++++
+ net/aprx/patches/001-fix_includes.patch | 11 +++++++++++
+ 2 files changed, 17 insertions(+)
+ create mode 100644 net/aprx/patches/001-fix_includes.patch
+
+diff --git a/net/aprx/Makefile b/net/aprx/Makefile
+index 0cd3e7c..d1d78d0 100644
+--- a/net/aprx/Makefile
++++ b/net/aprx/Makefile
+@@ -18,6 +18,8 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+ PKG_SOURCE_VERSION:=$(PKG_REV)
+ PKG_MD5SUM:=f1b82e728736ca818c34b04bd9fd21dc
+ 
++PKG_FIXUP:=autoreconf
++
+ include $(INCLUDE_DIR)/package.mk
+ 
+ define Package/aprx
+@@ -34,6 +36,10 @@ endef
+ 
+ CONFIGURE_ARGS += \
+ 	--with-embedded \
++	--without-pthread
++
++MAKE_FLAGS+=\
++	LD=$(TARGET_CC)
+ 
+ define Package/aprx/install
+ 	$(INSTALL_DIR) $(1)/etc/init.d
+diff --git a/net/aprx/patches/001-fix_includes.patch b/net/aprx/patches/001-fix_includes.patch
+new file mode 100644
+index 0000000..fb7916b
+--- /dev/null
++++ b/net/aprx/patches/001-fix_includes.patch
+@@ -0,0 +1,11 @@
++--- a/ttyreader.c
+++++ b/ttyreader.c
++@@ -10,6 +10,8 @@
++ 
++ #define _SVID_SOURCE 1
++ 
+++#include <stdio.h>
+++
++ #include "aprx.h"
++ #include <sys/socket.h>
++ #include <netdb.h>
+-- 
+2.4.0
+

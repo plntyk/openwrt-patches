@@ -1,0 +1,43 @@
+From ed939444fc929c1a030543aa0a036a9f5051f097 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 4 May 2015 16:56:57 +0200
+Subject: [PATCH 118/158] boblight: fix compile error on musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ .../patches/001-musl_read_only_assignment.patch    | 23 ++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100644 utils/boblight/patches/001-musl_read_only_assignment.patch
+
+diff --git a/utils/boblight/patches/001-musl_read_only_assignment.patch b/utils/boblight/patches/001-musl_read_only_assignment.patch
+new file mode 100644
+index 0000000..38fc45a
+--- /dev/null
++++ b/utils/boblight/patches/001-musl_read_only_assignment.patch
+@@ -0,0 +1,23 @@
++--- a/src/util/daemonize.cpp
+++++ b/src/util/daemonize.cpp
++@@ -24,6 +24,9 @@
++ 
++ void Daemonize()
++ {
+++  FILE * stdout_stream;
+++  FILE * stderr_stream;
+++
++   //fork a child process
++   pid_t pid = fork();
++   if (pid == -1)
++@@ -37,8 +40,8 @@ void Daemonize()
++ 
++   //route stdout and stderr to /dev/null
++   fclose(stdout);
++-  stdout = fopen("/dev/null", "w");
+++  stdout_stream = fopen("/dev/null", "w");
++   fclose(stderr);
++-  stderr = fopen("/dev/null", "w");
+++  stderr_stream = fopen("/dev/null", "w");
++ }
++ 
+-- 
+2.4.0
+

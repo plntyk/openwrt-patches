@@ -1,0 +1,34 @@
+From 234db9a16232ca92fd84a0c5538aff446cf33bc6 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 25 Mar 2015 12:09:11 +0100
+Subject: [PATCH 039/158] dialog: fix building
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/dialog/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/utils/dialog/Makefile b/utils/dialog/Makefile
+index 8dc7771..0578f8a 100644
+--- a/utils/dialog/Makefile
++++ b/utils/dialog/Makefile
+@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/dialog
+   SECTION:=utils
+   CATEGORY:=Utilities
+-  DEPENDS:=+PACKAGE_libncursesw:libncursesw +!PACKAGE_libncursesw:libncurses
++  DEPENDS:=+libncurses
+   TITLE:=Dialog
+   URL:=http://invisible-island.net/dialog/
+ endef
+@@ -30,6 +30,7 @@ define Package/dialog/description
+ endef
+ 
+ CONFIGURE_ARGS:= \
++	--host=$(REAL_GNU_TARGET_NAME) \
+ 	--with-ncurses \
+ 	--with-curses-dir=$(STAGING_DIR)/usr \
+ 	--disable-rpath-hack
+-- 
+2.4.0
+

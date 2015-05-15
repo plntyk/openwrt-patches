@@ -1,0 +1,67 @@
+From 24167364646bf75d8a935967251889b0cafa6e7d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:42:20 +0200
+Subject: [PATCH 136/158] flow-tools: fix format string
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/flow-tools/patches/100-fix_format_string.patch | 47 ++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100644 net/flow-tools/patches/100-fix_format_string.patch
+
+diff --git a/net/flow-tools/patches/100-fix_format_string.patch b/net/flow-tools/patches/100-fix_format_string.patch
+new file mode 100644
+index 0000000..3cb8132
+--- /dev/null
++++ b/net/flow-tools/patches/100-fix_format_string.patch
+@@ -0,0 +1,47 @@
++--- a/lib/fterr.c
+++++ b/lib/fterr.c
++@@ -112,7 +112,7 @@ void fterr_info(const char *fmt, ...)
++     fprintf(((fterr_file) ? fterr_file : stderr), "%s\n", buf2);
++ 
++   if (fterr_flags & FTERR_SYSLOG)
++-    syslog(LOG_INFO, buf);
+++    syslog(LOG_INFO, "%s", buf);
++ 
++ } /* fterr_info */
++ 
++@@ -134,7 +134,7 @@ void fterr_err(int code, const char *fmt
++ 
++   if (fterr_flags & FTERR_SYSLOG) {
++     snprintf(buf2, 1024, "%s: %s", buf, strerror(errno));
++-    syslog(LOG_INFO, buf2);
+++    syslog(LOG_INFO, "%s", buf2);
++   }
++ 
++   if (fterr_exit)
++@@ -159,7 +159,7 @@ void fterr_errx(int code, const char *fm
++   }
++ 
++   if (fterr_flags & FTERR_SYSLOG)
++-    syslog(LOG_INFO, buf);
+++    syslog(LOG_INFO, "%s", buf);
++ 
++   if (fterr_exit)
++     fterr_exit(code);
++@@ -183,7 +183,7 @@ void fterr_warnx(const char *fmt, ...)
++   }
++ 
++   if (fterr_flags & FTERR_SYSLOG)
++-    syslog(LOG_INFO, buf);
+++    syslog(LOG_INFO, "%s", buf);
++ 
++ } /* fterr_warnx */
++ 
++@@ -205,7 +205,7 @@ void fterr_warn(const char *fmt, ...)
++ 
++   if (fterr_flags & FTERR_SYSLOG) {
++     snprintf(buf2, 1024, "%s: %s", buf, strerror(errno));
++-    syslog(LOG_INFO, buf2);
+++    syslog(LOG_INFO, "%s", buf2);
++   }
++ 
++ } /* fterr_warn */
+-- 
+2.4.0
+

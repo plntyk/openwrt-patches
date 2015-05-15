@@ -1,0 +1,51 @@
+From 9c8623be46fae7b5816cce25803ee6b7f9f9ed7d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:13:40 +0200
+Subject: [PATCH 057/158] miredo: fix build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ ipv6/miredo/Makefile                  |  1 -
+ ipv6/miredo/patches/130-gettext.patch | 18 ++++++++++++++++++
+ 2 files changed, 18 insertions(+), 1 deletion(-)
+ create mode 100644 ipv6/miredo/patches/130-gettext.patch
+
+diff --git a/ipv6/miredo/Makefile b/ipv6/miredo/Makefile
+index 8dba320..bf88f31 100644
+--- a/ipv6/miredo/Makefile
++++ b/ipv6/miredo/Makefile
+@@ -59,7 +59,6 @@ CONFIGURE_ARGS += \
+ 	--enable-static \
+ 	--with-gnu-ld \
+ 	--disable-rpath \
+-	--disable-chroot \
+ 	--enable-teredo-client \
+ 	--enable-miredo-user=root \
+ 	--without-Judy
+diff --git a/ipv6/miredo/patches/130-gettext.patch b/ipv6/miredo/patches/130-gettext.patch
+new file mode 100644
+index 0000000..8576ade
+--- /dev/null
++++ b/ipv6/miredo/patches/130-gettext.patch
+@@ -0,0 +1,18 @@
++--- a/po/Makefile.in.in
+++++ b/po/Makefile.in.in
++@@ -9,13 +9,13 @@
++ # General Public License and is *not* in the public domain.
++ #
++ # Origin: gettext-0.18
++-GETTEXT_MACRO_VERSION = 0.18
+++GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
++ 
++ PACKAGE = @PACKAGE@
++ VERSION = @VERSION@
++ PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
++ 
++-SHELL = /bin/sh
+++SHELL = @SHELL@
++ @SET_MAKE@
++ 
++ srcdir = @srcdir@
+-- 
+2.4.0
+

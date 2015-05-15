@@ -1,0 +1,53 @@
+From 33374ff9966d5ff149814a0cc166a2621cf56278 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 15 Mar 2015 08:13:12 +0100
+Subject: [PATCH 026/158] fix build issues
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/librpcsecgss/Makefile | 5 +++--
+ net/siit/src/siit.c        | 4 ++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/libs/librpcsecgss/Makefile b/libs/librpcsecgss/Makefile
+index 5d3d0cd..2c73ad2 100644
+--- a/libs/librpcsecgss/Makefile
++++ b/libs/librpcsecgss/Makefile
+@@ -8,8 +8,8 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=librpcsecgss
+-PKG_VERSION:=0.14
+-PKG_RELEASE:=2
++PKG_VERSION:=0.19
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=librpcsecgss-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=http://www.citi.umich.edu/projects/nfsv4/linux/librpcsecgss/
+@@ -27,6 +27,7 @@ define Package/librpcsecgss
+   CATEGORY:=Libraries
+   TITLE:=required libraries for the nfs-utils
+   URL:=http://www.citi.umich.edu/projects/nfsv4/linux
++  DEPENDS:=@BROKEN
+ endef
+ 
+ define Package/librpcsecgss/description
+diff --git a/net/siit/src/siit.c b/net/siit/src/siit.c
+index 20cfabf..ca60e9c 100644
+--- a/net/siit/src/siit.c
++++ b/net/siit/src/siit.c
+@@ -1399,7 +1399,11 @@ int init_module(void)
+ 	int priv_size;
+ 
+ 	priv_size = sizeof(struct header_ops);
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3,18,0)
++	siit_dev = alloc_netdev(priv_size, "siit%d", NET_NAME_UNKNOWN, siit_init);
++#else
+ 	siit_dev = alloc_netdev(priv_size, "siit%d", siit_init);
++#endif
+ 	if (!siit_dev)
+ 		goto err_alloc;
+ 
+-- 
+2.4.0
+

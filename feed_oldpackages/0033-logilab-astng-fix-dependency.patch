@@ -1,0 +1,28 @@
+From 8a74075467dc6e927d529baa20ea3a30f7dee74d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 25 Mar 2015 12:02:33 +0100
+Subject: [PATCH 033/158] logilab-astng: fix dependency
+
+package python-mini was removed/chenged to python
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/logilab-astng/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/logilab-astng/Makefile b/lang/logilab-astng/Makefile
+index c25a36c..e704a0b 100644
+--- a/lang/logilab-astng/Makefile
++++ b/lang/logilab-astng/Makefile
+@@ -24,7 +24,7 @@ define Package/logilab-astng
+   CATEGORY:=Languages
+   TITLE:=logilab-astng
+   URL:=http://www.logilab.fr
+-  DEPENDS:=+python-mini
++  DEPENDS:=+python
+ endef
+ 
+ define Package/logilab-astng/description
+-- 
+2.4.0
+

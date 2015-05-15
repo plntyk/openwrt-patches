@@ -1,0 +1,58 @@
+From 0628234bbc11ad0458aff7b092cd5086bde0159c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 29 Jan 2015 17:31:22 +0100
+Subject: [PATCH 013/158] yafc: update package to 1.3.5
+
+fix build errors
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/yafc/Makefile | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/net/yafc/Makefile b/net/yafc/Makefile
+index f440f2b..daf2413 100644
+--- a/net/yafc/Makefile
++++ b/net/yafc/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=yafc
+-PKG_VERSION:=1.1.1
+-PKG_RELEASE:=2
++PKG_VERSION:=1.3.5
++PKG_RELEASE:=1
+ 
+-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+-PKG_SOURCE_URL:=@SF/$(PKG_NAME)
+-PKG_MD5SUM:=832d074183a36ee15b47553ed5962fce
++PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
++PKG_SOURCE_URL:=http://www.yafc-ftp.com/upload/
++PKG_MD5SUM:=34882bb4dbeee3a99587ff253648a66e
+ 
+ PKG_FIXUP:=autoreconf
+ PKG_REMOVE_FILES:=autogen.sh aclocal.m4
+@@ -24,9 +24,9 @@ define Package/yafc
+   SUBMENU:=File Transfer
+   SECTION:=net
+   CATEGORY:=Network
+-  DEPENDS:=+libncurses +libreadline
++  DEPENDS:=+libncurses +libreadline +libopenssl +libssh
+   TITLE:=Yafc is yet another ftp client.
+-  URL:=http://yafc.sourceforge.net/
++  URL:=http://www.yafc-ftp.com/
+ endef
+ 
+ # uses GNU configure
+@@ -46,7 +46,7 @@ endef
+ 
+ define Package/yafc/install
+ 	$(INSTALL_DIR) $(1)/usr/sbin
+-	$(CP) $(PKG_BUILD_DIR)/src/yafc $(1)/usr/sbin/
++	$(CP) $(PKG_BUILD_DIR)/yafc $(1)/usr/sbin/
+ endef
+ 
+ $(eval $(call BuildPackage,yafc))
+-- 
+2.4.0
+

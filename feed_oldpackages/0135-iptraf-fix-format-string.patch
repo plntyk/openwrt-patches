@@ -1,0 +1,49 @@
+From e36d77ced63f09b00dddfbcb88e098a58b879014 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:42:03 +0200
+Subject: [PATCH 135/158] iptraf: fix format string
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/iptraf/patches/006-fix_format_string.patch | 29 ++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 net/iptraf/patches/006-fix_format_string.patch
+
+diff --git a/net/iptraf/patches/006-fix_format_string.patch b/net/iptraf/patches/006-fix_format_string.patch
+new file mode 100644
+index 0000000..79e4323
+--- /dev/null
++++ b/net/iptraf/patches/006-fix_format_string.patch
+@@ -0,0 +1,29 @@
++--- a/src/othptab.c
+++++ b/src/othptab.c
++@@ -333,7 +333,7 @@ void printothpentry(struct othptable *ta
++                 break;
++             }
++ 
++-            sprintf(scratchpad, inet_ntoa(saddr));
+++            sprintf(scratchpad, "%s", inet_ntoa(saddr));
++             strcat(msgstring, scratchpad);
++             wattrset(table->othpwin, ARPATTR);
++             break;
++@@ -352,7 +352,7 @@ void printothpentry(struct othptable *ta
++                 break;
++             }
++ 
++-            sprintf(scratchpad, rarp_mac_addr);
+++            sprintf(scratchpad, "%s", rarp_mac_addr);
++             strcat(msgstring, scratchpad);
++             wattrset(table->othpwin, ARPATTR);
++             break;
++@@ -418,7 +418,7 @@ void printothpentry(struct othptable *ta
++         wattrset(table->othpwin, UNKNIPATTR);
++         protptr = getprotobynumber(entry->protocol);
++         if (protptr != NULL) {
++-            sprintf(protname, protptr->p_aliases[0]);
+++            sprintf(protname, "%s", protptr->p_aliases[0]);
++         } else {
++             sprintf(protname, "IP protocol");
++             unknown = 1;
+-- 
+2.4.0
+

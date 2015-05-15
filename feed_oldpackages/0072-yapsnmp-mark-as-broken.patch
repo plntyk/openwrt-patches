@@ -1,0 +1,26 @@
+From c7d08598b6c145f8a15e24876ad769fccf277eee Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:27:24 +0200
+Subject: [PATCH 072/158] yapsnmp: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/yapsnmp/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/yapsnmp/Makefile b/lang/yapsnmp/Makefile
+index 188e8c7..9719883 100644
+--- a/lang/yapsnmp/Makefile
++++ b/lang/yapsnmp/Makefile
+@@ -29,7 +29,7 @@ define Package/python-yapsnmp
+   CATEGORY:=Languages
+   TITLE:=Python interface to Net-SNMP
+   URL:=http://yapsnmp.sourceforge.net/
+-  DEPENDS:=+python-mini +libnetsnmp
++  DEPENDS:=+python +libnetsnmp @BROKEN
+ endef
+ 
+ define Package/python-yapsnmp/description
+-- 
+2.4.0
+

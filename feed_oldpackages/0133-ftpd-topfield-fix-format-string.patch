@@ -1,0 +1,31 @@
+From 933f90092da0ec5880ece5976542249720449792 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:41:09 +0200
+Subject: [PATCH 133/158] ftpd-topfield: fix format string
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ multimedia/ftpd-topfield/patches/002-fix_format_string.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 multimedia/ftpd-topfield/patches/002-fix_format_string.patch
+
+diff --git a/multimedia/ftpd-topfield/patches/002-fix_format_string.patch b/multimedia/ftpd-topfield/patches/002-fix_format_string.patch
+new file mode 100644
+index 0000000..cf1e5fb
+--- /dev/null
++++ b/multimedia/ftpd-topfield/patches/002-fix_format_string.patch
+@@ -0,0 +1,11 @@
++--- a/ftpd.c
+++++ b/ftpd.c
++@@ -1898,7 +1898,7 @@ renamefrom (const char *path)
++ 	const char *fullpath = topfield_dir(tf_makename(curdir(), path));
++ 
++ 	if (tf_stat(&tf, fullpath, &dirent) != 0) {
++-			reply (550, path);
+++			reply (550, "%s", path);
++ 			return 0;
++ 	}
++ 	reply (350, "File exists, ready for destination name");
+-- 
+2.4.0
+

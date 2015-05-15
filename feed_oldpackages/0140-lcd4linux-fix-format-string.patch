@@ -1,0 +1,56 @@
+From fac918ee1c746c0c3cad38b79e58372c2716bfe7 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:44:00 +0200
+Subject: [PATCH 140/158] lcd4linux: fix format string
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ .../lcd4linux/patches/200-fix_format_string.patch  | 36 ++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 utils/lcd4linux/patches/200-fix_format_string.patch
+
+diff --git a/utils/lcd4linux/patches/200-fix_format_string.patch b/utils/lcd4linux/patches/200-fix_format_string.patch
+new file mode 100644
+index 0000000..1280021
+--- /dev/null
++++ b/utils/lcd4linux/patches/200-fix_format_string.patch
+@@ -0,0 +1,36 @@
++--- a/drv_PHAnderson.c
+++++ b/drv_PHAnderson.c
++@@ -267,7 +267,7 @@ static int drv_PHAnderson_start(const ch
++     }
++ 
++     s = cfg_get(section, "Bootscreen", NULL);
++-    printf(s);
+++    printf("%s", s);
++     drv_PHAnderson_bootscreen(s);
++ 
++     drv_PHAnderson_clear();	/* clear display */
++--- a/plugin_button_exec.c
+++++ b/plugin_button_exec.c
++@@ -67,11 +67,11 @@ static void my_button_exec(RESULT * resu
++ 
++     signal(SIGCHLD, SIG_IGN);
++     prog = R2S(argv[0]);
++-    info(prog);
+++    info("%s", prog);
++     for (i = 1; i < argc; i++) {
++ 	arg = R2S(argv[i]);
++ 	args[i] = arg;
++-	info(arg);
+++	info("%s", arg);
++     }
++     args[0] = prog;
++     args[i] = (char *) 0;
++@@ -82,7 +82,7 @@ static void my_button_exec(RESULT * resu
++ 	execvp(prog, args);
++ 	errsv = errno;
++ 	info("executing program failed");
++-	info(strerror(errsv));
+++	info("%s", strerror(errsv));
++ 	exit(0);
++     } else if (pid == -1) {
++ 	info("weird error has occurred. couldn't fork.");
+-- 
+2.4.0
+

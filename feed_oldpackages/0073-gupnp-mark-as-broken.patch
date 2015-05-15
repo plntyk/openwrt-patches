@@ -1,0 +1,26 @@
+From 28691d60f99af16f104d8a274866aa49cf8b3766 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:28:03 +0200
+Subject: [PATCH 073/158] gupnp: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/gupnp/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/gupnp/Makefile b/libs/gupnp/Makefile
+index 228bef6..af363ae 100644
+--- a/libs/gupnp/Makefile
++++ b/libs/gupnp/Makefile
+@@ -28,7 +28,7 @@ define Package/libgupnp
+   CATEGORY:=Libraries
+   TITLE:=Library for implementing both UPnP clients and services in C
+   URL:=http://www.gupnp.org/
+-  DEPENDS:=+libgssdp +libuuid
++  DEPENDS:=+libgssdp +libuuid @BROKEN
+ endef
+ 
+ define Package/libgupnp/description
+-- 
+2.4.0
+

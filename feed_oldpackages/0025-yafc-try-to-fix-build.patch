@@ -1,0 +1,78 @@
+From 10f7c3ee3857573fb21853e0d4b53f6b61fa45c2 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Fri, 13 Mar 2015 14:51:02 +0100
+Subject: [PATCH 025/158] yafc: try to fix build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/yafc/Makefile                           | 14 +++++---------
+ net/yafc/patches/001-fix_configure_ac.patch | 19 +++++++++++++++++++
+ 2 files changed, 24 insertions(+), 9 deletions(-)
+ create mode 100644 net/yafc/patches/001-fix_configure_ac.patch
+
+diff --git a/net/yafc/Makefile b/net/yafc/Makefile
+index daf2413..970433d 100644
+--- a/net/yafc/Makefile
++++ b/net/yafc/Makefile
+@@ -16,7 +16,6 @@ PKG_SOURCE_URL:=http://www.yafc-ftp.com/upload/
+ PKG_MD5SUM:=34882bb4dbeee3a99587ff253648a66e
+ 
+ PKG_FIXUP:=autoreconf
+-PKG_REMOVE_FILES:=autogen.sh aclocal.m4
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+@@ -29,20 +28,17 @@ define Package/yafc
+   URL:=http://www.yafc-ftp.com/
+ endef
+ 
+-# uses GNU configure
++TARGET_CFLAGS += -std=gnu99
++
+ CONFIGURE_ARGS += \
+ 	--with-socks=no \
+ 	--with-socks5=no \
+-	--with-krb4=no \
+ 	--with-krb5=no \
+-	--with-gssapi=no
++	--without-bash-completion
+ 
+ CONFIGURE_VARS += \
+-	bash_cv_func_sigsetjmp=missing
+-
+-define Build/Compile
+-	$(MAKE) -C $(PKG_BUILD_DIR)
+-endef
++	bash_cv_func_sigsetjmp=missing \
++	ac_cv_ipv6=yes
+ 
+ define Package/yafc/install
+ 	$(INSTALL_DIR) $(1)/usr/sbin
+diff --git a/net/yafc/patches/001-fix_configure_ac.patch b/net/yafc/patches/001-fix_configure_ac.patch
+new file mode 100644
+index 0000000..165bba4
+--- /dev/null
++++ b/net/yafc/patches/001-fix_configure_ac.patch
+@@ -0,0 +1,19 @@
++--- a/configure.ac
+++++ b/configure.ac
++@@ -10,11 +10,14 @@ AC_INIT([yafc],
++         [http://yafc-ftp.com])
++ AC_CONFIG_SRCDIR(src/main.c)
++ AC_CONFIG_LIBOBJ_DIR([lib])
+++
+++AC_CONFIG_MACRO_DIR([m4])
+++AC_CONFIG_AUX_DIR(support)
+++
++ AC_PROG_CC_C99
+++
++ AC_USE_SYSTEM_EXTENSIONS
++ AC_SYS_LARGEFILE
++-AC_CONFIG_MACRO_DIR([m4])
++-AC_CONFIG_AUX_DIR(support)
++ AM_INIT_AUTOMAKE([subdir-objects])
++ AC_CONFIG_HEADERS([config.h])
++ 
+-- 
+2.4.0
+

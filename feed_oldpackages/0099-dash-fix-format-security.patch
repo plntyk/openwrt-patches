@@ -1,0 +1,51 @@
+From 1af610484d3ba8d9a3969d224667cc649384b927 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 28 Apr 2015 10:19:22 +0200
+Subject: [PATCH 099/158] dash: fix format-security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/dash/Makefile                          |  4 ++--
+ utils/dash/patches/001-format_security.patch | 11 +++++++++++
+ 2 files changed, 13 insertions(+), 2 deletions(-)
+ create mode 100644 utils/dash/patches/001-format_security.patch
+
+diff --git a/utils/dash/Makefile b/utils/dash/Makefile
+index 1a88db4..c95fa65 100644
+--- a/utils/dash/Makefile
++++ b/utils/dash/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=dash
+-PKG_VERSION:=0.5.7
++PKG_VERSION:=0.5.8
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=http://gondor.apana.org.au/~herbert/dash/files
+-PKG_MD5SUM:=f6cedb10ae7258adb5ab17a10ae80d51
++PKG_MD5SUM:=5c152209680dab3c319e8923f6c51378
+ 
+ PKG_INSTALL:=1
+ 
+diff --git a/utils/dash/patches/001-format_security.patch b/utils/dash/patches/001-format_security.patch
+new file mode 100644
+index 0000000..a4f8c88
+--- /dev/null
++++ b/utils/dash/patches/001-format_security.patch
+@@ -0,0 +1,11 @@
++--- a/src/jobs.c
+++++ b/src/jobs.c
++@@ -427,7 +427,7 @@ sprint_status(char *s, int status, int s
++ 				goto out;
++ #endif
++ 		}
++-		col = fmtstr(s, 32, strsignal(st));
+++		col = fmtstr(s, 32, "%s", strsignal(st));
++ #ifdef WCOREDUMP
++ 		if (WCOREDUMP(status)) {
++ 			col += fmtstr(s + col, 16, " (core dumped)");
+-- 
+2.4.0
+
