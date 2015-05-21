@@ -1,0 +1,42 @@
+From b7e0ee3ef33673c7ff4346ff436bc3563f524240 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 16 May 2015 09:32:48 +0200
+Subject: [PATCH 11/15] omap: kernel 4.1 add missing symbols
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/omap/config-4.1 | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/target/linux/omap/config-4.1 b/target/linux/omap/config-4.1
+index e986085..51cc926 100644
+--- a/target/linux/omap/config-4.1
++++ b/target/linux/omap/config-4.1
+@@ -63,6 +63,8 @@ CONFIG_BACKLIGHT_CLASS_DEVICE=y
+ CONFIG_BACKLIGHT_LCD_SUPPORT=y
+ CONFIG_BACKLIGHT_PWM=y
+ # CONFIG_BACKLIGHT_TPS65217 is not set
++# CONFIG_BATTERY_RX51 is not set
++# CONFIG_BATTERY_TWL4030_MADC is not set
+ CONFIG_BCH=y
+ CONFIG_BOUNCE=y
+ CONFIG_CACHE_L2X0=y
+@@ -490,6 +492,7 @@ CONFIG_SCHED_HRTICK=y
+ # CONFIG_SCSI_DMA is not set
+ CONFIG_SENSORS_LM75=y
+ # CONFIG_SENSORS_PWM_FAN is not set
++CONFIG_SENSORS_TWL4030_MADC=y
+ CONFIG_SERIAL_8250_EXTENDED=y
+ # CONFIG_SERIAL_8250_OMAP is not set
+ CONFIG_SERIAL_8250_SHARE_IRQ=y
+@@ -574,6 +577,7 @@ CONFIG_TI_PRIV_EDMA=y
+ CONFIG_TOUCHSCREEN_TI_AM335X_TSC=y
+ CONFIG_TREE_RCU=y
+ CONFIG_TWL4030_CORE=y
++CONFIG_TWL4030_MADC=y
+ CONFIG_TWL4030_POWER=y
+ CONFIG_TWL4030_WATCHDOG=y
+ CONFIG_TWL6040_CORE=y
+-- 
+2.4.1
+

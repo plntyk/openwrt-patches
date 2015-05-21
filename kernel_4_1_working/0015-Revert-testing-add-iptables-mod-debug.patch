@@ -1,0 +1,46 @@
+From 3b2c21c95181bae9da505f707541b5582e53d18e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 16 May 2015 11:43:32 +0200
+Subject: [PATCH 15/15] Revert "testing: add iptables-mod-debug"
+
+This reverts commit 6a2c20a24bcee7f6c23339e800efa28859786384.
+---
+ package/network/utils/iptables/Makefile | 15 ---------------
+ 1 file changed, 15 deletions(-)
+
+diff --git a/package/network/utils/iptables/Makefile b/package/network/utils/iptables/Makefile
+index f30b2a5..df88639 100644
+--- a/package/network/utils/iptables/Makefile
++++ b/package/network/utils/iptables/Makefile
+@@ -194,20 +194,6 @@ iptables extensions for user-space packet logging.
+ 
+ endef
+ 
+-define Package/iptables-mod-debug
+-$(call Package/iptables/Module, +kmod-ipt-debug)
+-  TITLE:=debug packet logging
+-endef
+-
+-define Package/iptables-mod-debug/description
+-iptables extensions for debug packet logging.
+-
+- Targets:
+-  - DEBUG/TRACE
+-
+-endef
+-
+-
+ define Package/iptables-mod-nflog
+ $(call Package/iptables/Module, +kmod-nfnetlink-log +kmod-ipt-nflog)
+   TITLE:=Netfilter NFLOG target
+@@ -541,7 +527,6 @@ $(eval $(call BuildPlugin,iptables-mod-iprange,$(IPT_IPRANGE-m)))
+ $(eval $(call BuildPlugin,iptables-mod-cluster,$(IPT_CLUSTER-m)))
+ $(eval $(call BuildPlugin,iptables-mod-clusterip,$(IPT_CLUSTERIP-m)))
+ $(eval $(call BuildPlugin,iptables-mod-ulog,$(IPT_ULOG-m)))
+-$(eval $(call BuildPlugin,iptables-mod-debug,$(IPT_DEBUG-m)))
+ $(eval $(call BuildPlugin,iptables-mod-hashlimit,$(IPT_HASHLIMIT-m)))
+ $(eval $(call BuildPlugin,iptables-mod-led,$(IPT_LED-m)))
+ $(eval $(call BuildPlugin,iptables-mod-tproxy,$(IPT_TPROXY-m)))
+-- 
+2.4.1
+

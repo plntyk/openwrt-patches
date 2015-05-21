@@ -1,0 +1,32 @@
+From dc661cdd7f98eb57de119c894bbf0e370005e064 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 16 May 2015 10:27:02 +0200
+Subject: [PATCH 12/15] kernel: enable building of kmod-ipt-debug
+
+kmod-ipt-debug is not available on
+package repos leading to complaints
+
+many other "debug tools" are available in packages
+
+fix https://dev.openwrt.org/ticket/16694
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/kernel/linux/modules/netfilter.mk | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/package/kernel/linux/modules/netfilter.mk b/package/kernel/linux/modules/netfilter.mk
+index 5797954..ce9d537 100644
+--- a/package/kernel/linux/modules/netfilter.mk
++++ b/package/kernel/linux/modules/netfilter.mk
+@@ -423,7 +423,6 @@ $(eval $(call KernelPackage,ipt-nfqueue))
+ define KernelPackage/ipt-debug
+   TITLE:=Module for debugging/development
+   KCONFIG:=$(KCONFIG_IPT_DEBUG)
+-  DEFAULT:=n
+   FILES:=$(foreach mod,$(IPT_DEBUG-m),$(LINUX_DIR)/net/$(mod).ko)
+   AUTOLOAD:=$(call AutoProbe,$(notdir $(IPT_DEBUG-m)))
+   $(call AddDepends/ipt)
+-- 
+2.4.1
+
