@@ -1,0 +1,33 @@
+From a56fe606d451b3b906fda114ae5252235aa957ef Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:08:03 +0200
+Subject: [PATCH 1/5] toolchain/gcc: update 4.9 to 2015.03
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ toolchain/gcc/common.mk | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/toolchain/gcc/common.mk b/toolchain/gcc/common.mk
+index 67263cf..d07f607 100644
+--- a/toolchain/gcc/common.mk
++++ b/toolchain/gcc/common.mk
+@@ -42,11 +42,11 @@ ifeq ($(findstring linaro, $(CONFIG_GCC_VERSION)),linaro)
+       PKG_COMP:=xz
+     endif
+     ifeq ($(CONFIG_GCC_VERSION),"4.9-linaro")
+-      LINARO_RELEASE:=14.10
+-      PKG_REV:=4.9-2014.10
+-      PKG_VERSION:=4.9.2
++      LINARO_RELEASE:=15.03
++      PKG_REV:=4.9-2015.03
++      PKG_VERSION:=4.9.3
+       PKG_VERSION_MAJOR:=4.9
+-      PKG_MD5SUM:=230da25b1e7661a8659eb770c5c88442
++      PKG_MD5SUM:=f9d256d120adfbb45dd3e2d22b70cba9
+       PKG_COMP:=xz
+     endif
+     ifneq ($(LINARO_RELEASE),)
+-- 
+2.4.2
+

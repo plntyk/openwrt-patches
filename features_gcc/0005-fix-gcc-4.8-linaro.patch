@@ -1,0 +1,398 @@
+From d29606ff25e0922193bd4d28311c838bbbdb993c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 12 May 2015 15:58:22 +0200
+Subject: [PATCH 5/5] fix gcc 4.8-linaro
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ toolchain/gcc/common.mk                            |   2 +-
+ toolchain/gcc/initial/libgcc_eh.a                  |   1 +
+ .../4.8-linaro/003-universal_initializer.patch     |  12 +--
+ .../gcc/patches/4.8-linaro/010-documentation.patch |   2 +-
+ .../patches/4.8-linaro/020-no-plt-backport.patch   |   2 +-
+ .../gcc/patches/4.8-linaro/203-musl_powerpc.patch  |  22 ++--
+ .../patches/4.8-linaro/209-musl_libstdc++.patch    |   4 +-
+ .../gcc/patches/4.8-linaro/910-mbsd_multi.patch    |   8 +-
+ .../4.8-linaro/940-no-clobber-stamp-bits.patch     |   2 +-
+ .../gcc/patches/4.8-linaro/951-arm_bug_58595.patch | 117 ---------------------
+ 10 files changed, 28 insertions(+), 144 deletions(-)
+ create mode 120000 toolchain/gcc/initial/libgcc_eh.a
+ delete mode 100644 toolchain/gcc/patches/4.8-linaro/951-arm_bug_58595.patch
+
+diff --git a/toolchain/gcc/common.mk b/toolchain/gcc/common.mk
+index 80b55b7..c0fea57 100644
+--- a/toolchain/gcc/common.mk
++++ b/toolchain/gcc/common.mk
+@@ -37,7 +37,7 @@ ifeq ($(findstring linaro, $(CONFIG_GCC_VERSION)),linaro)
+     ifeq ($(CONFIG_GCC_VERSION),"4.8-linaro")
+       LINARO_RELEASE:=15.02
+       PKG_REV:=4.8-2015.02
+-      PKG_VERSION:=4.8.4
++      PKG_VERSION:=4.8.5
+       PKG_VERSION_MAJOR:=4.8
+       PKG_MD5SUM:=a887d66c0931b5cef8b007d387b1735f
+       PKG_COMP:=xz
+diff --git a/toolchain/gcc/initial/libgcc_eh.a b/toolchain/gcc/initial/libgcc_eh.a
+new file mode 120000
+index 0000000..01c5e59
+--- /dev/null
++++ b/toolchain/gcc/initial/libgcc_eh.a
+@@ -0,0 +1 @@
++libgcc.a
+\ No newline at end of file
+diff --git a/toolchain/gcc/patches/4.8-linaro/003-universal_initializer.patch b/toolchain/gcc/patches/4.8-linaro/003-universal_initializer.patch
+index 1b9a5b3..c32556d 100644
+--- a/toolchain/gcc/patches/4.8-linaro/003-universal_initializer.patch
++++ b/toolchain/gcc/patches/4.8-linaro/003-universal_initializer.patch
+@@ -13,7 +13,7 @@
+  
+  static int require_constant_value;
+  static int require_constant_elements;
+-@@ -6363,6 +6363,9 @@ static int constructor_nonconst;
++@@ -6380,6 +6380,9 @@ static int constructor_nonconst;
+  /* 1 if this constructor is erroneous so far.  */
+  static int constructor_erroneous;
+  
+@@ -23,7 +23,7 @@
+  /* Structure for managing pending initializer elements, organized as an
+     AVL tree.  */
+  
+-@@ -6524,7 +6527,7 @@ start_init (tree decl, tree asmspec_tree
++@@ -6541,7 +6544,7 @@ start_init (tree decl, tree asmspec_tree
+    constructor_stack = 0;
+    constructor_range_stack = 0;
+  
+@@ -32,7 +32,7 @@
+  
+    spelling_base = 0;
+    spelling_size = 0;
+-@@ -6619,6 +6622,7 @@ really_start_incremental_init (tree type
++@@ -6636,6 +6639,7 @@ really_start_incremental_init (tree type
+    constructor_type = type;
+    constructor_incremental = 1;
+    constructor_designated = 0;
+@@ -40,7 +40,7 @@
+    designator_depth = 0;
+    designator_erroneous = 0;
+  
+-@@ -6816,11 +6820,8 @@ push_init_level (int implicit, struct ob
++@@ -6833,11 +6837,8 @@ push_init_level (int implicit, struct ob
+  	set_nonincremental_init (braced_init_obstack);
+      }
+  
+@@ -54,7 +54,7 @@
+  
+    if (TREE_CODE (constructor_type) == RECORD_TYPE
+  	   || TREE_CODE (constructor_type) == UNION_TYPE)
+-@@ -6953,16 +6954,23 @@ pop_init_level (int implicit, struct obs
++@@ -6970,16 +6971,23 @@ pop_init_level (int implicit, struct obs
+  	}
+      }
+  
+@@ -82,7 +82,7 @@
+  	/* Do not warn for flexible array members or zero-length arrays.  */
+  	while (constructor_unfilled_fields
+  	       && (!DECL_SIZE (constructor_unfilled_fields)
+-@@ -8077,6 +8085,9 @@ process_init_element (struct c_expr valu
++@@ -8094,6 +8102,9 @@ process_init_element (struct c_expr valu
+    designator_depth = 0;
+    designator_erroneous = 0;
+  
+diff --git a/toolchain/gcc/patches/4.8-linaro/010-documentation.patch b/toolchain/gcc/patches/4.8-linaro/010-documentation.patch
+index 5548069..8a65a95 100644
+--- a/toolchain/gcc/patches/4.8-linaro/010-documentation.patch
++++ b/toolchain/gcc/patches/4.8-linaro/010-documentation.patch
+@@ -1,6 +1,6 @@
+ --- a/gcc/Makefile.in
+ +++ b/gcc/Makefile.in
+-@@ -4327,18 +4327,10 @@ doc/gcc.info: $(TEXI_GCC_FILES)
++@@ -4330,18 +4330,10 @@ doc/gcc.info: $(TEXI_GCC_FILES)
+  doc/gccint.info: $(TEXI_GCCINT_FILES)
+  doc/cppinternals.info: $(TEXI_CPPINT_FILES)
+  
+diff --git a/toolchain/gcc/patches/4.8-linaro/020-no-plt-backport.patch b/toolchain/gcc/patches/4.8-linaro/020-no-plt-backport.patch
+index b225376..a882a09 100644
+--- a/toolchain/gcc/patches/4.8-linaro/020-no-plt-backport.patch
++++ b/toolchain/gcc/patches/4.8-linaro/020-no-plt-backport.patch
+@@ -15,7 +15,7 @@
+  #ifndef NO_FUNCTION_CSE
+ --- a/gcc/common.opt
+ +++ b/gcc/common.opt
+-@@ -1617,6 +1617,10 @@ fpie
++@@ -1614,6 +1614,10 @@ fpie
+  Common Report Var(flag_pie,1) Negative(fPIC)
+  Generate position-independent code for executables if possible (small mode)
+  
+diff --git a/toolchain/gcc/patches/4.8-linaro/203-musl_powerpc.patch b/toolchain/gcc/patches/4.8-linaro/203-musl_powerpc.patch
+index 7a70148..4ea7056 100644
+--- a/toolchain/gcc/patches/4.8-linaro/203-musl_powerpc.patch
++++ b/toolchain/gcc/patches/4.8-linaro/203-musl_powerpc.patch
+@@ -1,6 +1,6 @@
+ --- a/gcc/config.gcc
+ +++ b/gcc/config.gcc
+-@@ -2122,6 +2122,10 @@ powerpc*-*-linux*)
++@@ -2135,6 +2135,10 @@ powerpc*-*-linux*)
+  	    powerpc*-*-linux*paired*)
+  		tm_file="${tm_file} rs6000/750cl.h" ;;
+  	esac
+@@ -13,8 +13,8 @@
+  	fi
+ --- a/gcc/config/rs6000/linux64.h
+ +++ b/gcc/config/rs6000/linux64.h
+-@@ -354,17 +354,21 @@ extern int dot_symbols;
+- #define GLIBC_DYNAMIC_LINKER64 "/lib64/ld64.so.1"
++@@ -374,17 +374,21 @@ extern int dot_symbols;
++ #endif
+  #define UCLIBC_DYNAMIC_LINKER32 "/lib/ld-uClibc.so.0"
+  #define UCLIBC_DYNAMIC_LINKER64 "/lib/ld64-uClibc.so.0"
+ +#define MUSL_DYNAMIC_LINKER32 "/lib/ld-musl-powerpc.so.1"
+@@ -41,14 +41,14 @@
+  #if (TARGET_DEFAULT & MASK_LITTLE_ENDIAN)
+ --- a/gcc/config/rs6000/secureplt.h
+ +++ b/gcc/config/rs6000/secureplt.h
+-@@ -18,3 +18,4 @@ along with GCC; see the file COPYING3.  
++@@ -18,3 +18,4 @@ along with GCC; see the file COPYING3.
+  <http://www.gnu.org/licenses/>.  */
+  
+  #define CC1_SECURE_PLT_DEFAULT_SPEC "-msecure-plt"
+ +#define LINK_SECURE_PLT_DEFAULT_SPEC "--secure-plt"
+ --- a/gcc/config/rs6000/sysv4.h
+ +++ b/gcc/config/rs6000/sysv4.h
+-@@ -550,6 +550,9 @@ ENDIAN_SELECT(" -mbig", " -mlittle", DEF
++@@ -537,6 +537,9 @@ ENDIAN_SELECT(" -mbig", " -mlittle", DEF
+  #ifndef CC1_SECURE_PLT_DEFAULT_SPEC
+  #define CC1_SECURE_PLT_DEFAULT_SPEC ""
+  #endif
+@@ -56,9 +56,9 @@
+ +#define LINK_SECURE_PLT_DEFAULT_SPEC ""
+ +#endif
+  
+- /* Pass -G xxx to the compiler and set correct endian mode.  */
++ /* Pass -G xxx to the compiler.  */
+  #define	CC1_SPEC "%{G*} %(cc1_cpu)" \
+-@@ -600,7 +603,8 @@ ENDIAN_SELECT(" -mbig", " -mlittle", DEF
++@@ -585,7 +588,8 @@ ENDIAN_SELECT(" -mbig", " -mlittle", DEF
+  
+  /* Override the default target of the linker.  */
+  #define	LINK_TARGET_SPEC \
+@@ -68,7 +68,7 @@
+  
+  /* Any specific OS flags.  */
+  #define LINK_OS_SPEC "\
+-@@ -778,15 +782,18 @@ ENDIAN_SELECT(" -mbig", " -mlittle", DEF
++@@ -763,15 +767,18 @@ ENDIAN_SELECT(" -mbig", " -mlittle", DEF
+  
+  #define GLIBC_DYNAMIC_LINKER "/lib/ld.so.1"
+  #define UCLIBC_DYNAMIC_LINKER "/lib/ld-uClibc.so.0"
+@@ -90,9 +90,9 @@
+  
+  #define LINK_OS_LINUX_SPEC "-m elf32ppclinux %{!shared: %{!static: \
+    %{rdynamic:-export-dynamic} \
+-@@ -912,6 +919,7 @@ ncrtn.o%s"
+-   { "cc1_endian_little",	CC1_ENDIAN_LITTLE_SPEC },		\
+-   { "cc1_endian_default",	CC1_ENDIAN_DEFAULT_SPEC },		\
++@@ -894,6 +901,7 @@ ncrtn.o%s"
++   { "link_os_openbsd",		LINK_OS_OPENBSD_SPEC },			\
++   { "link_os_default",		LINK_OS_DEFAULT_SPEC },			\
+    { "cc1_secure_plt_default",	CC1_SECURE_PLT_DEFAULT_SPEC },		\
+ +  { "link_secure_plt_default",	LINK_SECURE_PLT_DEFAULT_SPEC },		\
+    { "cpp_os_ads",		CPP_OS_ADS_SPEC },			\
+diff --git a/toolchain/gcc/patches/4.8-linaro/209-musl_libstdc++.patch b/toolchain/gcc/patches/4.8-linaro/209-musl_libstdc++.patch
+index 6643935..00d5d31 100644
+--- a/toolchain/gcc/patches/4.8-linaro/209-musl_libstdc++.patch
++++ b/toolchain/gcc/patches/4.8-linaro/209-musl_libstdc++.patch
+@@ -1,6 +1,6 @@
+ --- a/libstdc++-v3/configure.host
+ +++ b/libstdc++-v3/configure.host
+-@@ -264,6 +264,13 @@ case "${host_os}" in
++@@ -263,6 +263,13 @@ case "${host_os}" in
+      os_include_dir="os/bsd/freebsd"
+      ;;
+    gnu* | linux* | kfreebsd*-gnu | knetbsd*-gnu)
+@@ -14,7 +14,7 @@
+      if [ "$uclibc" = "yes" ]; then
+        os_include_dir="os/uclibc"
+      elif [ "$bionic" = "yes" ]; then
+-@@ -272,6 +279,9 @@ case "${host_os}" in
++@@ -271,6 +278,9 @@ case "${host_os}" in
+        os_include_dir="os/gnu-linux"
+      fi
+      ;;
+diff --git a/toolchain/gcc/patches/4.8-linaro/910-mbsd_multi.patch b/toolchain/gcc/patches/4.8-linaro/910-mbsd_multi.patch
+index 5387f8e..6bf094e 100644
+--- a/toolchain/gcc/patches/4.8-linaro/910-mbsd_multi.patch
++++ b/toolchain/gcc/patches/4.8-linaro/910-mbsd_multi.patch
+@@ -52,7 +52,7 @@
+      case OPT_fconstant_string_class_:
+        constant_string_class_name = arg;
+        break;
+-@@ -1027,6 +1039,47 @@ c_common_init (void)
++@@ -1033,6 +1045,47 @@ c_common_init (void)
+        return false;
+      }
+  
+@@ -136,7 +136,7 @@
+  Wextra
+  Common Var(extra_warnings) Warning
+  Print extra (possibly unwanted) warnings
+-@@ -1242,6 +1246,9 @@ fguess-branch-probability
++@@ -1246,6 +1250,9 @@ fguess-branch-probability
+  Common Report Var(flag_guess_branch_prob) Optimization
+  Enable guessing of branch probabilities
+  
+@@ -209,7 +209,7 @@
+  -Wfatal-errors  -Wfloat-equal  -Wformat  -Wformat=2 @gol
+  -Wno-format-contains-nul -Wno-format-extra-args -Wformat-nonliteral @gol
+  -Wformat-security  -Wformat-y2k @gol
+-@@ -4817,6 +4817,22 @@ This option is only supported for C and 
++@@ -4825,6 +4825,22 @@ This option is only supported for C and
+  @option{-Wall} and by @option{-Wpedantic}, which can be disabled with
+  @option{-Wno-pointer-sign}.
+  
+@@ -232,7 +232,7 @@
+  @item -Wstack-protector
+  @opindex Wstack-protector
+  @opindex Wno-stack-protector
+-@@ -6928,7 +6944,7 @@ so, the first branch is redirected to ei
++@@ -6936,7 +6952,7 @@ so, the first branch is redirected to ei
+  second branch or a point immediately following it, depending on whether
+  the condition is known to be true or false.
+  
+diff --git a/toolchain/gcc/patches/4.8-linaro/940-no-clobber-stamp-bits.patch b/toolchain/gcc/patches/4.8-linaro/940-no-clobber-stamp-bits.patch
+index dbecef2..f7f0029 100644
+--- a/toolchain/gcc/patches/4.8-linaro/940-no-clobber-stamp-bits.patch
++++ b/toolchain/gcc/patches/4.8-linaro/940-no-clobber-stamp-bits.patch
+@@ -1,6 +1,6 @@
+ --- a/libstdc++-v3/include/Makefile.in
+ +++ b/libstdc++-v3/include/Makefile.in
+-@@ -1342,7 +1342,7 @@
++@@ -1342,7 +1342,7 @@ stamp-bits: ${bits_headers}
+  	@$(STAMP) stamp-bits
+  
+  stamp-bits-sup: stamp-bits ${bits_sup_headers}
+diff --git a/toolchain/gcc/patches/4.8-linaro/951-arm_bug_58595.patch b/toolchain/gcc/patches/4.8-linaro/951-arm_bug_58595.patch
+deleted file mode 100644
+index f487dbc..0000000
+--- a/toolchain/gcc/patches/4.8-linaro/951-arm_bug_58595.patch
++++ /dev/null
+@@ -1,117 +0,0 @@
+-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58595
+-
+---- /dev/null
+-+++ b/gcc/testsuite/gcc.dg/tls/pr58595.c
+-@@ -0,0 +1,28 @@
+-+/* PR target/58595 */
+-+/* { dg-do run } */
+-+/* { dg-options "-O2" } */
+-+/* { dg-additional-options "-fpic" { target fpic } } */
+-+/* { dg-require-effective-target tls } */
+-+/* { dg-require-effective-target sync_int_long } */
+-+
+-+struct S { unsigned long a, b; };
+-+__thread struct S s;
+-+void bar (unsigned long *);
+-+
+-+__attribute__((noinline)) void
+-+foo (void)
+-+{
+-+  int i;
+-+  for (i = 0; i < 10; i++)
+-+    __sync_fetch_and_add (&s.b, 1L);
+-+}
+-+
+-+int
+-+main ()
+-+{
+-+  s.b = 12;
+-+  foo ();
+-+  if (s.b != 22)
+-+    __builtin_abort ();
+-+  return 0;
+-+}
+---- a/gcc/config/arm/arm.c
+-+++ b/gcc/config/arm/arm.c
+-@@ -231,7 +231,6 @@ static tree arm_gimplify_va_arg_expr (tr
+- static void arm_option_override (void);
+- static unsigned HOST_WIDE_INT arm_shift_truncation_mask (enum machine_mode);
+- static bool arm_cannot_copy_insn_p (rtx);
+--static bool arm_tls_symbol_p (rtx x);
+- static int arm_issue_rate (void);
+- static void arm_output_dwarf_dtprel (FILE *, int, rtx) ATTRIBUTE_UNUSED;
+- static bool arm_output_addr_const_extra (FILE *, rtx);
+-@@ -6665,6 +6664,32 @@ legitimize_tls_address (rtx x, rtx reg)
+- rtx
+- arm_legitimize_address (rtx x, rtx orig_x, enum machine_mode mode)
+- {
+-+  if (arm_tls_referenced_p (x))
+-+    {
+-+      rtx addend = NULL;
+-+
+-+      if (GET_CODE (x) == CONST && GET_CODE (XEXP (x, 0)) == PLUS)
+-+	{
+-+	  addend = XEXP (XEXP (x, 0), 1);
+-+	  x = XEXP (XEXP (x, 0), 0);
+-+	}
+-+
+-+      if (GET_CODE (x) != SYMBOL_REF)
+-+	return x;
+-+
+-+      gcc_assert (SYMBOL_REF_TLS_MODEL (x) != 0);
+-+
+-+      x = legitimize_tls_address (x, NULL_RTX);
+-+
+-+      if (addend)
+-+	{
+-+	  x = gen_rtx_PLUS (SImode, x, addend);
+-+	  orig_x = x;
+-+	}
+-+      else
+-+	return x;
+-+    }
+-+
+-   if (!TARGET_ARM)
+-     {
+-       /* TODO: legitimize_address for Thumb2.  */
+-@@ -6673,9 +6698,6 @@ arm_legitimize_address (rtx x, rtx orig_
+-       return thumb_legitimize_address (x, orig_x, mode);
+-     }
+- 
+--  if (arm_tls_symbol_p (x))
+--    return legitimize_tls_address (x, NULL_RTX);
+--
+-   if (GET_CODE (x) == PLUS)
+-     {
+-       rtx xop0 = XEXP (x, 0);
+-@@ -6787,9 +6809,6 @@ arm_legitimize_address (rtx x, rtx orig_
+- rtx
+- thumb_legitimize_address (rtx x, rtx orig_x, enum machine_mode mode)
+- {
+--  if (arm_tls_symbol_p (x))
+--    return legitimize_tls_address (x, NULL_RTX);
+--
+-   if (GET_CODE (x) == PLUS
+-       && CONST_INT_P (XEXP (x, 1))
+-       && (INTVAL (XEXP (x, 1)) >= 32 * GET_MODE_SIZE (mode)
+-@@ -7080,20 +7099,6 @@ thumb_legitimize_reload_address (rtx *x_
+- 
+- /* Test for various thread-local symbols.  */
+- 
+--/* Return TRUE if X is a thread-local symbol.  */
+--
+--static bool
+--arm_tls_symbol_p (rtx x)
+--{
+--  if (! TARGET_HAVE_TLS)
+--    return false;
+--
+--  if (GET_CODE (x) != SYMBOL_REF)
+--    return false;
+--
+--  return SYMBOL_REF_TLS_MODEL (x) != 0;
+--}
+--
+- /* Helper for arm_tls_referenced_p.  */
+- 
+- static int
+-- 
+2.4.2
+
