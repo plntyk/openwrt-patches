@@ -1,0 +1,26 @@
+From fe1b3eb462c95c33190412fe0eb57ce81b11f3ac Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:05:06 +0200
+Subject: [PATCH 166/310] [packages] clearsilver: explicitly add C standard
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/clearsilver/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/clearsilver/Makefile b/libs/clearsilver/Makefile
+index cfb643c..e5255d7 100644
+--- a/libs/clearsilver/Makefile
++++ b/libs/clearsilver/Makefile
+@@ -83,7 +83,7 @@ else
+ 		--disable-gettext
+ endif
+ 
+-TARGET_CFLAGS+=$(FPIC)
++TARGET_CFLAGS+=$(FPIC) -std=gnu89
+ 
+ MAKE_FLAGS+= \
+ 	$(TARGET_CONFIGURE_OPTS) \
+-- 
+2.5.0
+

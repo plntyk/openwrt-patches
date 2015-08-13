@@ -1,0 +1,44 @@
+From a4d7b93f06a801b6d0947965e135d1a6e86a97f5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:32:00 +0200
+Subject: [PATCH 200/310] [packages] clish: fix musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/clish/Makefile                       |  1 +
+ utils/clish/patches/001-relax_CFLAGS.patch | 11 +++++++++++
+ 2 files changed, 12 insertions(+)
+ create mode 100644 utils/clish/patches/001-relax_CFLAGS.patch
+
+diff --git a/utils/clish/Makefile b/utils/clish/Makefile
+index f1774e5..b00a2ed 100644
+--- a/utils/clish/Makefile
++++ b/utils/clish/Makefile
+@@ -15,6 +15,7 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=@SF/$(PKG_NAME)
+ PKG_MD5SUM:=81e20f7a888bcd8e2280e37804d342e4
+ 
++PKG_FIXUP:=autoreconf
+ PKG_INSTALL:=1
+ 
+ include $(INCLUDE_DIR)/package.mk
+diff --git a/utils/clish/patches/001-relax_CFLAGS.patch b/utils/clish/patches/001-relax_CFLAGS.patch
+new file mode 100644
+index 0000000..7495695
+--- /dev/null
++++ b/utils/clish/patches/001-relax_CFLAGS.patch
+@@ -0,0 +1,11 @@
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -8,7 +8,7 @@ if DEBUG
++   DEBUG_CFLAGS = -DDEBUG
++ endif
++ 
++-AM_CFLAGS               = -ansi -pedantic -Werror -Wall -D_POSIX_C_SOURCE=199309 $(DEBUG_CFLAGS)
+++AM_CFLAGS               = -ansi -pedantic -Wall -D_POSIX_C_SOURCE=199309 $(DEBUG_CFLAGS)
++ 
++ bin_PROGRAMS            =
++ lib_LTLIBRARIES         =
+-- 
+2.5.0
+

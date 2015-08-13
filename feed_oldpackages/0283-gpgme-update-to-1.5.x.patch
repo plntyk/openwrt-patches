@@ -1,0 +1,63 @@
+From 7a819e4ec291c988f21d0ec14239cfbb5caf34c5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:13:35 +0200
+Subject: [PATCH 283/310] gpgme: update to 1.5.x
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/gpgme/Makefile | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/libs/gpgme/Makefile b/libs/gpgme/Makefile
+index ab10037..5aa539d 100644
+--- a/libs/gpgme/Makefile
++++ b/libs/gpgme/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=gpgme
+-PKG_VERSION:=1.4.4
++PKG_VERSION:=1.5.5
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+ PKG_SOURCE_URL:=ftp://ftp.gnupg.org/gcrypt/gpgme/
+-PKG_MD5SUM:=5f8064dac227d12496dc559bd34f1bee
++PKG_MD5SUM:=a56df7028a0814ef57d77262898ca040
+ 
+ PKG_BUILD_DEPENDS:=argp-standalone
+ 
+@@ -39,20 +39,24 @@ define Package/libgpgme/description
+   for CMS (S/MIME).
+ endef
+ 
+-ifdef CONFIG_USE_UCLIBC
+-CONFIGURE_VARS += \
+-    LIBS="-largp"
++ifdef CONFIG_USE_UCLIBC)
++CONFIGURE_VARS += LIBS="-largp"
++else ifdef CONFIG_USE_MUSL
++CONFIGURE_VARS += LIBS="-largp"
+ endif
+ 
++#musl: configure fails to detect error_t in argp.h
++CONFIGURE_VARS += ac_cv_type_error_t=yes
++
+ CONFIGURE_ARGS += \
+ 	--enable-shared \
+ 	--enable-static \
+ 	--with-gpg=/"usr/bin/gpg" \
+ 	--with-gpg-error-prefix="$(STAGING_DIR)/usr" \
+ 	--with-libassuan-prefix="$(STAGING_DIR)/usr" \
+-	--without-g13 \
+-	--without-gpgconf \
+-	--without-gpgsm
++	--disable-gpgconf-test \
++	--disable-gpgsm-test \
++	--disable-g13-test
+ 
+ define Build/InstallDev
+ 	$(INSTALL_DIR) $(1)/usr/include
+-- 
+2.5.0
+

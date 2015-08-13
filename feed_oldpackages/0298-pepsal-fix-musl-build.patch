@@ -1,0 +1,25 @@
+From dc8757f1ee5e1f5ccb2cb420832f23cff1aeafee Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:20:46 +0200
+Subject: [PATCH 298/310] pepsal: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/pepsal/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/pepsal/Makefile b/net/pepsal/Makefile
+index 3f44f29..bc00b05 100644
+--- a/net/pepsal/Makefile
++++ b/net/pepsal/Makefile
+@@ -35,6 +35,7 @@ define Package/pepsal/description
+  links with different characteristics
+ endef
+ 
++TARGET_CFLAGS+= -D_GNU_SOURCE
+ 
+ define Package/pepsal/install
+ 	$(INSTALL_DIR) $(1)/usr/bin
+-- 
+2.5.0
+

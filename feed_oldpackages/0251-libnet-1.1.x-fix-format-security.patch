@@ -1,0 +1,47 @@
+From c2f93167ed2772654ac9f6abf0ba2266f8a3412c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:57:39 +0200
+Subject: [PATCH 251/310] libnet-1.1.x: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libnet-1.1.x/Makefile                      |  3 +++
+ libs/libnet-1.1.x/patches/100-musl-compat.patch | 11 +++++++++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 libs/libnet-1.1.x/patches/100-musl-compat.patch
+
+diff --git a/libs/libnet-1.1.x/Makefile b/libs/libnet-1.1.x/Makefile
+index d96e251..addad40 100644
+--- a/libs/libnet-1.1.x/Makefile
++++ b/libs/libnet-1.1.x/Makefile
+@@ -47,7 +47,10 @@ CONFIGURE_VARS += \
+ 	ac_libnet_have_pf_packet=yes \
+ 	LL_INT_TYPE=libnet_link_linux
+ 
++
+ define Build/InstallDev
++	$(INSTALL_DIR) $(1)/usr
++	$(INSTALL_DIR) $(1)/usr/lib/
+ 	$(INSTALL_DIR) $(1)/usr/lib/libnet-1.1.x
+ 
+ 	$(INSTALL_DIR) $(1)/usr/lib/libnet-1.1.x/bin
+diff --git a/libs/libnet-1.1.x/patches/100-musl-compat.patch b/libs/libnet-1.1.x/patches/100-musl-compat.patch
+new file mode 100644
+index 0000000..fcb4188
+--- /dev/null
++++ b/libs/libnet-1.1.x/patches/100-musl-compat.patch
+@@ -0,0 +1,11 @@
++--- a/src/libnet_link_linux.c
+++++ b/src/libnet_link_linux.c
++@@ -30,7 +30,7 @@
++ #include <sys/time.h>
++ 
++ #include <net/if.h>
++-#if (__GLIBC__)
+++#if (!__UCLIBC__)
++ #include <netinet/if_ether.h>
++ #include <net/if_arp.h>
++ #else
+-- 
+2.5.0
+

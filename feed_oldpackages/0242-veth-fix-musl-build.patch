@@ -1,0 +1,68 @@
+From c59e5615828cbf7df748b2ff34d95e042adcbede Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:52:55 +0200
+Subject: [PATCH 242/310] veth: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/veth/patches/300-musl_eth.patch    | 30 ++++++++++++++++++++++++++++++
+ net/veth/patches/400-musl_header.patch | 10 ++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 net/veth/patches/300-musl_eth.patch
+ create mode 100644 net/veth/patches/400-musl_header.patch
+
+diff --git a/net/veth/patches/300-musl_eth.patch b/net/veth/patches/300-musl_eth.patch
+new file mode 100644
+index 0000000..f665e33
+--- /dev/null
++++ b/net/veth/patches/300-musl_eth.patch
+@@ -0,0 +1,30 @@
++--- a/veth/vethd.c
+++++ b/veth/vethd.c
++@@ -29,7 +29,6 @@
++ #include <linux/if_ether.h>
++ #include <linux/if_packet.h>
++ #include <linux/if_tun.h>
++-#include <net/ethernet.h>
++ 
++ #define max(a,b) ((a)>(b) ? (a):(b))
++ 
++@@ -224,7 +223,7 @@ int main(int argc, char **argv)
++ 
++ 	int vfd, nfd, leidos, opc, foreground = 0;
++ 	fd_set fds;
++-	struct ether_header const* const ether_hdr = (struct ether_header const *)buffer;
+++	struct ethhdr const* const ether_hdr = (struct ethhdr const *)buffer;
++ 
++ 	set_locale();
++ 	show_copyright();
++@@ -359,8 +358,8 @@ int main(int argc, char **argv)
++ 				return 2;
++ 			}
++ 			/* drop multicast and ppp session */
++-			if (!(ether_hdr->ether_dhost[0] == 0x01)
++-			   && (ether_hdr->ether_type != htons(ETH_P_PPP_SES))) {
+++			if (!(ether_hdr->h_dest[0] == 0x01)
+++			   && (ether_hdr->h_proto != htons(ETH_P_PPP_SES))) {
++ 				write(vfd, buffer, leidos);
++ 			}
++ 		}
+diff --git a/net/veth/patches/400-musl_header.patch b/net/veth/patches/400-musl_header.patch
+new file mode 100644
+index 0000000..6ffe051
+--- /dev/null
++++ b/net/veth/patches/400-musl_header.patch
+@@ -0,0 +1,10 @@
++--- a/veth/vethd.c
+++++ b/veth/vethd.c
++@@ -24,6 +24,7 @@
++ #include <netinet/in.h>
++ #include <sys/ioctl.h>
++ #include <sys/socket.h>
+++#include <sys/types.h>
++ #include <unistd.h>
++ #include <linux/if.h>
++ #include <linux/if_ether.h>
+-- 
+2.5.0
+

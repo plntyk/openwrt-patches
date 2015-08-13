@@ -1,0 +1,40 @@
+From 7b82fa473a2ec70177ad3af364368454377ecc75 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:47:41 +0200
+Subject: [PATCH 145/310] ink: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/ink/patches/001-fix_format_string.patch | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 utils/ink/patches/001-fix_format_string.patch
+
+diff --git a/utils/ink/patches/001-fix_format_string.patch b/utils/ink/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..90f9ca3
+--- /dev/null
++++ b/utils/ink/patches/001-fix_format_string.patch
+@@ -0,0 +1,20 @@
++--- a/ink.c
+++++ b/ink.c
++@@ -36,7 +36,7 @@ void print_version_information(void) {
++   printf(PACKAGE_STRING);
++   printf("\n");
++   libinklevel_version_string = get_version_string();
++-  printf(libinklevel_version_string);
+++  printf("%s", libinklevel_version_string);
++   printf("\n");
++ }
++ 
++@@ -235,7 +235,7 @@ int main(int argc, char *argv[]) {
++     for(i = 0; i < MAX_CARTRIDGE_TYPES; i++) {
++       if (threshold == -1 || level->levels[i][INDEX_LEVEL] <= threshold) {
++ 	if (headerNeeded) {
++-	  printf(headerline);
+++	  printf("%s", headerline);
++ 	  printf("%s\n\n", level->model);
++ 	  headerNeeded = 0;
++ 	}
+-- 
+2.5.0
+

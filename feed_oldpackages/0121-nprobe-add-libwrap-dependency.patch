@@ -1,0 +1,26 @@
+From 4ac4918bdd3c33a69ca7978b84b8a2c16330a8f2 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:27:14 +0200
+Subject: [PATCH 121/310] nprobe: add libwrap dependency
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/nprobe/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/nprobe/Makefile b/net/nprobe/Makefile
+index 400bc9b..23cc830 100644
+--- a/net/nprobe/Makefile
++++ b/net/nprobe/Makefile
+@@ -25,7 +25,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/nprobe
+   SECTION:=utils
+   CATEGORY:=Utilities
+-  DEPENDS:=+libpcap +libpcre +libpthread +NPROBE_MYSQL_SUPPORT:libmysqlclient +zlib
++  DEPENDS:=+libpcap +libpcre +libpthread +NPROBE_MYSQL_SUPPORT:libmysqlclient +zlib +libwrap
+   TITLE:=nProbe
+   URL:=http://invisible-island.net/dialog/
+ endef
+-- 
+2.5.0
+

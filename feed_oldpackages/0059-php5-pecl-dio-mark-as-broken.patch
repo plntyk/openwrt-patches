@@ -1,0 +1,30 @@
+From 4fce1c6f272159e337f0974a49192506ee231a36 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:18:14 +0200
+Subject: [PATCH 059/310] php5-pecl-dio: mark as broken
+
+indirectly
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/php5-pecl-apc/Makefile | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/lang/php5-pecl-apc/Makefile b/lang/php5-pecl-apc/Makefile
+index 940b6c6..4ebc517 100644
+--- a/lang/php5-pecl-apc/Makefile
++++ b/lang/php5-pecl-apc/Makefile
+@@ -27,9 +27,5 @@ include $(INCLUDE_DIR)/package.mk
+ include $(INCLUDE_DIR)/nls.mk
+ include ../php5/pecl.mk
+ 
+-CONFIGURE_ARGS+= \
+-	--enable-apc=shared \
+-	--disable-apc-mmap \
+-
+-#$(eval $(call PECLPackage,apc,$(PECL_LONGNAME),+librt))
++#$(eval $(call PECLPackage,$(PECL_NAME),$(PECL_LONGNAME)))
+ #$(eval $(call BuildPackage,$(PKG_NAME)))
+-- 
+2.5.0
+

@@ -1,0 +1,30 @@
+From 2d46b776803e9613aedf626fbbff0da9b755115e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:58:27 +0200
+Subject: [PATCH 253/310] ftpd-topfield: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ multimedia/ftpd-topfield/patches/003-musl_IPPORT.patch | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 multimedia/ftpd-topfield/patches/003-musl_IPPORT.patch
+
+diff --git a/multimedia/ftpd-topfield/patches/003-musl_IPPORT.patch b/multimedia/ftpd-topfield/patches/003-musl_IPPORT.patch
+new file mode 100644
+index 0000000..0661a04
+--- /dev/null
++++ b/multimedia/ftpd-topfield/patches/003-musl_IPPORT.patch
+@@ -0,0 +1,10 @@
++--- a/ftpcmd.y
+++++ b/ftpcmd.y
++@@ -50,6 +50,7 @@
++ #include <sys/stat.h>
++ 
++ #include <netinet/in.h>
+++#include <netdb.h> /* IPPORT_RESERVED */
++ #include <arpa/ftp.h>
++ 
++ #include <ctype.h>
+-- 
+2.5.0
+

@@ -1,0 +1,123 @@
+From 49bd8dad176edad10489f51f98f77b184590ea52 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:55:51 +0200
+Subject: [PATCH 248/310] pygobject: fix build with musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/pygobject/Makefile                            | 23 ++++++++++------
+ .../0001-add-PYTHON_INCLUDES-override.patch        | 32 ++++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 8 deletions(-)
+ create mode 100644 lang/pygobject/patches/0001-add-PYTHON_INCLUDES-override.patch
+
+diff --git a/lang/pygobject/Makefile b/lang/pygobject/Makefile
+index 222ec4e..4aa1ef2 100644
+--- a/lang/pygobject/Makefile
++++ b/lang/pygobject/Makefile
+@@ -8,14 +8,15 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=pygobject
+-PKG_VERSION:=2.21.5
++PKG_VERSION:=2.28.6
+ PKG_RELEASE:=1
+ 
+-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+-PKG_SOURCE_URL:=@GNOME/$(PKG_NAME)/2.21
+-PKG_MD5SUM:=77ad7e8dbf13188364c9f56f907e530a
++PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
++PKG_SOURCE_URL:=@GNOME/$(PKG_NAME)/2.28
++PKG_MD5SUM:=9415cb7f2b3a847f2310ccea258b101e
+ PKG_FIXUP:=autoreconf
+ PKG_INSTALL:=1
++PKG_CHECK_FORMAT_SECURITY:=0
+ 
+ include $(INCLUDE_DIR)/package.mk
+ include $(INCLUDE_DIR)/nls.mk
+@@ -24,11 +25,17 @@ $(call include_mk, python-package.mk)
+ EXTRA_LDFLAGS+= \
+ 	-L$(ICONV_PREFIX) -L$(INTL_PREFIX)
+ 
+-TARGET_CFLAGS += $(FPIC)
++TARGET_CFLAGS += $(FPIC) -D_GNU_SOURCE
++
++CONFIGURE_VARS += \
++	PYTHON=$(STAGING_DIR_HOST)/bin/python$(PYTHON_VERSION) \
++	PYTHON_INCLUDES="-I$(STAGING_DIR)/usr/include/python$(PYTHON_VERSION)"
++
+ CONFIGURE_ARGS += \
+ 	--enable-static \
+ 	--disable-introspection \
+ 	--with-libffi
++	--with-python=$(STAGING_DIR)/usr/bin/python$(PYTHON_VERSION)
+ 
+ define Package/python-gobject
+   SUBMENU:=Python
+@@ -36,7 +43,7 @@ define Package/python-gobject
+   CATEGORY:=Languages
+   TITLE:=GLib bindings for python
+   URL:=http://www.pygtk.org/
+-  DEPENDS:=+python +glib2 +libffi
++  DEPENDS:=+python3 +glib2 +libffi
+ endef
+ 
+ define Package/python-gobject/description
+@@ -92,7 +99,7 @@ define Package/python-gobject/install
+ 
+ 	$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)
+ 	$(INSTALL_DATA) \
+-		$(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/*.{pth,py} \
++		$(PKG_INSTALL_DIR)/usr/lib/python$(PYTHON_VERSION)/site-packages/*.{pth,py} \
+ 		$(1)$(PYTHON_PKG_DIR)/
+ 
+ 	$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)/gtk-2.0
+@@ -100,7 +107,7 @@ define Package/python-gobject/install
+ 		$(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/gtk-2.0/*.py \
+ 		$(1)$(PYTHON_PKG_DIR)/gtk-2.0/
+ 
+-	$(foreach d,gobject gio glib, \
++	$(foreach d,gio, \
+ 		$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)/gtk-2.0/$(d); \
+ 		$(INSTALL_DATA) \
+ 			$(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/gtk-2.0/$(d)/*.{py,so} \
+diff --git a/lang/pygobject/patches/0001-add-PYTHON_INCLUDES-override.patch b/lang/pygobject/patches/0001-add-PYTHON_INCLUDES-override.patch
+new file mode 100644
+index 0000000..d883f60
+--- /dev/null
++++ b/lang/pygobject/patches/0001-add-PYTHON_INCLUDES-override.patch
+@@ -0,0 +1,32 @@
++[PATCH] m4/python.m4: add PYTHON_INCLUDES override for cross compilation
++
++As the configure script mixes up host/target python. Equivalent to the
++similar code in dbus-python.
++
++Signed-off-by: Peter Korsgaard <peter@korsgaard.com>
++---
++ m4/python.m4 |    4 ++++
++ 1 file changed, 4 insertions(+)
++
++Index: python-gobject-2.28.6/m4/python.m4
++===================================================================
++--- python-gobject-2.28.6.orig/m4/python.m4
+++++ python-gobject-2.28.6/m4/python.m4
++@@ -43,6 +43,9 @@
++ [AC_REQUIRE([AM_PATH_PYTHON])
++ AC_MSG_CHECKING(for headers required to compile python extensions)
++ dnl deduce PYTHON_INCLUDES
+++if test "${PYTHON_INCLUDES+set}" = set; then
+++  AC_MSG_NOTICE([PYTHON_INCLUDES overridden to: $PYTHON_INCLUDES])
+++else
++ py_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.prefix)"`
++ py_exec_prefix=`$PYTHON -c "import sys; sys.stdout.write(sys.exec_prefix)"`
++ PYTHON_CONFIG=`which $PYTHON`-config
++@@ -54,6 +57,7 @@
++   PYTHON_INCLUDES="$PYTHON_INCLUDES -I${py_exec_prefix}/include/python${PYTHON_VERSION}"
++ fi
++ fi
+++fi
++ AC_SUBST(PYTHON_INCLUDES)
++ dnl check if the headers exist:
++ save_CPPFLAGS="$CPPFLAGS"
+-- 
+2.5.0
+

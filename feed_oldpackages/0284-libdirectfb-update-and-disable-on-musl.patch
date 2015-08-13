@@ -1,0 +1,101 @@
+From c63279abd12aa79c254376101fe0d3fff9e4c4bc Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:14:03 +0200
+Subject: [PATCH 284/310] libdirectfb: update and disable on musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libdirectfb/Makefile                          |  8 +++---
+ libs/libdirectfb/patches/001-disable-asm.patch     | 13 ----------
+ .../patches/002-use-volatile-keyword.patch         | 30 ----------------------
+ 3 files changed, 4 insertions(+), 47 deletions(-)
+ delete mode 100644 libs/libdirectfb/patches/001-disable-asm.patch
+ delete mode 100644 libs/libdirectfb/patches/002-use-volatile-keyword.patch
+
+diff --git a/libs/libdirectfb/Makefile b/libs/libdirectfb/Makefile
+index 13b02e4..0a690df 100644
+--- a/libs/libdirectfb/Makefile
++++ b/libs/libdirectfb/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=DirectFB
+-PKG_VERSION:=1.4.2
++PKG_VERSION:=1.7.7
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+-PKG_SOURCE_URL:=http://www.directfb.org/downloads/Core/DirectFB-1.4
+-PKG_MD5SUM:=e4376c6c5b8e27d735edb7f62a7a8e86
++PKG_SOURCE_URL:=http://www.directfb.org/downloads/Core/DirectFB-1.7
++PKG_MD5SUM:=152cf1863b1a3a28aa1370e9053440bf
+ 
+ PKG_LICENSE:=LGPLv2.1
+ PKG_LICENSE_FILES:=COPYING
+@@ -28,7 +28,7 @@ define Package/directfb
+     SECTION:=libs
+     CATEGORY:=Libraries
+     URL:=http://directfb.org
+-    DEPENDS:=+libpng +libjpeg +libpthread +libfreetype +libsysfs
++    DEPENDS:=+libpng +libjpeg +libpthread +libfreetype +libsysfs @!USE_MUSL
+ endef
+ 
+ define Package/directfb/description
+diff --git a/libs/libdirectfb/patches/001-disable-asm.patch b/libs/libdirectfb/patches/001-disable-asm.patch
+deleted file mode 100644
+index c38498a..0000000
+--- a/libs/libdirectfb/patches/001-disable-asm.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+---- DirectFB-1.4.2/configure.in.orig	2009-10-14 17:19:38.000000000 +0200
+-+++ DirectFB-1.4.2/configure.in	2009-10-14 17:19:55.000000000 +0200
+-@@ -221,8 +221,8 @@
+- have_kos=no
+- need_libc_r=no
+- need_libdl=yes
+-+want_ppcasm=no
+-+want_armasm=no
+--want_ppcasm=yes
+--want_armasm=yes
+- 
+- case "$target_or_host" in
+-   *-linux*)
+diff --git a/libs/libdirectfb/patches/002-use-volatile-keyword.patch b/libs/libdirectfb/patches/002-use-volatile-keyword.patch
+deleted file mode 100644
+index 7904110..0000000
+--- a/libs/libdirectfb/patches/002-use-volatile-keyword.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-diff -burN DirectFB-1.4.2.orig/lib/direct/interface.c DirectFB-1.4.2/lib/direct/interface.c
+---- DirectFB-1.4.2.orig/lib/direct/interface.c	2013-01-29 13:57:25.000000000 +0100
+-+++ DirectFB-1.4.2/lib/direct/interface.c	2013-01-29 13:59:37.000000000 +0100
+-@@ -74,7 +74,7 @@
+- } DirectInterfaceImplementation;
+- 
+- static pthread_mutex_t  implementations_mutex = PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+--static DirectLink      *implementations       = NULL;
+-+static DirectLink      * volatile implementations       = NULL;
+- 
+- /**************************************************************************************************/
+- 
+-@@ -96,7 +96,7 @@
+-      D_DEBUG_AT( Direct_Interface, "  -> %s | %s\n", impl->type, impl->implementation );
+- 
+-      pthread_mutex_lock( &implementations_mutex );
+--     direct_list_prepend( &implementations, &impl->link );
+-+     direct_list_prepend( (DirectLink**)&implementations, &impl->link );
+-      pthread_mutex_unlock( &implementations_mutex );
+- }
+- 
+-@@ -111,7 +111,7 @@
+-           D_MAGIC_ASSERT( impl, DirectInterfaceImplementation );
+- 
+-           if (impl->funcs == funcs) {
+--               direct_list_remove( &implementations, &impl->link );
+-+               direct_list_remove( (DirectLink**)&implementations, &impl->link );
+- 
+-                break;
+-           }
+-- 
+2.5.0
+

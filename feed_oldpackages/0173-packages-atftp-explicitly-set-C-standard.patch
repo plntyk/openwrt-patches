@@ -1,0 +1,26 @@
+From 9a8e55a9a9da1543cf564f3805b839f9fe8a87c2 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:11:20 +0200
+Subject: [PATCH 173/310] [packages] atftp: explicitly set C standard
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/atftp/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/net/atftp/Makefile b/net/atftp/Makefile
+index 2190f88..c0151a9 100644
+--- a/net/atftp/Makefile
++++ b/net/atftp/Makefile
+@@ -38,6 +38,8 @@ define Package/atftpd
+   TITLE+= server
+ endef
+ 
++TARGET_CFLAGS+=-std=gnu89
++
+ CONFIGURE_ARGS += \
+ 	--disable-libwrap
+ CONFIGURE_VARS += \
+-- 
+2.5.0
+

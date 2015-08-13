@@ -1,0 +1,26 @@
+From 20603374fa25a3126561b847524cc1f775bbeae3 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:34:03 +0200
+Subject: [PATCH 077/310] sslcat: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/sslcat/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/sslcat/Makefile b/net/sslcat/Makefile
+index 8a8377d..110dd6b 100644
+--- a/net/sslcat/Makefile
++++ b/net/sslcat/Makefile
+@@ -24,7 +24,7 @@ define Package/sslcat
+   CATEGORY:=Network
+   TITLE:=A netcat like utility with SSL support
+   URL:=http://www.bindshell.net/tools/sslcat
+-  DEPENDS:= +libopenssl
++  DEPENDS:= +libopenssl @BROKEN
+ endef
+ 
+ define Package/sslcat/description
+-- 
+2.5.0
+

@@ -1,0 +1,76 @@
+From 29a700ec916e067fddadc718f0006b85c7c69f0f Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:28:40 +0200
+Subject: [PATCH 184/310] [packages] fribidi: fix format strings
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/fribidi/patches/001-fix_format_string.patch | 56 ++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
+ create mode 100644 libs/fribidi/patches/001-fix_format_string.patch
+
+diff --git a/libs/fribidi/patches/001-fix_format_string.patch b/libs/fribidi/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..c3dc0cc
+--- /dev/null
++++ b/libs/fribidi/patches/001-fix_format_string.patch
+@@ -0,0 +1,56 @@
++--- a/fribidi_main.c
+++++ b/fribidi_main.c
++@@ -429,7 +429,7 @@ main (int argc, char *argv[])
++ 
++ 		  if (show_visual)
++ 		    {
++-		      printf (nl_found);
+++		      printf ("%s",nl_found);
++ 
++ 		      if (bol_text)
++ 			printf ("%s", bol_text);
++@@ -497,7 +497,7 @@ main (int argc, char *argv[])
++ 		    }
++ 		  if (show_basedir)
++ 		    {
++-		      printf (nl_found);
+++		      printf ("%s",nl_found);
++ 		      printf ("Base direction: %s",
++ 			      (FRIBIDI_DIR_TO_LEVEL (base) ? "R" : "L"));
++ 		      nl_found = "\n";
++@@ -506,7 +506,7 @@ main (int argc, char *argv[])
++ 		    {
++ 		      FriBidiStrIndex i;
++ 
++-		      printf (nl_found);
+++		      printf ("%s",nl_found);
++ 		      for (i = 0; i < len; i++)
++ 			printf ("%ld ", (long) ltov[i]);
++ 		      nl_found = "\n";
++@@ -515,7 +515,7 @@ main (int argc, char *argv[])
++ 		    {
++ 		      FriBidiStrIndex i;
++ 
++-		      printf (nl_found);
+++		      printf ("%s",nl_found);
++ 		      for (i = 0; i < len; i++)
++ 			printf ("%ld ", (long) vtol[i]);
++ 		      nl_found = "\n";
++@@ -524,7 +524,7 @@ main (int argc, char *argv[])
++ 		    {
++ 		      FriBidiStrIndex i;
++ 
++-		      printf (nl_found);
+++		      printf ("%s",nl_found);
++ 		      for (i = 0; i < len; i++)
++ 			printf ("%d ", (int) levels[i]);
++ 		      nl_found = "\n";
++@@ -557,7 +557,7 @@ main (int argc, char *argv[])
++ 	    }
++ 
++ 	    if (*nl_found)
++-	      printf (new_line);
+++	      printf ("%s",new_line);
++ 	  }
++       }
++     }
+-- 
+2.5.0
+

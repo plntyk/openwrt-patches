@@ -1,0 +1,32 @@
+From a36115f86364ff3f6a5309cbaddbd940e187fc50 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 29 Jan 2015 17:27:57 +0100
+Subject: [PATCH 008/310] libfreenect: fix build for x86-64 target
+
+the LIBPREFIX creates .so files in the wrong dir
+so install step fails with file not found
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libfreenect/Makefile | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/libs/libfreenect/Makefile b/libs/libfreenect/Makefile
+index 0f5b6bc..0368fa0 100644
+--- a/libs/libfreenect/Makefile
++++ b/libs/libfreenect/Makefile
+@@ -29,7 +29,10 @@ define Package/libfreenect
+   DEPENDS:=+libusb-1.0
+ endef
+ 
+-CMAKE_OPTIONS += -DBUILD_EXAMPLES="OFF"
++CMAKE_OPTIONS += \
++	-DBUILD_EXAMPLES="OFF" \
++	-DLIB_SUFFIX=""
++
+ TARGET_CFLAGS += -I$(STAGING_DIR)/usr/include
+ 
+ define Package/libfreenect/description
+-- 
+2.5.0
+

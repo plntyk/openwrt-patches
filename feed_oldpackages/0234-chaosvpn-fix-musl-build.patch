@@ -1,0 +1,30 @@
+From f4df424fbc3124e76f38ece0d5fa170551b9d19c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 9 Jul 2015 13:11:08 +0200
+Subject: [PATCH 234/310] chaosvpn: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/chaosvpn/patches/002-musl_timval.patch | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 net/chaosvpn/patches/002-musl_timval.patch
+
+diff --git a/net/chaosvpn/patches/002-musl_timval.patch b/net/chaosvpn/patches/002-musl_timval.patch
+new file mode 100644
+index 0000000..eb8e173
+--- /dev/null
++++ b/net/chaosvpn/patches/002-musl_timval.patch
+@@ -0,0 +1,10 @@
++--- a/httplib/http_get.c
+++++ b/httplib/http_get.c
++@@ -4,6 +4,7 @@
++ #include <arpa/inet.h>
++ #include <time.h>
++ #include <sys/socket.h>
+++#include <sys/select.h>
++ #include <unistd.h>
++ 
++ #include "../string/string.h"
+-- 
+2.5.0
+

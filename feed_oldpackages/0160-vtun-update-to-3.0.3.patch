@@ -1,0 +1,198 @@
+From 0215270e75f680ce3c0a38131a7973f64b434f90 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 4 Jun 2015 19:11:55 +0200
+Subject: [PATCH 160/310] vtun: update to 3.0.3
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/vtun/Makefile                                  |  21 ++--
+ .../0005-fixup_configure_in_autoupdate.patch       | 126 +++++++++++++++++++++
+ 2 files changed, 135 insertions(+), 12 deletions(-)
+ create mode 100644 net/vtun/patches/0005-fixup_configure_in_autoupdate.patch
+
+diff --git a/net/vtun/Makefile b/net/vtun/Makefile
+index e8d4422..04187fa 100644
+--- a/net/vtun/Makefile
++++ b/net/vtun/Makefile
+@@ -8,19 +8,22 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=vtun
+-PKG_VERSION:=3.0.2
++PKG_VERSION:=3.0.3
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=@SF/vtun
+-PKG_MD5SUM:=d3d8bc4d58886498a1c338670eab9315
++PKG_MD5SUM:=f3becf2a0270910a841060c08d1db824
++
++PKG_FIXUP:=autoreconf
++PKG_REMOVE_FILES:=
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+ define Package/vtun
+   SECTION:=net
+   CATEGORY:=Network
+-  DEPENDS:=+kmod-tun +VTUN_LZO:liblzo +VTUN_LZO:zlib +VTUN_SSL:libopenssl
++  DEPENDS:=+kmod-tun +VTUN_LZO:liblzo +VTUN_LZO:zlib +VTUN_SSL:libopenssl +USE_GLIBC:libbsd
+   TITLE:=VPN tunneling daemon
+   URL:=http://vtun.sourceforge.net
+   SUBMENU:=VPN
+@@ -56,17 +59,11 @@ endef
+ CONFIGURE_ARGS += \
+ 	$(if $(CONFIG_VTUN_LZO),--with-lzo-lib="$(STAGING_DIR)/usr/lib/",--disable-zlib) \
+ 	$(if $(CONFIG_VTUN_LZO),--with-lzo-headers="$(STAGING_DIR)/usr/include/lzo",--disable-lzo) \
+-	$(if $(CONFIG_VTUN_SSL),--with-ssl-headers="$(STAGING_DIR)/usr/lib/",--disable-ssl) \
++	$(if $(CONFIG_VTUN_SSL),--with-ssl-headers="$(STAGING_DIR)/usr/include/openssl",--disable-ssl) \
++	$(if $(CONFIG_VTUN_SSL),--with-blowfish-headers="$(STAGING_DIR)/usr/include/openssl",--disable-ssl)
+ 
+ CONFIGURE_VARS += \
+-	LIBS="$(TARGET_LDFLAGS)" \
+-	$(if $(CONFIG_VTUN_LZO),LZO_HDR_DIR="$(STAGING_DIR)/usr/include/lzo") \
+-	$(if $(CONFIG_VTUN_SSL),BLOWFISH_HDR_DIR="$(STAGING_DIR)/usr/include/openssl") \
+-	$(if $(CONFIG_VTUN_SSL),SSL_HDR_DIR="$(STAGING_DIR)/usr/include/openssl") \
+-
+-define Build/Compile
+-	$(call Build/Compile/Default,vtund)
+-endef
++	LIBS="$(TARGET_LDFLAGS)"
+ 
+ define Package/vtun/install
+ 	$(INSTALL_DIR) $(1)/etc
+diff --git a/net/vtun/patches/0005-fixup_configure_in_autoupdate.patch b/net/vtun/patches/0005-fixup_configure_in_autoupdate.patch
+new file mode 100644
+index 0000000..c5cd8f9
+--- /dev/null
++++ b/net/vtun/patches/0005-fixup_configure_in_autoupdate.patch
+@@ -0,0 +1,126 @@
++--- a/configure.in
+++++ b/configure.in
++@@ -7,7 +7,8 @@ dnl
++ dnl Process this file with autoconf to produce a configure script.
++ dnl
++ 
++-AC_INIT(lib.c)
+++AC_INIT
+++AC_CONFIG_SRCDIR([lib.c])
++ AC_CONFIG_HEADER(config.h)
++ 
++ dnl Shapper support
++@@ -79,7 +80,7 @@ AC_ARG_WITH(socks-lib,
++ 
++ dnl Guess host type.
++ AC_CANONICAL_HOST
++-AC_CANONICAL_SYSTEM
+++AC_CANONICAL_TARGET
++ 
++ dnl Check for programs.
++ AC_PROG_YACC
++@@ -118,7 +119,7 @@ fi
++ 
++ if test "$ZLIB" = "yes"; then
++    AC_MSG_RESULT()
++-   AC_CHECKING( for ZLIB Library and Header files ... )
+++   AS_MESSAGE([checking for ZLIB Library and Header files ... ...])
++    AC_CHECK_LIB(z, deflate,
++ 	LIBS="$LIBS -lz"
++ 	AC_DEFINE([HAVE_ZLIB],[],[Define to use ZLIB]),
++@@ -130,7 +131,7 @@ dnl very servicable code borrowed heavil
++ if test "$LZO" = "yes"; then
++    LZOCHK=""
++    AC_MSG_RESULT()
++-   AC_CHECKING( for LZO Library and Header files ... )
+++   AS_MESSAGE([checking for LZO Library and Header files ... ...])
++    AC_SEARCH_HEADERS(lzo_asm.h,
++ 	$LZO_HDR_DIR /usr/include/lzo "" /usr/local/include,
++ 	LZOCHK="lzo2 lzo",
++@@ -164,17 +165,13 @@ fi
++ 
++ if test "$SSL" = "yes"; then
++    AC_MSG_RESULT()
++-   AC_CHECKING( for md5 Library and Header files ... )
++-AC_SEARCH_HEADERS(md5.h,
++-    $SSL_HDR_DIR "" , 
++-    ,
++-    AC_MSG_ERROR( SSL headers not found. )
++-   )
+++   AS_MESSAGE([checking for md5 Library and Header files ... ...])
+++   AC_CHECK_HEADERS([openssl/md5.h])
++ fi
++ 
++ if test "$SSL" = "yes"; then
++    AC_MSG_RESULT()
++-   AC_CHECKING( for blowfish Library and Header files ... )
+++   AS_MESSAGE([checking for blowfish Library and Header files ... ...])
++    AC_SEARCH_HEADERS(blowfish.h,
++     $BLOWFISH_HDR_DIR $SSL_HDR_DIR,
++ 	AC_CHECK_LIB(crypto, BF_set_key,
++@@ -183,39 +180,39 @@ if test "$SSL" = "yes"; then
++ 	       AC_DEFINE([HAVE_SSL],[],[Define to use SSL])
++ 	       AC_DEFINE([HAVE_SSL_BLOWFISH],[],[Define to use blowfish])
++ 	    ],
++-	    AC_MSG_ERROR( SSL library not found. )
+++	    AC_MSG_ERROR( Blowfish SSL library not found. )
++ 	),
++-	AC_MSG_ERROR( SSL headers not found. )
+++	AC_MSG_ERROR( SSL Blowfish headers not found. )
++    )
++ fi
++ 
++ if test "$SSL" = "yes"; then
++    AC_MSG_RESULT()
++-   AC_CHECKING( for AES Library and Header files ... )
+++   AS_MESSAGE([checking for AES Library and Header files ... ...])
++    AC_SEARCH_HEADERS(aes.h,
++-    $SSL_HDR_DIR ,
+++    $SSL_HDR_DIR,
++ 	AC_CHECK_LIB(crypto, AES_set_encrypt_key,
++ 	    [
++ 	       AC_DEFINE([HAVE_SSL_AES],[],[Define to use AES])
++ 	    ],
++-	    AC_MSG_ERROR( AES library not found. )
+++	    AC_MSG_ERROR( AES SSL library not found. )
++ 	),
++-	AC_MSG_ERROR( AES headers not found. )
+++	AC_MSG_ERROR( SSL AES headers not found. )
++    )
++ fi
++ 
++ if test "$SSL" = "yes"; then
++    AC_MSG_RESULT()
++-   AC_CHECKING( for EVP Library and Header files ... )
+++   AS_MESSAGE([checking for EVP Library and Header files ... ...])
++    AC_SEARCH_HEADERS(evp.h,
++-    $SSL_HDR_DIR ,
+++    $SSL_HDR_DIR,
++ 	AC_CHECK_LIB(crypto, EVP_EncryptInit,
++ 	    [
++ 	       AC_DEFINE([HAVE_SSL_EVP],[],Define to use EVP)
++ 	    ],
++-	    AC_MSG_ERROR( EVP library not found. )
+++	    AC_MSG_ERROR( EVP SSL library not found. )
++ 	),
++-	AC_MSG_ERROR( EVP headers not found. )
+++	AC_MSG_ERROR( SSL EVP headers not found. )
++    )
++ fi
++ 
++@@ -225,7 +222,7 @@ fi
++ 
++ if test "$SOCKS" = "yes"; then
++    AC_MSG_RESULT()
++-   AC_CHECKING( for SOCKS Library ... )
+++   AS_MESSAGE([checking for SOCKS Library ... ...])
++    AC_CHECK_LIB(socks5, SOCKSconnect,
++         [
++ 	  CFLAGS="$CFLAGS -DVTUN_SOCKS=1"
++@@ -276,4 +273,5 @@ changequote([,])
++ 
++ AC_DEFINE_UNQUOTED([VTUN_VER], ["$REL `date '+%m/%d/%Y'`"], [vtun version])
++ 
++-AC_OUTPUT(Makefile)
+++AC_CONFIG_FILES([Makefile])
+++AC_OUTPUT
+-- 
+2.5.0
+

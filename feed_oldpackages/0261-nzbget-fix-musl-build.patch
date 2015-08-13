@@ -1,0 +1,31 @@
+From a44a03d53ba9b0fbdf609198655a50d848e612e3 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:02:15 +0200
+Subject: [PATCH 261/310] nzbget: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/nzbget/patches/002-musl_types.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 net/nzbget/patches/002-musl_types.h
+
+diff --git a/net/nzbget/patches/002-musl_types.h b/net/nzbget/patches/002-musl_types.h
+new file mode 100644
+index 0000000..9a08a2c
+--- /dev/null
++++ b/net/nzbget/patches/002-musl_types.h
+@@ -0,0 +1,11 @@
++--- a/MessageBase.h
+++++ b/MessageBase.h
++@@ -27,6 +27,8 @@
++ #ifndef MESSAGEBASE_H
++ #define MESSAGEBASE_H
++ 
+++#include <sys/types.h>
+++
++ static const int32_t NZBMESSAGE_SIGNATURE = 0x6E7A620A; // = "nzbA" (protocol version)
++ static const int NZBREQUESTFILENAMESIZE = 512;
++ static const int NZBREQUESTPASSWORDSIZE = 32;
+-- 
+2.5.0
+

@@ -1,0 +1,26 @@
+From be33990d698a3dc87c91533c6ae1fda879dd4e0c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:13:07 +0200
+Subject: [PATCH 282/310] python-sip: fix build with libstdc++
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/python-sip/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/python-sip/Makefile b/lang/python-sip/Makefile
+index cd84aa8..c22c4c3 100644
+--- a/lang/python-sip/Makefile
++++ b/lang/python-sip/Makefile
+@@ -32,7 +32,7 @@ define Package/python-sip
+   SECTION:=devel
+   CATEGORY:=Development
+   TITLE:=Python SIP
+-  DEPENDS:=+python
++  DEPENDS:=+python +libstdcpp
+   MAINTAINER:=Michael Buesch <mb@bu3sch.de>
+   URL:=http://www.riverbankcomputing.co.uk/software/sip/download
+ endef
+-- 
+2.5.0
+

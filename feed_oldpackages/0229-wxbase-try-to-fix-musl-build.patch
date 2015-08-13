@@ -1,0 +1,51 @@
+From 9f6d5fba47450940717b8367db36c7b636f9440c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 9 Jul 2015 13:08:53 +0200
+Subject: [PATCH 229/310] wxbase: try to fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/wxbase/Makefile | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/libs/wxbase/Makefile b/libs/wxbase/Makefile
+index 62db385..26475e7 100644
+--- a/libs/wxbase/Makefile
++++ b/libs/wxbase/Makefile
+@@ -16,7 +16,7 @@ PKG_SOURCE_URL:=@SF/wxwindows
+ PKG_MD5SUM:=08f81ab60647308058f6ce99712b14f8
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/wxGTK-$(PKG_VERSION)
+-
++PKG_USE_MIPS16:=0
+ PKG_INSTALL:=1
+ 
+ include $(INCLUDE_DIR)/package.mk
+@@ -48,7 +48,6 @@ TARGET_CFLAGS += $(FPIC)
+ CONFIGURE_ARGS+= \
+ 	--enable-shared \
+ 	--disable-rpath \
+-	--with-gnu-ld \
+ 	--disable-gui \
+ 	--disable-monolithic \
+ 	--enable-plugins \
+@@ -75,6 +74,7 @@ CONFIGURE_ARGS+= \
+ 	--enable-exceptions \
+ 	--disable-sound \
+ 	--enable-largefile \
++	--enable-no_deps \
+ 	\
+ 	--without-gtk \
+ 	--without-motif \
+@@ -107,6 +107,8 @@ CONFIGURE_ARGS+= \
+ 
+ UNICODE=yes
+ 
++#  --with-gnu-ld
++
+ ifeq ($(UNICODE),yes)
+   CONFIGURE_ARGS+= --enable-unicode
+   LIB_PFX:=u
+-- 
+2.5.0
+

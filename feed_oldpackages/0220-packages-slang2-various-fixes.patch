@@ -1,0 +1,65 @@
+From af9b3f49607775643347fb14f27ea031a538d25e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:44:01 +0200
+Subject: [PATCH 220/310] [packages] slang2: various fixes
+
+- gcc5 explicit code variant
+- disable on musl
+- update to 2.3.0
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/slang2/Makefile | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/libs/slang2/Makefile b/libs/slang2/Makefile
+index fc43bf0..8768d2b 100644
+--- a/libs/slang2/Makefile
++++ b/libs/slang2/Makefile
+@@ -9,13 +9,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=slang
+-PKG_VERSION:=2.2.4
++PKG_VERSION:=2.3.0
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+-PKG_SOURCE_URL:=ftp://space.mit.edu/pub/davis/slang/v2.2 \
+-	ftp://space.mit.edu/pub/davis/slang/v2.2/OLD
+-PKG_MD5SUM:=7fcfd447e378f07dd0c0bae671fe6487
++PKG_SOURCE_URL:=http://www.jedsoft.org/releases/slang/
++PKG_MD5SUM:=3bcc790460d52db1316c20395b7ac2f1
+ 
+ PKG_INSTALL:=1
+ 
+@@ -26,7 +25,7 @@ define Package/libslang2
+   CATEGORY:=Libraries
+   TITLE:=S-Lang v2.2
+   URL:=http://www.jedsoft.org/slang
+-  DEPENDS:= +terminfo
++  DEPENDS:= +terminfo @!USE_MUSL
+ endef
+ 
+ define Package/libslang2/description
+@@ -40,7 +39,7 @@ define Package/slsh
+   CATEGORY:=Languages
+   TITLE:=S-Lang Shell
+   URL:=http://www.jedsoft.org/slang/slsh.html
+-  DEPENDS:= +libslang2
++  DEPENDS:= +libslang2 @!USE_MUSL
+ endef
+ 
+ define Package/libslang2/description
+@@ -48,7 +47,7 @@ define Package/libslang2/description
+   which is part of the S-Lang Library.
+ endef
+ 
+-TARGET_CFLAGS += $(FPIC)
++TARGET_CFLAGS += $(FPIC) -std=gnu99
+ TARGET_LDFLAGS += -L../src/${ARCH}elfobjs
+ 
+ CONFIGURE_ARGS += \
+-- 
+2.5.0
+

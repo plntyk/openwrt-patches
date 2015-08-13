@@ -1,0 +1,26 @@
+From cb218343a29a798e1e26f8fe2f250995e8f1a684 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 25 Mar 2015 16:02:10 +0100
+Subject: [PATCH 041/310] egenix-mx: fix python package name
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/egenix-mx/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/egenix-mx/Makefile b/lang/egenix-mx/Makefile
+index 80ebe50..934c53e 100644
+--- a/lang/egenix-mx/Makefile
++++ b/lang/egenix-mx/Makefile
+@@ -25,7 +25,7 @@ define Package/python-egenix-mx
+   SUBMENU:=Python
+   SECTION:=lang
+   CATEGORY:=Languages
+-  DEPENDS:=+python-mini
++  DEPENDS:=+python
+   TITLE:=Egenix mxBase
+   URL:=http://www.egenix.com/products/python/mxBase/
+ endef
+-- 
+2.5.0
+

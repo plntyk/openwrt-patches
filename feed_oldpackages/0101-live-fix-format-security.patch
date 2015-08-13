@@ -1,0 +1,31 @@
+From 26e652fefcfe9e404c91c6078b4c80c9f0642c67 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 28 Apr 2015 10:24:36 +0200
+Subject: [PATCH 101/310] live: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/live/patches/102-format_security.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 net/live/patches/102-format_security.patch
+
+diff --git a/net/live/patches/102-format_security.patch b/net/live/patches/102-format_security.patch
+new file mode 100644
+index 0000000..7faa8bb
+--- /dev/null
++++ b/net/live/patches/102-format_security.patch
+@@ -0,0 +1,11 @@
++--- a/testProgs/sapWatch.cpp
+++++ b/testProgs/sapWatch.cpp
++@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
++     }
++ 
++     packet[packetSize] = '\0'; // just in case
++-    printf((char*)(packet+8));
+++    printf("%s", (char*)(packet+8));
++   }
++ 
++   return 0; // only to prevent compiler warning
+-- 
+2.5.0
+

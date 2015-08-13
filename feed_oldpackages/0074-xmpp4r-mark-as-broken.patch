@@ -1,0 +1,26 @@
+From e8b737b24d30136becff3a0f3ffb616c0fe77b66 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:30:53 +0200
+Subject: [PATCH 074/310] xmpp4r: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/xmpp4r/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/xmpp4r/Makefile b/libs/xmpp4r/Makefile
+index b545963..094f1fc 100644
+--- a/libs/xmpp4r/Makefile
++++ b/libs/xmpp4r/Makefile
+@@ -21,7 +21,7 @@ define Package/xmpp4r
+ 	TITLE:=XMPP/Jabber library for Ruby
+ 	SECTION:=libs
+ 	CATEGORY:=Libraries
+-	DEPENDS:=+ruby
++	DEPENDS:=+ruby @BROKEN
+ 	MAINTAINER:=Giovanni Di Stasi <giovanni.distasi@unina.it>
+ 	URL:=http://home.gna.org/xmpp4r/
+ endef
+-- 
+2.5.0
+

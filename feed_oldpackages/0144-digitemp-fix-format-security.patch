@@ -1,0 +1,42 @@
+From 98ec3368dcc15afce146cdcdf30d236aef52c459 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:47:24 +0200
+Subject: [PATCH 144/310] digitemp: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/digitemp/patches/001-fix_format_string.patch | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 utils/digitemp/patches/001-fix_format_string.patch
+
+diff --git a/utils/digitemp/patches/001-fix_format_string.patch b/utils/digitemp/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..0d02519
+--- /dev/null
++++ b/utils/digitemp/patches/001-fix_format_string.patch
+@@ -0,0 +1,22 @@
++--- a/src/digitemp.c
+++++ b/src/digitemp.c
++@@ -586,7 +586,7 @@ int log_string( char *line )
++       perror("Error loging to logfile");
++     close( fd );
++   } else {
++-    printf( line );
+++    printf("%s", line );
++   }
++   return 0;
++ }  
++--- a/userial/ioutil.c
+++++ b/userial/ioutil.c
++@@ -86,7 +86,7 @@ int EnterString(char *msg, char *buf, in
++    // remember the start length
++    deflen = strlen(buf);
++    if (deflen < 80)
++-      sprintf(defbuf,buf);
+++      sprintf(defbuf, "%s", buf);
++    else
++       defbuf[0] = 0;
++ 
+-- 
+2.5.0
+

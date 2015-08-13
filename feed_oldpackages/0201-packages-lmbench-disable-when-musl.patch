@@ -1,0 +1,25 @@
+From 20097a09797f24041df21a8d5b7d16df23f38498 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:33:03 +0200
+Subject: [PATCH 201/310] [packages] lmbench: disable when musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/lmbench/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/utils/lmbench/Makefile b/utils/lmbench/Makefile
+index 91866a1..d4d7954 100644
+--- a/utils/lmbench/Makefile
++++ b/utils/lmbench/Makefile
+@@ -25,6 +25,7 @@ define Package/lmbench
+   TITLE:=lmbench microbenchmarks
+   URL:=http://sourceforge.net/projects/lmbench
+   MENU:=1
++  DEPENDS:=@!USE_MUSL
+ endef
+ 
+ define Package/lmbench/description
+-- 
+2.5.0
+

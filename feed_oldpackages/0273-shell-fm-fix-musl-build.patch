@@ -1,0 +1,30 @@
+From 3c936d7fde81d697dbf252b5e1ed2d51304d14e4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:09:35 +0200
+Subject: [PATCH 273/310] shell-fm: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ sound/shell-fm/patches/002-musl_time_t.patch | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 sound/shell-fm/patches/002-musl_time_t.patch
+
+diff --git a/sound/shell-fm/patches/002-musl_time_t.patch b/sound/shell-fm/patches/002-musl_time_t.patch
+new file mode 100644
+index 0000000..c9f2f9d
+--- /dev/null
++++ b/sound/shell-fm/patches/002-musl_time_t.patch
+@@ -0,0 +1,10 @@
++--- a/source/include/globals.h
+++++ b/source/include/globals.h
++@@ -4,6 +4,7 @@
++ 
++ /* for pid_t */
++ #include <unistd.h>
+++#include <time.h>
++ 
++ #include "hash.h"
++ #include "playlist.h"
+-- 
+2.5.0
+

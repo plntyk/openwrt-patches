@@ -1,0 +1,26 @@
+From d7d147a16f04d6615207e1ef52dfc3ea60eb1228 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:24:44 +0200
+Subject: [PATCH 068/310] telepathy-python: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/telepathy-python/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/telepathy-python/Makefile b/lang/telepathy-python/Makefile
+index 436ea67..3ea0d1e 100644
+--- a/lang/telepathy-python/Makefile
++++ b/lang/telepathy-python/Makefile
+@@ -23,7 +23,7 @@ define Package/telepathy-python
+   CATEGORY:=Languages
+   TITLE:=telepathy-python
+   URL:=http://telepathy.freedesktop.org
+-  DEPENDS:=+python-mini +dbus-python
++  DEPENDS:=+python +dbus-python @BROKEN
+ endef
+ 
+ define Package/telepathy-python/description
+-- 
+2.5.0
+

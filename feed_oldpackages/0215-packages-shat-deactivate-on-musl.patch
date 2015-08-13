@@ -1,0 +1,25 @@
+From bff0a9fbaf7f135583ea8474041f428d13f23203 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:41:40 +0200
+Subject: [PATCH 215/310] [packages] shat: deactivate on musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/shat/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/shat/Makefile b/net/shat/Makefile
+index 7412f53..c9803f3 100644
+--- a/net/shat/Makefile
++++ b/net/shat/Makefile
+@@ -22,6 +22,7 @@ define Package/shat
+   CATEGORY:=Network
+   TITLE:=Source Hardware Address Translation
+   URL:=http://sourceforge.net/projects/shat/
++  DEPENDS:=@!USE_MUSL
+ endef
+ 
+ define Package/shat/description
+-- 
+2.5.0
+

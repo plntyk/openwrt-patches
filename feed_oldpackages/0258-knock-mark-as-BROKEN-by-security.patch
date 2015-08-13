@@ -1,0 +1,55 @@
+From 428a08ba3c76fe568078f9911153d0f908b299c7 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:00:52 +0200
+Subject: [PATCH 258/310] knock: mark as BROKEN by security
+
+fwknop has a better approach
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/knock/Makefile                    |  3 ++-
+ net/knock/patches/020-musl_time.patch | 11 +++++++++++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
+ create mode 100644 net/knock/patches/020-musl_time.patch
+
+diff --git a/net/knock/Makefile b/net/knock/Makefile
+index 62866fd..d0483f4 100644
+--- a/net/knock/Makefile
++++ b/net/knock/Makefile
+@@ -21,7 +21,7 @@ define Package/knock/Default
+   SECTION:=net
+   CATEGORY:=Network
+   SUBMENU:=Firewall
+-  DEPENDS:=+libpcap
++  DEPENDS:=+libpcap @BROKEN
+   TITLE:=Port-knocking
+   URL:=http://www.zeroflux.org/projects/knock
+ endef
+@@ -41,6 +41,7 @@ define Package/knock/Default/description
+ 	detects a specific sequence of port-hits, it runs a command
+ 	defined in its configuration file. This can be used to open
+ 	up holes in a firewall for quick access.
++        BROKEN for security: fwknop seems a better approach
+ endef
+ 
+ define Package/knock/description
+diff --git a/net/knock/patches/020-musl_time.patch b/net/knock/patches/020-musl_time.patch
+new file mode 100644
+index 0000000..265e6cb
+--- /dev/null
++++ b/net/knock/patches/020-musl_time.patch
+@@ -0,0 +1,11 @@
++--- a/src/knockd.c
+++++ b/src/knockd.c
++@@ -35,7 +35,7 @@
++ #include <netinet/udp.h>
++ #include <netinet/ip_icmp.h>
++ #include <net/if.h>
++-#include <bits/time.h>
+++#include <time.h>
++ #include <sys/socket.h>
++ #include <sys/types.h>
++ #include <sys/wait.h>
+-- 
+2.5.0
+

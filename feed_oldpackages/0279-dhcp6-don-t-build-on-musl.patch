@@ -1,0 +1,26 @@
+From dd87dc4bf9124cb8541b32be2589a5e9e605762d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:11:33 +0200
+Subject: [PATCH 279/310] dhcp6: don't build on musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ ipv6/dhcp6/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ipv6/dhcp6/Makefile b/ipv6/dhcp6/Makefile
+index a82f024..d4dbdfd 100644
+--- a/ipv6/dhcp6/Makefile
++++ b/ipv6/dhcp6/Makefile
+@@ -22,7 +22,7 @@ PKG_UNPACK:=unzip -d $(PKG_BUILD_DIR)/ $(DL_DIR)/$(PKG_SOURCE)
+ define Package/dhcp6/Default
+   SECTION:=net
+   CATEGORY:=Network
+-  DEPENDS:=+libncurses
++  DEPENDS:=+libncurses @!USE_MUSL
+   TITLE:=IPv6 DHCP
+   URL:=http://sourceforge.net/projects/dhcpv6-linux
+ endef
+-- 
+2.5.0
+

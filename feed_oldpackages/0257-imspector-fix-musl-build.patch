@@ -1,0 +1,31 @@
+From 7e156a3c0387143e8fb5efaa928b20db967cf7a6 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:00:23 +0200
+Subject: [PATCH 257/310] imspector: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/imspector/patches/020-musl.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 net/imspector/patches/020-musl.patch
+
+diff --git a/net/imspector/patches/020-musl.patch b/net/imspector/patches/020-musl.patch
+new file mode 100644
+index 0000000..27fd5cc
+--- /dev/null
++++ b/net/imspector/patches/020-musl.patch
+@@ -0,0 +1,11 @@
++--- a/socket.h
+++++ b/socket.h
++@@ -11,7 +11,7 @@
++ struct mysockaddr
++ {
++ #if defined (__linux__)
++-	__SOCKADDR_COMMON (sa_);
+++	sa_family_t sa_family;
++ #else
++ 	unsigned char   sa_len;
++ 	sa_family_t  sa_family;
+-- 
+2.5.0
+

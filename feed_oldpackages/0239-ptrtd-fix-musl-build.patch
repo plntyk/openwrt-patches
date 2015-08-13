@@ -1,0 +1,31 @@
+From 2b3b0321ebd10c4a34a1c9bde4e9c445c1f4ff86 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:49:39 +0200
+Subject: [PATCH 239/310] ptrtd: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ ipv6/ptrtd/patches/200-musl_types.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 ipv6/ptrtd/patches/200-musl_types.patch
+
+diff --git a/ipv6/ptrtd/patches/200-musl_types.patch b/ipv6/ptrtd/patches/200-musl_types.patch
+new file mode 100644
+index 0000000..fe6db1b
+--- /dev/null
++++ b/ipv6/ptrtd/patches/200-musl_types.patch
+@@ -0,0 +1,11 @@
++--- a/buffer.h
+++++ b/buffer.h
++@@ -23,6 +23,8 @@
++ #ifndef _BUFFER_H
++ #define _BUFFER_H
++ 
+++#include <sys/types.h>
+++
++ struct ringbuf {
++ 	uchar *p;
++ 	int size;
+-- 
+2.5.0
+

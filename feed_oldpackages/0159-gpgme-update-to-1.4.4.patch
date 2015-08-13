@@ -1,0 +1,48 @@
+From 6e0cc7c6de94c4fd76509de0b1de4f96601959aa Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 4 Jun 2015 19:10:14 +0200
+Subject: [PATCH 159/310] gpgme: update to 1.4.4
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/gpgme/Makefile | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/libs/gpgme/Makefile b/libs/gpgme/Makefile
+index e397220..cf49318 100644
+--- a/libs/gpgme/Makefile
++++ b/libs/gpgme/Makefile
+@@ -8,15 +8,17 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=gpgme
+-PKG_VERSION:=1.4.3
++PKG_VERSION:=1.4.4
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+ PKG_SOURCE_URL:=ftp://ftp.gnupg.org/gcrypt/gpgme/
+-PKG_MD5SUM:=334e524cffa8af4e2f43ae8afe585672
++PKG_MD5SUM:=5f8064dac227d12496dc559bd34f1bee
+ 
+-PKG_INSTALL:=1
++PKG_BUILD_DEPENDS:=argp-standalone
+ 
++PKG_INSTALL:=1
++PKG_FIXUP:=autoreconf
+ PKG_USE_MIPS16:=0
+ 
+ include $(INCLUDE_DIR)/package.mk
+@@ -50,8 +52,7 @@ CONFIGURE_ARGS += \
+ 	--with-libassuan-prefix="$(STAGING_DIR)/usr" \
+ 	--without-g13 \
+ 	--without-gpgconf \
+-	--without-gpgsm \
+-	--without-pth \
++	--without-gpgsm
+ 
+ define Build/InstallDev
+ 	$(INSTALL_DIR) $(1)/usr/include
+-- 
+2.5.0
+

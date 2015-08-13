@@ -1,0 +1,31 @@
+From ec9a52c964c4e86a2580c533ccda9d1027ad6aed Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:39:54 +0200
+Subject: [PATCH 212/310] [packages] libnfsidmap: fix musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libnfsidmap/patches/001-musl-fix_include.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 libs/libnfsidmap/patches/001-musl-fix_include.patch
+
+diff --git a/libs/libnfsidmap/patches/001-musl-fix_include.patch b/libs/libnfsidmap/patches/001-musl-fix_include.patch
+new file mode 100644
+index 0000000..6fe0af5
+--- /dev/null
++++ b/libs/libnfsidmap/patches/001-musl-fix_include.patch
+@@ -0,0 +1,11 @@
++--- a/cfg.h
+++++ b/cfg.h
++@@ -33,6 +33,8 @@
++ #ifndef _CONF_H_
++ #define _CONF_H_
++ 
+++#include <sys/types.h>
+++
++ #include "queue.h"
++ 
++ struct conf_list_node {
+-- 
+2.5.0
+

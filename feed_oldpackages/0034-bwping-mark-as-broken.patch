@@ -1,0 +1,25 @@
+From 62cc070e168809732316d3eda1d388346e9d401b Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 25 Mar 2015 12:07:40 +0100
+Subject: [PATCH 034/310] bwping: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/bwping/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/bwping/Makefile b/net/bwping/Makefile
+index c63c46a..7777540 100644
+--- a/net/bwping/Makefile
++++ b/net/bwping/Makefile
+@@ -16,6 +16,7 @@ PKG_SOURCE_URL:=@SF/bwping
+ PKG_MD5SUM:=e5d2de8cf61791ad16713bd86609368f
+ 
+ PKG_INSTALL:=1
++PKG_FIXUP:=autoreconf
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+-- 
+2.5.0
+

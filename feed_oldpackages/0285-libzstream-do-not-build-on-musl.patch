@@ -1,0 +1,35 @@
+From 3f186d2a7b15171785e330ab597cd892774d1327 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:14:36 +0200
+Subject: [PATCH 285/310] libzstream: do not build on musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libzstream/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libs/libzstream/Makefile b/libs/libzstream/Makefile
+index 1faaf02..7ba7585 100644
+--- a/libs/libzstream/Makefile
++++ b/libs/libzstream/Makefile
+@@ -24,7 +24,7 @@ define Package/libzstream
+   SECTION:=libs
+   CATEGORY:=Libraries
+   TITLE:=minimalistic network stream library
+-  DEPENDS:=+libubox +libopenssl
++  DEPENDS:=+libubox +libopenssl @!USE_MUSL
+ endef
+ 
+ define Package/zstream
+@@ -41,7 +41,7 @@ TARGET_LDFLAGS += \
+ define Build/Compile
+ 	$(MAKE) -C $(PKG_BUILD_DIR) \
+ 		$(TARGET_CONFIGURE_OPTS) \
+-		CPPFLAGS="$(TARGET_CPPFLAGS)" \
++		CPPFLAGS="$(TARGET_CPPFLAGS) -D_GNU_SOURCE" \
+ 		CFLAGS="$(TARGET_CFLAGS)" \
+ 		LDFLAGS="$(TARGET_LDFLAGS)" \
+ 		WFLAGS="-Wall -Werror"
+-- 
+2.5.0
+

@@ -1,0 +1,29 @@
+From f7a6c4fb80f99932fd655a5b2fdb4771c46682ea Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:17:51 +0200
+Subject: [PATCH 177/310] [packages] mini_httpd: disable matrixssl
+
+- Header file changed
+- maybe abi did change too ?
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/mini_httpd/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/mini_httpd/Makefile b/net/mini_httpd/Makefile
+index 842b571..e70ab84 100644
+--- a/net/mini_httpd/Makefile
++++ b/net/mini_httpd/Makefile
+@@ -64,7 +64,7 @@ endef
+ 
+ define Package/mini-httpd-matrixssl
+ $(call Package/mini-httpd/Default)
+-  DEPENDS:= +libmatrixssl
++  DEPENDS:= +libmatrixssl @BROKEN
+   TITLE+= (built with MatrixSSL)
+ endef
+ 
+-- 
+2.5.0
+

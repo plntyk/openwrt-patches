@@ -1,0 +1,109 @@
+From ad216c28260b8c9f8087ff1d14b849790c4b719c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:54:00 +0200
+Subject: [PATCH 244/310] n2n: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/n2n/patches/001-musl_ethaddr.patch | 10 +++++
+ net/n2n/patches/002-musl_ethhdr.patch  | 71 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
+ create mode 100644 net/n2n/patches/001-musl_ethaddr.patch
+ create mode 100644 net/n2n/patches/002-musl_ethhdr.patch
+
+diff --git a/net/n2n/patches/001-musl_ethaddr.patch b/net/n2n/patches/001-musl_ethaddr.patch
+new file mode 100644
+index 0000000..2286ad0
+--- /dev/null
++++ b/net/n2n/patches/001-musl_ethaddr.patch
+@@ -0,0 +1,10 @@
++--- a/n2n.h
+++++ b/n2n.h
++@@ -73,7 +72,6 @@
++ 
++ #include <syslog.h>
++ #include <sys/wait.h>
++-#include <net/ethernet.h>
++ #include <netinet/in.h>
++ #include <netinet/ip.h>
++ #include <netinet/udp.h>
+diff --git a/net/n2n/patches/002-musl_ethhdr.patch b/net/n2n/patches/002-musl_ethhdr.patch
+new file mode 100644
+index 0000000..57b1d99
+--- /dev/null
++++ b/net/n2n/patches/002-musl_ethhdr.patch
+@@ -0,0 +1,71 @@
++--- a/edge.c
+++++ b/edge.c
++@@ -749,11 +749,11 @@ static void send_packet2net(n2n_edge_t *
++   struct peer_addr destination;
++   macstr_t mac_buf;
++   macstr_t mac2_buf;
++-  struct ether_header *eh = (struct ether_header*)decrypted_msg;
+++  struct ethhdr *eh = (struct ethhdr*)decrypted_msg;
++ 
++   /* Discard IP packets that are not originated by this hosts */
++   if(!(eee->allow_routing)) {
++-    if(ntohs(eh->ether_type) == 0x0800) {
+++    if(ntohs(eh->h_proto) == 0x0800) {
++       /* This is an IP packet from the local source address - not forwarded. */
++ #define ETH_FRAMESIZE 14
++ #define IP4_SRCOFFSET 12
++@@ -788,15 +788,15 @@ static void send_packet2net(n2n_edge_t *
++ 
++   len += N2N_PKT_HDR_SIZE;
++ 
++-  if(find_peer_destination(eee, eh->ether_dhost, &destination))
+++  if(find_peer_destination(eee, eh->h_dest, &destination))
++     traceEvent(TRACE_INFO, "** Going direct [dst_mac=%s][dest=%s:%hu]",
++-	       macaddr_str((char*)eh->ether_dhost, mac_buf, sizeof(mac_buf)),
+++	       macaddr_str((char*)eh->h_dest, mac_buf, sizeof(mac_buf)),
++ 	       intoa(ntohl(destination.addr_type.v4_addr), ip_buf, sizeof(ip_buf)),
++ 	       ntohs(destination.port));
++   else
++     traceEvent(TRACE_INFO, "   Going via supernode [src_mac=%s][dst_mac=%s]",
++-	       macaddr_str((char*)eh->ether_shost, mac_buf, sizeof(mac_buf)),
++-	       macaddr_str((char*)eh->ether_dhost, mac2_buf, sizeof(mac2_buf)));
+++	       macaddr_str((char*)eh->h_source, mac_buf, sizeof(mac_buf)),
+++	       macaddr_str((char*)eh->h_dest, mac2_buf, sizeof(mac2_buf)));
++ 
++   data_sent_len = reliable_sendto( &(eee->sinfo), packet, &len, &destination, 
++                                    N2N_COMPRESSION_ENABLED);
++@@ -819,11 +819,11 @@ int is_ip6_discovery( const void * buf,
++ {
++   int retval = 0;
++ 
++-  if ( bufsize >= sizeof(struct ether_header) )
+++  if ( bufsize >= sizeof(struct ethhdr) )
++     {
++-      struct ether_header *eh = (struct ether_header*)buf;
++-      if ( (0x33 == eh->ether_dhost[0]) &&
++-	   (0x33 == eh->ether_dhost[1]) )
+++      struct ethhdr *eh = (struct ethhdr*)buf;
+++      if ( (0x33 == eh->h_dest[0]) &&
+++	   (0x33 == eh->h_dest[1]) )
++         {
++ 	  retval = 1; /* This is an IPv6 neighbour discovery packet. */
++         }
++@@ -858,15 +858,15 @@ static int check_received_packet(n2n_edg
++     exit(0);
++   } else if(pkt_len > 32 /* IP + Ethernet */) {
++     /* Check if this packet is for us or if it's routed */
++-    struct ether_header *eh = (struct ether_header*)pkt;
+++    struct ethhdr *eh = (struct ethhdr*)pkt;
++       
++     const struct in_addr bcast = { 0xffffffff };
++ 
++-    if(ntohs(eh->ether_type) == 0x0800) {
+++    if(ntohs(eh->h_proto) == 0x0800) {
++ 
++       /* Note: all elements of the_ip are in network order */
++       struct ip the_ip;
++-      memcpy( &the_ip, pkt+sizeof(struct ether_header), sizeof(the_ip) );
+++      memcpy( &the_ip, pkt+sizeof(struct ethhdr), sizeof(the_ip) );
++ 
++       if((the_ip.ip_dst.s_addr != eee->device.ip_addr)
++ 	 && ((the_ip.ip_dst.s_addr & eee->device.device_mask) != (eee->device.ip_addr & eee->device.device_mask)) /* Not a broadcast */
+-- 
+2.5.0
+

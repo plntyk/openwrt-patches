@@ -1,0 +1,30 @@
+From 90fa99bb9e638d4ef30d654b15825f9aa0c82ff5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:11:01 +0200
+Subject: [PATCH 277/310] lcdproc: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/lcdproc/patches/001-musl_time_t.patch | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 utils/lcdproc/patches/001-musl_time_t.patch
+
+diff --git a/utils/lcdproc/patches/001-musl_time_t.patch b/utils/lcdproc/patches/001-musl_time_t.patch
+new file mode 100644
+index 0000000..6c67f69
+--- /dev/null
++++ b/utils/lcdproc/patches/001-musl_time_t.patch
+@@ -0,0 +1,10 @@
++--- a/clients/lcdproc/machine.h
+++++ b/clients/lcdproc/machine.h
++@@ -12,6 +12,7 @@
++ #ifndef _lcdproc_machine_h_
++ #define _lcdproc_machine_h_
++ 
+++#include <time.h>
++ #include "shared/LL.h"
++ 
++ #ifndef LOADAVG_NSTATS
+-- 
+2.5.0
+

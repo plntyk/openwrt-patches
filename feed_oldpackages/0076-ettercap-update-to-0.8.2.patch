@@ -1,0 +1,257 @@
+From 983e7a296f88964821aab37da7bc7a32ddda142d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:32:49 +0200
+Subject: [PATCH 076/310] ettercap: update to 0.8.2
+
+ettercap 0.7.3 is 10years old
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/ettercap/Makefile                              | 52 ++++++++++------------
+ .../patches/001-cmake_in_source_build.patch        | 11 +++++
+ net/ettercap/patches/001-cross_compiling.patch     | 23 ----------
+ net/ettercap/patches/002-cmake_iconv_names.patch   | 22 +++++++++
+ .../patches/002-libnet_check_honor_ldflags.patch   | 24 ----------
+ net/ettercap/patches/003-automake-compat.patch     | 34 --------------
+ 6 files changed, 56 insertions(+), 110 deletions(-)
+ create mode 100644 net/ettercap/patches/001-cmake_in_source_build.patch
+ delete mode 100644 net/ettercap/patches/001-cross_compiling.patch
+ create mode 100644 net/ettercap/patches/002-cmake_iconv_names.patch
+ delete mode 100644 net/ettercap/patches/002-libnet_check_honor_ldflags.patch
+ delete mode 100644 net/ettercap/patches/003-automake-compat.patch
+
+diff --git a/net/ettercap/Makefile b/net/ettercap/Makefile
+index 92b06e1..9c30fec 100644
+--- a/net/ettercap/Makefile
++++ b/net/ettercap/Makefile
+@@ -8,26 +8,25 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=ettercap
+-PKG_VERSION:=NG-0.7.3
+-PKG_RELEASE:=2
++PKG_VERSION:=0.8.2
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+-PKG_SOURCE_URL:=@SF/ettercap
+-PKG_MD5SUM:=28fb15cd024162c55249888fe1b97820
++PKG_SOURCE_URL:=https://github.com/Ettercap/ettercap/releases/download/v0.8.2/
++PKG_MD5SUM:=b6b20851862f55644d5f296f77b785d1
+ 
+-PKG_FIXUP:=autoreconf
+ PKG_INSTALL:=1
+-PKG_BUILD_PARALLEL:=1
+ 
+ include $(INCLUDE_DIR)/package.mk
+-include $(INCLUDE_DIR)/nls.mk
++include $(INCLUDE_DIR)/cmake.mk
++# include $(INCLUDE_DIR)/nls.mk
+ 
+ define Package/ettercap
+   SECTION:=net
+   CATEGORY:=Network
+-  DEPENDS:=+libpcap +libnet1 +libopenssl +libpcre +libncurses +libltdl +libpthread +zlib
++  DEPENDS:=+libcurl +libpcap +libnet1 +libopenssl +libpcre +libncurses +libltdl +libpthread +zlib +libiconv-full
+   TITLE:=Ettercap is a suite for man in the middle attacks on LAN.
+-  URL:=http://ettercap.sourceforge.net
++  URL:=http://www.ettercap-project.org
+ endef
+ 
+ define Package/ettercap/description
+@@ -41,33 +40,28 @@ define Package/ettercap/conffiles
+ /etc/etter.conf
+ endef
+ 
+-define Build/Prepare
+-	$(call Build/Prepare/Default)
+-	# remove default optimization flags set by configure
+-	$(SED) 's,DEBUG_FLAGS=.*,DEBUG_FLAGS=,g' $(PKG_BUILD_DIR)/configure
+-endef
+-
+-CONFIGURE_ARGS += \
+-	--with-libpcap="$(STAGING_DIR)/usr" \
+-	--with-libnet="$(STAGING_DIR)/usr/lib/libnet-1.1.x" \
+-	--with-openssl="$(STAGING_DIR)/usr" \
+-	--with-libpcre="$(STAGING_DIR)/usr" \
+-	--with-iconv="$(ICONV_PREFIX)" \
+-	--with-libncurses="$(STAGING_DIR)/usr" \
+-	--disable-gtk \
+-	--disable-debug \
+-	--enable-plugins
++TARGET_CFLAGS += -I$(STAGING_DIR)/usr/lib/libiconv-full/include
+ 
+-MAKE_FLAGS += \
+-	DESTDIR="$(PKG_INSTALL_DIR)"
++#IPV6 -> LIBNET needed?
++CMAKE_OPTIONS += \
++	-DHAVE_UTF8:BOOL=OFF \
++	-DINSTALL_DESKTOP:BOOL=OFF \
++	-DENABLE_GTK:BOOL=OFF \
++	-DBUNDLED_LIBS:BOOL=OFF \
++	-DLIBNET_INCLUDE_DIR:PATH=$(STAGING_DIR)/usr/lib/libnet-1.1.x/include \
++	-DLIBNET_LIBRARY:FILEPATH=$(STAGING_DIR)/usr/lib/libnet-1.1.x/lib/libnet.so \
++	-DHAVE_ICONV:FILEPATH=$(STAGING_DIR)/usr/lib/libiconv-full/lib/libiconv.so \
++	-DEXECUTABLE_OUTPUT_PATH=$(PKG_BUILD_DIR)/bin_out
+ 
+ define Package/ettercap/install
+-	$(INSTALL_DIR) $(1)/etc
+-	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/etter.conf $(1)/etc/
++	$(INSTALL_DIR) $(1)/etc/ettercap
++	$(INSTALL_CONF) $(PKG_INSTALL_DIR)/etc/ettercap/etter.* $(1)/etc/ettercap/
+ 	$(INSTALL_DIR) $(1)/usr/bin
+ 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/bin/etter{cap,filter,log} $(1)/usr/bin/
+ 	$(INSTALL_DIR) $(1)/usr/lib/ettercap
+ 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/ettercap/*.so $(1)/usr/lib/ettercap/
++	$(INSTALL_DIR) $(1)/usr/lib
++	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/lib/libettercap.so* $(1)/usr/lib/
+ 	$(INSTALL_DIR) $(1)/usr/share/ettercap
+ 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/share/ettercap/* $(1)/usr/share/ettercap/
+ endef
+diff --git a/net/ettercap/patches/001-cmake_in_source_build.patch b/net/ettercap/patches/001-cmake_in_source_build.patch
+new file mode 100644
+index 0000000..a66504f
+--- /dev/null
++++ b/net/ettercap/patches/001-cmake_in_source_build.patch
+@@ -0,0 +1,11 @@
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -6,8 +6,6 @@ set(VERSION "0.8.2")
++ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
++ set(CMAKE_SCRIPT_PATH "${CMAKE_SOURCE_DIR}/cmake/Scripts")
++ 
++-include(MacroEnsureOutOfSourceBuild)
++-macro_ensure_out_of_source_build("${PROJECT_NAME} requires an out of source build. Please create a separate build directory and run 'cmake /path/to/${PROJECT_NAME} [options]' there.")
++ 
++ option(ENABLE_CURSES "Enable curses interface" ON)
++ option(ENABLE_GTK "Enable GTK interface" ON)
+diff --git a/net/ettercap/patches/001-cross_compiling.patch b/net/ettercap/patches/001-cross_compiling.patch
+deleted file mode 100644
+index 8c95397..0000000
+--- a/net/ettercap/patches/001-cross_compiling.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-diff -urN ettercap-NG-0.7.3/configure ettercap-NG-0.7.3.new/configure
+---- ettercap-NG-0.7.3/configure	2005-05-27 17:11:45.000000000 +0200
+-+++ ettercap-NG-0.7.3.new/configure	2006-08-21 20:15:07.000000000 +0200
+-@@ -27354,6 +27354,7 @@
+- 
+-    echo "$as_me:$LINENO: checking for NS_GET32" >&5
+- echo $ECHO_N "checking for NS_GET32... $ECHO_C" >&6
+-+cross_compiling=no
+-    if test "$cross_compiling" = yes; then
+-   { { echo "$as_me:$LINENO: error: cannot run test program while cross compiling
+- See \`config.log' for more details." >&5
+-diff -urN ettercap-NG-0.7.3/configure.in ettercap-NG-0.7.3.new/configure.in
+---- ettercap-NG-0.7.3/configure.in	2005-01-13 10:24:28.000000000 +0100
+-+++ ettercap-NG-0.7.3.new/configure.in	2006-08-21 20:13:29.000000000 +0200
+-@@ -236,7 +236,7 @@
+- AC_CHECK_HEADERS(sys/poll.h poll.h sys/select.h)
+- AC_CHECK_HEADERS(sys/cdefs.h)
+- dnl nameser NS_GET32 and so on...
+--EC_NS_GET()
+-+#EC_NS_GET()
+- 
+- dnl ==================================================================
+- dnl   Checks for typedefs, structures, and compiler characteristics.
+diff --git a/net/ettercap/patches/002-cmake_iconv_names.patch b/net/ettercap/patches/002-cmake_iconv_names.patch
+new file mode 100644
+index 0000000..4863ba1
+--- /dev/null
++++ b/net/ettercap/patches/002-cmake_iconv_names.patch
+@@ -0,0 +1,22 @@
++--- a/cmake/Modules/EttercapLibCheck.cmake
+++++ b/cmake/Modules/EttercapLibCheck.cmake
++@@ -98,7 +98,7 @@ include(CheckLibraryExists)
++ include(CheckIncludeFile)
++ 
++ # Iconv
++-FIND_LIBRARY(HAVE_ICONV iconv)
+++FIND_LIBRARY(HAVE_ICONV NAMES iconv libiconv-full PATHS ${STAGING_DIR}/usr/lib/libiconv-full)
++ CHECK_FUNCTION_EXISTS(iconv HAVE_UTF8)
++ if(HAVE_ICONV)
++     # Seem that we have a dedicated iconv library not built in libc (e.g. FreeBSD)
++--- a/CMakeLists.txt
+++++ b/CMakeLists.txt
++@@ -126,6 +126,8 @@ endif(NOT DISABLE_RPATH)
++ set(CMAKE_C_FLAGS_DEBUG "-O0 -ggdb3 -DDEBUG -Wall -Wno-pointer-sign -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security -Wextra -Wredundant-decls" CACHE STRING "" FORCE)
++ set(CMAKE_C_FLAGS_RELEASE "-O2 -w -D_FORTIFY_SOURCE=2" CACHE STRING "" FORCE)
++ 
+++
+++
++ if(OS_DARWIN)
++ set(CMAKE_EXE_LINKER_FLAGS "-Wl" CACHE STRING "" FORCE)
++ set(CMAKE_EXE_LINKER_FLAGS_DEBUG "-Wl" CACHE STRING "" FORCE)
+diff --git a/net/ettercap/patches/002-libnet_check_honor_ldflags.patch b/net/ettercap/patches/002-libnet_check_honor_ldflags.patch
+deleted file mode 100644
+index 55b00a7..0000000
+--- a/net/ettercap/patches/002-libnet_check_honor_ldflags.patch
++++ /dev/null
+@@ -1,24 +0,0 @@
+-diff -ruN ettercap-NG-0.7.3-old/configure ettercap-NG-0.7.3-new/configure
+---- ettercap-NG-0.7.3-old/configure	2006-10-03 18:24:09.000000000 +0200
+-+++ ettercap-NG-0.7.3-new/configure	2006-10-03 18:28:57.000000000 +0200
+-@@ -31759,7 +31759,7 @@
+- 
+-    OLDLDFLAGS="${LDFLAGS}"
+-    OLDLIBS="${LIBS}"
+--   LDFLAGS="$LNETLIB"
+-+   LDFLAGS="$LDFLAGS $LNETLIB"
+-    LIBS="$LIBS"
+- 
+- echo "$as_me:$LINENO: checking for libnet_adv_free_packet in -lnet" >&5
+-diff -ruN ettercap-NG-0.7.3-old/configure.in ettercap-NG-0.7.3-new/configure.in
+---- ettercap-NG-0.7.3-old/configure.in	2006-10-03 18:24:09.000000000 +0200
+-+++ ettercap-NG-0.7.3-new/configure.in	2006-10-03 18:26:45.000000000 +0200
+-@@ -500,7 +500,7 @@
+- ]
+- )
+- 
+--EC_CHECK_FUNC(net, libnet_adv_free_packet, $LNETLIB, $LIBS,, AC_MSG_ERROR([Incorrect libnet version. libnet >= 1.1.2.1 required]))
+-+EC_CHECK_FUNC(net, libnet_adv_free_packet, $LDFLAGS $LNETLIB, $LIBS,, AC_MSG_ERROR([Incorrect libnet version. libnet >= 1.1.2.1 required]))
+- 
+- dnl ------------------
+- dnl Checks for openssl
+diff --git a/net/ettercap/patches/003-automake-compat.patch b/net/ettercap/patches/003-automake-compat.patch
+deleted file mode 100644
+index eea45f2..0000000
+--- a/net/ettercap/patches/003-automake-compat.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+---- a/configure.in
+-+++ b/configure.in
+-@@ -197,6 +197,9 @@ dnl ========================
+- dnl   Libtool related...
+- dnl ========================
+- 
+-+LT_INIT
+-+LTDL_INIT
+-+LT_CONFIG_LTDL_DIR([libltdl])
+- AC_DISABLE_STATIC
+- AC_LIBTOOL_WIN32_DLL
+- AC_LIBTOOL_DLOPEN
+---- a/include/ec_os_mingw.h
+-+++ b/include/ec_os_mingw.h
+-@@ -163,7 +163,7 @@ EC_API_EXTERN const char *ec_win_get_ec_
+-  */
+- #if !defined(HAVE_DLOPEN)
+-    #define RTLD_NOW 0
+--   #define LTDL_SHLIB_EXT       "*.dll"
+-+   #define LT_MODULE_EXT       ".dll"
+- 
+-    #define dlopen(dll,flg)      ec_win_dlopen (dll, flg)
+-    #define lt_dlopen(dll)       ec_win_dlopen (dll, 0)
+---- a/src/ec_plugins.c
+-+++ b/src/ec_plugins.c
+-@@ -131,7 +131,7 @@ int plugin_filter(struct dirent *d)
+- int plugin_filter(const struct dirent *d)
+- #endif
+- {
+--   if ( match_pattern(d->d_name, PLUGIN_PATTERN LTDL_SHLIB_EXT) )
+-+   if ( match_pattern(d->d_name, PLUGIN_PATTERN LT_MODULE_EXT) )
+-       return 1;
+- 
+-    return 0;
+-- 
+2.5.0
+

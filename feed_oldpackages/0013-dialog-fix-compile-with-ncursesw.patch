@@ -1,0 +1,26 @@
+From 779412f66d9a3e1c138cbe4b265193efac1d8a5f Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 29 Jan 2015 17:32:17 +0100
+Subject: [PATCH 013/310] dialog: fix compile with ncursesw
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/dialog/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/dialog/Makefile b/utils/dialog/Makefile
+index 8c4737a..c9050da 100644
+--- a/utils/dialog/Makefile
++++ b/utils/dialog/Makefile
+@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/dialog
+   SECTION:=utils
+   CATEGORY:=Utilities
+-  DEPENDS:=+libncurses
++  DEPENDS:=+PACKAGE_libncursesw:libncursesw +!PACKAGE_libncursesw:libncurses
+   TITLE:=Dialog
+   URL:=http://invisible-island.net/dialog/
+ endef
+-- 
+2.5.0
+

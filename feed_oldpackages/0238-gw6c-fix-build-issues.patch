@@ -1,0 +1,68 @@
+From 3adc2916019afc641d78d2754c57ecf3b82fe115 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:48:25 +0200
+Subject: [PATCH 238/310] gw6c: fix build issues
+
+- gcc5 header fixes
+- libstdc++ fixes
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ ipv6/gw6c/Makefile                       |  1 +
+ ipv6/gw6c/patches/003-gcc5_include.patch | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 ipv6/gw6c/patches/003-gcc5_include.patch
+
+diff --git a/ipv6/gw6c/Makefile b/ipv6/gw6c/Makefile
+index e17538a..80630be 100644
+--- a/ipv6/gw6c/Makefile
++++ b/ipv6/gw6c/Makefile
+@@ -54,6 +54,7 @@ define Build/Compile
+ 		$(GW6C_OPTS)
+ 	$(MAKE) -C $(PKG_BUILD_DIR)/tspc-advanced \
+ 		CC="$(TARGET_CC)" \
++		EXTRALIBS="-nodefaultlibs $(if $(CONFIG_USE_UCLIBCXX),-luClibc++,-lstdc++) -lc -lgcc -lpthread -lgw6cconfig -lgw6cmessaging" \
+ 		CFLAGS="$(TARGET_CFLAGS) -fno-builtin -Wall -I$(PKG_BUILD_DIR)/tspc-advanced/include \
+ 			-I$(PKG_BUILD_DIR)/tspc-advanced/platform/openwrt -I$(PKG_BUILD_DIR)/tspc-advanced" \
+ 		LDFLAGS="-L$(PKG_BUILD_DIR)/tspc-advanced/gw6cconfig \
+diff --git a/ipv6/gw6c/patches/003-gcc5_include.patch b/ipv6/gw6c/patches/003-gcc5_include.patch
+new file mode 100644
+index 0000000..0459478
+--- /dev/null
++++ b/ipv6/gw6c/patches/003-gcc5_include.patch
+@@ -0,0 +1,32 @@
++--- a/gw6c-messaging/gw6cmessaging/messagesender.h
+++++ b/gw6c-messaging/gw6cmessaging/messagesender.h
++@@ -25,6 +25,7 @@
++ #include <gw6cmessaging/message.h>
++ #include <gw6cmessaging/semaphore.h>
++ #include <queue>
+++#include <cstddef>
++ using namespace std;
++ 
++ 
++--- a/gw6c-messaging/src/clientmsgsender.cc
+++++ b/gw6c-messaging/src/clientmsgsender.cc
++@@ -19,7 +19,7 @@
++ // **************************************************************************
++ #include <gw6cmessaging/clientmsgsender.h>
++ #include <assert.h>
++-
+++#include <cstring>
++ 
++ namespace gw6cmessaging
++ {
++--- a/gw6c-messaging/src/servermsgsender.cc
+++++ b/gw6c-messaging/src/servermsgsender.cc
++@@ -19,7 +19,7 @@
++ // **************************************************************************
++ #include <gw6cmessaging/servermsgsender.h>
++ #include <assert.h>
++-
+++#include <cstring>
++ 
++ #ifdef WIN32
++ #define snprintf _snprintf
+-- 
+2.5.0
+

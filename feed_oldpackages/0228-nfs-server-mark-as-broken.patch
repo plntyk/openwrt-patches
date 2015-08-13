@@ -1,0 +1,26 @@
+From a063cbd4e362267c3163b0109749e12e3dc1f406 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 9 Jul 2015 13:08:15 +0200
+Subject: [PATCH 228/310] nfs-server: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/nfs-server/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/nfs-server/Makefile b/net/nfs-server/Makefile
+index 6257fdf..dca1d97 100644
+--- a/net/nfs-server/Makefile
++++ b/net/nfs-server/Makefile
+@@ -21,7 +21,7 @@ define Package/nfs-server
+   SECTION:=net
+   CATEGORY:=Network
+   SUBMENU:=Filesystem
+-  DEPENDS:=+portmap $(LIBRPC_DEPENDS)
++  DEPENDS:=+portmap $(LIBRPC_DEPENDS) @BROKEN
+   TITLE:=User Space NFS server
+   URL:=http://packages.debian.org/nfs-user-server
+ endef
+-- 
+2.5.0
+

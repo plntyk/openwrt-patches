@@ -1,7 +1,7 @@
-From 106c9ba790574981c377ca6fbd167ac7184d4b23 Mon Sep 17 00:00:00 2001
+From 2363df6d3e3f512718487c1c8f11028626dd320c Mon Sep 17 00:00:00 2001
 From: Dirk Neukirchen <dirkneukirchen@web.de>
 Date: Tue, 11 Nov 2014 12:05:14 +0100
-Subject: [PATCH 001/158] fetchmail: update project URLs
+Subject: [PATCH 001/310] fetchmail: update project URLs
 
 fetchmail moved to its own domain
 download via sourceforge
@@ -34,5 +34,5 @@ index 97a3d49..bf1460d 100644
  
  define Package/fetchmail/Default/description
 -- 
-2.4.0
+2.5.0
 

@@ -1,0 +1,26 @@
+From a13f454d7ef8bee5a881b007f622249cc25d66fc Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Fri, 15 May 2015 14:32:53 +0200
+Subject: [PATCH 152/310] xapian-bindings: fix python dependency
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/xapian-bindings/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/xapian-bindings/Makefile b/lang/xapian-bindings/Makefile
+index a0f96ec..8ad8453 100644
+--- a/lang/xapian-bindings/Makefile
++++ b/lang/xapian-bindings/Makefile
+@@ -28,7 +28,7 @@ define Package/python-xapian
+   SUBMENU:=Python
+   TITLE:=xapian python bindings
+   URL:=http://xapian.org/
+-  DEPENDS:=+python-mini +libxapian
++  DEPENDS:=+python +libxapian
+ endef
+ 
+ MAKE_FLAGS += \
+-- 
+2.5.0
+
