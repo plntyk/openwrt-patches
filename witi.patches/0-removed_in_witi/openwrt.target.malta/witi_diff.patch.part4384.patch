@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/malta/le/target.mk	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/malta/le/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-ARCH:=mipsel
+-ARCH_PACKAGES:=malta_mipsel
+-SUBTARGET:=le
+-BOARDNAME:=Little Endian
+-FEATURES:=ramdisk mips16
+-
+-define Target/Description
+-	Build LE firmware images for MIPS Malta CoreLV board running in
+-	little-endian mode
+-endef

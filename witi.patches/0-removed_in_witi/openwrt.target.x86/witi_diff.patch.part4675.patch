@@ -1,0 +1,33 @@
+--- openwrt.bb/openwrt/target/linux/x86/geos/base-files/etc/config/system	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/geos/base-files/etc/config/system	1970-01-01 01:00:00.000000000 +0100
+@@ -1,30 +0,0 @@
+-
+-config system
+-	option hostname	OpenWrt
+-	option timezone	UTC
+-
+-config timeserver ntp
+-	list server	0.openwrt.pool.ntp.org
+-	list server	1.openwrt.pool.ntp.org
+-	list server	2.openwrt.pool.ntp.org
+-	list server	3.openwrt.pool.ntp.org
+-
+-config led
+-	option default	0
+-	option name	LAN
+-	option sysfs	'geos:1'
+-	option trigger	netdev
+-	option mode	'tx rx'
+-	option dev	'br-lan'
+-
+-config led
+-	option default	0
+-	option name	WiFi
+-	option sysfs	'geos:2'
+-	option trigger	'phy0tpt'
+-
+-config led
+-	option default	0
+-	option name	Health
+-	option sysfs	'geos:3'
+-	option trigger	'heartbeat'

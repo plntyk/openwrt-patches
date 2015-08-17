@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/base-files/etc/uci-defaults/09_fix_crc	2015-08-15 05:48:43.948464371 +0200
++++ witi-openwrt/target/linux/brcm47xx/base-files/etc/uci-defaults/09_fix_crc	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2007 OpenWrt.org
+-#
+-#
+-
+-mtd fixtrx firmware

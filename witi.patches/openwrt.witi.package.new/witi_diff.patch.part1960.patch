@@ -1,0 +1,31 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/po/ja/p2pblock.po	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/po/ja/p2pblock.po	2015-08-15 05:39:10.158474719 +0200
+@@ -0,0 +1,28 @@
++msgid "Block Time"
++msgstr ""
++
++msgid "Enable P2P-Block"
++msgstr ""
++
++msgid "IP-P2P"
++msgstr ""
++
++msgid "Layer7-Protocols"
++msgstr ""
++
++msgid "P2P-Block"
++msgstr ""
++
++msgid ""
++"P2P-Block is a greylisting mechanism to block various peer-to-peer protocols "
++"for non-whitelisted clients."
++msgstr ""
++
++msgid "Portrange"
++msgstr ""
++
++msgid "Whitelisted IPs"
++msgstr ""
++
++msgid "seconds"
++msgstr ""

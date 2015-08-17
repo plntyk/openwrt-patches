@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/x86/rdc/target.mk	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/x86/rdc/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-BOARDNAME:=RDC R-321x
+-FEATURES:=squashfs pci usb gpio pcmcia
+-MAINTAINER:=Florian Fainelli <florian@openwrt.org>
+-FEATURES += broken
+-
+-DEFAULT_PACKAGES += kmod-llc kmod-stp kmod-bridge kmod-8021q \
+-		    wpad-mini kmod-libphy kmod-r6040 kmod-input-core \
+-		    kmod-input-polldev kmod-button-hotplug kmod-rdc321x-wdt
+-
+-define Target/Description
+-        Build firmware images for RDC321x based routers
+-        (e.g. Airlink101 AR525W, Linksys WRT54GR, Sitecom WL-153)
+-endef

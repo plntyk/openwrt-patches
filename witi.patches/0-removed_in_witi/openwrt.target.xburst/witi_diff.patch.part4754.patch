@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/target/linux/xburst/patches-3.10/010-qi_lb60-Don-t-use-3-wire-spi-mode-for-the-display-fo.patch	2015-08-15 05:48:44.151797702 +0200
++++ witi-openwrt/target/linux/xburst/patches-3.10/010-qi_lb60-Don-t-use-3-wire-spi-mode-for-the-display-fo.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,23 +0,0 @@
+-From 590ceec7028084ebd9d643b4929ceae9fd806fbe Mon Sep 17 00:00:00 2001
+-From: Lars-Peter Clausen <lars@metafoo.de>
+-Date: Wed, 13 Oct 2010 01:17:24 +0200
+-Subject: [PATCH 10/16] qi_lb60: Don't use 3-wire spi mode for the display for
+- now
+-
+-The spi_gpio driver does not support 3-wire mode.
+-
+-Signed-off-by: Lars-Peter Clausen <lars@metafoo.de>
+----
+- arch/mips/jz4740/board-qi_lb60.c |    1 -
+- 1 file changed, 1 deletion(-)
+-
+---- a/arch/mips/jz4740/board-qi_lb60.c
+-+++ b/arch/mips/jz4740/board-qi_lb60.c
+-@@ -311,7 +311,6 @@ static struct spi_board_info qi_lb60_spi
+- 		.chip_select = 0,
+- 		.bus_num = 1,
+- 		.max_speed_hz = 30 * 1000,
+--		.mode = SPI_3WIRE,
+- 	},
+- };
+- 

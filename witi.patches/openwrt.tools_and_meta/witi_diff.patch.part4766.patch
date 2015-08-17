@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/tools/mtd-utils/Makefile	2015-08-15 05:48:44.185131034 +0200
++++ witi-openwrt/tools/mtd-utils/Makefile	2015-08-15 05:39:10.298474716 +0200
+@@ -14,7 +14,6 @@ PKG_SOURCE_URL:=git://git.infradead.org/
+ PKG_SOURCE_PROTO:=git
+ PKG_SOURCE_VERSION:=5319b84974fcb71504aed2d1b8285e9c0a4a4bb8
+ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+-PKG_MIRROR_MD5SUM:=a85581474b39e56b30439c903974acb9
+ PKG_CAT:=zcat
+ 
+ HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-$(PKG_VERSION)

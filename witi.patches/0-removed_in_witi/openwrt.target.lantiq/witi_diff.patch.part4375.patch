@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/xway/target.mk	2015-08-15 05:48:44.108464368 +0200
++++ witi-openwrt/target/linux/lantiq/xway/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,12 +0,0 @@
+-ARCH:=mips
+-SUBTARGET:=xway
+-BOARDNAME:=XWAY
+-FEATURES:=squashfs atm mips16 nand ubifs
+-CPU_TYPE:=34kc
+-CPU_SUBTYPE:=dsp
+-
+-DEFAULT_PACKAGES+=kmod-leds-gpio kmod-gpio-button-hotplug atm-esi
+-
+-define Target/Description
+-	Lantiq XWAY
+-endef

@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/at91/base-files/lib/preinit/03_preinit_do_at91.sh	2015-08-15 05:48:43.791797708 +0200
++++ witi-openwrt/target/linux/at91/base-files/lib/preinit/03_preinit_do_at91.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-#!/bin/sh
+-
+-do_at91() {
+-	[ -e "/tmp/sysinfo/" ] || mkdir -p "/tmp/sysinfo/"
+-	echo $(strings /proc/device-tree/compatible | head -1) > /tmp/sysinfo/board_name
+-	echo $(cat /proc/device-tree/model) > /tmp/sysinfo/model
+-}
+-
+-boot_hook_add preinit_main do_at91

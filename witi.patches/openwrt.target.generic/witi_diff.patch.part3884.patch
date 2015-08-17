@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/262-compressor_kconfig_hack.patch	2015-08-15 05:48:44.041797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/262-compressor_kconfig_hack.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,23 +0,0 @@
+---- a/lib/Kconfig
+-+++ b/lib/Kconfig
+-@@ -178,16 +178,16 @@ config AUDIT_GENERIC
+- # compression support is select'ed if needed
+- #
+- config ZLIB_INFLATE
+--	tristate
+-+	tristate "ZLIB inflate support"
+- 
+- config ZLIB_DEFLATE
+--	tristate
+-+	tristate "ZLIB deflate support"
+- 
+- config LZO_COMPRESS
+--	tristate
+-+	tristate "LZO compress support"
+- 
+- config LZO_DECOMPRESS
+--	tristate
+-+	tristate "LZO decompress support"
+- 
+- source "lib/xz/Kconfig"
+- 

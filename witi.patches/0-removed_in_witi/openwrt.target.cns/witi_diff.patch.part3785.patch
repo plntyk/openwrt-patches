@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/target/linux/cns3xxx/files/drivers/net/ethernet/cavium/Makefile	2015-08-15 05:48:43.971797705 +0200
++++ witi-openwrt/target/linux/cns3xxx/files/drivers/net/ethernet/cavium/Makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-#
+-# Makefile for the Cavium ethernet device drivers.
+-#
+-
+-obj-$(CONFIG_CNS3XXX_ETH) += cns3xxx_eth.o

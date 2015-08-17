@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/ar7/generic/profiles/110-Annex-B.mk	2015-08-15 05:48:43.771797708 +0200
++++ witi-openwrt/target/linux/ar7/generic/profiles/110-Annex-B.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-#
+-# Copyright (C) 2009 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Annex-B
+-  NAME:=Annex-B DSL firmware
+-  PACKAGES:=kmod-pppoa ppp-mod-pppoa linux-atm atm-tools br2684ctl \
+-	    kmod-sangam-atm-annex-b
+-endef
+-
+-define Profile/Annex-B/Description
+-	Package set compatible with Annex-B DSL lines (Germany).
+-endef
+-$(eval $(call Profile,Annex-B))
+-

@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/target/linux/x86/base-files/lib/preinit/79_move_config	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/base-files/lib/preinit/79_move_config	1970-01-01 01:00:00.000000000 +0100
+@@ -1,22 +0,0 @@
+-#!/bin/sh
+-# Copyright (C) 2012 OpenWrt.org
+-
+-move_config() {
+-	local rootfsdev
+-	local rootfstype
+-	
+-	rootfstype="$(awk 'BEGIN { RS=" "; FS="="; } ($1 == "rootfstype") { print $2 }' < /proc/cmdline)"
+-	case "$rootfstype" in
+-		squashfs|jffs2)
+-			rootfsdev="$(awk 'BEGIN { RS=" "; FS="="; } ($1 == "block2mtd.block2mtd") { print substr($2,1,index($2, ",")-1) }' < /proc/cmdline)";;
+-		ext4)
+-			rootfsdev="$(awk 'BEGIN { RS=" "; FS="="; } ($1 == "root") { print $2 }' < /proc/cmdline)";;
+-	esac
+-
+-	mount -t ext4 -o rw,noatime "${rootfsdev%[0-9]}1" /mnt
+-	mv -f /mnt/sysupgrade.tgz /
+-	umount /mnt
+-}
+-
+-boot_hook_add preinit_mount_root move_config
+-

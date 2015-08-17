@@ -1,0 +1,29 @@
+--- openwrt.bb/openwrt/package/ramips/applications/nvram/src/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/nvram/src/Makefile	2015-08-15 05:39:10.045141388 +0200
+@@ -0,0 +1,26 @@
++exe := nvram
++lib:= libnvram.so
++libobjs := crc32.o flash.o nvram.o
++exeobjs := main.o
++CFLAGS += -Wall
++
++ifdef CONFIG_NVRAM_MTD_NAME
++CFLAGS += -DNVRAM_MTD_NAME=\"$(CONFIG_NVRAM_MTD_NAME)\"
++endif
++
++all: $(lib) $(exe)
++
++$(lib) : $(libobjs) 
++	$(CC) $(CFLAGS) -shared -o $@ $^
++
++$(exe) : $(exeobjs) $(lib)
++	$(CC) $(CFLAGS) -o $@ $^
++
++$(exeobjs): %.o : %.c
++	$(CC) $(CFLAGS) -fPIC -c $< -o $@
++
++$(libobjs): %.o : %.c
++	$(CC) $(CFLAGS) -fPIC -c $< -o $@
++
++clean:
++	-rm *.o $(exe) $(lib)

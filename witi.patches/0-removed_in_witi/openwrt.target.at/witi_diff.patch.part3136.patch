@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/at91/patches/805-free_some_portc_pins.patch	2015-08-15 05:48:43.798464374 +0200
++++ witi-openwrt/target/linux/at91/patches/805-free_some_portc_pins.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/arch/arm/mach-at91/at91sam9260_devices.c
+-+++ b/arch/arm/mach-at91/at91sam9260_devices.c
+-@@ -507,7 +507,7 @@ static struct platform_device at91sam926
+- 	.num_resources	= ARRAY_SIZE(spi1_resources),
+- };
+- 
+--static const unsigned spi1_standard_cs[4] = { AT91_PIN_PB3, AT91_PIN_PC5, AT91_PIN_PC4, AT91_PIN_PC3 };
+-+static const unsigned spi1_standard_cs[2] = { AT91_PIN_PB3, AT91_PIN_PC5 };
+- 
+- void __init at91_add_device_spi(struct spi_board_info *devices, int nr_devices)
+- {

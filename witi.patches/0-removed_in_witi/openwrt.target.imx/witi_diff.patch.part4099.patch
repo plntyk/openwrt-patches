@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/target/linux/imx6/profiles/110-wandboard.mk	2015-08-15 05:48:44.058464370 +0200
++++ witi-openwrt/target/linux/imx6/profiles/110-wandboard.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,15 +0,0 @@
+-#
+-# Copyright (C) 2013 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/IMX6DL_WANDBOARD
+-  NAME:=Wandboard Dual
+-  PACKAGES:= \
+-	kmod-thermal-imx kmod-usb-chipidea kmod-usb-mxs-phy \
+-	uboot-envtools
+-endef
+-
+-$(eval $(call Profile,IMX6DL_WANDBOARD))

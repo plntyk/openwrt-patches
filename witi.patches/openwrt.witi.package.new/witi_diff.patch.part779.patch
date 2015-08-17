@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_marburg	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_marburg	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,12 @@
++config 'community' 'profile'
++	option 'name' 'Freifunk Marburg'
++	option 'homepage' ' http://marburg.freifunk.de'
++	option 'ssid' 'marburg.freifunk.net'
++	option 'mesh_network' '10.128.0.0/16'
++	option 'splash_network' '10.104.0.0/16'
++	option 'splash_prefix' '29'
++	option 'latitude' '49.63939'
++	option 'longitude' '8.633718'
++
++config 'defaults' 'interface'
++	option 'dns' '8.8.8.8 212.204.49.83'

@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/x86/image/grub-iso.cfg	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/image/grub-iso.cfg	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-@SERIAL_CONFIG@
+-@TERMINAL_CONFIG@
+-
+-set default="0"
+-set timeout="@TIMEOUT@"
+-set root='(cd)'
+-
+-menuentry "OpenWrt" {
+-	linux /boot/vmlinuz @CMDLINE@ noinitrd
+-}

@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/po/ja/voice_core.po	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/po/ja/voice_core.po	2015-08-15 05:39:10.161808053 +0200
+@@ -0,0 +1,18 @@
++msgid ""
++msgstr ""
++"Project-Id-Version: PACKAGE VERSION\n"
++"Last-Translator: Automatically generated\n"
++"Language-Team: none\n"
++"MIME-Version: 1.0\n"
++"Content-Type: text/plain; charset=UTF-8\n"
++"Content-Transfer-Encoding: 8bit\n"
++"Plural-Forms: nplurals=1; plural=0;\n"
++
++msgid "Phones"
++msgstr "電話"
++
++msgid "Voice"
++msgstr ""
++
++#~ msgid "l_v_adminphones"
++#~ msgstr "l_v_adminphones"

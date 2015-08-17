@@ -1,0 +1,29 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/meshwizard/files/usr/bin/meshwizard/helpers/setup_ssh.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/meshwizard/files/usr/bin/meshwizard/helpers/setup_ssh.sh	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,26 @@
++#!/bin/sh
++# Setup ssh. At this point only used to store pubkeys.
++
++[ ! "$(uci -q get meshwizard.ssh)" == "system" ] && exit
++
++. /lib/functions.sh
++. $dir/functions.sh
++authorized="/etc/dropbear/authorized_keys"
++
++
++config_load meshwizard
++
++i=0
++handle_pubkeys() {
++	local k="$1"
++	( [ -f "$authorized" ] && grep -q "$k" $authorized) || {
++		echo "$k" >> $authorized
++		i=`expr $i + 1`
++	}
++}
++
++config_list_foreach ssh pubkey handle_pubkeys
++
++uci delete meshwizard.ssh
++uci_commitverbose "Added $i pubkeys to authorized_keys" meshwizard
++

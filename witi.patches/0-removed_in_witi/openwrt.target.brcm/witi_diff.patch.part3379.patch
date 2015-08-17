@@ -1,0 +1,36 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/base-files/etc/init.d/wmacfixup	2015-08-15 05:48:43.948464371 +0200
++++ witi-openwrt/target/linux/brcm47xx/base-files/etc/init.d/wmacfixup	1970-01-01 01:00:00.000000000 +0100
+@@ -1,33 +0,0 @@
+-#!/bin/sh /etc/rc.common
+-# Copyright (C) 2010 OpenWrt.org
+-
+-START=41
+-
+-boot() {
+-	[ -d /sys/class/ieee80211 ] || exit
+-
+-	commit=0
+-
+-	fixup_wmac() {
+-		local cfg="$1"
+-		local cfmac
+-
+-		config_get cfmac "$cfg" macaddr
+-
+-		[ "$cfmac" != "00:90:4c:5f:00:2a" ] || {
+-			local nvmac="$(nvram get il0macaddr 2>/dev/null)"
+-			[ -n "$nvmac" ] && [ "$nvmac != "$cfmac ] && {
+-				uci set wireless.$cfg.macaddr="$nvmac"
+-				commit=1
+-			}
+-		}
+-	}
+-
+-	config_load wireless
+-	config_foreach fixup_wmac wifi-device
+-
+-	[ "$commit" = 1 ] && uci commit wireless
+-}
+-
+-start() { :; }
+-stop()  { :; }

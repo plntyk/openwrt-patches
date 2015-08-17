@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/target/linux/au1000/patches-3.10/004-watchdog_low_init.patch	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/au1000/patches-3.10/004-watchdog_low_init.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,12 +0,0 @@
+---- a/arch/mips/alchemy/board-mtx1.c
+-+++ b/arch/mips/alchemy/board-mtx1.c
+-@@ -100,6 +100,9 @@ void __init board_setup(void)
+- 	alchemy_gpio_direction_output(211, 1);	/* green on */
+- 	alchemy_gpio_direction_output(212, 0);	/* red off */
+- 
+-+	/* Set watchdog pin low */
+-+	alchemy_gpio_direction_output(215, 0);
+-+
+- 	pm_power_off = mtx1_power_off;
+- 	_machine_halt = mtx1_power_off;
+- 	_machine_restart = mtx1_reset;

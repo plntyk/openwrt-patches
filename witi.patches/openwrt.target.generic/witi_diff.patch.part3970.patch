@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/661-fq_codel_keep_dropped_stats.patch	2015-08-15 05:48:44.051797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/661-fq_codel_keep_dropped_stats.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+---- a/net/sched/sch_fq_codel.c
+-+++ b/net/sched/sch_fq_codel.c
+-@@ -195,7 +195,6 @@ static int fq_codel_enqueue(struct sk_bu
+- 		list_add_tail(&flow->flowchain, &q->new_flows);
+- 		q->new_flow_count++;
+- 		flow->deficit = q->quantum;
+--		flow->dropped = 0;
+- 	}
+- 	if (++sch->q.qlen <= sch->limit)
+- 		return NET_XMIT_SUCCESS;

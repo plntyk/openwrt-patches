@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/ar7/generic/profiles/210-None.mk	2015-08-15 05:48:43.771797708 +0200
++++ witi-openwrt/target/linux/ar7/generic/profiles/210-None.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,17 +0,0 @@
+-#
+-# Copyright (C) 2006 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/None
+-  NAME:=No WiFi
+-  PACKAGES:=
+-endef
+-
+-define Profile/None/Description
+-	Package set without WiFi support
+-endef
+-$(eval $(call Profile,None))
+-

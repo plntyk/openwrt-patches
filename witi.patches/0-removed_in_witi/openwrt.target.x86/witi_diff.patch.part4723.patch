@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/x86/thincan/base-files/etc/init.d/alsa	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/x86/thincan/base-files/etc/init.d/alsa	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-#!/bin/sh /etc/rc.common
+-# Copyright (C) 2006 OpenWrt.org
+-START=50
+-
+-start() {
+-	amixer set PCM 50% unmute
+-	amixer set Headphone 100% unmute
+-}
+-

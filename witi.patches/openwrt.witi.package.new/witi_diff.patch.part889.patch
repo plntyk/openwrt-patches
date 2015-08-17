@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/etc/config/fstab	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/etc/config/fstab	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,10 @@
++config mount
++	option target	/home
++	option device	/dev/sda1
++	option fstype	ext3
++	option options	rw,sync
++	option enabled	0
++
++config swap
++	option device	/dev/sda2
++	option enabled	0

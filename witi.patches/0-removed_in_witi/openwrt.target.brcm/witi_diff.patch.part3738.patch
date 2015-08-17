@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/smp/profiles/103-Ralink.mk	2015-08-15 05:48:43.968464371 +0200
++++ witi-openwrt/target/linux/brcm63xx/smp/profiles/103-Ralink.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-#
+-# Copyright (C) 2006 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Ralink
+-  NAME:=Ralink WiFi
+-  PACKAGES:=kmod-rt61-pci wpad-mini
+-endef
+-$(eval $(call Profile,Ralink))
+-

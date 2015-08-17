@@ -1,0 +1,32 @@
+--- openwrt.bb/openwrt/target/linux/cns21xx/base-files/etc/diag.sh	2015-08-15 05:48:43.968464371 +0200
++++ witi-openwrt/target/linux/cns21xx/base-files/etc/diag.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,29 +0,0 @@
+-#!/bin/sh
+-# Copyright (C) 2010-2013 OpenWrt.org
+-
+-. /lib/functions/leds.sh
+-. /lib/cns21xx.sh
+-
+-get_status_led() {
+-	case $(get_board_name) in
+-	ns-k330)
+-		status_led="ns-k330:red:link"
+-		;;
+-	esac;
+-}
+-
+-set_state() {
+-	get_status_led
+-
+-	case "$1" in
+-	preinit)
+-		status_led_blink_preinit
+-		;;
+-	failsafe)
+-		status_led_blink_failsafe
+-		;;
+-	done)
+-		status_led_on
+-		;;
+-	esac
+-}

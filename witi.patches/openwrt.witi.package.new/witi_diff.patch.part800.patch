@@ -1,0 +1,5 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/files/etc/uci-defaults/freifunk	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/files/etc/uci-defaults/freifunk	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,2 @@
++uci set uhttpd.main.rfc1918_filter=0
++uci commit uhttpd

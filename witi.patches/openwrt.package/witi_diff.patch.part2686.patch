@@ -1,0 +1,17 @@
+--- openwrt.bb/openwrt/package/system/procd/patches/000-skip-watchdog.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/system/procd/patches/000-skip-watchdog.patch	2015-08-15 05:39:10.208474719 +0200
+@@ -0,0 +1,14 @@
++Index: procd-2014-09-15/watchdog.c
++===================================================================
++--- procd-2014-09-15.orig/watchdog.c
+++++ procd-2014-09-15/watchdog.c
++@@ -97,7 +97,8 @@ void watchdog_init(int preinit)
++ 
++ 	if (wdt_fd >= 0)
++ 		return;
++-
+++	//skip watch_dog
+++	return;
++ 	wdt_timeout.cb = watchdog_timeout_cb;
++ 	if (env) {
++ 		DEBUG(2, "Watchdog handover: fd=%s\n", env);

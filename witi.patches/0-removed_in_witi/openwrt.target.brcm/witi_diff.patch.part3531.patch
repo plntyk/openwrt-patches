@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/generic/target.mk	2015-08-15 05:48:43.958464372 +0200
++++ witi-openwrt/target/linux/brcm63xx/generic/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-BOARDNAME:=generic
+-
+-define Target/Description
+-	Build firmware images for BCM63XX boards without SMP support.
+-endef
+-
+-

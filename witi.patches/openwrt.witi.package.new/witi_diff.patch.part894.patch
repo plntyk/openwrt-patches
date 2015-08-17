@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/etc/config/ntpclient	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/etc/config/ntpclient	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,22 @@
++config ntpserver
++	option hostname '0.openwrt.pool.ntp.org'
++	option port     '123'
++
++config ntpserver
++	option hostname '1.openwrt.pool.ntp.org'
++	option port     '123'
++
++config ntpserver
++	option hostname '2.openwrt.pool.ntp.org'
++	option port     '123'
++
++config ntpserver
++	option hostname '3.openwrt.pool.ntp.org'
++	option port     '123'
++
++config ntpdrift
++	option freq     '0'
++
++config ntpclient
++	option interval	60
++	#option count	10

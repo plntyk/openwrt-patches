@@ -1,0 +1,24 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/910-kobject_uevent.patch	2015-08-15 05:48:44.055131036 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/910-kobject_uevent.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+---- a/lib/kobject_uevent.c
+-+++ b/lib/kobject_uevent.c
+-@@ -51,6 +51,18 @@ static const char *kobject_actions[] = {
+- 	[KOBJ_OFFLINE] =	"offline",
+- };
+- 
+-+u64 uevent_next_seqnum(void)
+-+{
+-+	u64 seq;
+-+
+-+	mutex_lock(&uevent_sock_mutex);
+-+	seq = ++uevent_seqnum;
+-+	mutex_unlock(&uevent_sock_mutex);
+-+
+-+	return seq;
+-+}
+-+EXPORT_SYMBOL_GPL(uevent_next_seqnum);
+-+
+- /**
+-  * kobject_action_type - translate action string to numeric type
+-  *

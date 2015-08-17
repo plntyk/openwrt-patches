@@ -1,0 +1,4 @@
+--- openwrt.bb/openwrt/target/linux/brcm2708/image/cmdline.txt	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/brcm2708/image/cmdline.txt	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-dwc_otg.lpm_enable=0 rpitestmode=1 console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait

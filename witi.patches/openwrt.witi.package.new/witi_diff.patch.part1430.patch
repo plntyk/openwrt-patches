@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/browser.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/browser.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,7 @@
++<% local v = self:cfgvalue(section) -%>
++<%+cbi/valueheader%>
++	<input class="cbi-input-text" type="text"<%= attr("value", v) .. attr("name", cbid) .. attr("id", cbid) %> />
++	<script type="text/javascript">
++cbi_browser_init('<%=cbid%>', '<%=resource%>', '<%=luci.dispatcher.build_url("admin", "filebrowser")%>'<%=self.default_path and ", '"..self.default_path.."'"%>);
++	</script>
++<%+cbi/valuefooter%>

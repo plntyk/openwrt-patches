@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/target/linux/avr32/base-files/etc/diag.sh	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/avr32/base-files/etc/diag.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,22 +0,0 @@
+-#!/bin/sh
+-# Copyright (C) 2013 OpenWrt.org
+-
+-. /lib/functions/leds.sh
+-
+-set_state() {
+-	status_led="sys"
+-
+-	case "$1" in
+-	preinit)
+-		status_led_blink_preinit
+-		;;
+-
+-	failsafe)
+-		status_led_blink_failsafe
+-		;;
+-
+-	done)
+-		status_led_on
+-		;;
+-	esac
+-}

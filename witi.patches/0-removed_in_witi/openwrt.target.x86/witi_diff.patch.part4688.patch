@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/target/linux/x86/image/olpc.fth	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/image/olpc.fth	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-\ Boot script
+-" u:\boot\vmlinuz" to boot-device
+-" @CMDLINE@ noinitrd console=ttyS0,115200 console=tty0" to boot-file
+-unfreeze
+-boot

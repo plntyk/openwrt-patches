@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-gwcheck/files/etc/config/freifunk-gwcheck	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-gwcheck/files/etc/config/freifunk-gwcheck	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,5 @@
++config 'gwcheck' 'hosts'
++	list 'host' 'augsburg.freifunk.net'
++	list 'host' 'vpn4.leipzig.freifunk.net'
++	list 'host' 'luci.subsignal.org'
++	list 'host' 'bbb-vpn.berlin.freifunk.net'

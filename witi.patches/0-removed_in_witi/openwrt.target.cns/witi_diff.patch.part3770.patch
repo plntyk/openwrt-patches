@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/target/linux/cns3xxx/base-files/lib/cns3xxx.sh	2015-08-15 05:48:43.971797705 +0200
++++ witi-openwrt/target/linux/cns3xxx/base-files/lib/cns3xxx.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,22 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2012 OpenWrt.org
+-#
+-
+-cns3xxx_board_name() {
+-	local machine
+-	local name
+-
+-	machine=$(awk 'BEGIN{FS="[ \t]+:[ \t]"} /Hardware/ {print $2}' /proc/cpuinfo)
+-
+-	case "$machine" in
+-		"Gateworks Corporation Laguna"*)
+-			name="laguna"
+-			;;
+-		*)
+-			name="generic";
+-			;;
+-	esac
+-	
+-	echo $name
+-}

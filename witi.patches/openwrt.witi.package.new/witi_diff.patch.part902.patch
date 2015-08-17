@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/uhttpd/patches/002-link-order.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/uhttpd/patches/002-link-order.patch	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,11 @@
++--- a/Makefile
+++++ b/Makefile
++@@ -70,7 +70,7 @@ endif
++ 	$(CC) $(CFLAGS) -c -o $@ $<
++ 
++ compile: $(OBJ) $(TLSLIB) $(LUALIB)
++-	$(CC) -o uhttpd $(LDFLAGS) $(LIB) $(OBJ)
+++	$(CC) -o uhttpd $(LDFLAGS) $(OBJ) $(LIB)
++ 
++ clean:
++ 	rm -f *.o *.so uhttpd

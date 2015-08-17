@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/321-powerpc_crtsavres_prereq.patch	2015-08-15 05:48:44.045131037 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/321-powerpc_crtsavres_prereq.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+---- a/arch/powerpc/Makefile
+-+++ b/arch/powerpc/Makefile
+-@@ -106,7 +106,6 @@ CPP		= $(CC) -E $(KBUILD_CFLAGS)
+- 
+- CHECKFLAGS	+= -m$(CONFIG_WORD_SIZE) -D__powerpc__ -D__powerpc$(CONFIG_WORD_SIZE)__
+- 
+--KBUILD_LDFLAGS_MODULE += arch/powerpc/lib/crtsavres.o
+- 
+- # No AltiVec or VSX instructions when building kernel
+- KBUILD_CFLAGS += $(call cc-option,-mno-altivec)

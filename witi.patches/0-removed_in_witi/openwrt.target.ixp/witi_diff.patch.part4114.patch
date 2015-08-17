@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/target/linux/ixp4xx/harddisk/target.mk	2015-08-15 05:48:44.058464370 +0200
++++ witi-openwrt/target/linux/ixp4xx/harddisk/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-BOARDNAME:=Internal Hard-Disk
+-
+-define Target/Description
+-	Build firmware images for ixp4xx based boards that boot directly from internal disk storage
+-	(e.g : Freecom FSG-3, ...)
+-endef

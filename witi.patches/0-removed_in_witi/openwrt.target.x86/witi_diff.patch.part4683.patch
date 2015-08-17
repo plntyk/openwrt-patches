@@ -1,0 +1,4 @@
+--- openwrt.bb/openwrt/target/linux/x86/image/grub-early.cfg	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/image/grub-early.cfg	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-configfile (hd0,msdos1)/boot/grub/grub.cfg

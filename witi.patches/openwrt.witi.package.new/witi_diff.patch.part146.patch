@@ -1,0 +1,5 @@
+--- openwrt.bb/openwrt/package/ramips/applications/hwqos/src/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/hwqos/src/Makefile	2015-08-15 05:39:10.035141388 +0200
+@@ -0,0 +1,2 @@
++all:
++	@echo "no source code provided ...." 

@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/mips74k/target.mk	2015-08-15 05:48:43.951797705 +0200
++++ witi-openwrt/target/linux/brcm47xx/mips74k/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-BOARDNAME:=MIPS 74K
+-CPU_TYPE:=74kc
+-CPU_SUBTYPE:=dsp2
+-FEATURES+=mips16
+-
+-define Target/Description
+-	Build firmware for Broadcom BCM47xx and BCM53xx devices with
+-	MIPS 74K CPU.
+-endef

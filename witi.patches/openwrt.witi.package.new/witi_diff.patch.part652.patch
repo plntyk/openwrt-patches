@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-ushare/root/etc/uci-defaults/luci-ushare	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-ushare/root/etc/uci-defaults/luci-ushare	2015-08-15 05:39:10.078474721 +0200
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++uci -q batch <<-EOF >/dev/null
++	delete ucitrack.@ushare[-1]
++	add ucitrack ushare
++	set ucitrack.@ushare[-1].init=ushare
++	commit ucitrack
++EOF
++
++rm -f /tmp/luci-indexcache
++exit 0

@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/sdk/files/Config.in	2015-08-15 05:48:44.151797702 +0200
++++ witi-openwrt/target/sdk/files/Config.in	2015-08-15 05:39:10.258474717 +0200
+@@ -1,7 +1,2 @@
+-config MODULES
+-	bool
+-	default y
+-	option modules
+-
+ source "Config-build.in"
+ source "tmp/.config-package.in"

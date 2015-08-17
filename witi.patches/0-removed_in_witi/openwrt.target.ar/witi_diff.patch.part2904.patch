@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/files/include/linux/platform_data/rb91x_nand.h	2015-08-15 05:48:43.781797708 +0200
++++ witi-openwrt/target/linux/ar71xx/files/include/linux/platform_data/rb91x_nand.h	1970-01-01 01:00:00.000000000 +0100
+@@ -1,16 +0,0 @@
+-#ifndef _RB91X_NAND_H_
+-#define _RB91X_NAND_H_
+-
+-#define RB91X_NAND_DRIVER_NAME	"rb91x-nand"
+-
+-struct rb91x_nand_platform_data {
+-	int gpio_nce;	/* chip enable, active low */
+-	int gpio_ale;	/* address latch enable */
+-	int gpio_cle;   /* command latch enable */
+-	int gpio_rdy;
+-	int gpio_read;
+-	int gpio_nrw;	/* read/write enable, active low */
+-	int gpio_nle;	/* latch enable, active low */
+-};
+-
+-#endif /* _RB91X_NAND_H_ */
+\ No newline at end of file

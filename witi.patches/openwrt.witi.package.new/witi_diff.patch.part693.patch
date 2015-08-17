@@ -1,0 +1,28 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/build/mkversion.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/build/mkversion.sh	2015-08-15 05:39:10.078474721 +0200
+@@ -0,0 +1,25 @@
++#!/bin/sh
++if [ "${4%%/*}" = "branches" ]; then
++	variant="LuCI ${4##*[-/]} Branch"
++elif [ "${4%%/*}" = "tags" ]; then
++	variant="LuCI ${4##*[-/]} Release"
++else
++	variant="LuCI Trunk"
++fi
++
++cat <<EOF > $1
++local pcall, dofile, _G = pcall, dofile, _G
++
++module "luci.version"
++
++if pcall(dofile, "/etc/openwrt_release") and _G.DISTRIB_DESCRIPTION then
++	distname    = ""
++	distversion = _G.DISTRIB_DESCRIPTION
++else
++	distname    = "${2:-OpenWrt}"
++	distversion = "${3:-Development Snapshot}"
++end
++
++luciname    = "$variant"
++luciversion = "${5:-svn}"
++EOF

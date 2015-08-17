@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-gwcheck/ipkg/postrm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-gwcheck/ipkg/postrm	2015-08-15 05:39:10.088474720 +0200
+@@ -0,0 +1,5 @@
++#!/bin/sh
++[ -n "${IPKG_INSTROOT}" ] || {
++	sed -i '/gw-check/d' /etc/iproute2/rt_tables
++	sed -i '/ff_olsr_test_gw.sh/d' /etc/crontabs/root
++}

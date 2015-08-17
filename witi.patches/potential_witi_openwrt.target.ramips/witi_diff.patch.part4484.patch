@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/target/linux/ramips/base-files/lib/upgrade/platform.sh	2015-08-15 05:48:44.118464369 +0200
++++ witi-openwrt/target/linux/ramips/base-files/lib/upgrade/platform.sh	2015-08-15 05:39:10.248474718 +0200
+@@ -14,6 +14,7 @@ platform_check_image() {
+ 	[ "$#" -gt 1 ] && return 1
+ 
+ 	case "$board" in
++	ralink-soc | \
+ 	3g-6200n | \
+ 	3g-6200nl | \
+ 	3g300m | \
+@@ -56,7 +57,6 @@ platform_check_image() {
+ 	m3 | \
+ 	m4 | \
+ 	mlw221 | \
+-	mlwg2 | \
+ 	mofi3500-3gn | \
+ 	mpr-a1 | \
+ 	mpr-a2 | \
+@@ -100,6 +100,7 @@ platform_check_image() {
+ 	x8 |\
+ 	zbt-wa05 |\
+ 	y1 |\
++	witi|\
+ 	y1s)
+ 		[ "$magic" != "27051956" ] && {
+ 			echo "Invalid image type."

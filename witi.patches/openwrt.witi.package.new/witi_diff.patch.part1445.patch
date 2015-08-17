@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/header.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/header.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,7 @@
++<%+header%>
++<form method="post" name="cbi" action="<%=REQUEST_URI%>" enctype="multipart/form-data" onreset="return cbi_validate_reset(this)" onsubmit="return cbi_validate_form(this, '<%:Some fields are invalid, cannot save values!%>')">
++	<div>
++		<script type="text/javascript" src="<%=resource%>/cbi.js"></script>
++		<input type="hidden" name="cbi.submit" value="1" />
++		<input type="submit" value="<%:Save%>" class="hidden" />
++	</div>

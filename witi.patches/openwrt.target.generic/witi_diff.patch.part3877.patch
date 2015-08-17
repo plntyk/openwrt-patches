@@ -1,0 +1,22 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/255-lib80211_kconfig_hacks.patch	2015-08-15 05:48:44.041797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/255-lib80211_kconfig_hacks.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,19 +0,0 @@
+---- a/net/wireless/Kconfig
+-+++ b/net/wireless/Kconfig
+-@@ -149,13 +149,13 @@ config LIB80211
+- 	  Drivers should select this themselves if needed.
+- 
+- config LIB80211_CRYPT_WEP
+--	tristate
+-+	tristate "LIB80211_CRYPT_WEP"
+- 
+- config LIB80211_CRYPT_CCMP
+--	tristate
+-+	tristate "LIB80211_CRYPT_CCMP"
+- 
+- config LIB80211_CRYPT_TKIP
+--	tristate
+-+	tristate "LIB80211_CRYPT_TKIP"
+- 
+- config LIB80211_DEBUG
+- 	bool "lib80211 debugging messages"

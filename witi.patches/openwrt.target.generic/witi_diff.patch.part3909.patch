@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/412-mtd-partial_eraseblock_unlock.patch	2015-08-15 05:48:44.045131037 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/412-mtd-partial_eraseblock_unlock.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+---- a/drivers/mtd/mtdpart.c
+-+++ b/drivers/mtd/mtdpart.c
+-@@ -332,7 +332,14 @@ static int part_lock(struct mtd_info *mt
+- static int part_unlock(struct mtd_info *mtd, loff_t ofs, uint64_t len)
+- {
+- 	struct mtd_part *part = PART(mtd);
+--	return part->master->_unlock(part->master, ofs + part->offset, len);
+-+
+-+	ofs += part->offset;
+-+	if (mtd->flags & MTD_ERASE_PARTIAL) {
+-+		/* round up len to next erasesize and round down offset to prev block */
+-+		len = (mtd_div_by_eb(len, part->master) + 1) * part->master->erasesize;
+-+		ofs &= ~(part->master->erasesize - 1);
+-+	}
+-+	return part->master->_unlock(part->master, ofs, len);
+- }
+- 
+- static int part_is_locked(struct mtd_info *mtd, loff_t ofs, uint64_t len)

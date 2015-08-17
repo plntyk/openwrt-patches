@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/package/ramips/applications/ated/src/ioctl2driver.h	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/ated/src/ioctl2driver.h	2015-08-15 05:39:10.025141389 +0200
+@@ -0,0 +1,8 @@
++#include "ate.h"
++#include <sys/socket.h>
++#include <linux/wireless.h>
++#include <sys/ioctl.h>
++
++int init_if_ioctl(struct DRI_IF *fd,char *driver_ifname);
++int send_ioctl(struct DRI_IF *fd,unsigned char *pkt, int size);
++int close_ioctl(struct DRI_IF *fd);

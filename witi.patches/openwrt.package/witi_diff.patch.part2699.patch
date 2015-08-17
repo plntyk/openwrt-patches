@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/package/utils/ubi-utils/Makefile	2015-08-15 05:48:43.758464375 +0200
++++ witi-openwrt/package/utils/ubi-utils/Makefile	2015-08-15 05:39:10.218474718 +0200
+@@ -17,7 +17,6 @@ PKG_SOURCE_URL:=git://git.infradead.org/
+ PKG_SOURCE_PROTO:=git
+ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+ PKG_SOURCE_VERSION:=$(PKG_REV)
+-PKG_MIRROR_MD5SUM:=69b68adcfcbe786584771e5978534ab4
+ 
+ PKG_INSTALL:=1
+ 

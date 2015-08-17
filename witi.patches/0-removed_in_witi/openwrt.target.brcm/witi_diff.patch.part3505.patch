@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/patches-3.10/976-ssb_increase_pci_delay.patch	2015-08-15 05:48:43.955131038 +0200
++++ witi-openwrt/target/linux/brcm47xx/patches-3.10/976-ssb_increase_pci_delay.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/drivers/ssb/driver_pcicore.c
+-+++ b/drivers/ssb/driver_pcicore.c
+-@@ -375,7 +375,7 @@ static void ssb_pcicore_init_hostmode(st
+- 	set_io_port_base(ssb_pcicore_controller.io_map_base);
+- 	/* Give some time to the PCI controller to configure itself with the new
+- 	 * values. Not waiting at this point causes crashes of the machine. */
+--	mdelay(10);
+-+	mdelay(300);
+- 	register_pci_controller(&ssb_pcicore_controller);
+- }
+- 

@@ -1,0 +1,38 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/image/lzma-loader/src/loader.lds	2015-08-15 05:48:44.098464369 +0200
++++ witi-openwrt/target/linux/lantiq/image/lzma-loader/src/loader.lds	1970-01-01 01:00:00.000000000 +0100
+@@ -1,35 +0,0 @@
+-OUTPUT_ARCH(mips)
+-SECTIONS {
+-	.text : {
+-		_code_start = .;
+-		*(.text)
+-		*(.text.*)
+-		*(.rodata)
+-		*(.rodata.*)
+-		*(.data.lzma)
+-	}
+-
+-	. = ALIGN(32);
+-	.data : {
+-		*(.data)
+-		*(.data.*)
+-		. = . + 524288;		/* workaround for buggy bootloaders */
+-	}
+-
+-	. = ALIGN(32);
+-	_code_end = .;
+-
+-	_bss_start = .;
+-	.bss : {
+-		*(.bss)
+-		*(.bss.*)
+-	}
+-
+-	. = ALIGN(32);
+-	_bss_end = .;
+-
+-	. = . + 8192;
+-	_stack = .;
+-
+-	workspace = .;
+-}

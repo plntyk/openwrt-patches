@@ -1,0 +1,28 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/patches-3.10/611-MIPS-ath79-wdt-timeout.patch	2015-08-15 05:48:43.788464375 +0200
++++ witi-openwrt/target/linux/ar71xx/patches-3.10/611-MIPS-ath79-wdt-timeout.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,25 +0,0 @@
+-MIPS: ath79: fix maximum timeout
+-
+-If the userland tries to set a timeout higher than the max_timeout, then we should fallback to max_timeout.
+-
+-Signed-off-by: John Crispin <blogic@openwrt.org>
+-
+---- a/drivers/watchdog/ath79_wdt.c
+-+++ b/drivers/watchdog/ath79_wdt.c
+-@@ -115,10 +115,14 @@ static inline void ath79_wdt_disable(voi
+- 
+- static int ath79_wdt_set_timeout(int val)
+- {
+--	if (val < 1 || val > max_timeout)
+-+	if (val < 1)
+- 		return -EINVAL;
+- 
+--	timeout = val;
+-+	if (val > max_timeout)
+-+		timeout = max_timeout;
+-+	else
+-+		timeout = val;
+-+
+- 	ath79_wdt_keepalive();
+- 
+- 	return 0;

@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/patches-3.10/0207-NET-fix-etop-igplen.patch	2015-08-15 05:48:44.108464368 +0200
++++ witi-openwrt/target/linux/lantiq/patches-3.10/0207-NET-fix-etop-igplen.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,22 +0,0 @@
+---- a/drivers/net/ethernet/lantiq_etop.c
+-+++ b/drivers/net/ethernet/lantiq_etop.c
+-@@ -31,6 +31,7 @@
+- #include <linux/mm.h>
+- #include <linux/platform_device.h>
+- #include <linux/ethtool.h>
+-+#include <linux/if_vlan.h>
+- #include <linux/init.h>
+- #include <linux/delay.h>
+- #include <linux/io.h>
+-@@ -764,8 +765,10 @@ ltq_etop_change_mtu(struct net_device *d
+- 		struct ltq_etop_priv *priv = netdev_priv(dev);
+- 		unsigned long flags;
+- 
+-+		int max = ETH_HLEN + VLAN_HLEN + new_mtu + ETH_FCS_LEN;
+-+
+- 		spin_lock_irqsave(&priv->lock, flags);
+--		ltq_etop_w32((ETOP_PLEN_UNDER << 16) | new_mtu,
+-+		ltq_etop_w32((ETOP_PLEN_UNDER << 16) | max,
+- 			LTQ_ETOP_IGPLEN);
+- 		spin_unlock_irqrestore(&priv->lock, flags);
+- 	}

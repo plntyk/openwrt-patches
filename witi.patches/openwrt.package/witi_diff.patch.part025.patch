@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/kernel/linux/modules/other.mk	2015-08-15 05:48:43.528464379 +0200
++++ witi-openwrt/package/kernel/linux/modules/other.mk	2015-08-15 05:39:09.955141389 +0200
+@@ -322,9 +322,8 @@ $(eval $(call KernelPackage,sdhci))
+ define KernelPackage/oprofile
+   SUBMENU:=$(OTHER_MENU)
+   TITLE:=OProfile profiling support
+-  KCONFIG:=CONFIG_OPROFILE
++  KCONFIG:=CONFIG_OPROFILE=m CONFIG_PROFILING=y
+   FILES:=$(LINUX_DIR)/arch/$(LINUX_KARCH)/oprofile/oprofile.ko
+-  DEPENDS:=@KERNEL_PROFILING
+ endef
+ 
+ define KernelPackage/oprofile/description

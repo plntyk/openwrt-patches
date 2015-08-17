@@ -1,0 +1,36 @@
+--- openwrt.bb/openwrt/target/linux/imx6/base-files/etc/uci-defaults/02_network	2015-08-15 05:48:44.055131036 +0200
++++ witi-openwrt/target/linux/imx6/base-files/etc/uci-defaults/02_network	1970-01-01 01:00:00.000000000 +0100
+@@ -1,33 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2013 OpenWrt.org
+-#
+-
+-[ -e /etc/config/network ] && exit 0
+-
+-touch /etc/config/network
+-
+-. /lib/functions/uci-defaults.sh
+-. /lib/imx6.sh
+-
+-board=$(imx6_board_name)
+-
+-ucidef_set_interface_loopback
+-
+-case "$board" in
+-"gw51xx" |\
+-"gw52xx")
+-	ucidef_set_interface_lan 'eth0'
+-	;;
+-"gw53xx" |\
+-"gw54xx")
+-	ucidef_set_interfaces_lan_wan 'eth0' 'eth1'
+-	;;
+-"wandboard")
+-	ucidef_set_interface_wan 'eth0'
+-	;;
+-esac
+-
+-uci commit network
+-
+-exit 0

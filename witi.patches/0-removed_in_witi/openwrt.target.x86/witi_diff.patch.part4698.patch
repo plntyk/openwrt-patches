@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/target/linux/x86/olpc/base-files/etc/config/network	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/x86/olpc/base-files/etc/config/network	1970-01-01 01:00:00.000000000 +0100
+@@ -1,16 +0,0 @@
+-# Copyright (C) 2006 OpenWrt.org
+-
+-config interface loopback
+-        option ifname   lo
+-        option proto    static
+-        option ipaddr   127.0.0.1
+-        option netmask  255.0.0.0
+-
+-config interface wlan
+-        option ifname   eth0
+-        option proto    dhcp
+-
+-config interface wlan6
+-        option ifname   @wlan
+-        option proto    dhcpv6
+-        option reqprefix no

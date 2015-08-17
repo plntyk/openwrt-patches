@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/nand/target.mk	2015-08-15 05:48:43.785131041 +0200
++++ witi-openwrt/target/linux/ar71xx/nand/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-BOARDNAME := Generic devices with NAND flash
+-FEATURES += squashfs nand rtc
+-
+-define Target/Description
+-	Build firmware images for Atheros AR71xx/AR913x based boards with
+-	NAND flash, e.g. Netgear WNDR4300.
+-endef

@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/target/linux/at91/image/u-boot/ubclient/Makefile	2015-08-15 05:48:43.798464374 +0200
++++ witi-openwrt/target/linux/at91/image/u-boot/ubclient/Makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,15 +0,0 @@
+-#
+-
+-all: ubpar
+-
+-crc32.c:
+-	ln -s ../lib_generic/crc32.c ./
+-
+-%.o: %.c
+-	$(CC) -I ../include $(CFLAGS) $(EXTRA_FLAGS) -DLAN_IP=$(LAN_IP) -DLAN_SERVERIP=$(LAN_SERVERIP) -c -o $@ $^
+-
+-ubpar: ubpar.o crc32.o
+-	$(CC) -o $@ $^
+-
+-clean:
+-	rm -f *.o ubpar

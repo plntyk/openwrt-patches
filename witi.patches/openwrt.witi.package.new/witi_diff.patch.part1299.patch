@@ -1,0 +1,44 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/admin-full/luasrc/view/admin_network/switch_status.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/admin-full/luasrc/view/admin_network/switch_status.htm	2015-08-15 05:39:10.115141387 +0200
+@@ -0,0 +1,41 @@
++<script type="text/javascript">//<![CDATA[
++	var switches = [ '<%=table.concat(self.switches, "', '")%>' ];
++	XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "network", "switch_status")%>/' + switches.join(','), null,
++		function(x, st)
++		{
++			for (var i = 0; i < switches.length; i++)
++			{
++				var ports = st[switches[i]];
++				var th0 = document.getElementById('portstatus-' + switches[i]);
++
++				if (th0 && ports && ports.length)
++				{
++					if (!th0.innerHTML)
++						th0.innerHTML = '<%:Port status:%>';
++
++					for (var j = 0; j < ports.length; j++)
++					{
++						var th = th0.parentNode.parentNode.childNodes[j+1];
++
++						if (ports[j].link)
++						{
++							th.innerHTML = String.format(
++								'<small><img src="<%=resource%>/icons/port_up.png" />' +
++								'<br />%d<%:baseT%><br />%s</small>',
++								ports[j].speed, ports[j].duplex
++									? '<%:full-duplex%>' : '<%:half-duplex%>'
++							);
++						}
++						else
++						{
++							th.innerHTML = String.format(
++								'<small><img src="<%=resource%>/icons/port_down.png" />' +
++								'<br /><%:no link%></small>'
++							);
++						}
++					}
++				}
++			}
++		}
++	);
++//]]></script>

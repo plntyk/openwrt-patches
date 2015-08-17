@@ -1,0 +1,32 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/fwd/src/fwd_config.h	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/fwd/src/fwd_config.h	2015-08-15 05:39:10.078474721 +0200
+@@ -0,0 +1,29 @@
++#ifndef __FWD_CONFIG_H__
++#define __FWD_CONFIG_H__
++
++#include "fwd.h"
++#include "ucix.h"
++
++/* fwd_check_option(uci_ctx, section, name, type) */
++#define fwd_check_option(uci, sct, name, type)                       \
++	struct fwd_##type *name = NULL;                                  \
++	if( fwd_read_##type(uci, sct, #name, &name) )                    \
++	{                                                                \
++		printf("ERROR: section '%s' contains invalid %s in '%s'!\n", \
++			sct, #type, #name);                                      \
++        return;                                                      \
++	}
++
++/* structure to access fwd_data* in uci iter callbacks */
++struct fwd_data_conveyor {
++	struct fwd_data *head;
++	struct fwd_data *cursor;
++};
++
++/* api */
++struct fwd_data * fwd_read_config(struct fwd_handle *);
++struct fwd_zone * fwd_lookup_zone(struct fwd_data *, const char *);
++
++void fwd_free_config(struct fwd_data *);
++
++#endif

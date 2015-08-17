@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/extensions_outgoing_sip.conf.TEMPLATE	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/extensions_outgoing_sip.conf.TEMPLATE	2015-08-15 05:39:10.071808055 +0200
+@@ -0,0 +1,8 @@
++exten =>      _|NUMPREFIX|,1,Dial(SIP/${EXTEN}@peer-|NAME|,60,r)
++exten =>     _+|NUMPREFIX|,1,Dial(SIP/${EXTEN}@peer-|NAME|,60,r)
++exten =>     _|NUMPREFIX|.,1,Dial(SIP/${EXTEN}@peer-|NAME|,60,r)
++exten =>    _+|NUMPREFIX|.,1,Dial(SIP/${EXTEN:1}@peer-|NAME|,60,r)
++exten =>   _00|NUMPREFIX|.,1,Dial(SIP/${EXTEN:2}@peer-|NAME|,60,r)
++exten =>  _011|NUMPREFIX|.,1,Dial(SIP/${EXTEN:3}@peer-|NAME|,60,r)
++exten =>  _010|NUMPREFIX|.,1,Dial(SIP/${EXTEN:3}@peer-|NAME|,60,r)
++exten => _0011|NUMPREFIX|.,1,Dial(SIP/${EXTEN:4}@peer-|NAME|,60,r)

@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/base-files/lib/preinit/03_preinit_do_ar71xx.sh	2015-08-15 05:48:43.771797708 +0200
++++ witi-openwrt/target/linux/ar71xx/base-files/lib/preinit/03_preinit_do_ar71xx.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-#!/bin/sh
+-
+-do_ar71xx() {
+-	. /lib/ar71xx.sh
+-
+-	ar71xx_board_detect
+-}
+-
+-boot_hook_add preinit_main do_ar71xx

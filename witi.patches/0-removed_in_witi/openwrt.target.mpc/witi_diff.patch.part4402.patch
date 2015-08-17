@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/target/linux/mpc85xx/p1020/target.mk	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/mpc85xx/p1020/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-BOARDNAME:=P1020
+-
+-define Target/Description
+-	Build firmware images for Freescale P1020 based boards.
+-endef
+-

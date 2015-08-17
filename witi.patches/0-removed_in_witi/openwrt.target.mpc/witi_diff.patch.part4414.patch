@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/mpc85xx/profiles/tp-link.mk	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/mpc85xx/profiles/tp-link.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-#
+-# Copyright (C) 2013 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/TLWDR4900
+-	NAME:=TP-Link TL-WDR4900
+-	PACKAGES:=\
+-		kmod-usb-core kmod-usb2 kmod-usb2-fsl \
+-		kmod-ath9k wpad-mini
+-endef
+-
+-define Profile/TLWDR4900/Description
+-	Package set optimized for the TP-Link TL-WDR4900.
+-endef
+-$(eval $(call Profile,TLWDR4900))

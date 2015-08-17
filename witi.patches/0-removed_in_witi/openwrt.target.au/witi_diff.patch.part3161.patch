@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/target/linux/au1000/au1500/config-3.10	2015-08-15 05:48:43.798464374 +0200
++++ witi-openwrt/target/linux/au1000/au1500/config-3.10	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-CONFIG_DMA_NONCOHERENT=y
+-# CONFIG_MIPS_DB1235 is not set
+-CONFIG_MIPS_MTX1=y
+-CONFIG_NEED_DMA_MAP_STATE=y
+-CONFIG_WDT_MTX1=y

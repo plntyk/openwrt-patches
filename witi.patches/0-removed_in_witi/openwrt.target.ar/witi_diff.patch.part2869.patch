@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/files/arch/mips/ath79/pci-ath9k-fixup.h	2015-08-15 05:48:43.778464374 +0200
++++ witi-openwrt/target/linux/ar71xx/files/arch/mips/ath79/pci-ath9k-fixup.h	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-#ifndef _PCI_ATH9K_FIXUP
+-#define _PCI_ATH9K_FIXUP
+-
+-void pci_enable_ath9k_fixup(unsigned slot, u16 *cal_data) __init;
+-
+-#endif /* _PCI_ATH9K_FIXUP */

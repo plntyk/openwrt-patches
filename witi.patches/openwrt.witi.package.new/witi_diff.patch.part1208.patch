@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/README	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/README	2015-08-15 05:39:10.095141387 +0200
+@@ -0,0 +1,13 @@
++Building:
++	Use GNU Make.
++	make or gmake depending on your system.
++	
++	Special make flags:
++
++	OS		Override Target OS	[Linux|FreeBSD|SunOS|Windows]
++	NIXIO_TLS	TLS-Library		[*openssl|axtls]
++	NIXIO_CROSS_CC	MinGW CC (Windows)	`which i586-mingw32msvc-cc`
++	LUA_CFLAGS	Lua CFLAGS		`pkg-config --cflags lua5.1`
++	LUA_TARGET	Lua compile		target	[*source|strip|compile]
++	LUA_MODULEDIR	Install LUA_PATH	"/usr/share/lua/5.1"
++	LUA_LIBRARYDIR	Install LUA_CPATH	"/usr/lib/lua/5.1"

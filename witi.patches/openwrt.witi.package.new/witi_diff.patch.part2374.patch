@@ -1,0 +1,44 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/po/templates/ntpc.pot	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/po/templates/ntpc.pot	2015-08-15 05:39:10.185141385 +0200
+@@ -0,0 +1,41 @@
++msgid ""
++msgstr "Content-Type: text/plain; charset=UTF-8"
++
++msgid "Clock Adjustment"
++msgstr ""
++
++msgid "Count of time measurements"
++msgstr ""
++
++msgid "Current system time"
++msgstr ""
++
++msgid "General"
++msgstr ""
++
++msgid "Hostname"
++msgstr ""
++
++msgid "Offset frequency"
++msgstr ""
++
++msgid "Port"
++msgstr ""
++
++msgid "Synchronizes the system time"
++msgstr ""
++
++msgid "Time Server"
++msgstr ""
++
++msgid "Time Servers"
++msgstr ""
++
++msgid "Time Synchronisation"
++msgstr ""
++
++msgid "Update interval (in seconds)"
++msgstr ""
++
++msgid "empty = infinite"
++msgstr ""

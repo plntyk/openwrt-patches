@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/996-zsmalloc_allow_module_build.patch	2015-08-15 05:48:44.055131036 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/996-zsmalloc_allow_module_build.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+---- a/drivers/staging/zsmalloc/Kconfig
+-+++ b/drivers/staging/zsmalloc/Kconfig
+-@@ -1,5 +1,5 @@
+- config ZSMALLOC
+--	bool "Memory allocator for compressed pages"
+-+	tristate "Memory allocator for compressed pages"
+- 	default n
+- 	help
+- 	  zsmalloc is a slab-based memory allocator designed to store

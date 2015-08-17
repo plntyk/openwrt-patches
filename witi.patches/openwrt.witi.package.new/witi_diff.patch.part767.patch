@@ -1,0 +1,28 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_evernet	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_evernet	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,25 @@
++config 'community' 'profile'
++	option 'name' 'Freifunk Evernet eG'
++	option 'homepage' 'http://www.evernet-eg.de'
++	option 'ssid' 'evernet.freifunk.net'
++	option 'mesh_network' '10.0.0.0/8'
++	option 'latitude' '51.15692062509162'
++	option 'longitude' '10.716041922569275'
++	option 'suffix' 'evernet'
++
++config 'defaults' 'interface'
++	option 'netmask' '255.0.0.0'
++
++config 'defaults' 'bssidscheme'
++	option 'all'	'02:CA:FF:EE:BA:BE'
++
++config 'defaults' 'wifi_device'
++	option 'channel' '13'
++	option 'country' 'DE'
++	option 'txpower' '19'
++	option 'beacon_int' '5000'
++	option 'distance' '1500'
++	option 'noscan' '0'
++
++config 'defaults' 'wifi_iface'
++	option 'mcast_rate' '6000'

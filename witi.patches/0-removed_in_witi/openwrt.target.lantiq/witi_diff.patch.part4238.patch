@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/dts/DGN3500.dts	2015-08-15 05:48:44.095131035 +0200
++++ witi-openwrt/target/linux/lantiq/dts/DGN3500.dts	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-/dts-v1/;
+-
+-/include/ "DGN3500.dtsi"
+-
+-/ {
+-	model = "DGN3500 - Netgear DGN3500";
+-};

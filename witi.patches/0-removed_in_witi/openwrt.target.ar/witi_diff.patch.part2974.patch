@@ -1,0 +1,22 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/nand/profiles/netgear.mk	2015-08-15 05:48:43.785131041 +0200
++++ witi-openwrt/target/linux/ar71xx/nand/profiles/netgear.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,19 +0,0 @@
+-#
+-# Copyright (C) 2009-2013 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/WNDR4300
+-	NAME:=NETGEAR WNDR3700v4/WNDR4300
+-	PACKAGES:=kmod-usb-core kmod-usb-ohci kmod-usb2 kmod-ledtrig-usbdev
+-endef
+-
+-define Profile/WNDR4300/Description
+-	Package set optimized for the NETGEAR WNDR3700v4/WNDR4300
+-endef
+-
+-$(eval $(call Profile,WNDR4300))
+-
+-

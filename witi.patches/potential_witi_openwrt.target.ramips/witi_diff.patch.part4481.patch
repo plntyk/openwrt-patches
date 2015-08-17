@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/ramips/base-files/etc/uci-defaults/01_leds	2015-08-15 05:48:44.118464369 +0200
++++ witi-openwrt/target/linux/ramips/base-files/etc/uci-defaults/01_leds	2015-08-15 05:39:10.248474718 +0200
+@@ -113,8 +113,7 @@ case $board in
+ 	hw550-3g)
+ 		set_usb_led "hw550-3g:green:usb"
+ 		;;
+-	mlw221|\
+-	mlwg2)
++	mlw221)
+ 		set_wifi_led "kingston:blue:wifi"
+ 		ucidef_set_led_default "system" "system" "kingston:blue:system" "1"
+ 		;;

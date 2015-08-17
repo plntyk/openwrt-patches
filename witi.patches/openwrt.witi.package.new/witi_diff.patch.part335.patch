@@ -1,0 +1,5 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-freifunk-diagnostics/root/etc/uci-defaults/luci-freifunk-diagnostics	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-freifunk-diagnostics/root/etc/uci-defaults/luci-freifunk-diagnostics	2015-08-15 05:39:10.058474721 +0200
+@@ -0,0 +1,2 @@
++#!/bin/sh
++rm -f /tmp/luci-indexcache

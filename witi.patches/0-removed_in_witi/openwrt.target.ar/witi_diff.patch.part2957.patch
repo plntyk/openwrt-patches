@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/image/lzma-loader/src/lzma-data.lds	2015-08-15 05:48:43.785131041 +0200
++++ witi-openwrt/target/linux/ar71xx/image/lzma-loader/src/lzma-data.lds	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-OUTPUT_ARCH(mips)
+-SECTIONS {
+-	.data.lzma : {
+-		_lzma_data_start = .;
+-		*(.data)
+-		_lzma_data_end = .;
+-	}
+-}

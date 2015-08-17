@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/freifunk/luasrc/view/freifunk/profile_error.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/freifunk/luasrc/view/freifunk/profile_error.htm	2015-08-15 05:39:10.125141386 +0200
+@@ -0,0 +1,11 @@
++<%+header%>
++
++<%
++local profileurl = luci.dispatcher.build_url(luci.dispatcher.context.path[1], "freifunk", "basics")
++%>
++
++<h2><%:Error%></h2>
++<%:You need to select a profile before you can edit it. To select a profile go to%> <a href='<%=profileurl%>'><%:Basic settings%></a>.
++<p/>
++
++<%+footer%>

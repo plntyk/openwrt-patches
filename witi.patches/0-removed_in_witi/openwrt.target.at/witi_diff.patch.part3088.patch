@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/target/linux/at91/base-files/etc/config/firewall	2015-08-15 05:48:43.791797708 +0200
++++ witi-openwrt/target/linux/at91/base-files/etc/config/firewall	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-config defaults
+-	option syn_flood	1
+-	option input		ACCEPT
+-	option output		ACCEPT 
+-	option forward		REJECT
+-

@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/NOTICE	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/NOTICE	2015-08-15 05:39:10.095141387 +0200
+@@ -0,0 +1,10 @@
++nixio - Linux I/O library for lua
++Copyright 2009 Steven Barth <steven@midlink.org>
++Licensed under the Apache License, Version 2.0.
++
++Contains code from:
++axTLS		- Copyright 2008 Cameron Rich
++
++Thanks for testing, feedback and code snippets:
++John Crispin <blogic@openwrt.org>
++Jo-Philipp Wich <xm@leipzig.freifunk.net>
+\ No newline at end of file

@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/etc/config/mactodevinfo	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/etc/config/mactodevinfo	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,10 @@
++
++config 'mactodevinfo'
++	option 'maclow' '00:19:15:00:00:00'
++	option 'machigh' '00:19:15:ff:ff:ff'
++	option 'vendor' 'Vertical Communications'
++	option 'devtype' 'SIP devices'
++	option 'model' 'varies'
++	option 'ouiowneroverride' 'Some company'
++	option 'name' 'Vertical XIP and Phones'
++

@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/package/kernel/linux/modules/netsupport.mk	2015-08-15 05:48:43.528464379 +0200
++++ witi-openwrt/package/kernel/linux/modules/netsupport.mk	2015-08-15 05:39:09.955141389 +0200
+@@ -967,17 +967,3 @@ define KernelPackage/rxrpc/description
+ endef
+ 
+ $(eval $(call KernelPackage,rxrpc))
+-
+-define KernelPackage/dns-resolver
+-  SUBMENU:=$(NETWORK_SUPPORT_MENU)
+-  TITLE:=DNS-resolver modules
+-  KCONFIG:=CONFIG_DNS_RESOLVER
+-  FILES:= \
+-       $(LINUX_DIR)/net/dns_resolver/dns_resolver.ko
+-endef
+-
+-define KernelPackage/dns-resolver/description
+- Kernel modules for DNS-RESOLVER support
+-endef
+-
+-$(eval $(call KernelPackage,dns-resolver))

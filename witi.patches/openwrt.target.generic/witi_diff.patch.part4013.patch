@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/870-hifn795x_byteswap.patch	2015-08-15 05:48:44.051797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/870-hifn795x_byteswap.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,17 +0,0 @@
+---- a/drivers/crypto/hifn_795x.c
+-+++ b/drivers/crypto/hifn_795x.c
+-@@ -682,12 +682,12 @@ static inline u32 hifn_read_1(struct hif
+- 
+- static inline void hifn_write_0(struct hifn_device *dev, u32 reg, u32 val)
+- {
+--	writel((__force u32)cpu_to_le32(val), dev->bar[0] + reg);
+-+	writel(val, dev->bar[0] + reg);
+- }
+- 
+- static inline void hifn_write_1(struct hifn_device *dev, u32 reg, u32 val)
+- {
+--	writel((__force u32)cpu_to_le32(val), dev->bar[1] + reg);
+-+	writel(val, dev->bar[1] + reg);
+- }
+- 
+- static void hifn_wait_puc(struct hifn_device *dev)

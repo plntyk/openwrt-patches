@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/target/linux/ar7/generic/target.mk	2015-08-15 05:48:43.771797708 +0200
++++ witi-openwrt/target/linux/ar7/generic/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,12 +0,0 @@
+-#
+-# Copyright (C) 2012 OpenWrt.org
+-#
+-
+-SUBTARGET:=generic
+-BOARDNAME:=Texas Instruments AR7 boards
+-
+-DEFAULT_PACKAGES+= kmod-mac80211 kmod-acx-mac80211 wpad-mini
+-
+-define Target/Description
+-	Build firmware images for TI AR7 based routers.
+-endef

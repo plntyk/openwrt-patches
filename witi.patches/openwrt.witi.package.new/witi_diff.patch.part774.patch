@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_hooge	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_hooge	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,22 @@
++config 'community' 'profile'
++	option 'name' 'Freifunk Hooge'
++	option 'homepage' 'http://hooge.freifunk.net'
++	option 'ssid' 'hooge.freifunk.net'
++	option 'mesh_network' '10.11.128.0/24'
++	option 'splash_network' '10.104.0.0/16'
++	option 'latitude' '54.572161'
++	option 'longitude' '8.559551'
++	option 'suffix' 'hooge'
++	option 'splash_prefix' '27'
++        option 'vap' '1'
++	option 'extrapackages' ''
++        list 'owm_api' 'http://api.openwifimap.net'
++        list 'owm_api' 'http://owmapi.pberg.freifunk.net'
++        option 'mapserver' 'http://openwifimap.net/'
++
++config 'defaults' 'interface'
++	option 'netmask' '255.255.255.0'
++
++config 'defaults' 'luci_splash'
++	option 'limit_up' '20'
++	option 'limit_down' '50'

@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/patches-3.10/700-MIPS-ath79-add-TL-WA801NDv2-suport.patch	2015-08-15 05:48:43.788464375 +0200
++++ witi-openwrt/target/linux/ar71xx/patches-3.10/700-MIPS-ath79-add-TL-WA801NDv2-suport.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+---- a/arch/mips/ath79/machtypes.h
+-+++ b/arch/mips/ath79/machtypes.h
+-@@ -101,6 +101,7 @@ enum ath79_mach_type {
+- 	ATH79_MACH_TL_WA750RE,		/* TP-LINK TL-WA750RE */
+- 	ATH79_MACH_TL_WA7510N_V1,	/* TP-LINK TL-WA7510N v1*/
+- 	ATH79_MACH_TL_WA850RE,		/* TP-LINK TL-WA850RE */
+-+	ATH79_MACH_TL_WA801ND_V2,	/* TP-LINK TL-WA801ND v2 */
+- 	ATH79_MACH_TL_WA901ND,		/* TP-LINK TL-WA901ND */
+- 	ATH79_MACH_TL_WA901ND_V2,	/* TP-LINK TL-WA901ND v2 */
+- 	ATH79_MACH_TL_WDR3500,		/* TP-LINK TL-WDR3500 */

@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/tvalue.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/tvalue.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,5 @@
++<%+cbi/valueheader%>
++	<textarea class="cbi-input-textarea" <% if not self.size then %> style="width: 100%"<% else %> cols="<%=self.size%>"<% end %> onchange="cbi_d_update(this.id)"<%= attr("name", cbid) .. attr("id", cbid) .. ifattr(self.rows, "rows") .. ifattr(self.wrap, "wrap")  .. ifattr(self.readonly, "readonly") %>>
++	<%-=pcdata(self:cfgvalue(section))-%>
++	</textarea>
++<%+cbi/valuefooter%>

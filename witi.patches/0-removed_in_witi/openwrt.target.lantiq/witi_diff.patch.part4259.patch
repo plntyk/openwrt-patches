@@ -1,0 +1,36 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/dts/VGV7519BRN.dts	2015-08-15 05:48:44.095131035 +0200
++++ witi-openwrt/target/linux/lantiq/dts/VGV7519BRN.dts	1970-01-01 01:00:00.000000000 +0100
+@@ -1,33 +0,0 @@
+-/dts-v1/;
+-
+-
+-/include/ "VGV7519.dtsi"
+-
+-/ {
+-	fpi@10000000 {
+-		localbus@0 {
+-			nor-flash@0 {
+-				compatible = "lantiq,nor", "cfi-flash";
+-				bank-width = <2>;
+-				reg = <0 0x0 0x800000>, <1 0x800000 0x800000>;
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-
+-				partition@40000 {
+-					label = "board_config";
+-					reg = <0x40000 0x10000>;
+-					read-only;
+-				};
+-				partition@80000 {
+-					label = "firmware";
+-					reg = <0x80000 0x780000>;
+-					read-only;
+-				};
+-				partition@880000 {
+-					label = "rootfs_data";
+-					reg = <0x880000 0x780000>;
+-				};
+-			};
+-		};
+-	};
+-};

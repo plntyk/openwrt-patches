@@ -1,0 +1,5 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/bin/uci	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/bin/uci	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,2 @@
++#!/bin/sh
++$(dirname $0)/../usr/bin/uci -c $(dirname $0)/../etc/config "$@"

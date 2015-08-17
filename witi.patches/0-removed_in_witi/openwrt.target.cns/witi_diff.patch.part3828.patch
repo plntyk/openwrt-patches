@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/target/linux/cns3xxx/patches-3.10/305-laguna_sdhci_card_detect.patch	2015-08-15 05:48:43.981797704 +0200
++++ witi-openwrt/target/linux/cns3xxx/patches-3.10/305-laguna_sdhci_card_detect.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,16 +0,0 @@
+---- a/drivers/mmc/host/sdhci-cns3xxx.c
+-+++ b/drivers/mmc/host/sdhci-cns3xxx.c
+-@@ -88,10 +88,11 @@ static const struct sdhci_pltfm_data sdh
+- 	.ops = &sdhci_cns3xxx_ops,
+- 	.quirks = SDHCI_QUIRK_BROKEN_DMA |
+- 		  SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK |
+--		  SDHCI_QUIRK_INVERTED_WRITE_PROTECT |
+-+		  //SDHCI_QUIRK_INVERTED_WRITE_PROTECT |
+- 		  SDHCI_QUIRK_CAP_CLOCK_BASE_BROKEN |
+- 		  SDHCI_QUIRK_BROKEN_TIMEOUT_VAL |
+--		  SDHCI_QUIRK_NONSTANDARD_CLOCK,
+-+		  SDHCI_QUIRK_NONSTANDARD_CLOCK |
+-+		  SDHCI_QUIRK_BROKEN_CARD_DETECTION,
+- };
+- 
+- static int sdhci_cns3xxx_probe(struct platform_device *pdev)

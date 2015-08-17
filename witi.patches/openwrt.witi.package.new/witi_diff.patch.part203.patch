@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/package/ramips/drivers/mt7603e/patches/001-softirq-warning.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/drivers/mt7603e/patches/001-softirq-warning.patch	2015-08-15 05:39:10.048474721 +0200
+@@ -0,0 +1,13 @@
++Index: mt7603e-p4rev-111741/src/include/os/rt_linux.h
++===================================================================
++--- mt7603e-p4rev-111741.orig/src/include/os/rt_linux.h
+++++ mt7603e-p4rev-111741/src/include/os/rt_linux.h
++@@ -338,7 +338,7 @@ typedef spinlock_t			OS_NDIS_SPIN_LOCK;
++ #define OS_NdisFreeSpinLock(lock)				\
++ 	do{}while(0)
++ 
++-#ifdef MULTI_CORE_SUPPORT
+++#if 0 /* 3.10.14 kernel softirq warning when close HW irq in softirq */
++ #define OS_SEM_LOCK(__lock)						\
++     {                                               \
++         spin_lock_irq((spinlock_t *)(__lock));      \

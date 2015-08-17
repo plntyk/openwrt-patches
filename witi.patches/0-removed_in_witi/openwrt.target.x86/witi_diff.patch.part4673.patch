@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/x86/generic/target.mk	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/generic/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-BOARDNAME:=Generic
+-
+-define Target/Description
+-	Build firmware images for x86 based boards
+-	(e.g : Soekris, ...)
+-endef
+-

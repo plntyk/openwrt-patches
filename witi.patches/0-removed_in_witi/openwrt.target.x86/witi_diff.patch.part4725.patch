@@ -1,0 +1,28 @@
+--- openwrt.bb/openwrt/target/linux/x86/thincan/profiles/dbe61.mk	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/x86/thincan/profiles/dbe61.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,25 +0,0 @@
+-#
+-# Copyright (C) 2006-2009 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/DBE61
+-  NAME:=DBE61
+-endef
+-
+-define Profile/DBE61/Description
+-	Compile OpenWrt for Artec ThinCan DBE61
+-
+-	ThinCan DBE61 is a thin-client featuring:
+-	  * AMD Geode LX700
+-	  * AMD CS5535 companion device
+-	  * 64MB or 256MB NAND Flash or none
+-	  * 128MB or 256MB DDR SDRAM
+-	  * Realtek RTL8139
+-
+-	http://wiki.thincan.org/DBE61
+-endef
+-
+-$(eval $(call Profile,DBE61))

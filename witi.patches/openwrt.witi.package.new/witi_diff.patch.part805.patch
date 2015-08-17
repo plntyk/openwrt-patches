@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/ipkg/postinst	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/ipkg/postinst	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,6 @@
++#!/bin/sh
++
++[ -n "${IPKG_INSTROOT}" ] || {
++	/etc/init.d/freifunk enabled || /etc/init.d/freifunk enable
++	exit 0
++}

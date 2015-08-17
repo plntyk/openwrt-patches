@@ -1,0 +1,35 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/axTLS/config/axtls.rc	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/axTLS/config/axtls.rc	2015-08-15 05:39:10.098474721 +0200
+@@ -0,0 +1,32 @@
++//Microsoft Visual C++ generated resource script.
++//
++#define APSTUDIO_READONLY_SYMBOLS
++/////////////////////////////////////////////////////////////////////////////
++//
++// Generated from the TEXTINCLUDE 2 resource.
++//
++#define APSTUDIO_HIDDEN_SYMBOLS
++#undef APSTUDIO_HIDDEN_SYMBOLS
++/////////////////////////////////////////////////////////////////////////////
++#undef APSTUDIO_READONLY_SYMBOLS
++
++#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
++LANGUAGE 9, 1
++#pragma code_page(1252)
++
++/////////////////////////////////////////////////////////////////////////////
++//
++// Icon
++//
++
++// Icon with lowest ID value placed first to ensure application icon
++// remains consistent on all systems.
++
++IDI_AXTLS       ICON         "../www/favicon.ico"
++
++
++#endif
++/////////////////////////////////////////////////////////////////////////////
++
++
++

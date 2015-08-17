@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/target/linux/xburst/base-files/etc/config/fstab	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/xburst/base-files/etc/config/fstab	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-config mount
+-	option target   /card
+-	option device   /dev/mmcblk0p1
+-	option fstype   auto
+-	option options  rw,sync
+-	option enabled  1

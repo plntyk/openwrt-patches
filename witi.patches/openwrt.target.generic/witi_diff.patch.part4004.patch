@@ -1,0 +1,31 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/830-ledtrig_morse.patch	2015-08-15 05:48:44.051797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/830-ledtrig_morse.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,28 +0,0 @@
+---- a/drivers/leds/trigger/Kconfig
+-+++ b/drivers/leds/trigger/Kconfig
+-@@ -108,4 +108,8 @@ config LEDS_TRIGGER_CAMERA
+- 	  This enables direct flash/torch on/off by the driver, kernel space.
+- 	  If unsure, say Y.
+- 
+-+config LEDS_TRIGGER_MORSE
+-+	tristate "LED Morse Trigger"
+-+	depends on LEDS_TRIGGERS
+-+
+- endif # LEDS_TRIGGERS
+---- a/drivers/leds/Makefile
+-+++ b/drivers/leds/Makefile
+-@@ -59,3 +59,4 @@ obj-$(CONFIG_LEDS_DAC124S085)		+= leds-d
+- 
+- # LED Triggers
+- obj-$(CONFIG_LEDS_TRIGGERS)		+= trigger/
+-+obj-$(CONFIG_LEDS_TRIGGER_MORSE)	+= ledtrig-morse.o
+---- a/drivers/leds/ledtrig-morse.c
+-+++ b/drivers/leds/ledtrig-morse.c
+-@@ -26,7 +26,6 @@
+- #include <linux/list.h>
+- #include <linux/spinlock.h>
+- #include <linux/device.h>
+--#include <linux/sysdev.h>
+- #include <linux/timer.h>
+- #include <linux/ctype.h>
+- #include <linux/leds.h>

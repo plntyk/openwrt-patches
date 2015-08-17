@@ -1,0 +1,22 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/base-files/etc/uci-defaults/09_fix-trx-header	2015-08-15 05:48:43.771797708 +0200
++++ witi-openwrt/target/linux/ar71xx/base-files/etc/uci-defaults/09_fix-trx-header	1970-01-01 01:00:00.000000000 +0100
+@@ -1,19 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2010 OpenWrt.org
+-#
+-
+-. /lib/ar71xx.sh
+-
+-board=$(ar71xx_board_name)
+-
+-fixtrx() {
+-	mtd -o 32 fixtrx firmware
+-}
+-
+-case "$board" in
+-mynet-rext |\
+-wrt160nl)
+-	fixtrx
+-	;;
+-esac

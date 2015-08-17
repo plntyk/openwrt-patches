@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/generic/profiles/rosewill.mk	2015-08-15 05:48:43.785131041 +0200
++++ witi-openwrt/target/linux/ar71xx/generic/profiles/rosewill.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,16 +0,0 @@
+-#
+-# Copyright (C) 2013 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/RNXN360RT
+-	NAME:=Rosewill RNX-N360RT
+-	PACKAGES:=
+-endef
+-
+-define Profile/RNXN360RT/Description
+-	Package set optimized for the Rosewill RNX-N360RT.
+-endef
+-$(eval $(call Profile,RNXN360RT))

@@ -1,0 +1,35 @@
+--- openwrt.bb/openwrt/target/linux/kirkwood/patches-3.10/140-dockstar.patch	2015-08-15 05:48:44.091797703 +0200
++++ witi-openwrt/target/linux/kirkwood/patches-3.10/140-dockstar.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,32 +0,0 @@
+---- a/arch/arm/boot/dts/kirkwood-dockstar.dts
+-+++ b/arch/arm/boot/dts/kirkwood-dockstar.dts
+-@@ -45,18 +45,22 @@
+- 
+- 			partition@0 {
+- 				label = "u-boot";
+--				reg = <0x0000000 0x100000>;
+--				read-only;
+-+				reg = <0x0000000 0xe0000>;
+-+			};
+-+
+-+			partition@e0000 {
+-+				label = "u-boot environment";
+-+				reg = <0xe0000 0x100000>;
+- 			};
+- 
+- 			partition@100000 {
+--				label = "uImage";
+--				reg = <0x0100000 0x400000>;
+-+				label = "second stage u-boot";
+-+				reg = <0x100000 0x200000>;
+- 			};
+- 
+--			partition@500000 {
+--				label = "data";
+--				reg = <0x0500000 0xfb00000>;
+-+			partition@200000 {
+-+				label = "root";
+-+				reg = <0x200000 0xfe00000>;
+- 			};
+- 		};
+- 	};

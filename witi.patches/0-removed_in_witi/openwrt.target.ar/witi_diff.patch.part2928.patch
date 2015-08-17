@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/generic/profiles/nclink.mk	2015-08-15 05:48:43.781797708 +0200
++++ witi-openwrt/target/linux/ar71xx/generic/profiles/nclink.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,15 +0,0 @@
+-#
+-# Copyright (C) 2014 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/SMART-300
+-        NAME:=NC-LINK SMART-300
+-endef
+-
+-define Profile/SMART-300/Description
+-        Package set optimized for the NC-LINK SMART-300.
+-endef
+-$(eval $(call Profile,SMART-300))

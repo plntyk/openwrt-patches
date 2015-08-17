@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/build/luci.cgi	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/build/luci.cgi	2015-08-15 05:39:10.078474721 +0200
+@@ -0,0 +1,8 @@
++#!/usr/bin/lua
++
++dofile "../../build/setup.lua"
++
++require "luci.cacheloader"
++require "luci.sgi.cgi"
++luci.dispatcher.indexcache = "/tmp/luci-indexcache"
++luci.sgi.cgi.run()

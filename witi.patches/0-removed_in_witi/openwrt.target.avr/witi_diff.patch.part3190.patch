@@ -1,0 +1,28 @@
+--- openwrt.bb/openwrt/target/linux/avr32/Makefile	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/avr32/Makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,25 +0,0 @@
+-#
+-# Copyright (C) 2007-2011 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-include $(TOPDIR)/rules.mk
+-
+-ARCH:=avr32
+-BOARD:=avr32
+-BOARDNAME:=Atmel AVR32
+-FEATURES:=squashfs
+-MAINTAINER:=Imre Kaloz <kaloz@openwrt.org>
+-
+-KERNEL_PATCHVER:=3.10
+-
+-include $(INCLUDE_DIR)/target.mk
+-
+-define Target/Description
+-  Build firmware images for ATNGW100 board
+-endef
+-
+-KERNELNAME:="uImage"
+-
+-$(eval $(call BuildTarget))

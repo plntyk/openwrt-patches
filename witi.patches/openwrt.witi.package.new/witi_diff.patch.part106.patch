@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/package/ramips/applications/eth_mac/src/flash_api.h	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/eth_mac/src/flash_api.h	2015-08-15 05:39:10.028474721 +0200
+@@ -0,0 +1,8 @@
++#ifndef __FLASH_API
++#define __FLASH_API
++
++int FlashRead(unsigned int *dst, unsigned int *src, unsigned int numBytes);
++int FlashWrite(unsigned int *source, unsigned int *dest, unsigned int numBytes);
++int FlashErase(unsigned int StartAddr, unsigned int EndAddr);
++
++#endif

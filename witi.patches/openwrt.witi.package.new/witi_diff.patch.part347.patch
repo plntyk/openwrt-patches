@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-freifunk-widgets/luasrc/view/freifunk/widgets/clear/main.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-freifunk-widgets/luasrc/view/freifunk/widgets/clear/main.htm	2015-08-15 05:39:10.058474721 +0200
+@@ -0,0 +1,15 @@
++<%
++--[[
++LuCI - Lua Configuration Interface
++
++Copyright 2012 Manuel Munz <freifunk at somakoma dot de>
++
++Licensed under the Apache License, Version 2.0 (the "License");
++you may not use this file except in compliance with the License.
++You may obtain a copy of the License at
++
++	http://www.apache.org/licenses/LICENSE-2.0
++
++]]--
++%>
++<div style="clear:both"></div>

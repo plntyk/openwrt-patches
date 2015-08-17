@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_heppenheim	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_heppenheim	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,9 @@
++config 'community' 'profile'
++	option 'name' 'Freifunk Heppenheim'
++	option 'homepage' 'http://heppenheim.freifunk.net'
++	option 'ssid' 'heppenheim.freifunk.net'
++	option 'mesh_network' '10.48.0.0/16'
++	option 'splash_network' '10.104.0.0/16'
++	option 'splash_prefix' '27'
++	option 'latitude' '51.151786'
++	option 'longitude' '10.415039'

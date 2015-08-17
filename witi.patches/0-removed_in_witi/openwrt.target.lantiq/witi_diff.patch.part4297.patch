@@ -1,0 +1,17 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/image/ubinize.cfg	2015-08-15 05:48:44.098464369 +0200
++++ witi-openwrt/target/linux/lantiq/image/ubinize.cfg	1970-01-01 01:00:00.000000000 +0100
+@@ -1,14 +0,0 @@
+-[rootfs]
+-# Volume mode (other option is static)
+-mode=ubi
+-# Source image
+-image=root.ubifs
+-# Volume ID in UBI image
+-vol_id=0
+-# Allow for dynamic resize
+-vol_type=dynamic
+-# Volume name
+-vol_name=rootfs
+-# Autoresize volume at first mount
+-vol_flags=autoresize
+-

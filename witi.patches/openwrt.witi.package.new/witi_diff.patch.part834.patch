@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-watchdog/src/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-watchdog/src/Makefile	2015-08-15 05:39:10.088474720 +0200
+@@ -0,0 +1,12 @@
++WD_BINARY:=ffwatchd
++WD_CFLAGS:=$(CFLAGS) -c -DBINARY=\"$(WD_BINARY)\"
++WD_LDFLAGS:=$(LDFLAGS) -lm -luci
++
++watchdog:
++	$(CC) $(WD_CFLAGS) -o ucix.o ucix.c
++	$(CC) $(WD_CFLAGS) -o watchdog.o watchdog.c
++	$(CC) $(WD_LDFLAGS) -o $(WD_BINARY) watchdog.o ucix.o
++
++clean:
++	rm -f *~ $(WD_BINARY) *.o
++

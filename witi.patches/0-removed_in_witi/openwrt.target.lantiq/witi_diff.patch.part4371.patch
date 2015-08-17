@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/xway/profiles/lantiq.mk	2015-08-15 05:48:44.108464368 +0200
++++ witi-openwrt/target/linux/lantiq/xway/profiles/lantiq.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-define Profile/EASY50712
+-  NAME:=Lantiq Danube - EASY50712
+-endef
+-
+-$(eval $(call Profile,EASY50712))

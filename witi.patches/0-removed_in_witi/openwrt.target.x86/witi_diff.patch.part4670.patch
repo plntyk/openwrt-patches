@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/target/linux/x86/generic/profiles/Soekris45xx.mk	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/generic/profiles/Soekris45xx.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,16 +0,0 @@
+-#
+-# Copyright (C) 2008 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Soekris45xx
+-  NAME:=Soekris Net45xx
+-  PACKAGES:=kmod-natsemi kmod-leds-net48xx kmod-wdt-sc520
+-endef
+-
+-define Profile/Soekris45xx/Description
+-        Package set compatible with the Soekris Net45xx. Net4511 and 4521 need PCMCIA Cardbus support. Please add manually.
+-endef
+-$(eval $(call Profile,Soekris45xx))

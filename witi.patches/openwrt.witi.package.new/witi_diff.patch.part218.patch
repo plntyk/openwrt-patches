@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/package/ramips/drivers/mt7620/patches/003-support-hwnat.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/drivers/mt7620/patches/003-support-hwnat.patch	2015-08-15 05:39:10.051808055 +0200
+@@ -0,0 +1,17 @@
++Index: mt7620-p4rev-113050/build/Makefile
++===================================================================
++--- mt7620-p4rev-113050.orig/build/Makefile
+++++ mt7620-p4rev-113050/build/Makefile
++@@ -251,7 +251,12 @@ EXTRA_CFLAGS += -DAGGREGATION_SUPPORT -D
++ EXTRA_CFLAGS += -DCONFIG_AP_SUPPORT -DAP_SCAN_SUPPORT -DUAPSD_AP_SUPPORT -DUAPSD_SUPPORT -DRTMP_RBUS_SUPPORT -DRTMP_MAC_PCI
++ EXTRA_CFLAGS += -DDOT11_N_SUPPORT -DSTATS_COUNT_SUPPORT -DIAPP_SUPPORT -DDOT1X_SUPPORT
++ EXTRA_CFLAGS += -DRALINK_ATE -DRALINK_QA -DCONFIG_RT2880_ATE_CMD_NEW
+++
+++ifeq ($(CONFIG_RT2860V2_WIFI_HW_NAT),y)
+++EXTRA_CFLAGS += -DCONFIG_WIFI_HW_NAT
+++else
++ EXTRA_CFLAGS += -DCONFIG_RA_NAT_NONE
+++endif
++ 
++ #provide busy time statistics for every TBTT */
++ #EXTRA_CFLAGS += -DQLOAD_FUNC_BUSY_TIME_STATS 

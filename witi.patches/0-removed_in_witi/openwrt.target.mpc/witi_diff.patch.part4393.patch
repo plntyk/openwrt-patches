@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/mpc85xx/base-files/lib/preinit/03_preinit_do_mpc85xx.sh	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/mpc85xx/base-files/lib/preinit/03_preinit_do_mpc85xx.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-#!/bin/sh
+-
+-do_mpc85xx() {
+-	. /lib/mpc85xx.sh
+-
+-	mpc85xx_board_detect
+-}
+-
+-boot_hook_add preinit_main do_mpc85xx

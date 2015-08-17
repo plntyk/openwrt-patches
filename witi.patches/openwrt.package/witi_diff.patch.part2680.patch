@@ -1,0 +1,6 @@
+--- openwrt.bb/openwrt/package/system/fstools/files/fstab.default	2015-08-15 05:48:43.745131042 +0200
++++ witi-openwrt/package/system/fstools/files/fstab.default	2015-08-15 05:39:10.205141385 +0200
+@@ -1,2 +1,2 @@
++touch /tmp/fstab
+ [ ! -f /etc/config/fstab ] && ( block detect > /etc/config/fstab )
+-exit 0

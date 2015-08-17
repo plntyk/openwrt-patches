@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/ramips/mt7620a/target.mk	2015-08-15 05:48:44.128464368 +0200
++++ witi-openwrt/target/linux/ramips/mt7620a/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,17 +0,0 @@
+-#
+-# Copyright (C) 2009 OpenWrt.org
+-#
+-
+-SUBTARGET:=mt7620a
+-BOARDNAME:=MT7620a based boards
+-ARCH_PACKAGES:=ramips_24kec
+-FEATURES+=usb
+-CPU_TYPE:=24kec
+-CPU_SUBTYPE:=dsp
+-
+-DEFAULT_PACKAGES += kmod-rt2800-pci kmod-rt2800-soc
+-
+-define Target/Description
+-	Build firmware images for Ralink MT7620a based boards.
+-endef
+-

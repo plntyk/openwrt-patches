@@ -1,0 +1,29 @@
+--- openwrt.bb/openwrt/target/linux/ar7/Makefile	2015-08-15 05:48:43.768464375 +0200
++++ witi-openwrt/target/linux/ar7/Makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,26 +0,0 @@
+-#
+-# Copyright (C) 2006-2011 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-include $(TOPDIR)/rules.mk
+-
+-ARCH:=mipsel
+-BOARD:=ar7
+-BOARDNAME:=TI AR7
+-FEATURES:=squashfs atm low_mem
+-MAINTAINER:=Florian Fainelli <florian@openwrt.org>
+-SUBTARGETS:=generic ac49x
+-
+-KERNEL_PATCHVER:=3.10
+-
+-include $(INCLUDE_DIR)/target.mk
+-
+-DEFAULT_PACKAGES+= swconfig
+-
+-define Target/Description
+-	Build firmware images for TI AR7 based routers.
+-endef
+-
+-$(eval $(call BuildTarget))

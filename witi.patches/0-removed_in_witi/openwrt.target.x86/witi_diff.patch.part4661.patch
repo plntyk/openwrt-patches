@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/target/linux/x86/base-files/lib/preinit/15_essential_fs_x86	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/base-files/lib/preinit/15_essential_fs_x86	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-#!/bin/sh
+-# Copyright (C) 2006-2010 OpenWrt.org
+-# Copyright (C) 2010 Vertical Communications
+-
+-do_mount_procfs() {
+-	mount -o noatime -t proc none /proc
+-}
+-

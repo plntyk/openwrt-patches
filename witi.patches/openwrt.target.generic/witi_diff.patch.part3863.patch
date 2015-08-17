@@ -1,0 +1,17 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/201-extra_optimization.patch	2015-08-15 05:48:44.041797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/201-extra_optimization.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,14 +0,0 @@
+---- a/Makefile
+-+++ b/Makefile
+-@@ -571,9 +571,9 @@ endif # $(dot-config)
+- all: vmlinux
+- 
+- ifdef CONFIG_CC_OPTIMIZE_FOR_SIZE
+--KBUILD_CFLAGS	+= -Os $(call cc-disable-warning,maybe-uninitialized,)
+-+KBUILD_CFLAGS	+= -Os $(EXTRA_OPTIMIZATION) $(call cc-disable-warning,maybe-uninitialized,)
+- else
+--KBUILD_CFLAGS	+= -O2
+-+KBUILD_CFLAGS	+= -O2 -fno-reorder-blocks -fno-tree-ch $(EXTRA_OPTIMIZATION)
+- endif
+- 
+- include $(srctree)/arch/$(SRCARCH)/Makefile

@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/target/linux/atheros/base-files/etc/config/system	2015-08-15 05:48:43.798464374 +0200
++++ witi-openwrt/target/linux/atheros/base-files/etc/config/system	1970-01-01 01:00:00.000000000 +0100
+@@ -1,23 +0,0 @@
+-config system
+-	option hostname OpenWrt
+-	option timezone UTC
+-
+-config timeserver ntp
+-	list server	0.openwrt.pool.ntp.org
+-	list server	1.openwrt.pool.ntp.org
+-	list server	2.openwrt.pool.ntp.org
+-	list server	3.openwrt.pool.ntp.org
+-
+-config button
+-	option button	reset
+-	option action	released
+-	option handler	"logger reboot"
+-	option min		0
+-	option max		4
+-
+-config button
+-	option button	reset
+-	option action	released
+-	option handler	"logger factory default"
+-	option min		5
+-	option max		30

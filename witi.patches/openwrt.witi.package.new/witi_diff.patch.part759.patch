@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_bensheim	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_bensheim	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,9 @@
++config 'community' 'profile'
++	option 'name' 'Freifunk Bensheim'
++	option 'homepage' 'http://bensheim.freifunk.net'
++	option 'ssid' 'bensheim.freifunk.net'
++	option 'mesh_network' '10.49.0.0/16'
++	option 'splash_network' '10.104.0.0/16'
++	option 'splash_prefix' '27'
++	option 'latitude' '49.63939'
++	option 'longitude' '8.633718'

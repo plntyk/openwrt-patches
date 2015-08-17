@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/x86/xen_domu/base-files/lib/preinit/45_mount_xenfs	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/x86/xen_domu/base-files/lib/preinit/45_mount_xenfs	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+-#!/bin/sh
+-# Copyright (C) 2010 OpenWrt.org
+-
+-do_mount_xenfs() {
+-	[ -f /etc/modules.d/??-xenfs ] && {
+-		insmod $(cat /etc/modules.d/??-xenfs)
+-		mount -o noatime none /proc/xen -t xenfs
+-	}
+-}
+-
+-boot_hook_add preinit_mount_root do_mount_xenfs

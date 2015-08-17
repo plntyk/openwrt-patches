@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/docsrc/nixio.crypto.lua	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/docsrc/nixio.crypto.lua	2015-08-15 05:39:10.111808054 +0200
+@@ -0,0 +1,15 @@
++--- Cryptographical library.
++module "nixio.crypto"
++
++--- Create a hash object. 
++-- @class function
++-- @name nixio.crypto.hash
++-- @param algo	Algorithm ["sha1", "md5"]
++-- @return CryptoHash Object
++
++--- Create a HMAC object. 
++-- @class function
++-- @name nixio.crypto.hmac
++-- @param algo	Algorithm ["sha1", "md5"]
++-- @param key	HMAC-Key
++-- @return CryptoHash Object
+\ No newline at end of file

@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_kiberpipa	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_kiberpipa	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,15 @@
++config 'community' 'profile'
++	option 'name' 'Kiberpipa.net'
++	option 'homepage' 'http://www.kiberpipa.net'
++	option 'ssid' 'open.kiberpipa.net'
++	option 'mesh_network' '10.14.0.0/16'
++	option 'splash_network' '10.14.128.0/17'
++	option 'splash_prefix' '27'
++	option 'latitude' '46.05063'
++	option 'longitude' '14.50402'
++
++config 'defaults' 'wifi_device'
++	option 'channel' '8'
++
++config 'defaults' 'interface'
++	option 'dns' '10.14.0.1 208.67.222.220 208.67.220.222'

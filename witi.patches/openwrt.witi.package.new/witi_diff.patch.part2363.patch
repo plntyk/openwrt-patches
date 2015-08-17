@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/po/templates/diag_core.pot	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/po/templates/diag_core.pot	2015-08-15 05:39:10.185141385 +0200
+@@ -0,0 +1,23 @@
++msgid ""
++msgstr "Content-Type: text/plain; charset=UTF-8"
++
++msgid "Configure Diagnostics"
++msgstr ""
++
++msgid "Diagnostics"
++msgstr ""
++
++msgid ""
++"The diagnostics available under this menu depend on what modules you have "
++"installed on your device."
++msgstr ""
++
++msgid ""
++"The entries in the menu allow you to perform diagnostic tests on your system "
++"to aid in troubleshooting."
++msgstr ""
++
++msgid ""
++"With this menu you can configure network diagnostics, such as network device "
++"scans and ping tests."
++msgstr ""

@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/655-increase_skb_pad.patch	2015-08-15 05:48:44.048464369 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/655-increase_skb_pad.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/include/linux/skbuff.h
+-+++ b/include/linux/skbuff.h
+-@@ -1849,7 +1849,7 @@ static inline int pskb_network_may_pull(
+-  * NET_IP_ALIGN(2) + ethernet_header(14) + IP_header(20/40) + ports(8)
+-  */
+- #ifndef NET_SKB_PAD
+--#define NET_SKB_PAD	max(32, L1_CACHE_BYTES)
+-+#define NET_SKB_PAD	max(64, L1_CACHE_BYTES)
+- #endif
+- 
+- extern int ___pskb_trim(struct sk_buff *skb, unsigned int len);

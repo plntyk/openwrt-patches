@@ -1,0 +1,32 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/base-files/etc/uci-defaults/03_network_migration	2015-08-15 05:48:43.948464371 +0200
++++ witi-openwrt/target/linux/brcm47xx/base-files/etc/uci-defaults/03_network_migration	1970-01-01 01:00:00.000000000 +0100
+@@ -1,29 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2014 OpenWrt.org
+-#
+-
+-uci show network | grep "\.vlan=0"
+-[ $? -ne 0 ] && exit 0
+-
+-logger -t network "network config is invalid, creating new one"
+-
+-local lan_proto="$(uci -q get network.lan.proto)"
+-local lan_ipaddr="$(uci -q get network.lan.ipaddr)"
+-local lan_netmask="$(uci -q get network.lan.netmask)"
+-local wan_proto="$(uci -q get network.wan.proto)"
+-local wan_ipaddr="$(uci -q get network.wan.ipaddr)"
+-local wan_netmask="$(uci -q get network.wan.netmask)"
+-
+-rm /etc/config/network
+-/etc/init.d/netconfig start
+-
+-uci set network.lan.proto=$lan_proto
+-uci set network.lan.ipaddr=$lan_ipaddr
+-uci set network.lan.netmask=$lan_netmask
+-uci set network.wan.proto=$wan_proto
+-uci set network.wan.ipaddr=$wan_ipaddr
+-uci set network.wan.netmask=$wan_netmask
+-uci commit network
+-
+-exit 0

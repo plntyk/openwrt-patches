@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr-viz/luasrc/view/olsr-viz/olsr-viz.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr-viz/luasrc/view/olsr-viz/olsr-viz.htm	2015-08-15 05:39:10.065141388 +0200
+@@ -0,0 +1,10 @@
++<%+header%>
++<noscript>
++	<div class="warning">
++		<%:You need to allow javascript in your browser to show this page.%>
++	</div>
++</noscript>
++
++<iframe style="width:100%; height:640px; border:none" scrolling="no" src="/cgi-bin/olsr-viz.sh"></iframe>
++
++<%+footer%>

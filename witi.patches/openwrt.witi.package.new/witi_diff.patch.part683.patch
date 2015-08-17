@@ -1,0 +1,27 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/build/i18n-init.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/build/i18n-init.sh	2015-08-15 05:39:10.078474721 +0200
+@@ -0,0 +1,24 @@
++#!/bin/sh
++
++PATTERN=$1
++SCM=
++
++[ -d .svn ] && SCM="svn"
++git=$( which git 2>/dev/null )
++[ "$git" ] && "$git" status >/dev/null && SCM="git"
++
++[ -z "$SCM" ] && {
++	echo "Unsupported SCM tool" >&2
++	exit 1
++}
++
++[ -z "$PATTERN" ] && PATTERN="*.pot"
++
++for lang in $(cd po; echo ?? ??_??); do
++	for file in $(cd po/templates; echo $PATTERN); do
++		if [ -f po/templates/$file -a ! -f "po/$lang/${file%.pot}.po" ]; then
++			msginit --no-translator -l "$lang" -i "po/templates/$file" -o "po/$lang/${file%.pot}.po"
++			$SCM add "po/$lang/${file%.pot}.po"
++		fi
++	done
++done

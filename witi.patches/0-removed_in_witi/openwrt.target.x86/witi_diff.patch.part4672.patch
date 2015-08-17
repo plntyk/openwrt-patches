@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/target/linux/x86/generic/profiles/Wrap.mk	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/generic/profiles/Wrap.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,16 +0,0 @@
+-#
+-# Copyright (C) 2006,2009 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Wrap
+-  NAME:=PCEngines WRAP
+-  PACKAGES:=kmod-i2c-scx200 kmod-natsemi kmod-leds-wrap kmod-gpio-scx200 kmod-wdt-scx200 kmod-hwmon-pc87360
+-endef
+-
+-define Profile/Wrap/Description
+-	Package set compatible with the PCEngines WRAP. Contains I2C/LEDS/GPIO/Sensors support
+-endef
+-$(eval $(call Profile,Wrap))

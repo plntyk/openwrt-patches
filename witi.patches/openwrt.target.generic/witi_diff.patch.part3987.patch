@@ -1,0 +1,27 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/724-phy_ar8216.patch	2015-08-15 05:48:44.051797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/724-phy_ar8216.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,24 +0,0 @@
+---- a/drivers/net/phy/Kconfig
+-+++ b/drivers/net/phy/Kconfig
+-@@ -135,6 +135,11 @@ config IP17XX_PHY
+- 	tristate "Driver for IC+ IP17xx switches"
+- 	select SWCONFIG
+- 
+-+config AR8216_PHY
+-+	tristate "Driver for Atheros AR8216 switches"
+-+	select ETHERNET_PACKET_MANGLE
+-+	select SWCONFIG
+-+
+- config FIXED_PHY
+- 	bool "Driver for MDIO Bus/PHY emulation with fixed speed/link PHYs"
+- 	depends on PHYLIB=y
+---- a/drivers/net/phy/Makefile
+-+++ b/drivers/net/phy/Makefile
+-@@ -21,6 +21,7 @@ obj-$(CONFIG_ADM6996_PHY)	+= adm6996.o
+- obj-$(CONFIG_MVSWITCH_PHY)	+= mvswitch.o
+- obj-$(CONFIG_IP17XX_PHY)	+= ip17xx.o
+- obj-$(CONFIG_REALTEK_PHY)	+= realtek.o
+-+obj-$(CONFIG_AR8216_PHY)	+= ar8216.o
+- obj-$(CONFIG_LSI_ET1011C_PHY)	+= et1011c.o
+- obj-$(CONFIG_FIXED_PHY)		+= fixed.o
+- obj-$(CONFIG_MDIO_BITBANG)	+= mdio-bitbang.o

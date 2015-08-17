@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr-services/luasrc/controller/services.lua	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr-services/luasrc/controller/services.lua	2015-08-15 05:39:10.065141388 +0200
+@@ -0,0 +1,16 @@
++module "luci.controller.services"
++
++function index()
++	local uci = require "luci.model.uci".cursor()
++
++	uci:foreach("olsrd", "LoadPlugin", function(s)
++		if s.library == "olsrd_nameservice.so.0.3" then
++			has_serv = true
++		end
++	end)
++
++	if has_serv then
++		entry({"freifunk", "services"}, template("freifunk-services/services"), _("Services"), 60)
++	end
++end
++

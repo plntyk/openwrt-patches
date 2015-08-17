@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/rb532/patches-3.10/004-rb532_partition_info-rename-rootfs-to-rootfs_onboard.patch	2015-08-15 05:48:44.141797701 +0200
++++ witi-openwrt/target/linux/rb532/patches-3.10/004-rb532_partition_info-rename-rootfs-to-rootfs_onboard.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/arch/mips/rb532/devices.c	2014-07-07 01:05:10.000000000 +0300
+-+++ b/arch/mips/rb532/devices.c	2014-07-07 01:05:27.268505016 +0300
+-@@ -202,7 +202,7 @@ static struct mtd_partition rb532_partit
+- 		.offset = 0,
+- 		.size = 4 * 1024 * 1024,
+- 	}, {
+--		.name = "rootfs",
+-+		.name = "rootfs_onboard",
+- 		.offset = MTDPART_OFS_NXTBLK,
+- 		.size = MTDPART_SIZ_FULL,
+- 	}

@@ -1,0 +1,17 @@
+--- openwrt.bb/openwrt/target/linux/ramips/patches/0301-ramips-profile.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/target/linux/ramips/patches/0301-ramips-profile.patch	2015-08-15 05:39:10.258474717 +0200
+@@ -0,0 +1,14 @@
++Index: linux-3.10.14/arch/mips/ralink/irq.c
++===================================================================
++--- linux-3.10.14.orig/arch/mips/ralink/irq.c
+++++ linux-3.10.14/arch/mips/ralink/irq.c
++@@ -526,7 +526,8 @@ void __init arch_init_irq(void)
++ 
++ 	/* Enable global interrupt bit */
++ 	*(volatile u32 *)(RALINK_INTENA) = M_SURFBOARD_GLOBAL_INT;
++-	
+++    /* hua: 7621 uses GIC -> SURFBOARDINT_PCTRL, which is done by code above */
+++	cp0_perfcount_irq = SURFBOARDINT_PC;
++ 	set_c0_status(ST0_IM);
++ #endif // CONFIG_IRQ_GIC //
++ 

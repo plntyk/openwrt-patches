@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/ar7/ac49x/target.mk	2015-08-15 05:48:43.768464375 +0200
++++ witi-openwrt/target/linux/ar7/ac49x/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-#
+-# Copyright (C) 2012 OpenWrt.org
+-#
+-
+-SUBTARGET:=ac49x
+-BOARDNAME:=AudioCodes AC49x
+-
+-define Target/Description
+-	Build firmware images for AudioCodes AC49x based routers.
+-endef

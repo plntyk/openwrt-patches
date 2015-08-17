@@ -1,0 +1,23 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/650-pppoe_header_pad.patch	2015-08-15 05:48:44.048464369 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/650-pppoe_header_pad.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,20 +0,0 @@
+---- a/drivers/net/ppp/pppoe.c
+-+++ b/drivers/net/ppp/pppoe.c
+-@@ -850,7 +850,7 @@ static int pppoe_sendmsg(struct kiocb *i
+- 		goto end;
+- 
+- 
+--	skb = sock_wmalloc(sk, total_len + dev->hard_header_len + 32,
+-+	skb = sock_wmalloc(sk, total_len + dev->hard_header_len + 32 + NET_SKB_PAD,
+- 			   0, GFP_KERNEL);
+- 	if (!skb) {
+- 		error = -ENOMEM;
+-@@ -858,7 +858,7 @@ static int pppoe_sendmsg(struct kiocb *i
+- 	}
+- 
+- 	/* Reserve space for headers. */
+--	skb_reserve(skb, dev->hard_header_len);
+-+	skb_reserve(skb, dev->hard_header_len + NET_SKB_PAD);
+- 	skb_reset_network_header(skb);
+- 
+- 	skb->dev = dev;

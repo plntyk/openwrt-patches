@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/target/linux/mpc85xx/base-files/lib/preinit/05_set_preinit_iface_mpc85xx	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/mpc85xx/base-files/lib/preinit/05_set_preinit_iface_mpc85xx	1970-01-01 01:00:00.000000000 +0100
+@@ -1,12 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2013 OpenWrt.org
+-#
+-
+-. /lib/mpc85xx.sh
+-
+-mpc85xx_set_preinit_iface() {
+-	ifname=eth0
+-}
+-
+-boot_hook_add preinit_main mpc85xx_set_preinit_iface

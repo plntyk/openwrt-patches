@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/900-slab_maxsize.patch	2015-08-15 05:48:44.051797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/900-slab_maxsize.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+---- a/include/linux/slab.h
+-+++ b/include/linux/slab.h
+-@@ -189,8 +189,8 @@ struct kmem_cache {
+-  * to do various tricks to work around compiler limitations in order to
+-  * ensure proper constant folding.
+-  */
+--#define KMALLOC_SHIFT_HIGH	((MAX_ORDER + PAGE_SHIFT - 1) <= 25 ? \
+--				(MAX_ORDER + PAGE_SHIFT - 1) : 25)
+-+#define KMALLOC_SHIFT_HIGH	((MAX_ORDER + PAGE_SHIFT - 1) <= 17 ? \
+-+				(MAX_ORDER + PAGE_SHIFT - 1) : 17)
+- #define KMALLOC_SHIFT_MAX	KMALLOC_SHIFT_HIGH
+- #ifndef KMALLOC_SHIFT_LOW
+- #define KMALLOC_SHIFT_LOW	5

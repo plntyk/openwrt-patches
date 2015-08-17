@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-watchdog/files/freifunk-watchdog.config	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-watchdog/files/freifunk-watchdog.config	2015-08-15 05:39:10.088474720 +0200
+@@ -0,0 +1,7 @@
++config process
++	option process 'dropbear'
++	option initscript '/etc/init.d/dropbear'
++
++config process
++	option process 'crond'
++	option initscript '/etc/init.d/cron'

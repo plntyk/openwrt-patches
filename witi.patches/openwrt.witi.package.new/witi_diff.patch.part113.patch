@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/ramips/applications/gpio/src/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/gpio/src/Makefile	2015-08-15 05:39:10.028474721 +0200
+@@ -0,0 +1,10 @@
++EXEC=gpio  
++SRC=gpio.c
++
++all: $(EXEC)
++gpio: $(SRC)
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(SRC) $(LDLIBS)
++
++clean:
++	-rm -f $(EXEC) *.elf *.gdb *.o
++

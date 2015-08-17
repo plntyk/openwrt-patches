@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/uhttpd/patches/001-pass-env.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/uhttpd/patches/001-pass-env.patch	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,11 @@
++--- a/uhttpd-cgi.c
+++++ b/uhttpd-cgi.c
++@@ -216,7 +216,7 @@ void uh_cgi_request(
++ 			     (pi->stat.st_mode & S_IXOTH)) || (ip != NULL)
++ 			) {
++ 				/* build environment */
++-				clearenv();
+++				//clearenv();
++ 
++ 				/* common information */
++ 				setenv("GATEWAY_INTERFACE", "CGI/1.1", 1);

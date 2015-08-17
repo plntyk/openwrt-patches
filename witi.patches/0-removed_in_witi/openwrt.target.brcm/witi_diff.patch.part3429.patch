@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/mips74k/profiles/103-Broadcom-none.mk	2015-08-15 05:48:43.951797705 +0200
++++ witi-openwrt/target/linux/brcm47xx/mips74k/profiles/103-Broadcom-none.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-#
+-# Copyright (C) 2014 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Broadcom-mips74k-none
+-  NAME:=Broadcom SoC, No WiFi
+-  PACKAGES:=-wpad-mini
+-endef
+-
+-define Profile/Broadcom-mips74k-none/Description
+-	Package set for devices without a WiFi.
+-endef
+-
+-$(eval $(call Profile,Broadcom-mips74k-none))
+-

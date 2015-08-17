@@ -1,0 +1,4 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/image/lzma-loader/src/lantiq.mk	2015-08-15 05:48:44.098464369 +0200
++++ witi-openwrt/target/linux/lantiq/image/lzma-loader/src/lantiq.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-CACHE_FLAGS+=-DCONFIG_ICACHE_SIZE="(32 * 1024)" -DCONFIG_DCACHE_SIZE="(32 * 1024)" -DCONFIG_CACHELINE_SIZE=32

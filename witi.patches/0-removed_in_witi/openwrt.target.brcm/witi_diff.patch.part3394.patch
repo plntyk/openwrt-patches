@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/generic/profiles/205-Broadcom-b44-none.mk	2015-08-15 05:48:43.948464371 +0200
++++ witi-openwrt/target/linux/brcm47xx/generic/profiles/205-Broadcom-b44-none.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-#
+-# Copyright (C) 2006-2013 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Broadcom-b44-none
+-  NAME:=Broadcom SoC, b44 Ethernet, No WiFi
+-  PACKAGES:=-wpad-mini kmod-b44
+-endef
+-
+-define Profile/Broadcom-b44-none/Description
+-	Package set compatible with hardware older Broadcom BCM47xx or BCM535x
+-	SoC without any Wifi cards and b44 Ethernet driver.
+-endef
+-$(eval $(call Profile,Broadcom-b44-none))
+-

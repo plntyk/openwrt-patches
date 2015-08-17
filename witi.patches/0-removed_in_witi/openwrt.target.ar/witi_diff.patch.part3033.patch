@@ -1,0 +1,17 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/patches-3.10/510-MIPS-ath79-init-gpio-pin-of-wmac-device.patch	2015-08-15 05:48:43.788464375 +0200
++++ witi-openwrt/target/linux/ar71xx/patches-3.10/510-MIPS-ath79-init-gpio-pin-of-wmac-device.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,14 +0,0 @@
+---- a/arch/mips/ath79/dev-wmac.c
+-+++ b/arch/mips/ath79/dev-wmac.c
+-@@ -24,7 +24,10 @@
+- #include "dev-wmac.h"
+- 
+- static u8 ath79_wmac_mac[ETH_ALEN];
+--static struct ath9k_platform_data ath79_wmac_data;
+-+
+-+static struct ath9k_platform_data ath79_wmac_data = {
+-+	.led_pin = -1,
+-+};
+- 
+- static struct resource ath79_wmac_resources[] = {
+- 	{

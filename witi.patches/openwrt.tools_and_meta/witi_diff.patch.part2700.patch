@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/README	2015-08-15 05:48:43.481797713 +0200
++++ witi-openwrt/README	2015-08-15 05:39:09.918474724 +0200
+@@ -3,8 +3,8 @@ This is the buildsystem for the OpenWrt
+ Please use "make menuconfig" to configure your appreciated
+ configuration for the toolchain and firmware.
+ 
+-You need to have installed gcc, binutils, bzip2, flex, python, perl, make,
+-find, grep, diff, unzip, gawk, getopt, subversion, libz-dev and libc headers.
++You need to have installed gcc, binutils, bzip2, flex, python, perl
++make, find, grep, diff, unzip, gawk, getopt, libz-dev and libc headers.
+ 
+ Run "./scripts/feeds update -a" to get all the latest package definitions
+ defined in feeds.conf / feeds.conf.default respectively

@@ -1,0 +1,29 @@
+--- openwrt.bb/openwrt/package/network/utils/iwinfo/src/iwinfo_wext.c	2015-08-15 05:48:43.735131042 +0200
++++ witi-openwrt/package/network/utils/iwinfo/src/iwinfo_wext.c	2015-08-15 05:39:10.015141388 +0200
+@@ -123,7 +123,16 @@ static int wext_get_bssid(const char *if
+ {
+ 	struct iwreq wrq;
+ 
+-	if(wext_ioctl(ifname, SIOCGIWAP, &wrq) >= 0)
++	char cmd[256];
++	FILE *fp = NULL;
++
++	memset(cmd, 0, sizeof(cmd));
++	sprintf(cmd, "ifconfig %s | grep UP", ifname);
++	fp = popen(cmd, "r");
++	fscanf(fp, "%s\n", buf);
++	pclose(fp);
++
++	if(strlen(buf)>=2 && wext_ioctl(ifname, SIOCGIWAP, &wrq) >= 0)
+ 	{
+ 		sprintf(buf, "%02X:%02X:%02X:%02X:%02X:%02X",
+ 			(uint8_t)wrq.u.ap_addr.sa_data[0], (uint8_t)wrq.u.ap_addr.sa_data[1],
+@@ -132,6 +141,8 @@ static int wext_get_bssid(const char *if
+ 
+ 		return 0;
+ 	}
++	else
++		sprintf(buf, "00:00:00:00:00:00");
+ 
+ 	return -1;
+ }

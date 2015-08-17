@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/460-mtd-cfi_cmdset_0002-no-erase_suspend.patch	2015-08-15 05:48:44.045131037 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/460-mtd-cfi_cmdset_0002-no-erase_suspend.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/drivers/mtd/chips/cfi_cmdset_0002.c
+-+++ b/drivers/mtd/chips/cfi_cmdset_0002.c
+-@@ -780,7 +780,7 @@ static int get_chip(struct map_info *map
+- 		return 0;
+- 
+- 	case FL_ERASING:
+--		if (!cfip || !(cfip->EraseSuspend & (0x1|0x2)) ||
+-+		if (1 /* no suspend */ || !cfip || !(cfip->EraseSuspend & (0x1|0x2)) ||
+- 		    !(mode == FL_READY || mode == FL_POINT ||
+- 		    (mode == FL_WRITING && (cfip->EraseSuspend & 0x2))))
+- 			goto sleep;

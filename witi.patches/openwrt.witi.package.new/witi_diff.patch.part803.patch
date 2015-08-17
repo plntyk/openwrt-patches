@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/files/usr/bin/watch.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/files/usr/bin/watch.sh	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,11 @@
++#!/bin/sh
++command="$1"
++interval="$2"; [ -z "$interval" ] && interval=1
++
++if [ -z $command ]; then
++        echo 'Usage: watch.sh "command [options]" [interval], e.g. watch "ifconfig ath0" 2'
++        echo 'interval is optional and defaults to 1'
++        exit 1
++fi
++
++while true; do clear; $command; sleep $interval; done

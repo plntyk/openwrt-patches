@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/orion/patches/400-fix-section-mismatch-warnings.patch	2015-08-15 05:48:44.118464369 +0200
++++ witi-openwrt/target/linux/orion/patches/400-fix-section-mismatch-warnings.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/arch/arm/mach-orion5x/common.c
+-+++ b/arch/arm/mach-orion5x/common.c
+-@@ -242,7 +242,7 @@ void orion5x_setup_wins(void)
+- 
+- int orion5x_tclk;
+- 
+--int __init orion5x_find_tclk(void)
+-+static __init int orion5x_find_tclk(void)
+- {
+- 	u32 dev, rev;
+- 

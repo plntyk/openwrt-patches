@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/ppc40x/base-files/lib/ppc40x.sh	2015-08-15 05:48:44.118464369 +0200
++++ witi-openwrt/target/linux/ppc40x/base-files/lib/ppc40x.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2010 OpenWrt.org
+-#
+-
+-ppc40x_board_name() {
+-	local model
+-
+-	model=$(awk 'BEGIN{FS="[ \t]+:[ \t]"} /model/ {print $2}' /proc/cpuinfo)
+-	echo $model
+-}

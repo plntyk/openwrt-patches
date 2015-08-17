@@ -1,0 +1,39 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-statistics/root/etc/uci-defaults/luci-statistics	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-statistics/root/etc/uci-defaults/luci-statistics	2015-08-15 05:39:10.075141387 +0200
+@@ -0,0 +1,36 @@
++#!/bin/sh
++
++# register commit handler
++uci -q batch <<-EOF >/dev/null
++	delete ucitrack.@luci_statistics[-1]
++	add ucitrack luci_statistics
++	set ucitrack.@luci_statistics[-1].init=luci_statistics
++	commit ucitrack
++EOF
++
++# register LuCId virtual path handler
++[ -f /etc/config/lucid ] && \
++uci -q batch <<-EOF >/dev/null
++	delete lucid.statistics
++
++	set lucid.statistics=DirectoryPublisher
++	set lucid.statistics.name='RRDTool Image Cache'
++	set lucid.statistics.physical=/tmp/rrdimg
++	set lucid.statistics.virtual=/rrdimg
++	set lucid.statistics.domain=''
++
++	add_list lucid.http.publisher=statistics
++	add_list lucid.https.publisher=statistics
++
++	commit lucid
++EOF
++
++# symlink for busybox httpd
++[ -x /usr/sbin/httpd ] && [ ! -h /www/rrdimg ] && \
++	ln -s /tmp/rrdimg /www/rrdimg
++
++# restart LuCId service
++[ -x /etc/init.d/lucid ] && /etc/init.d/lucid enabled && /etc/init.d/lucid restart
++
++rm -f /tmp/luci-indexcache
++exit 0

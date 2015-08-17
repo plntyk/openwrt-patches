@@ -1,0 +1,63 @@
+--- openwrt.bb/openwrt/target/linux/at91/patches/901-AT91-flexibity-default-leds-to-heartbeat.patch	2015-08-15 05:48:43.798464374 +0200
++++ witi-openwrt/target/linux/at91/patches/901-AT91-flexibity-default-leds-to-heartbeat.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,60 +0,0 @@
+---- a/arch/arm/mach-at91/board-flexibity.c
+-+++ b/arch/arm/mach-at91/board-flexibity.c
+-@@ -89,49 +89,49 @@ static struct gpio_led flexibity_leds[]
+- 		.name			= "usb1:green",
+- 		.gpio			= AT91_PIN_PA12,
+- 		.active_low		= 1,
+--		.default_trigger	= "default-on",
+-+		.default_trigger	= "heartbeat",
+- 	},
+- 	{
+- 		.name			= "usb1:red",
+- 		.gpio			= AT91_PIN_PA13,
+- 		.active_low		= 1,
+--		.default_trigger	= "default-on",
+-+		.default_trigger	= "heartbeat",
+- 	},
+- 	{
+- 		.name			= "usb2:green",
+- 		.gpio			= AT91_PIN_PB26,
+- 		.active_low		= 1,
+--		.default_trigger	= "default-on",
+-+		.default_trigger	= "heartbeat",
+- 	},
+- 	{
+- 		.name			= "usb2:red",
+- 		.gpio			= AT91_PIN_PB27,
+- 		.active_low		= 1,
+--		.default_trigger	= "default-on",
+-+		.default_trigger	= "heartbeat",
+- 	},
+- 	{
+- 		.name			= "usb3:green",
+- 		.gpio			= AT91_PIN_PC8,
+- 		.active_low		= 1,
+--		.default_trigger	= "default-on",
+-+		.default_trigger	= "heartbeat",
+- 	},
+- 	{
+- 		.name			= "usb3:red",
+- 		.gpio			= AT91_PIN_PC6,
+- 		.active_low		= 1,
+--		.default_trigger	= "default-on",
+-+		.default_trigger	= "heartbeat",
+- 	},
+- 	{
+- 		.name			= "usb4:green",
+- 		.gpio			= AT91_PIN_PB4,
+- 		.active_low		= 1,
+--		.default_trigger	= "default-on",
+-+		.default_trigger	= "heartbeat",
+- 	},
+- 	{
+- 		.name			= "usb4:red",
+- 		.gpio			= AT91_PIN_PB5,
+- 		.active_low		= 1,
+--		.default_trigger	= "default-on",
+-+		.default_trigger	= "heartbeat",
+- 	}
+- };
+- 

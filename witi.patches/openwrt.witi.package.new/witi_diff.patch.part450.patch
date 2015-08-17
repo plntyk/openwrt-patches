@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-p910nd/ipkg/postinst	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-p910nd/ipkg/postinst	2015-08-15 05:39:10.068474721 +0200
+@@ -0,0 +1,6 @@
++#!/bin/sh
++[ -n "${IPKG_INSTROOT}" ] || {
++	( . /etc/uci-defaults/luci-p910nd ) && rm -f /etc/uci-defaults/luci-p910nd
++	/etc/init.d/p910nd enabled || /etc/init.d/p910nd enable
++	exit 0
++}

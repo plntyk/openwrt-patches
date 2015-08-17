@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-openvpn/luasrc/view/openvpn/cbi-select-input-add.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-openvpn/luasrc/view/openvpn/cbi-select-input-add.htm	2015-08-15 05:39:10.068474721 +0200
+@@ -0,0 +1,11 @@
++<div class="cbi-section-create">
++	<% if self.invalid_cts then -%><div class="cbi-section-error"><% end %>
++	<input type="text" class="cbi-section-create-name" name="cbi.cts.<%=self.config%>.<%=self.sectiontype%>" />
++	<select class="cbi-section-create-name" name="cbi.cts.<%=self.config%>.<%=self.sectiontype%>.select">
++	<%- for k, v in luci.util.kspairs(self.add_select_options) do %>
++		<option value="<%=k%>"><%=luci.util.pcdata(v)%></option>
++	<% end -%>
++	</select>
++	<input class="cbi-button cbi-button-add" type="submit" value="<%:Add%>" title="<%:Add%>" />
++	<% if self.invalid_cts then %><br /><%:Invalid%></div><% end %>
++</div>

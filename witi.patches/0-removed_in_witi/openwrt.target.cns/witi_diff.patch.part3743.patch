@@ -1,0 +1,24 @@
+--- openwrt.bb/openwrt/target/linux/cns21xx/base-files/etc/uci-defaults/01_leds	2015-08-15 05:48:43.968464371 +0200
++++ witi-openwrt/target/linux/cns21xx/base-files/etc/uci-defaults/01_leds	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2010 OpenWrt.org
+-#
+-
+-. /lib/functions/uci-defaults.sh
+-. /lib/cns21xx.sh
+-
+-board=$(get_board_name)
+-
+-case "$board" in
+-"ns-k330")
+-	ucidef_set_led_netdev "eth_orange" "ETH (orange)" "ns-k330:orange:eth" "eth0"
+-	ucidef_set_led_usbdev "usb1" "USB1" "ns-k330:green:usb1" "1-1"
+-	ucidef_set_led_usbdev "usb2" "USB2" "ns-k330:green:usb2" "1-2"
+-	;;
+-esac
+-
+-ucidef_commit_leds
+-
+-exit 0

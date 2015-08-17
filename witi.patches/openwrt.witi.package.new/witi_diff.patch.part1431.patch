@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/button.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/button.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,7 @@
++<%+cbi/valueheader%>
++	<% if self:cfgvalue(section) ~= false then %>
++		<input class="cbi-button cbi-input-<%=self.inputstyle or "button" %>" type="submit"<%= attr("name", cbid) .. attr("id", cbid) .. attr("value", self.inputtitle or self.title)%> />
++	<% else %>
++		-
++	<% end %>
++<%+cbi/valuefooter%>

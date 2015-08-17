@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-asterisk/root/etc/uci-defaults/luci-asterisk	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-asterisk/root/etc/uci-defaults/luci-asterisk	2015-08-15 05:39:10.055141387 +0200
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++uci -q batch <<-EOF >/dev/null
++	delete ucitrack.@asterisk[-1]
++	add ucitrack asterisk
++	set ucitrack.@asterisk[-1].init=asterisk
++	commit ucitrack
++EOF
++
++rm -f /tmp/luci-indexcache
++exit 0

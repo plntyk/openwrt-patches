@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/451-mtd-nand-fix-return-code-of-nand_correct_data-function.patch	2015-08-15 05:48:44.045131037 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/451-mtd-nand-fix-return-code-of-nand_correct_data-function.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/drivers/mtd/nand/nand_ecc.c
+-+++ b/drivers/mtd/nand/nand_ecc.c
+-@@ -507,7 +507,7 @@ int __nand_correct_data(unsigned char *b
+- 		return 1;	/* error in ECC data; no action needed */
+- 
+- 	pr_err("%s: uncorrectable ECC error", __func__);
+--	return -1;
+-+	return -EBADMSG;
+- }
+- EXPORT_SYMBOL(__nand_correct_data);
+- 

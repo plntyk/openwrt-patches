@@ -1,0 +1,27 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr/luasrc/view/status-olsr/legend.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr/luasrc/view/status-olsr/legend.htm	2015-08-15 05:39:10.065141388 +0200
+@@ -0,0 +1,24 @@
++<h3><%:Legend%>:</h3>
++<ul>
++	<li><strong>LQ: </strong><%:Success rate of packages received from the neighbour%></li>
++	<li><strong>NLQ: </strong><%:Success rate of packages sent to the neighbour%></li>
++	<li><strong>ETX: </strong><%:Expected retransmission count%></li>
++	<li style="list-style: none">
++	<ul>
++		<li><strong><span style="color:#00cc00"><%:Green%></span></strong>:<%:Very good (ETX < 2)%></li>
++		<li><strong><span style="color:#ffcb05"><%:Yellow%></span></strong>:<%:Good (2 < ETX < 4)%></li>
++		<li><strong><span style="color:#ff6600"><%:Orange%></span></strong>:<%:Still usable (4 < ETX < 10)%></li>
++		<li><strong><span style="color:#bb3333"><%:Red%></span></strong>:<%:Bad (ETX > 10)%></li>
++	</ul>
++	</li>
++	<li><strong>SNR: </strong><%:Signal Noise Ratio in dB%></li>
++	<li style="list-style: none">
++	<ul>
++		<li><strong><span style="color:#00cc00"><%:Green%></span></strong>:<%:Very good (SNR > 30)%></li>
++		<li><strong><span style="color:#ffcb05"><%:Yellow%></span></strong>:<%:Good (30 > SNR > 20)%></li>
++		<li><strong><span style="color:#ff6600"><%:Orange%></span></strong>:<%:Still usable (20 > SNR > 5)%></li>
++		<li><strong><span style="color:#bb3333"><%:Red%></span></strong>:<%:Bad (SNR < 5)%></li>
++	</ul>
++	</li>
++</ul>
++

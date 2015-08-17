@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/rb532/image/gen_image.sh	2015-08-15 05:48:44.141797701 +0200
++++ witi-openwrt/target/linux/rb532/image/gen_image.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,17 +0,0 @@
+-#!/usr/bin/env bash
+-OUTPUT="$1"
+-KERNELSIZE="$2"
+-KERNELIMAGE="$3"
+-ROOTFSSIZE="$4"
+-ROOTFSIMAGE="$5"
+-
+-rm -f "$OUTPUT"
+-
+-# create partition table
+-set `ptgen -o "$OUTPUT" -h 16 -s 32 -t 0x27 -p ${KERNELSIZE}m -t 0x83 -p ${ROOTFSSIZE}m`
+-
+-KERNELOFFSET="$(($1 / 512))"
+-ROOTFSOFFSET="$(($3 / 512))"
+-
+-dd if="$KERNELIMAGE" of="$OUTPUT" bs=512 conv=notrunc seek="$KERNELOFFSET"
+-dd if="$ROOTFSIMAGE" of="$OUTPUT" bs=512 conv=notrunc seek="$ROOTFSOFFSET"

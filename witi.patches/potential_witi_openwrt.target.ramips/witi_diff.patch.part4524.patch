@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/target/linux/ramips/mt7621/target.mk	2015-08-15 05:48:44.128464368 +0200
++++ witi-openwrt/target/linux/ramips/mt7621/target.mk	2015-08-15 05:39:10.258474717 +0200
+@@ -9,7 +9,7 @@ FEATURES+=usb
+ CPU_TYPE:=24kec
+ CPU_SUBTYPE:=dsp
+ 
+-DEFAULT_PACKAGES += kmod-rt2800-pci
++DEFAULT_PACKAGES +=
+ 
+ define Target/Description
+ 	Build firmware images for Ralink MT7621 based boards.

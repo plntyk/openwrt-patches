@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/652-atm_header_changes.patch	2015-08-15 05:48:44.048464369 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/652-atm_header_changes.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,12 +0,0 @@
+---- a/include/uapi/linux/atm.h
+-+++ b/include/uapi/linux/atm.h
+-@@ -139,6 +139,9 @@ struct atm_trafprm {
+- 	int		min_pcr;	/* minimum PCR in cells per second */
+- 	int		max_cdv;	/* maximum CDV in microseconds */
+- 	int		max_sdu;	/* maximum SDU in bytes */
+-+	int		scr;		/* sustained rate in cells per second */
+-+	int		mbs;		/* maximum burst size (MBS) in cells */
+-+	int		cdv;		/* Cell delay varition */
+-         /* extra params for ABR */
+-         unsigned int 	icr;         	/* Initial Cell Rate (24-bit) */
+-         unsigned int	tbe;		/* Transient Buffer Exposure (24-bit) */ 

@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/axTLS/www/lua/test_htk.lua	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/axTLS/www/lua/test_htk.lua	2015-08-15 05:39:10.108474720 +0200
+@@ -0,0 +1,22 @@
++require"htk"
++
++local a_table = {}
++for i = 1, 20 do
++	local l = {}
++	for j = 1, 20 do
++		table.insert (l, HTK.TD { "cell "..i..","..j })
++	end
++	table.insert (a_table, HTK.TR (l))
++end
++
++cgilua.htmlheader()
++cgilua.put (HTK.HTML {
++	HTK.HEAD { HTK.TITLE { "Titulo da Pagina" } },
++	HTK.BODY {
++		bgcolor = "#FFFFFF",
++		HTK.H1 { "Titulo da Pagina" },
++		HTK.P {},
++		"Uma página qualquer",
++		HTK.TABLE (a_table),
++	}
++})

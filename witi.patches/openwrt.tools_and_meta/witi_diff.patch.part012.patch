@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/.gitignore	2015-08-15 05:48:43.478464380 +0200
++++ witi-openwrt/.gitignore	2015-08-15 05:39:09.918474724 +0200
+@@ -22,4 +22,6 @@
+ *#
+ .emacs.desktop*
+ TAGS*~
+-git-src
+\ No newline at end of file
++git-src
++.p4cache/
++package/boot/uboot-ramips

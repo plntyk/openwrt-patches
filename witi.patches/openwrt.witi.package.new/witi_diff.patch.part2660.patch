@@ -1,0 +1,23 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/themes/freifunk-generic/htdocs/luci-static/freifunk-generic/ie7.css	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/themes/freifunk-generic/htdocs/luci-static/freifunk-generic/ie7.css	2015-08-15 05:39:10.205141385 +0200
+@@ -0,0 +1,20 @@
++div.cbi-value-field {
++	margin-left: 0 !important;
++}
++
++.cbi-section legend {
++	background-color: #ffffff;
++	color: #555555;
++}
++
++table.cbi-section-table td .cbi-input-text,
++table.cbi-section-table td .cbi-input-select {
++	width: 95% !important;
++}
++
++.cbi-input-user,
++.cbi-input-password {
++	text-indent: 0 !important;
++	padding-left: 1.5em !important;
++	width: 18.5em !important;
++}

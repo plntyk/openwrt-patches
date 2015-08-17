@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/axTLS/www/lua/test_sql.lua	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/axTLS/www/lua/test_sql.lua	2015-08-15 05:39:10.108474720 +0200
+@@ -0,0 +1,13 @@
++local s = require"luasql.postgres"
++
++local env = assert (luasql.postgres ())
++local conn = assert (env:connect ("luasql-test", "tomas"))
++local cur = assert (conn:execute ("select count(*) from fetch_test"))
++
++cgilua.htmlheader()
++cgilua.put ("Total lines at table fetch_test is "..cur:fetch())
++cgilua.put (string.format ("<br>\n%s == %s<br>\n", tostring(s), tostring(luasql)))
++
++cur:close()
++conn:close()
++env:close()

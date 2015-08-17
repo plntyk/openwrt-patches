@@ -1,0 +1,31 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/generic/profiles/planex.mk	2015-08-15 05:48:43.785131041 +0200
++++ witi-openwrt/target/linux/ar71xx/generic/profiles/planex.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,28 +0,0 @@
+-#
+-# Copyright (C) 2009 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/MZKW04NU
+-	NAME:=Planex MZK-W04NU
+-	PACKAGES:=kmod-usb-core kmod-usb2 kmod-ledtrig-usbdev
+-endef
+-
+-define Profile/MZKW04NU/Description
+-	Package set optimized for the Planex MZK-W04NU.
+-endef
+-
+-$(eval $(call Profile,MZKW04NU))
+-
+-define Profile/MZKW300NH
+-	NAME:=Planex MZK-W300NH
+-	PACKAGES:=
+-endef
+-
+-define Profile/MZKW300NH/Description
+-	Package set optimized for the Planex MZK-W300NH.
+-endef
+-
+-$(eval $(call Profile,MZKW300NH))

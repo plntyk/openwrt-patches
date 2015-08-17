@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/tabmenu.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/tabmenu.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,13 @@
++<%- if self.tabs then %>
++	<ul class="cbi-tabmenu">
++	<%- self.selected_tab = luci.http.formvalue("tab." .. self.config .. "." .. section) %>
++	<%- for _, tab in ipairs(self.tab_names) do if #self.tabs[tab].childs > 0 then %>
++		<script type="text/javascript">cbi_c['container.<%=self.config%>.<%=section%>.<%=tab%>'] = <%=#self.tabs[tab].childs%>;</script>
++		<%- if not self.selected_tab then self.selected_tab = tab end %>
++		<li id="tab.<%=self.config%>.<%=section%>.<%=tab%>" class="cbi-tab<%=(tab == self.selected_tab) and '' or '-disabled'%>">
++			<a onclick="this.blur(); return cbi_t_switch('<%=self.config%>.<%=section%>', '<%=tab%>')" href="<%=REQUEST_URI%>?tab.<%=self.config%>.<%=section%>=<%=tab%>"><%=self.tabs[tab].title%></a>
++			<% if tab == self.selected_tab then %><input type="hidden" id="tab.<%=self.config%>.<%=section%>" name="tab.<%=self.config%>.<%=section%>" value="<%=tab%>" /><% end %>
++		</li>
++	<% end end -%>
++	</ul>
++<% end -%>

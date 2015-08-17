@@ -1,0 +1,17 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr/root/etc/uci-defaults/luci-olsr	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr/root/etc/uci-defaults/luci-olsr	2015-08-15 05:39:10.065141388 +0200
+@@ -0,0 +1,14 @@
++#!/bin/sh
++
++uci -q batch <<-EOF >/dev/null
++	delete ucitrack.@olsrd[-1]
++	add ucitrack olsrd
++	set ucitrack.@olsrd[-1].init=olsrd
++	delete ucitrack.@olsrd6[-1]
++	add ucitrack olsrd6
++	set ucitrack.@olsrd6[-1].init=olsrd6
++	commit ucitrack
++EOF
++
++rm -f /tmp/luci-indexcache
++exit 0

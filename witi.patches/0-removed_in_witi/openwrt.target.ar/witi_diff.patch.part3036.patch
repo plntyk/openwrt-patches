@@ -1,0 +1,24 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/patches-3.10/522-MIPS-ath79-add-ath79_wmac_register_simple-helper.patch	2015-08-15 05:48:43.788464375 +0200
++++ witi-openwrt/target/linux/ar71xx/patches-3.10/522-MIPS-ath79-add-ath79_wmac_register_simple-helper.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+---- a/arch/mips/ath79/dev-wmac.c
+-+++ b/arch/mips/ath79/dev-wmac.c
+-@@ -189,3 +189,9 @@ void __init ath79_register_wmac(u8 *cal_
+- 
+- 	platform_device_register(&ath79_wmac_device);
+- }
+-+
+-+void __init ath79_register_wmac_simple(void)
+-+{
+-+	ath79_register_wmac(NULL, NULL);
+-+	ath79_wmac_data.eeprom_name = "soc_wmac.eeprom";
+-+}
+---- a/arch/mips/ath79/dev-wmac.h
+-+++ b/arch/mips/ath79/dev-wmac.h
+-@@ -13,5 +13,6 @@
+- #define _ATH79_DEV_WMAC_H
+- 
+- void ath79_register_wmac(u8 *cal_data, u8 *mac_addr);
+-+void ath79_register_wmac_simple(void);
+- 
+- #endif /* _ATH79_DEV_WMAC_H */

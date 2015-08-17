@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/patches-3.10/422-dsa-trailer-tag-validation-fix.patch	2015-08-15 05:48:43.788464375 +0200
++++ witi-openwrt/target/linux/ar71xx/patches-3.10/422-dsa-trailer-tag-validation-fix.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/net/dsa/tag_trailer.c
+-+++ b/net/dsa/tag_trailer.c
+-@@ -87,7 +87,7 @@ static int trailer_rcv(struct sk_buff *s
+- 
+- 	trailer = skb_tail_pointer(skb) - 4;
+- 	if (trailer[0] != 0x80 || (trailer[1] & 0xf8) != 0x00 ||
+--	    (trailer[3] & 0xef) != 0x00 || trailer[3] != 0x00)
+-+	    (trailer[2] & 0xef) != 0x00 || (trailer[3] & 0xfe) != 0x00)
+- 		goto out_drop;
+- 
+- 	source_port = trailer[1] & 7;

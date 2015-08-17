@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/target/linux/x86/base-files.mk	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/base-files.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,6 +0,0 @@
+-ifneq ($(CONFIG_TARGET_x86_generic_Soekris48xx)$(CONFIG_TARGET_x86_generic_Soekris45xx),)
+-define Package/base-files/install-target
+-	rm -f $(1)/etc/config/network
+-endef
+-endif
+-

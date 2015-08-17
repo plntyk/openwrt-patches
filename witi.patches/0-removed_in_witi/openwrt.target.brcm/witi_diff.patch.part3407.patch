@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/generic/target.mk	2015-08-15 05:48:43.948464371 +0200
++++ witi-openwrt/target/linux/brcm47xx/generic/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-BOARDNAME:=Generic
+-FEATURES+=pcmcia
+-
+-define Target/Description
+-	Build generic firmware for all Broadcom BCM47xx and BCM53xx MIPS
+-	devices. It runs on both architectures BMIPS3300 and MIPS 74K.
+-endef

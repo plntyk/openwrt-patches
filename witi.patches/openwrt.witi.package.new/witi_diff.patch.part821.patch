@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-mapupdate/root/etc/uci-defaults/freifunk-mapupdate	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-mapupdate/root/etc/uci-defaults/freifunk-mapupdate	2015-08-15 05:39:10.088474720 +0200
+@@ -0,0 +1,6 @@
++#!/bin/sh
++test -f /etc/crontabs/root || touch /etc/crontabs/root
++SEED="$( dd if=/dev/urandom bs=2 count=1 2>&- | hexdump | if read line; then echo 0x${line#* }; fi )"
++MIN="$(( $SEED % 59 ))"
++grep -q "ff_mapupdate.sh" /etc/crontabs/root || echo "$MIN * * * *	/usr/sbin/ff_mapupdate.sh" >> /etc/crontabs/root
++/etc/init.d/cron restart

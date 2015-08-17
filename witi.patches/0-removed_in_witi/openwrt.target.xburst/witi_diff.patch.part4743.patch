@@ -1,0 +1,4 @@
+--- openwrt.bb/openwrt/target/linux/xburst/n526/config-3.8	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/xburst/n526/config-3.8	1970-01-01 01:00:00.000000000 +0100
+@@ -1 +0,0 @@
+-CONFIG_I2C_ALGOBIT=y

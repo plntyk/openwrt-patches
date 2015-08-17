@@ -1,0 +1,7 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/i18n/swedish/ipkg/postinst	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/i18n/swedish/ipkg/postinst	2015-08-15 05:39:10.095141387 +0200
+@@ -0,0 +1,4 @@
++#!/bin/sh
++[ -n "${IPKG_INSTROOT}" ] || {
++	( . /etc/uci-defaults/luci-i18n-swedish ) && rm -f /etc/uci-defaults/luci-i18n-swedish
++}

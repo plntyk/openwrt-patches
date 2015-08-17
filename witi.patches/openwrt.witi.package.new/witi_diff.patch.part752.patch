@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_aachen	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_aachen	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,10 @@
++config 'community' 'profile'
++	option 'name' 'Aachen'
++	option 'homepage' 'http://aachen.freifunk.net'
++	option 'ssid' 'aachen.freifunk.net'
++	option 'suffix' 'ffac'
++	option 'latitude' '50.77900'
++	option 'longitude' '6.05399'
++	option 'mesh_network' '10.90.0.0/16'
++	option 'splash_network' '10.104.0.0/16'
++	option 'splash_prefix' '28'

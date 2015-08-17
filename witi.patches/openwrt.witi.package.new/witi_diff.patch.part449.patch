@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-p2pblock/root/etc/uci-defaults/luci-p2pblock	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-p2pblock/root/etc/uci-defaults/luci-p2pblock	2015-08-15 05:39:10.068474721 +0200
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++uci -q batch <<-EOF >/dev/null
++	delete citrack.@freifunk_p2pblock[-1]
++	add ucitrack freifunk_p2pblock
++	set ucitrack.@freifunk_p2pblock[-1].init=freifunk-p2pblock
++	commit ucitrack
++EOF
++
++rm -f /tmp/luci-indexcache
++exit 0

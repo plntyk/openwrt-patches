@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/config/pbx-advanced	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/config/pbx-advanced	2015-08-15 05:39:10.068474721 +0200
+@@ -0,0 +1,5 @@
++config 'settings' 'advanced'
++        option 'useragent' 'PBX'
++        option 'ringtime' '30'
++        option 'rtpstart' '19850'
++        option 'rtpend' '19900'

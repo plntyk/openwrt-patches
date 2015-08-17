@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/base-files.mk	2015-08-15 05:48:43.955131038 +0200
++++ witi-openwrt/target/linux/brcm63xx/base-files.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-define Package/base-files/install-target
+-	rm -f $(1)/etc/config/network
+-endef
+-
+-

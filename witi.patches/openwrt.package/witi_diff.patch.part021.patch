@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/kernel/linux/modules/block.mk	2015-08-15 05:48:43.525131046 +0200
++++ witi-openwrt/package/kernel/linux/modules/block.mk	2015-08-15 05:39:09.955141389 +0200
+@@ -565,9 +565,9 @@ define KernelPackage/scsi-core
+ 	CONFIG_SCSI \
+ 	CONFIG_BLK_DEV_SD
+   FILES:= \
+-	$(LINUX_DIR)/drivers/scsi/scsi_mod.ko \
++	$(if $(findstring y,$(CONFIG_SCSI)),,$(LINUX_DIR)/drivers/scsi/scsi_mod.ko) \
+ 	$(LINUX_DIR)/drivers/scsi/sd_mod.ko
+-  AUTOLOAD:=$(call AutoLoad,40,scsi_mod sd_mod,1)
++  AUTOLOAD:=$(call AutoLoad,40,sd_mod,1)
+ endef
+ 
+ $(eval $(call KernelPackage,scsi-core))

@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-meshwizard/root/etc/uci-defaults/meshwizard	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-meshwizard/root/etc/uci-defaults/meshwizard	2015-08-15 05:39:10.061808054 +0200
+@@ -0,0 +1,8 @@
++#!/bin/sh
++uci batch <<EOF
++set ucitrack.meshwizard="meshwizard"
++set ucitrack.meshwizard.exec="/usr/bin/meshwizard/wizard.sh"
++commit ucitrack
++EOF
++
++rm -f /tmp/luci-indexcache

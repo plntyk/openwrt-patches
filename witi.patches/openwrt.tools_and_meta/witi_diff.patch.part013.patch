@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/include/feeds.mk	2015-08-15 05:48:43.481797713 +0200
++++ witi-openwrt/include/feeds.mk	2015-08-15 05:39:09.918474724 +0200
+@@ -10,12 +10,10 @@
+ FEEDS_AVAILABLE:=$(shell $(SCRIPT_DIR)/feeds list -n)
+ FEEDS_INSTALLED:=$(notdir $(wildcard $(TOPDIR)/package/feeds/*))
+ FEEDS_ENABLED:=$(foreach feed,$(FEEDS_INSTALLED),$(if $(CONFIG_FEED_$(feed)),$(feed)))
+-FEEDS_DISABLED:=$(filter-out $(FEEDS_ENABLED),$(FEEDS_AVAILABLE))
++FEEDS_DISABLED:=$(filter-out $(FEEDS_ENABLED),$(FEEDS_INSTALLED))
+ 
+ PKG_CONFIG_DEPENDS += \
+ 	CONFIG_PER_FEED_REPO \
+-	CONFIG_PER_FEED_REPO_ADD_DISABLED \
+-	CONFIG_PER_FEED_REPO_ADD_COMMENTED \
+ 	$(foreach feed,$(FEEDS_INSTALLED),CONFIG_FEED_$(feed))
+ 
+ # 1: package name

@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/root/lib/upgrade/luci-add-conffiles.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/root/lib/upgrade/luci-add-conffiles.sh	2015-08-15 05:39:10.111808054 +0200
+@@ -0,0 +1,16 @@
++add_luci_conffiles()
++{
++	local filelist="$1"
++
++	# save ssl certs
++	if [ -d /etc/nixio ]; then
++		find /etc/nixio -type f >> $filelist
++	fi
++
++	# save uhttpd certs
++	[ -f "/etc/uhttpd.key" ] && echo /etc/uhttpd.key >> $filelist
++	[ -f "/etc/uhttpd.crt" ] && echo /etc/uhttpd.crt >> $filelist
++}
++
++sysupgrade_init_conffiles="$sysupgrade_init_conffiles add_luci_conffiles"
++

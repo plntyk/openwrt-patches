@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/au1000/au1550/target.mk	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/au1000/au1550/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-BOARDNAME:=Au1550
+-
+-DEFAULT_PACKAGES+= wpad-mini
+-
+-define Target/Description
+-        Build firmware images for Au1550 based boards
+-endef

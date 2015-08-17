@@ -1,0 +1,30 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/base-files/lib/preinit/15_set_preinit_interface_brcm63xx	2015-08-15 05:48:43.958464372 +0200
++++ witi-openwrt/target/linux/brcm63xx/base-files/lib/preinit/15_set_preinit_interface_brcm63xx	1970-01-01 01:00:00.000000000 +0100
+@@ -1,27 +0,0 @@
+-#!/bin/sh
+-
+-port_net_echo() {
+-	[ -n "$pi_ifname" ] && grep -q "$pi_ifname" /proc/net/dev && {
+-		if [ "$pi_preinit_net_messages" = "y" ] || [ "$pi_failsafe_net_message" = "true" ] && [ "$pi_preinit_no_failsafe_netmsg" != "y" ]; then 
+-			netmsg $pi_broadcast "$1"
+-		fi
+-	}
+-}
+-
+-preinit_ip_deconfig() {
+-	if [ -z "$pi_ifname" ]; then
+-		ifconfig $ifname 0.0.0.0 down
+-	else
+-		grep -q "$pi_ifname" /proc/net/dev && {
+-			ifconfig $pi_ifname 0.0.0.0 down
+-		}
+-	fi
+-}
+-
+-preinit_net_echo() {
+-	preinit_ip
+-
+-	port_net_echo $1
+-}
+-
+-

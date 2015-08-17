@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/target/linux/ixp4xx/patches-3.10/090-increase_entropy_pools.patch	2015-08-15 05:48:44.058464370 +0200
++++ witi-openwrt/target/linux/ixp4xx/patches-3.10/090-increase_entropy_pools.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,15 +0,0 @@
+---- a/drivers/char/random.c
+-+++ b/drivers/char/random.c
+-@@ -282,9 +282,9 @@
+- /*
+-  * Configuration information
+-  */
+--#define INPUT_POOL_WORDS 128
+--#define OUTPUT_POOL_WORDS 32
+--#define SEC_XFER_SIZE 512
+-+#define INPUT_POOL_WORDS 256
+-+#define OUTPUT_POOL_WORDS 64
+-+#define SEC_XFER_SIZE 1024
+- #define EXTRACT_SIZE 10
+- 
+- #define LONGS(x) (((x) + sizeof(unsigned long) - 1)/sizeof(unsigned long))

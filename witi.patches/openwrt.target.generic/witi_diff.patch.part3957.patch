@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/641-bridge_always_accept_eap.patch	2015-08-15 05:48:44.048464369 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/641-bridge_always_accept_eap.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/net/bridge/br_input.c
+-+++ b/net/bridge/br_input.c
+-@@ -81,7 +81,7 @@ int br_handle_frame_finish(struct sk_buf
+- 	    br_multicast_rcv(br, p, skb))
+- 		goto drop;
+- 
+--	if (p->state == BR_STATE_LEARNING)
+-+	if ((p->state == BR_STATE_LEARNING) && skb->protocol != htons(ETH_P_PAE))
+- 		goto drop;
+- 
+- 	BR_INPUT_SKB_CB(skb)->brdev = br->dev;

@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/base-files/etc/diag.sh	2015-08-15 05:48:43.955131038 +0200
++++ witi-openwrt/target/linux/brcm63xx/base-files/etc/diag.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,23 +0,0 @@
+-#!/bin/sh
+-# Copyright (C) 2007-2013 OpenWrt.org
+-
+-. /lib/functions/leds.sh
+-. /lib/brcm63xx.sh
+-
+-set_state() {
+-	case "$1" in
+-	preinit)
+-		status_led_set_timer 200 200
+-		;;
+-	failsafe)
+-		status_led_set_timer 50 50
+-		;;
+-	done)
+-		if [ "${status_led/power}" != "$status_led" ]; then
+-			status_led_on
+-		else
+-			status_led_off
+-		fi
+-		;;
+-	esac
+-}

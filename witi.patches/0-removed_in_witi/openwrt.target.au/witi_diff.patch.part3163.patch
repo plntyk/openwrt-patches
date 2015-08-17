@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/au1000/au1500/profiles/Atheros.mk	2015-08-15 05:48:43.798464374 +0200
++++ witi-openwrt/target/linux/au1000/au1500/profiles/Atheros.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-#
+-# Copyright (C) 2006 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Atheros
+-  NAME:=Atheros WiFi (default)
+-  PACKAGES:=kmod-ath5k
+-endef
+-$(eval $(call Profile,Atheros))
+-

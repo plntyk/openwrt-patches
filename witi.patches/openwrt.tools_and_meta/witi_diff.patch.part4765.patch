@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/tools/lzma/Makefile	2015-08-15 05:48:44.181797701 +0200
++++ witi-openwrt/tools/lzma/Makefile	2015-08-15 05:39:10.295141384 +0200
+@@ -27,7 +27,8 @@ endef
+ 
+ define Host/Install
+ 	$(INSTALL_DIR) $(STAGING_DIR_HOST)/bin
+-	$(INSTALL_BIN) $(HOST_BUILD_DIR)/CPP/7zip/Compress/LZMA_Alone/lzma_alone $(STAGING_DIR_HOST)/bin/lzma
++	$(INSTALL_BIN) $(HOST_BUILD_DIR)/CPP/7zip/Compress/LZMA_Alone/lzma $(STAGING_DIR_HOST)/bin/lzma
++	$(INSTALL_BIN) $(HOST_BUILD_DIR)/CPP/7zip/Compress/LZMA_Alone/lzma_alone $(STAGING_DIR_HOST)/bin/lzma_alone
+ endef
+ 
+ define Host/Clean

@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/au1000/au1550/profiles/DBAu1550.mk	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/au1000/au1550/profiles/DBAu1550.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-#
+-# Copyright (C) 2009 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/DBAu1550
+- NAME:=AMD DBAu1550 Development Kit
+- PACKAGES:=kmod-pcmcia kmod-pcmcia-au1000 kmod-usb-ohci kmod-usb-ehci
+-endef
+-
+-$(eval $(call Profile,DBAu1550))

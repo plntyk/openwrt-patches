@@ -1,0 +1,22 @@
+--- openwrt.bb/openwrt/target/linux/imx6/patches-3.10/0024-regulator-pfuze100-Fix-module-alias-prefix.patch	2015-08-15 05:48:44.058464370 +0200
++++ witi-openwrt/target/linux/imx6/patches-3.10/0024-regulator-pfuze100-Fix-module-alias-prefix.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,19 +0,0 @@
+-From: Axel Lin <axel.lin@ingics.com>
+-Subject: [PATCH] regulator: pfuze100: Fix module alias prefix
+-
+-i2c drivers use "i2c:" prefix for module alias.
+-
+-Signed-off-by: Axel Lin <axel.lin@ingics.com>
+-Signed-off-by: Mark Brown <broonie@linaro.org>
+----
+- drivers/regulator/pfuze100-regulator.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+---- a/drivers/regulator/pfuze100-regulator.c
+-+++ b/drivers/regulator/pfuze100-regulator.c
+-@@ -452,4 +452,4 @@ module_i2c_driver(pfuze_driver);
+- MODULE_AUTHOR("Robin Gong <b38343@freescale.com>");
+- MODULE_DESCRIPTION("Regulator Driver for Freescale PFUZE100 PMIC");
+- MODULE_LICENSE("GPL v2");
+--MODULE_ALIAS("pfuze100-regulator");
+-+MODULE_ALIAS("i2c:pfuze100-regulator");

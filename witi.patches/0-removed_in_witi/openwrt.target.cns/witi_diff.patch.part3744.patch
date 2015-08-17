@@ -1,0 +1,28 @@
+--- openwrt.bb/openwrt/target/linux/cns21xx/base-files/lib/cns21xx.sh	2015-08-15 05:48:43.968464371 +0200
++++ witi-openwrt/target/linux/cns21xx/base-files/lib/cns21xx.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,25 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2010 OpenWrt.org
+-#
+-
+-get_board_name() {
+-	local hardware
+-	local name
+-
+-	hardware=$(awk 'BEGIN{FS="[ \t]+:[ \t]"} /Hardware/ {print $2}' /proc/cpuinfo)
+-
+-	case "$hardware" in
+-	*NSB3AST)
+-		name="nsb3ast"
+-		;;
+-	"NS-K330 NAS")
+-		name="ns-k330"
+-		;;
+-	*)
+-		name="generic"
+-		;;
+-	esac
+-
+-	echo $name
+-}

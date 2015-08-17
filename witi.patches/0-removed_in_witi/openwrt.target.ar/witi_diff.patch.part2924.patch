@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/generic/profiles/gl-connect.mk	2015-08-15 05:48:43.781797708 +0200
++++ witi-openwrt/target/linux/ar71xx/generic/profiles/gl-connect.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,17 +0,0 @@
+-#
+-# Copyright (C) 2014 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/GLINET
+-	NAME:=GL.iNet
+-	PACKAGES:=kmod-usb-core kmod-usb2
+-endef
+-
+-define Profile/GLINET/Description
+-	Package set optimized for the GL-Connect GL.iNet v1.
+-endef
+-
+-$(eval $(call Profile,GLINET))

@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/mikrotik/target.mk	2015-08-15 05:48:43.785131041 +0200
++++ witi-openwrt/target/linux/ar71xx/mikrotik/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-BOARDNAME:=Mikrotik devices with NAND flash
+-FEATURES += targz
+-
+-define Target/Description
+-	Build firmware images for Atheros AR71xx/AR913x based Mikrotik boards.
+-	e.g. MikroTik RB-4xx or RB-750
+-endef
+-
+-

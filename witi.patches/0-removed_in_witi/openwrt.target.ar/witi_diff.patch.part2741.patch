@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/base-files/etc/uci-defaults/03_network-vlan-migration	2015-08-15 05:48:43.771797708 +0200
++++ witi-openwrt/target/linux/ar71xx/base-files/etc/uci-defaults/03_network-vlan-migration	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-#!/bin/sh
+-#
+-# Copyright (C) 2010 OpenWrt.org
+-#
+-
+-local dev="$(uci -q get network.@switch_vlan[0].device)"
+-local vlan="$(uci -q get network.@switch_vlan[0].vlan)"
+-
+-if [ "$dev" = "rtl8366s" ] && [ "$vlan" = 0 ]; then
+-	logger -t vlan-migration "VLAN 0 is invalid for RTL8366s, changing to 1"
+-	uci set network.@switch_vlan[0].vlan=1
+-	uci commit network
+-fi

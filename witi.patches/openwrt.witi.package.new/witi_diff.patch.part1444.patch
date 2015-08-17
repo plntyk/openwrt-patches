@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/fvalue.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/fvalue.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,9 @@
++<%+cbi/valueheader%>
++	<input type="hidden" value="1"<%=
++		attr("name", "cbi.cbe." .. self.config .. "." .. section .. "." .. self.option)
++	%> />
++	<input class="cbi-input-checkbox" onclick="cbi_d_update(this.id)" onchange="cbi_d_update(this.id)" type="checkbox"<%=
++		attr("id", cbid) .. attr("name", cbid) .. attr("value", self.enabled or 1) ..
++		ifattr((self:cfgvalue(section) or self.default) == self.enabled, "checked", "checked")
++	%> />
++<%+cbi/valuefooter%>

@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/ramips/base-files/etc/diag.sh	2015-08-15 05:48:44.118464369 +0200
++++ witi-openwrt/target/linux/ramips/base-files/etc/diag.sh	2015-08-15 05:39:10.248474718 +0200
+@@ -73,9 +73,8 @@ get_status_led() {
+ 	m4)
+ 		status_led="m4:blue:status"
+ 		;;
+-	mlw221|\
+-	mlwg2)
+-		status_led="kingston:blue:system"
++	mlw221)
++		status_led="kingston:blue:status"
+ 		;;
+ 	mofi3500-3gn)
+ 		status_led="mofi3500-3gn:green:status"

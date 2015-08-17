@@ -1,0 +1,23 @@
+--- openwrt.bb/openwrt/target/linux/at91/image/dfboot/src/elf32-littlearm.lds	2015-08-15 05:48:43.791797708 +0200
++++ witi-openwrt/target/linux/at91/image/dfboot/src/elf32-littlearm.lds	1970-01-01 01:00:00.000000000 +0100
+@@ -1,19 +0,0 @@
+-OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
+-OUTPUT_ARCH(arm)
+-ENTRY(_start)
+-SECTIONS
+-{
+-        . = 0x00000000;
+-
+-        . = ALIGN(4);
+-        .text : { *(.text) }
+-
+-        . = ALIGN(4);
+-        .rodata : { *(.rodata) }
+-
+-        . = ALIGN(4);
+-        .data : { *(.data) }
+-
+-        . = ALIGN(4);
+-        .bss : { *(.bss) }
+-}
+\ No newline at end of file

@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/sip_peer.TEMPLATE	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/sip_peer.TEMPLATE	2015-08-15 05:39:10.071808055 +0200
+@@ -0,0 +1,13 @@
++
++[peer-|NAME|]
++type          = peer
++defaultuser   = |DEFAULTUSER|
++fromuser      = |FROMUSER|
++secret        = |SECRET|
++host          = |HOST|
++fromdomain    = |FROMDOMAIN|
++context       = context-incoming-|NAME|
++insecure      = port,invite
++qualify       = 2000
++|PORT|
++|OUTBOUNDPROXY|

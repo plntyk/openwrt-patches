@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/i18n/japanese/root/etc/uci-defaults/luci-i18n-japanese	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/i18n/japanese/root/etc/uci-defaults/luci-i18n-japanese	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,6 @@
++#!/bin/sh
++uci batch <<-EOF
++	set luci.languages.ja=日本語
++        commit luci
++EOF
++

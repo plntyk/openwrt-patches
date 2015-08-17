@@ -1,0 +1,30 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/network_netinfo.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/network_netinfo.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,27 @@
++<%+cbi/valueheader%>
++
++<%-
++	local value = self:formvalue(section)
++	if not value or value == "-" then
++		value = self:cfgvalue(section) or self.default
++	end
++
++	local nwm = require "luci.model.network".init()
++	local net = nwm:get_network(value)
++-%>
++
++<% if net then %>
++<span class="ifacebadge"><%=net:name()%>:
++	<%
++		local empty = true
++		for _, iface in ipairs(net:get_interfaces() or { net:get_interface() }) do
++			if not iface:is_bridge() then
++				empty = false
++	 %>
++		<img<%=attr("title", iface:get_i18n())%> style="width:16px; height:16px; vertical-align:middle" src="<%=resource%>/icons/<%=iface:type()%><%=iface:is_up() and "" or "_disabled"%>.png" />
++	<% end end %>
++	<% if empty then %><em><%:(no interfaces attached)%></em><% end %>
++</span>
++<% end %>
++
++<%+cbi/valuefooter%>

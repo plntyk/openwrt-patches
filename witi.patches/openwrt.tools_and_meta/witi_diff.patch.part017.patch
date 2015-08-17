@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/include/prereq-build.mk	2015-08-15 05:48:43.481797713 +0200
++++ witi-openwrt/include/prereq-build.mk	2015-08-15 05:39:09.918474724 +0200
+@@ -164,9 +164,9 @@ $(eval $(call Require,gnutar, \
+ 	Please install GNU tar. \
+ ))
+ 
+-$(eval $(call RequireCommand,svn, \
+-	Please install the subversion client. \
+-))
++#$(eval $(call RequireCommand,svn, \
++#	Please install the subversion client. \
++#))
+ 
+ $(eval $(call RequireCommand,openssl, \
+ 	Please install openssl. \

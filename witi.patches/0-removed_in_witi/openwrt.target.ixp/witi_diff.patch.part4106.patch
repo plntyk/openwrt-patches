@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/ixp4xx/generic/profiles/105-Atheros-ath5k.mk	2015-08-15 05:48:44.058464370 +0200
++++ witi-openwrt/target/linux/ixp4xx/generic/profiles/105-Atheros-ath5k.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,17 +0,0 @@
+-#
+-# Copyright (C) 2006-2008 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Atheros-ath5k
+-  NAME:=Atheros WiFi (atk5k)
+-  PACKAGES:=kmod-ath5k
+-endef
+-
+-define Profile/Atheros-ath5k/Description
+-	Package set compatible with hardware using Atheros WiFi cards
+-endef
+-$(eval $(call Profile,Atheros-ath5k))
+-

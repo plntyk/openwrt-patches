@@ -1,0 +1,24 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/xrx200/profiles/lantiq.mk	2015-08-15 05:48:44.108464368 +0200
++++ witi-openwrt/target/linux/lantiq/xrx200/profiles/lantiq.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-define Profile/EASY80920NOR
+-  NAME:=Lantiq VR9 - EASY80920NOR
+-  PACKAGES:=kmod-ath9k wpad-mini \
+-	kmod-ltq-deu-vr9 kmod-ltq-hcd-vr9 \
+-	kmod-ltq-vdsl-vr9-mei kmod-ltq-vdsl-vr9 \
+-	kmod-ltq-atm-vr9 ltq-vdsl-vr9-fw-installer \
+-	ltq-vdsl-app ppp-mod-pppoa
+-endef
+-
+-$(eval $(call Profile,EASY80920NOR))
+-
+-define Profile/EASY80920NAND
+-  NAME:=Lantiq VR9 - EASY80920NAND
+-  PACKAGES:=kmod-ath9k wpad-mini \
+-	kmod-ltq-deu-vr9 kmod-ltq-hcd-vr9 \
+-	kmod-ltq-vdsl-vr9-mei kmod-ltq-vdsl-vr9 \
+-	kmod-ltq-atm-vr9 ltq-vdsl-vr9-fw-installer \
+-	ltq-vdsl-app ppp-mod-pppoa
+-endef
+-
+-$(eval $(call Profile,EASY80920NAND))

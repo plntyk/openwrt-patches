@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/410-mtd-move-forward-declaration-of-struct-mtd_info.patch	2015-08-15 05:48:44.045131037 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/410-mtd-move-forward-declaration-of-struct-mtd_info.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+---- a/include/linux/mtd/partitions.h
+-+++ b/include/linux/mtd/partitions.h
+-@@ -35,6 +35,7 @@
+-  * Note: writeable partitions require their size and offset be
+-  * erasesize aligned (e.g. use MTDPART_OFS_NEXTBLK).
+-  */
+-+struct mtd_info;
+- 
+- struct mtd_partition {
+- 	char *name;			/* identifier string */
+-@@ -50,7 +51,6 @@ struct mtd_partition {
+- #define MTDPART_SIZ_FULL	(0)
+- 
+- 
+--struct mtd_info;
+- struct device_node;
+- 
+- /**

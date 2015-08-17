@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/patches-3.10/402_bcm63xx_enet_vlan_incoming_fixed.patch	2015-08-15 05:48:43.965131038 +0200
++++ witi-openwrt/target/linux/brcm63xx/patches-3.10/402_bcm63xx_enet_vlan_incoming_fixed.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/drivers/net/ethernet/broadcom/bcm63xx_enet.c
+-+++ b/drivers/net/ethernet/broadcom/bcm63xx_enet.c
+-@@ -1635,7 +1635,7 @@ static int compute_hw_mtu(struct bcm_ene
+- 	actual_mtu = mtu;
+- 
+- 	/* add ethernet header + vlan tag size */
+--	actual_mtu += VLAN_ETH_HLEN;
+-+	actual_mtu += VLAN_ETH_HLEN + VLAN_HLEN;
+- 
+- 	if (actual_mtu < 64 || actual_mtu > BCMENET_MAX_MTU)
+- 		return -EINVAL;

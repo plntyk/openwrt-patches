@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/package/ramips/applications/nvram/config.in	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/nvram/config.in	2015-08-15 05:39:10.045141388 +0200
+@@ -0,0 +1,6 @@
++menu "nvram Features"
++	depends on PACKAGE_nvram
++config NVRAM_MTD_NAME
++	string "mtd name for nvram"
++	default "Config"
++endmenu

@@ -1,0 +1,27 @@
+--- openwrt.bb/openwrt/target/linux/x86/base-files/etc/defconfig/net4801/network	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/base-files/etc/defconfig/net4801/network	1970-01-01 01:00:00.000000000 +0100
+@@ -1,24 +0,0 @@
+-config interface loopback
+-	option ifname	lo
+-	option proto	static
+-	option ipaddr	127.0.0.1
+-	option netmask	255.0.0.0
+-
+-config interface lan
+-	option ifname	eth1
+-	option type	bridge
+-	option proto	static
+-	option ipaddr	192.168.1.1
+-	option netmask	255.255.255.0
+-	option ip6assign 60
+-
+-config interface wan
+-	option ifname	eth0
+-	option proto	dhcp
+-
+-config interface wan6
+-	option ifname   @wan
+-	option proto    dhcpv6
+-
+-config globals globals
+-	option ula_prefix auto

@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/etc/config/batmand	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/uci/hostfiles/etc/config/batmand	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,10 @@
++config batmand general
++	option interface		ath0
++	option announce			
++	option gateway_class		
++	option originator_interval
++	option preferred_gateway	
++	option routing_class
++	option visualisation_srv
++	option policy_routing_script
++	

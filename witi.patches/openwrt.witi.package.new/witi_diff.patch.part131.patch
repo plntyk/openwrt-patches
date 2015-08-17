@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/package/ramips/applications/hwnat/src/ac_api.h	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/hwnat/src/ac_api.h	2015-08-15 05:39:10.035141388 +0200
+@@ -0,0 +1,6 @@
++#ifndef __AC_API
++#define __AC_API
++
++int SetAcEntry(struct ac_args *opt, unsigned int cmd);
++int GetAcEntry(struct ac_args *opt, unsigned int cmd);
++#endif

@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/image/lzma-loader/src/loader2.lds	2015-08-15 05:48:44.098464369 +0200
++++ witi-openwrt/target/linux/lantiq/image/lzma-loader/src/loader2.lds	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-OUTPUT_ARCH(mips)
+-SECTIONS {
+-	.text : {
+-		startup = .;
+-		*(.text)
+-		*(.text.*)
+-		*(.data)
+-		*(.data.*)
+-	}
+-}

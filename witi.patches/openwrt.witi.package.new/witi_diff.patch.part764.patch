@@ -1,0 +1,27 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_demo	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_demo	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,24 @@
++config 'community' 'profile'
++	option 'name' 'Freifunk Demo'
++	option 'homepage' 'http://www.freifunk.net'
++	option 'ssid' 'demo.freifunk.net'
++	option 'mesh_network' '10.11.12.0/24'
++	option 'latitude' '51.163375'
++	option 'longitude' '10.447683'
++	option 'suffix' 'ff'
++	option 'vap' '1'
++	option adhoc_dhcp_when_vap '1'
++	option 'ipv6' '1'
++	option 'ipv6_config' 'auto-ipv6-fromv4'
++	option 'ipv6_prefix' 'fdca:ffff:ffff::/48'
++	option 'extrapackages' 'luci-app-owm luci-app-owm-ant luci-app-owm-cmd luci-app-owm-gui'
++	list 'owm_api' 'http://api.openwifimap.net'
++	list 'owm_api' 'http://owmapi.pberg.freifunk.net'
++	option 'mapserver' 'http://openwifimap.net/'
++
++config 'defaults' 'interface'
++	option 'netmask' '255.255.255.0'
++
++config 'defaults' 'luci_splash'
++	option 'limit_up' '50'
++	option 'limit_down' '200'

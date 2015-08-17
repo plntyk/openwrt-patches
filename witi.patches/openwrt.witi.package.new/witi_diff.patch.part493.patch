@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/extensions_incoming_context_sip.conf.TEMPLATE	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/extensions_incoming_context_sip.conf.TEMPLATE	2015-08-15 05:39:10.071808055 +0200
+@@ -0,0 +1,12 @@
++
++[context-incoming-|NAME|]
++exten => s,1,NoOp(${CALLERID})
++exten => s,n,Set(SOURCECONTEXT=context-incoming-|NAME|)
++exten => s,n,Set(SOURCEEXTEN=s)
++exten => s,n,Goto(blacklist-call-context,s,1)
++exten => s,n(doneblacklist),NoOp()
++exten => s,n,Goto(callback-check-call-context,s,1)
++exten => s,n(donecallback),NoOp()
++exten => s,n,Goto(disa-check-call-context,s,1)
++exten => s,n(donedisacheck),Dial(|LOCALUSERS|,${RINGTIME},r)
++exten => s,n,Goto(context-voicemail,s,1)

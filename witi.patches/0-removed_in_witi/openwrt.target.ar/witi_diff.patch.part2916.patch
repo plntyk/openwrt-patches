@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/generic/profiles/bhu.mk	2015-08-15 05:48:43.781797708 +0200
++++ witi-openwrt/target/linux/ar71xx/generic/profiles/bhu.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,17 +0,0 @@
+-#
+-# Copyright (C) 2013 BHU Networks.
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/BXU2000N2
+-	NAME:=BHU BXU2000n-2
+-	PACKAGES:=kmod-usb-core kmod-usb-ohci kmod-usb2 kmod-usb-storage
+-endef
+-
+-define Profile/BXU2000N2/Description
+-	Package set optimized for the BHU BXU2000n-2.
+-endef
+-
+-$(eval $(call Profile,BXU2000N2))

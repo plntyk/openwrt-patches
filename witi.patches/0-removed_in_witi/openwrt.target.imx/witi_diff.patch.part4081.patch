@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/target/linux/imx6/patches-3.10/0025-regulator-pfuze100-Use-regulator_map_voltage_ascend.patch	2015-08-15 05:48:44.058464370 +0200
++++ witi-openwrt/target/linux/imx6/patches-3.10/0025-regulator-pfuze100-Use-regulator_map_voltage_ascend.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,22 +0,0 @@
+-From: Axel Lin <axel.lin@ingics.com>
+-Subject: [PATCH] regulator: pfuze100: Use regulator_map_voltage_ascend
+-
+-All table based voltage list have ascendant order.
+-Use regulator_map_voltage_ascend for them.
+-
+-Signed-off-by: Axel Lin <axel.lin@ingics.com>
+-Signed-off-by: Mark Brown <broonie@linaro.org>
+----
+- drivers/regulator/pfuze100-regulator.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+---- a/drivers/regulator/pfuze100-regulator.c
+-+++ b/drivers/regulator/pfuze100-regulator.c
+-@@ -144,6 +144,7 @@ static struct regulator_ops pfuze100_sw_
+- 
+- static struct regulator_ops pfuze100_swb_regulator_ops = {
+- 	.list_voltage = regulator_list_voltage_table,
+-+	.map_voltage = regulator_map_voltage_ascend,
+- 	.set_voltage_sel = regulator_set_voltage_sel_regmap,
+- 	.get_voltage_sel = regulator_get_voltage_sel_regmap,
+- 

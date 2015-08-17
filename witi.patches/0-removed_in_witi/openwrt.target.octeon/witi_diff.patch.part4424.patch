@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/octeon/files/drivers/staging/octeon-usb/Kconfig	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/octeon/files/drivers/staging/octeon-usb/Kconfig	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+-config OCTEON_USB
+-	tristate "Cavium Networks Octeon USB support"
+-	depends on CPU_CAVIUM_OCTEON && USB
+-	help
+-	  This driver supports USB host controller on some Cavium
+-	  Networks' products in the Octeon family.
+-
+-	  To compile this driver as a module, choose M here. The module
+-	  will be called octeon-usb.
+-

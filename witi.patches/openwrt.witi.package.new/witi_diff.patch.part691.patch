@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/build/mkbasepot.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/build/mkbasepot.sh	2015-08-15 05:39:10.078474721 +0200
+@@ -0,0 +1,15 @@
++#!/bin/sh
++
++[ -d ./build ] || {
++	echo "Please execute as ./build/mkbasepot.sh" >&2
++	exit 1
++}
++
++echo -n "Updating po/templates/base.pot ... "
++
++./build/i18n-scan.pl \
++	modules/base/ modules/admin-full/ \
++	protocols/ themes/openwrt/ \
++> po/templates/base.pot
++
++echo "done"

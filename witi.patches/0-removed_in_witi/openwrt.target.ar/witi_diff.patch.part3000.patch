@@ -1,0 +1,31 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/patches-3.10/420-net-ar71xx_mac_driver.patch	2015-08-15 05:48:43.788464375 +0200
++++ witi-openwrt/target/linux/ar71xx/patches-3.10/420-net-ar71xx_mac_driver.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,28 +0,0 @@
+---- a/drivers/net/ethernet/atheros/Kconfig
+-+++ b/drivers/net/ethernet/atheros/Kconfig
+-@@ -5,7 +5,7 @@
+- config NET_VENDOR_ATHEROS
+- 	bool "Atheros devices"
+- 	default y
+--	depends on PCI
+-+	depends on (PCI || ATH79)
+- 	---help---
+- 	  If you have a network (Ethernet) card belonging to this class, say Y
+- 	  and read the Ethernet-HOWTO, available from
+-@@ -85,4 +85,6 @@ config ALX
+- 	  To compile this driver as a module, choose M here.  The module
+- 	  will be called alx.
+- 
+-+source drivers/net/ethernet/atheros/ag71xx/Kconfig
+-+
+- endif # NET_VENDOR_ATHEROS
+---- a/drivers/net/ethernet/atheros/Makefile
+-+++ b/drivers/net/ethernet/atheros/Makefile
+-@@ -2,6 +2,7 @@
+- # Makefile for the Atheros network device drivers.
+- #
+- 
+-+obj-$(CONFIG_AG71XX) += ag71xx/
+- obj-$(CONFIG_ATL1) += atlx/
+- obj-$(CONFIG_ATL2) += atlx/
+- obj-$(CONFIG_ATL1E) += atl1e/

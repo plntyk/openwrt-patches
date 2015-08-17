@@ -1,0 +1,7 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/extensions_callback_sip.conf.TEMPLATE	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/extensions_callback_sip.conf.TEMPLATE	2015-08-15 05:39:10.071808055 +0200
+@@ -0,0 +1,4 @@
++exten => |NUMBER|,1,System(/etc/pbx-asterisk/delayedcallback "channel originate SIP/|NUMBER|@peer-|CALLBACKPROVIDER| extension |NUMBER|@disa-call-context" &)
++exten => |NUMBER|,n,Wait(|CALLBACKHUPDELAY|)
++exten => |NUMBER|,n,Hangup()
++

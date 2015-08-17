@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/322-ppc4xx-crypto-compile-fix.patch	2015-08-15 05:48:44.045131037 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/322-ppc4xx-crypto-compile-fix.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+---- a/drivers/crypto/amcc/crypto4xx_core.c
+-+++ b/drivers/crypto/amcc/crypto4xx_core.c
+-@@ -19,6 +19,7 @@
+-  */
+- 
+- #include <linux/kernel.h>
+-+#include <linux/module.h>
+- #include <linux/interrupt.h>
+- #include <linux/spinlock_types.h>
+- #include <linux/random.h>

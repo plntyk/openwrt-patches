@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/package/ramips/drivers/mt7620/patches/002-fix-insmod-fail.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/drivers/mt7620/patches/002-fix-insmod-fail.patch	2015-08-15 05:39:10.051808055 +0200
+@@ -0,0 +1,18 @@
++Index: mt7620-p4rev-113050/src/os/linux/rt_rbus_pci_drv.c
++===================================================================
++--- mt7620-p4rev-113050.orig/src/os/linux/rt_rbus_pci_drv.c
+++++ mt7620-p4rev-113050/src/os/linux/rt_rbus_pci_drv.c
++@@ -773,6 +773,13 @@ static void ac0_dma_done_tasklet(unsigne
++ }
++ 
++ 
+++#ifdef RALINK_ATE
+++static void ate_ac0_dma_done_tasklet(unsigned long data)
+++{
+++	return;
+++}
+++#endif /* RALINK_ATE */
+++
++ 
++ #ifdef UAPSD_SUPPORT
++ /*

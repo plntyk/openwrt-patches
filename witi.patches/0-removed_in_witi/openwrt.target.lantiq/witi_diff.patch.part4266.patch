@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/falcon/target.mk	2015-08-15 05:48:44.095131035 +0200
++++ witi-openwrt/target/linux/lantiq/falcon/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-ARCH:=mips
+-SUBTARGET:=falcon
+-BOARDNAME:=Falcon
+-FEATURES:=squashfs
+-DEVICE_TYPE:=other
+-
+-DEFAULT_PACKAGES+= kmod-ifxos gpon-base-files kmod-leds-gpio kmod-ledtrig-heartbeat \
+-	kmod-gpon-optic-drv gpon-optic-drv kmod-gpon-onu-drv gpon-onu-drv \
+-	gpon-pe-firmware gpon-omci-api gpon-omci-onu gpon-luci
+-
+-define Target/Description
+-	Lantiq Falcon
+-endef

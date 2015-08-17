@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/461-mtd-cfi_cmdset_0002-add-buffer-write-cmd-timeout.patch	2015-08-15 05:48:44.045131037 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/461-mtd-cfi_cmdset_0002-add-buffer-write-cmd-timeout.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-From: George Kashperko <george@znau.edu.ua>
+-
+-Issue map read after Write Buffer Load command to ensure chip is ready
+-to receive data.
+-Signed-off-by: George Kashperko <george@znau.edu.ua>
+----
+- drivers/mtd/chips/cfi_cmdset_0002.c |    1 +
+- 1 file changed, 1 insertion(+)
+---- a/drivers/mtd/chips/cfi_cmdset_0002.c
+-+++ b/drivers/mtd/chips/cfi_cmdset_0002.c
+-@@ -1498,6 +1498,7 @@ static int __xipram do_write_buffer(stru
+- 
+- 	/* Write Buffer Load */
+- 	map_write(map, CMD(0x25), cmd_adr);
+-+	(void) map_read(map, cmd_adr);
+- 
+- 	chip->state = FL_WRITING_TO_BUFFER;
+- 

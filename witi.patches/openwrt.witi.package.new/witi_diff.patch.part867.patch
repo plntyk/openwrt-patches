@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/meshwizard/files/usr/bin/meshwizard/helpers/setup_qos.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/meshwizard/files/usr/bin/meshwizard/helpers/setup_qos.sh	2015-08-15 05:39:10.091808054 +0200
+@@ -0,0 +1,17 @@
++#!/bin/sh
++# sets up qos-scripts for the wan interface
++
++. /lib/functions.sh
++. $dir/functions.sh
++
++if [ ! -f /etc/config/qos ]; then
++	echo "NOT setting up QOS because /etc/config/qos-scripts was not found"
++else
++	uci batch <<- EOF
++		set qos.wan.enabled=1
++		set qos.wan.upload=$wan_up
++		set qos.wan.download=$wan_down
++	EOF
++	uci_commitverbose "Setup QOS on WAN interface." qos
++
++fi

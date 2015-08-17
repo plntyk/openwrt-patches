@@ -1,0 +1,30 @@
+--- openwrt.bb/openwrt/target/linux/ramips/patches/3004-MQ-machine-name-hardcoded-witi.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/target/linux/ramips/patches/3004-MQ-machine-name-hardcoded-witi.patch	2015-08-15 05:39:10.258474717 +0200
+@@ -0,0 +1,27 @@
++--- a/arch/mips/kernel/prom.c
+++++ b/arch/mips/kernel/prom.c
++@@ -23,7 +23,7 @@
++ #include <asm/page.h>
++ #include <asm/prom.h>
++ 
++-static char mips_machine_name[64] = "Unknown";
+++static char mips_machine_name[64] = CONFIG_MACHINE_NAME;
++ 
++ __init void mips_set_machine_name(const char *name)
++ {
++--- a/arch/mips/Kconfig
+++++ b/arch/mips/Kconfig
++@@ -112,6 +112,13 @@ config RALINK_MT7628
++          Ralink evaluation board based on MT7628
++ endchoice
++ 
+++config MACHINE_NAME
+++	string "Entry your machine name"
+++	default "Unknown"
+++	help
+++	 Entry the machine's name that your board or needed.
+++	 If you do not, it will use default value "Unknown".
+++
++ source "arch/mips/ralink/Kconfig"
++ 
++ 

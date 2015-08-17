@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/package/network/config/swconfig/Makefile	2015-08-15 05:48:43.598464378 +0200
++++ witi-openwrt/package/network/config/swconfig/Makefile	2015-08-15 05:39:09.985141389 +0200
+@@ -27,7 +27,8 @@ TARGET_CPPFLAGS := \
+ 	-I$(STAGING_DIR)/usr/include/libnl-tiny \
+ 	-I$(PKG_BUILD_DIR) \
+ 	$(TARGET_CPPFLAGS) \
+-	-I$(LINUX_DIR)/user_headers/include
++	-I$(LINUX_DIR)/user_headers/include \
++	-I$(LINUX_DIR)/include/uapi
+ 
+ define Build/Prepare
+ 	mkdir -p $(PKG_BUILD_DIR)

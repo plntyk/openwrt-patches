@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/ar7/generic/profiles/200-Texas.mk	2015-08-15 05:48:43.771797708 +0200
++++ witi-openwrt/target/linux/ar7/generic/profiles/200-Texas.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-#
+-# Copyright (C) 2006-2009 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Texas
+-  NAME:=Texas Instruments WiFi (mac80211)
+-  PACKAGES:=kmod-acx-mac80211
+-endef
+-
+-define Profile/Texas/Description
+-	Package set compatible with hardware using Texas Instruments WiFi cards
+-	using the mac80211 driver.
+-endef
+-$(eval $(call Profile,Texas))
+-

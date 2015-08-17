@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr/htdocs/cgi-bin-status.html	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr/htdocs/cgi-bin-status.html	2015-08-15 05:39:10.065141388 +0200
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
++<html xmlns="http://www.w3.org/1999/xhtml">
++<head>
++<meta http-equiv="refresh" content="0; URL=/cgi-bin/luci/freifunk/olsr/neighbors" />
++</head>
++<body style="background-color: black">
++<a style="color: white; text-decoration: none" href="/cgi-bin/luci/freifunk/olsr/neighbors">LuCI - Lua Configuration Interface</a>
++</body>
++</html>

@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/target/linux/ixp4xx/patches-3.10/600-skb_avoid_dmabounce.patch	2015-08-15 05:48:44.061797703 +0200
++++ witi-openwrt/target/linux/ixp4xx/patches-3.10/600-skb_avoid_dmabounce.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,23 +0,0 @@
+---- a/net/core/skbuff.c
+-+++ b/net/core/skbuff.c
+-@@ -210,6 +210,9 @@ struct sk_buff *__alloc_skb(unsigned int
+- 
+- 	if (sk_memalloc_socks() && (flags & SKB_ALLOC_RX))
+- 		gfp_mask |= __GFP_MEMALLOC;
+-+#ifdef CONFIG_ARCH_IXP4XX
+-+	gfp_mask |= GFP_DMA;
+-+#endif
+- 
+- 	/* Get the HEAD */
+- 	skb = kmem_cache_alloc_node(cache, gfp_mask & ~__GFP_DMA, node);
+-@@ -1054,6 +1057,10 @@ int pskb_expand_head(struct sk_buff *skb
+- 	if (skb_shared(skb))
+- 		BUG();
+- 
+-+#ifdef CONFIG_ARCH_IXP4XX
+-+	gfp_mask |= GFP_DMA;
+-+#endif
+-+
+- 	size = SKB_DATA_ALIGN(size);
+- 
+- 	if (skb_pfmemalloc(skb))

@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/themes/openwrt/htdocs/luci-static/openwrt.org/ie8.css	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/themes/openwrt/htdocs/luci-static/openwrt.org/ie8.css	2015-08-15 05:39:10.205141385 +0200
+@@ -0,0 +1,12 @@
++fieldset.cbi-section {
++	position: relative;
++	margin-top: 1em;
++	padding-top: 0.75em;
++	border: 1px solid #CCCCCC;
++}
++
++fieldset.cbi-section legend {
++	position: absolute;
++	top: -0.75em;
++	left: 0.5em;
++}

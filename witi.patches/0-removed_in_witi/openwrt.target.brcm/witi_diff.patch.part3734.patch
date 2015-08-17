@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/smp/config-default	2015-08-15 05:48:43.968464371 +0200
++++ witi-openwrt/target/linux/brcm63xx/smp/config-default	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-CONFIG_CPU_RMAP=y
+-# CONFIG_KEXEC is not set
+-CONFIG_MUTEX_SPIN_ON_OWNER=y
+-CONFIG_NR_CPUS=2
+-CONFIG_RCU_STALL_COMMON=y
+-CONFIG_RFS_ACCEL=y
+-CONFIG_RPS=y
+-CONFIG_SMP=y
+-CONFIG_SMP_UP=y
+-CONFIG_STOP_MACHINE=y
+-CONFIG_TREE_RCU=y
+-CONFIG_USE_GENERIC_SMP_HELPERS=y
+-CONFIG_XPS=y

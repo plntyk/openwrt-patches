@@ -1,0 +1,37 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/dts/EASY80920NOR.dts	2015-08-15 05:48:44.095131035 +0200
++++ witi-openwrt/target/linux/lantiq/dts/EASY80920NOR.dts	1970-01-01 01:00:00.000000000 +0100
+@@ -1,34 +0,0 @@
+-/dts-v1/;
+-
+-
+-/include/ "EASY80920.dtsi"
+-
+-/ {
+-	fpi@10000000 {
+-		localbus@0 {
+-			ranges = <0 0 0x0 0x3ffffff>;
+-			nor-boot@0 {
+-				compatible = "lantiq,nor";
+-				bank-width = <2>;
+-				reg = <0 0x0 0x2000000>;
+-				#address-cells = <1>;
+-				#size-cells = <1>;
+-
+-				partition@0 {
+-					label = "uboot";
+-					reg = <0x00000 0x10000>;
+-				};
+-
+-				partition@10000 {
+-					label = "uboot_env";
+-					reg = <0x10000 0x10000>;
+-				};
+-
+-				partition@20000 {
+-					label = "firmware";
+-					reg = <0x20000 0x7e0000>;
+-				};
+-			};
+-		};
+-	};
+-};

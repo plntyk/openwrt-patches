@@ -1,0 +1,23 @@
+--- openwrt.bb/openwrt/package/network/ipv6/map/src/mapcalc.c	2015-08-15 05:48:43.601797711 +0200
++++ witi-openwrt/package/network/ipv6/map/src/mapcalc.c	2015-08-15 05:39:09.985141389 +0200
+@@ -2,7 +2,7 @@
+  * mapcalc - MAP parameter calculation
+  *
+  * Author: Steven Barth <cyrus@openwrt.org>
+- * Copyright (c) 2014-2015 cisco Systems, Inc.
++ * Copyright (c) 2014 cisco Systems, Inc.
+  *
+  * This program is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License version 2
+@@ -271,10 +271,8 @@ int main(int argc, char *argv[])
+ 		if (ealen < 0 && pdlen >= 0)
+ 			ealen = pdlen - prefix6len;
+ 
+-		if (psidlen <= 0) {
++		if (psidlen < 0)
+ 			psidlen = ealen - (32 - prefix4len);
+-			psid = -1;
+-		}
+ 
+ 		if (psid < 0 && psidlen <= 16 && psidlen >= 0 && pdlen >= 0 && ealen >= psidlen) {
+ 			bmemcpys64(&psid16, &pd, prefix6len + ealen - psidlen, psidlen);

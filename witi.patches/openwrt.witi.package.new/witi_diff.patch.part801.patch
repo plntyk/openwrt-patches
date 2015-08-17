@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/files/usr/bin/ffdzero	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/files/usr/bin/ffdzero	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,10 @@
++#!/bin/sh
++
++test "$1" = "-h" && echo -e "Usage:\n\t$0 -h\n\t$0 [ { ip | hostname } ]" >&2 && exit 1
++
++host="${1:-leipzig.freifunk.net}"
++
++wget -O /dev/null http://$host/cgi-bin-dev-zero.bin
++test "$?" = "1" && wget -O /dev/null http://$host/cgi-bin/dev-zero.bin
++test "$?" = "1" && wget -O /dev/null http://$host/cgi-bin/luci/freifunk/status/zeroes
++test "$?" = "1" && echo "$host: no zero download found..." && exit 1

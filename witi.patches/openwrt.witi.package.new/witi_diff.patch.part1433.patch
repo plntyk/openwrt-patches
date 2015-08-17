@@ -1,0 +1,5 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/cell_valueheader.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/cell_valueheader.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,2 @@
++<td class="cbi-value-field<% if self.error and self.error[section] then %> cbi-value-error<% end %>">
++<div id="cbi-<%=self.config.."-"..section.."-"..self.option%>">

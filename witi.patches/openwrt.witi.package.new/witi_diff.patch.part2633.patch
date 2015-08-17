@@ -1,0 +1,29 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/THANKYOU	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/THANKYOU	2015-08-15 05:39:10.051808055 +0200
+@@ -0,0 +1,26 @@
++I'd like to thank the following people for contributing to this software:
++
++* Anton Popov
++	- for rewriting the openwrt.org theme
++
++* Florian Fainelli (OpenWrt)
++	- for the french translation
++
++* Alina Friedrichsen
++	- for the reworked translation system, help on standards compliance and accessibility
++	
++* Yanira
++	- several applications and bugreports
++
++
++Also a big thank you goes to:
++	
++* Mono (Freifunk Halle)
++	- for donating a Linksys WRT54GL for development purposes
++	
++* tetzlav (Freifunk Leipzig)
++	- for donating several boards for testing and his feedback
++	
++* Mickey (Freifunk Hannover)
++	- for his feedback and fixes for the OpenWrt builds
++	

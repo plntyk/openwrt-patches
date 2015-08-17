@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/meshwizard/files/usr/bin/meshwizard/helpers/gen_dhcp_ip.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/meshwizard/files/usr/bin/meshwizard/helpers/gen_dhcp_ip.sh	2015-08-15 05:39:10.088474720 +0200
+@@ -0,0 +1,6 @@
++#!/bin/sh
++# generates a dhcp-ip and netrange from a given ip/subnet
++# takes 2 arguments:
++# $1: Ip Address (of the Interface for which we want to generate an ip)
++
++echo "$1" | awk 'BEGIN { FS = "." } ; { print "6."$3"."$4".1" }'

@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/mpc85xx/patches-3.10/130-mpc8548_cds_disable_i8259_irq.patch	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/mpc85xx/patches-3.10/130-mpc8548_cds_disable_i8259_irq.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+---- a/arch/powerpc/boot/dts/mpc8548cds.dtsi
+-+++ b/arch/powerpc/boot/dts/mpc8548cds.dtsi
+-@@ -293,8 +293,10 @@
+- 				#address-cells = <0>;
+- 				#interrupt-cells = <2>;
+- 				compatible = "chrp,iic";
+-+/*
+- 				interrupts = <0 1 0 0>;
+- 				interrupt-parent = <&mpic>;
+-+*/
+- 			};
+- 
+- 			rtc@70 {

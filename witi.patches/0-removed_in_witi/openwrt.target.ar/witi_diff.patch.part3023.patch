@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/patches-3.10/500-MIPS-fw-myloader.patch	2015-08-15 05:48:43.788464375 +0200
++++ witi-openwrt/target/linux/ar71xx/patches-3.10/500-MIPS-fw-myloader.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,22 +0,0 @@
+---- a/arch/mips/Makefile
+-+++ b/arch/mips/Makefile
+-@@ -183,6 +183,7 @@ endif
+- #
+- libs-$(CONFIG_FW_ARC)		+= arch/mips/fw/arc/
+- libs-$(CONFIG_FW_CFE)		+= arch/mips/fw/cfe/
+-+libs-$(CONFIG_MYLOADER)		+= arch/mips/fw/myloader/
+- libs-$(CONFIG_FW_SNIPROM)	+= arch/mips/fw/sni/
+- libs-y				+= arch/mips/fw/lib/
+- 
+---- a/arch/mips/Kconfig
+-+++ b/arch/mips/Kconfig
+-@@ -998,6 +998,9 @@ config MIPS_MSC
+- config MIPS_NILE4
+- 	bool
+- 
+-+config MYLOADER
+-+	bool
+-+
+- config SYNC_R4K
+- 	bool
+- 

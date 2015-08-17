@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/target/linux/ramips/patches/3005-MQ-support-512MB-memory.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/target/linux/ramips/patches/3005-MQ-support-512MB-memory.patch	2015-08-15 05:39:10.258474717 +0200
+@@ -0,0 +1,15 @@
++--- a/arch/mips/kernel/setup.c
+++++ b/arch/mips/kernel/setup.c
++@@ -646,6 +646,12 @@ static void __init arch_mem_init(char **
++ 	}
++ 
++ 	bootmem_init();
+++#if defined(CONFIG_RALINK_MT7621)
+++#if defined(CONFIG_RT2880_DRAM_512M)
+++	reserve_bootmem(0x1c000000, 64*1024*1024, BOOTMEM_DEFAULT);
+++#endif
+++#endif
+++
++ #ifdef CONFIG_PROC_VMCORE
++ 	if (setup_elfcorehdr && setup_elfcorehdr_size) {
++ 		printk(KERN_INFO "kdump reserved memory at %lx-%lx\n",

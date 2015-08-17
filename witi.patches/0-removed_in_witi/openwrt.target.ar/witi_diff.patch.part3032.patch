@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/patches-3.10/509-MIPS-ath79-process-board-kernel-option.patch	2015-08-15 05:48:43.788464375 +0200
++++ witi-openwrt/target/linux/ar71xx/patches-3.10/509-MIPS-ath79-process-board-kernel-option.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/arch/mips/ath79/setup.c
+-+++ b/arch/mips/ath79/setup.c
+-@@ -218,6 +218,8 @@ void __init plat_time_init(void)
+- 	mips_hpt_frequency = clk_get_rate(clk) / 2;
+- }
+- 
+-+__setup("board=", mips_machtype_setup);
+-+
+- static int __init ath79_setup(void)
+- {
+- 	ath79_gpio_init();

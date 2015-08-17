@@ -1,0 +1,28 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/files/etc/init.d/freifunk	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-common/files/etc/init.d/freifunk	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,25 @@
++#!/bin/sh /etc/rc.common
++# Freifunk Init
++# $Id$
++
++START=99
++
++boot() {
++	test -f /etc/crontabs/root || touch /etc/crontabs/root
++
++	grep -q 'killall -HUP dnsmasq' /etc/crontabs/root || {
++		echo "*/5 * * * *	killall -HUP dnsmasq" >> /etc/crontabs/root
++	}
++
++	grep -q '/usr/sbin/ff_olsr_watchdog' /etc/crontabs/root || {
++		echo "*/5 * * * *	/usr/sbin/ff_olsr_watchdog" >> /etc/crontabs/root
++	}
++
++	[ -d /etc/rc.local.d ] && {
++		for file in /etc/rc.local.d/*; do
++			test -f "$file" && . "$file"
++		done
++	}
++
++	/etc/init.d/cron restart &
++}

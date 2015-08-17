@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_potsdam	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_potsdam	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,13 @@
++config 'community' 'profile'
++	option 'name' 'Freifunk Potsdam'
++	option 'homepage' 'http://potsdam.freifunk.net'
++	option 'ssid' 'www.freifunk-potsdam.de'
++	option 'mesh_network' '10.22.0.0/16'
++	option 'splash_network' '192.168.22.0/24'
++	option 'splash_prefix' '24'
++	option 'latitude' '52.39349'
++	option 'longitude' '13.06489'
++
++config 'defaults' 'wifi_device'
++	option 'channel' '5'
++

@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/CREDITS-SOUNDS	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/CREDITS-SOUNDS	2015-08-15 05:39:10.068474721 +0200
+@@ -0,0 +1,7 @@
++This file pertains to the sounds files included in root/etc/pbx-asterisk/sounds
++
++Recorded by:
++Allison Smith (http://www.theivrvoice.com)
++
++Financial Contributions by:
++Digium, Inc. (http://www.digium.com)

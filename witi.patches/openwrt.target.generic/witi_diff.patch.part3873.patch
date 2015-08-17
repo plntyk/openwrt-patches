@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/251-sound_kconfig.patch	2015-08-15 05:48:44.041797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/251-sound_kconfig.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+---- a/sound/core/Kconfig
+-+++ b/sound/core/Kconfig
+-@@ -7,13 +7,13 @@ config SND_PCM
+- 	select SND_TIMER
+- 
+- config SND_HWDEP
+--	tristate
+-+	tristate "Sound hardware support"
+- 
+- config SND_RAWMIDI
+- 	tristate
+- 
+- config SND_COMPRESS_OFFLOAD
+--	tristate
+-+	tristate "Compression offloading support"
+- 
+- # To be effective this also requires INPUT - users should say:
+- #    select SND_JACK if INPUT=y || INPUT=SND

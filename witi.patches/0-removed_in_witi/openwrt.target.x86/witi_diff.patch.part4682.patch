@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/target/linux/x86/image/grub.cfg	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/image/grub.cfg	1970-01-01 01:00:00.000000000 +0100
+@@ -1,13 +0,0 @@
+-@SERIAL_CONFIG@
+-@TERMINAL_CONFIG@
+-
+-set default="0"
+-set timeout="@TIMEOUT@"
+-set root='(hd0,msdos1)'
+-
+-menuentry "OpenWrt" {
+-	linux /boot/vmlinuz @CMDLINE@ noinitrd
+-}
+-menuentry "OpenWrt (failsafe)" {
+-	linux /boot/vmlinuz failsafe=true @CMDLINE@ noinitrd
+-}

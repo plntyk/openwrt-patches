@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/package/ramips/applications/eth_mac/src/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/eth_mac/src/Makefile	2015-08-15 05:39:10.025141389 +0200
+@@ -0,0 +1,22 @@
++#ifeq ($(CONFIG_FLASH_TOOL), y)
++#EXEC += flash
++#endif
++#ifeq ($(CONFIG_ETHMAC_TOOL), y)
++EXEC += eth_mac
++#endif
++
++all: $(EXEC) 
++
++#flash: flash_mtd.o
++#	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
++
++eth_mac: eth_mac.o
++	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LDLIBS)
++
++#romfs:
++#	$(ROMFSINST) -e CONFIG_FLASH_TOOL /bin/flash
++#	$(ROMFSINST) -e CONFIG_ETHMAC_TOOL /bin/eth_mac
++
++clean:
++	-rm -f $(EXEC) *.elf *.gdb *.o
++

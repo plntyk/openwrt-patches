@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/octeon/files/drivers/staging/octeon-usb/TODO	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/octeon/files/drivers/staging/octeon-usb/TODO	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+-This driver is functional and has been tested on EdgeRouter Lite with
+-USB mass storage.
+-
+-TODO:
+-	- kernel coding style
+-	- checkpatch warnings
+-	- dead code elimination
+-	- device tree bindings
+-	- possibly eliminate the extra "hardware abstraction layer"
+-
+-Contact: Aaro Koskinen <aaro.koskinen@iki.fi>

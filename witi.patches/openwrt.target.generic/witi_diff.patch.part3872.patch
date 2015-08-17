@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/250-netfilter_depends.patch	2015-08-15 05:48:44.041797703 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/250-netfilter_depends.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+---- a/net/netfilter/Kconfig
+-+++ b/net/netfilter/Kconfig
+-@@ -195,7 +195,6 @@ config NF_CONNTRACK_FTP
+- 
+- config NF_CONNTRACK_H323
+- 	tristate "H.323 protocol support"
+--	depends on (IPV6 || IPV6=n)
+- 	depends on NETFILTER_ADVANCED
+- 	help
+- 	  H.323 is a VoIP signalling protocol from ITU-T. As one of the most
+-@@ -758,7 +757,6 @@ config NETFILTER_XT_TARGET_SECMARK
+- 
+- config NETFILTER_XT_TARGET_TCPMSS
+- 	tristate '"TCPMSS" target support'
+--	depends on (IPV6 || IPV6=n)
+- 	default m if NETFILTER_ADVANCED=n
+- 	---help---
+- 	  This option adds a `TCPMSS' target, which allows you to alter the

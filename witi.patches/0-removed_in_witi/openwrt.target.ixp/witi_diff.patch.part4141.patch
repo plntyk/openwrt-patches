@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/ixp4xx/patches-3.10/201-npe_driver_print_license_location.patch	2015-08-15 05:48:44.061797703 +0200
++++ witi-openwrt/target/linux/ixp4xx/patches-3.10/201-npe_driver_print_license_location.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/arch/arm/mach-ixp4xx/ixp4xx_npe.c
+-+++ b/arch/arm/mach-ixp4xx/ixp4xx_npe.c
+-@@ -586,6 +586,8 @@ int npe_load_firmware(struct npe *npe, c
+- 	npe_reset(npe);
+- #endif
+- 
+-+	print_npe(KERN_INFO, npe, "firmware's license can be found in /usr/share/doc/LICENSE.IPL\n");
+-+
+- 	print_npe(KERN_INFO, npe, "firmware functionality 0x%X, "
+- 		  "revision 0x%X:%X\n", (image->id >> 16) & 0xFF,
+- 		  (image->id >> 8) & 0xFF, image->id & 0xFF);

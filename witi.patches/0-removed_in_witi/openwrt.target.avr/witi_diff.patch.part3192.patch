@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/avr32/patches-3.10/110-openwrt_flashmap.patch	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/avr32/patches-3.10/110-openwrt_flashmap.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/arch/avr32/boards/atngw100/flash.c
+-+++ b/arch/avr32/boards/atngw100/flash.c
+-@@ -45,7 +45,7 @@ static struct mtd_partition flash_parts[
+- 		.mask_flags     = MTD_WRITEABLE,
+- 	},
+- 	{
+--		.name           = "root",
+-+		.name           = "firmware",
+- 		.offset         = 0x00020000,
+- 		.size           = 0x007d0000,
+- 	},

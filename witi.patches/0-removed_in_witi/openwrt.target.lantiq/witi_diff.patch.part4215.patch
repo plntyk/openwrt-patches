@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/base-files.mk	2015-08-15 05:48:44.091797703 +0200
++++ witi-openwrt/target/linux/lantiq/base-files.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,5 +0,0 @@
+-define Package/base-files/install-target
+-	rm -f $(1)/etc/config/network
+-endef
+-
+-

@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/x86/image/mkimg_sitecom.pl	2015-08-15 05:48:44.145131035 +0200
++++ witi-openwrt/target/linux/x86/image/mkimg_sitecom.pl	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+-#!/usr/bin/perl
+-
+-open (bzimg, @ARGV[0]);
+-while (<bzimg>) { $i .= $_; }
+-$i .= pack "v", -(unpack "%v*", $i); 
+-print "CSYS";
+-print pack("V", length($i));
+-print pack("V", 0);
+-print "WRRM";
+-print pack("V", length($i));
+-print $i;

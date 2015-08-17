@@ -1,0 +1,16 @@
+--- openwrt.bb/openwrt/package/ramips/applications/long_loop/src/Makefile	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/applications/long_loop/src/Makefile	2015-08-15 05:39:10.038474722 +0200
+@@ -0,0 +1,13 @@
++EXEC = longloopd
++OBJS = long_loop.o
++#CFLAGS += -I$(ROOTDIR)/$(LINUXDIR)
++#CFLAGS += -I$(ROOTDIR)/$(LINUXDIR)/drivers/net/raeth
++
++all: $(EXEC)
++
++$(EXEC): $(OBJS)
++	$(CC) $(LDFLAGS) -o $@ $(OBJS)
++
++clean:
++	-rm -f $(EXEC) *.elf *.gdb *.o
++

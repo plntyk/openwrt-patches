@@ -1,0 +1,9 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-p2pblock/files/freifunk-p2pblock.config	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/freifunk-p2pblock/files/freifunk-p2pblock.config	2015-08-15 05:39:10.088474720 +0200
+@@ -0,0 +1,6 @@
++config 'settings' 'p2pblock'
++	option 'portrange' '1024:65535'
++	option 'layer7' 'edonkey bittorrent fasttrack'
++	option 'ipp2p' 'edk dc kazaa gnu bit ares soul winmx apple'
++	option 'blocktime' '60'
++	option 'whitelist' ''

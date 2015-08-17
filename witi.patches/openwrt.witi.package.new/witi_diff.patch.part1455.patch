@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/tabcontainer.htm	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/modules/base/luasrc/view/cbi/tabcontainer.htm	2015-08-15 05:39:10.121808053 +0200
+@@ -0,0 +1,7 @@
++<% for tab, data in pairs(self.tabs) do %>
++	<div class="cbi-tabcontainer" id="container.<%=self.config%>.<%=section%>.<%=tab%>"<% if tab ~= self.selected_tab then %> style="display:none"<% end %>>
++		<% if data.description then %><div class="cbi-tab-descr"><%=data.description%></div><% end %>
++		<% self:render_tab(tab, section, scope or {}) %>
++	</div>
++	<script type="text/javascript">cbi_t_add('<%=self.config%>.<%=section%>', '<%=tab%>')</script>
++<% end %>

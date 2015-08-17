@@ -1,0 +1,6 @@
+--- openwrt.bb/openwrt/target/linux/x86/olpc/target.mk	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/x86/olpc/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,3 +0,0 @@
+-BOARDNAME:=OLPC XO-1
+-DEFAULT_PACKAGES += kmod-natsemi kmod-ne2k-pci kmod-libertas
+-FEATURES += broken

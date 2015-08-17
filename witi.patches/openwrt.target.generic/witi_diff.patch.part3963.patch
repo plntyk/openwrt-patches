@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/generic/patches-3.10/651-wireless_mesh_header.patch	2015-08-15 05:48:44.048464369 +0200
++++ witi-openwrt/target/linux/generic/patches-3.10/651-wireless_mesh_header.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+---- a/include/linux/netdevice.h
+-+++ b/include/linux/netdevice.h
+-@@ -139,7 +139,7 @@ static inline bool dev_xmit_complete(int
+-  */
+- 
+- #if defined(CONFIG_WLAN) || IS_ENABLED(CONFIG_AX25)
+--# if defined(CONFIG_MAC80211_MESH)
+-+# if 1 || defined(CONFIG_MAC80211_MESH)
+- #  define LL_MAX_HEADER 128
+- # else
+- #  define LL_MAX_HEADER 96

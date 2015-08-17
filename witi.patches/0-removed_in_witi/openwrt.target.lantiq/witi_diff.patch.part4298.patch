@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/image/ubinize-overlay.cfg	2015-08-15 05:48:44.098464369 +0200
++++ witi-openwrt/target/linux/lantiq/image/ubinize-overlay.cfg	1970-01-01 01:00:00.000000000 +0100
+@@ -1,23 +0,0 @@
+-[rootfs]
+-# Volume mode (other option is static)
+-mode=ubi
+-# Source image
+-image=root.squashfs
+-# Volume ID in UBI image
+-vol_id=0
+-# Allow for dynamic resize
+-vol_type=dynamic
+-# Volume name
+-vol_name=rootfs
+-[rootfs_data]
+-# Volume mode (other option is static)
+-mode=ubi
+-# Volume ID in UBI image
+-vol_id=1
+-# Allow for dynamic resize
+-vol_type=dynamic
+-# Volume name
+-vol_name=rootfs_data
+-vol_size=1MiB
+-# Autoresize volume at first mount
+-vol_flags=autoresize

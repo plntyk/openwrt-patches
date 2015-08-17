@@ -1,0 +1,26 @@
+--- openwrt.bb/openwrt/target/linux/imx6/Makefile	2015-08-15 05:48:44.055131036 +0200
++++ witi-openwrt/target/linux/imx6/Makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,23 +0,0 @@
+-#
+-# Copyright (C) 2013-2014 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-include $(TOPDIR)/rules.mk
+-
+-ARCH:=arm
+-BOARD:=imx6
+-BOARDNAME:=Freescale i.MX 6
+-FEATURES:=audio display fpu gpio pcie rtc usb usbgadget squashfs targz nand ubifs
+-CPU_TYPE:=cortex-a9
+-CPU_SUBTYPE:=neon
+-MAINTAINER:=Luka Perkov <luka@openwrt.org>
+-
+-KERNEL_PATCHVER:=3.10
+-
+-include $(INCLUDE_DIR)/target.mk
+-
+-KERNELNAME:="zImage dtbs"
+-
+-$(eval $(call BuildTarget))

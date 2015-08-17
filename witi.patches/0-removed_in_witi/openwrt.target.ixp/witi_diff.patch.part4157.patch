@@ -1,0 +1,25 @@
+--- openwrt.bb/openwrt/target/linux/ixp4xx/patches-3.10/910-ixp4xx-nr_irq_lines.patch	2015-08-15 05:48:44.061797703 +0200
++++ witi-openwrt/target/linux/ixp4xx/patches-3.10/910-ixp4xx-nr_irq_lines.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,22 +0,0 @@
+---- a/arch/arm/mach-ixp4xx/ixdp425-pci.c
+-+++ b/arch/arm/mach-ixp4xx/ixdp425-pci.c
+-@@ -53,7 +53,7 @@ static int __init ixdp425_map_irq(const
+- 	};
+- 
+- 	if (slot >= 1 && slot <= MAX_DEV && pin >= 1 && pin <= IRQ_LINES)
+--		return pci_irq_table[(slot + pin - 2) % 4];
+-+		return pci_irq_table[(slot + pin - 2) % IRQ_LINES];
+- 
+- 	return -1;
+- }
+---- a/arch/arm/mach-ixp4xx/miccpt-pci.c
+-+++ b/arch/arm/mach-ixp4xx/miccpt-pci.c
+-@@ -54,7 +54,7 @@ static int __init miccpt_map_irq(const s
+- 	};
+- 
+- 	if (slot >= 1 && slot <= MAX_DEV && pin >= 1 && pin <= IRQ_LINES)
+--		return pci_irq_table[(slot + pin - 2) % 4];
+-+		return pci_irq_table[(slot + pin - 2) % IRQ_LINES];
+- 
+- 	return -1;
+- }

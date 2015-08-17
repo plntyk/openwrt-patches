@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/xburst/n526/target.mk	2015-08-15 05:48:44.148464368 +0200
++++ witi-openwrt/target/linux/xburst/n526/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-BOARDNAME:=Hanvon N526 e-book reader
+-DEFAULT_PACKAGES += \
+-	kmod-sound-core \
+-	kmod-sound-soc-core \
+-	kmod-sound-soc-jz4740 \
+-	kmod-sound-soc-jz4740-codec \
+-	kmod-sound-soc-n516 \

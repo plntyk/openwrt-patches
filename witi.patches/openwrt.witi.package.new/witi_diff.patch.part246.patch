@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-ahcp/root/etc/uci-defaults/luci-ahcp	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-ahcp/root/etc/uci-defaults/luci-ahcp	2015-08-15 05:39:10.051808055 +0200
+@@ -0,0 +1,11 @@
++#!/bin/sh
++
++uci -q batch <<-EOF >/dev/null
++	delete ucitrack.@ahcpd[-1]
++	add ucitrack ahcpd
++	set ucitrack.@ahcpd[-1].init=ahcpd
++	commit ucitrack
++EOF
++
++rm -f /tmp/luci-indexcache
++exit 0

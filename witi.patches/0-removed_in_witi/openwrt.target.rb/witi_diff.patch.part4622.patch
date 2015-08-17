@@ -1,0 +1,20 @@
+--- openwrt.bb/openwrt/target/linux/rb532/base-files/etc/diag.sh	2015-08-15 05:48:44.141797701 +0200
++++ witi-openwrt/target/linux/rb532/base-files/etc/diag.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,17 +0,0 @@
+-#!/bin/sh
+-# Copyright (C) 2007-2013 OpenWrt.org
+-
+-. /lib/functions/leds.sh
+-
+-status_led="rb500led:amber"
+-
+-set_state() {
+-	case "$1" in
+-	preinit)
+-		status_led_on
+-		;;
+-	done)
+-		status_led_off
+-		;;
+-	esac
+-}

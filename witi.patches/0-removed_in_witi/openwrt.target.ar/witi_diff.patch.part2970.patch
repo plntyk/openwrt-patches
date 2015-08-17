@@ -1,0 +1,19 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/mikrotik/profiles/02-ath5k.mk	2015-08-15 05:48:43.785131041 +0200
++++ witi-openwrt/target/linux/ar71xx/mikrotik/profiles/02-ath5k.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,16 +0,0 @@
+-#
+-# Copyright (C) 2009-2012 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Ath5k
+-	NAME:=Atheros WiFi (ath5k)
+-	PACKAGES:=kmod-ath5k -kmod-ath9k
+-endef
+-
+-define Profile/Ath5k/Description
+-	Package set compatible with hardware using Atheros WiFi cards.
+-endef
+-$(eval $(call Profile,Ath5k))

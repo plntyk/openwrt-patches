@@ -1,0 +1,13 @@
+--- openwrt.bb/openwrt/target/linux/mpc85xx/patches-3.10/001-powerpc-85xx-add-gpio-keys-to-of-match-table.patch	2015-08-15 05:48:44.111797702 +0200
++++ witi-openwrt/target/linux/mpc85xx/patches-3.10/001-powerpc-85xx-add-gpio-keys-to-of-match-table.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,10 +0,0 @@
+---- a/arch/powerpc/platforms/85xx/common.c
+-+++ b/arch/powerpc/platforms/85xx/common.c
+-@@ -27,6 +27,7 @@ static struct of_device_id __initdata mp
+- 	{ .compatible = "fsl,mpc8548-guts", },
+- 	/* Probably unnecessary? */
+- 	{ .compatible = "gpio-leds", },
+-+	{ .compatible = "gpio-keys", },
+- 	/* For all PCI controllers */
+- 	{ .compatible = "fsl,mpc8540-pci", },
+- 	{ .compatible = "fsl,mpc8548-pcie", },

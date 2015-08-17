@@ -1,0 +1,27 @@
+--- openwrt.bb/openwrt/target/linux/ar71xx/image/ubinize-nbg6716.ini	2015-08-15 05:48:43.785131041 +0200
++++ witi-openwrt/target/linux/ar71xx/image/ubinize-nbg6716.ini	1970-01-01 01:00:00.000000000 +0100
+@@ -1,24 +0,0 @@
+-[rootfs]
+-# Volume mode (other option is static)
+-mode=ubi
+-# Source image
+-image=ubi_root.img
+-# Volume ID in UBI image
+-vol_id=0
+-# Allow for dynamic resize
+-vol_type=dynamic
+-# Volume name
+-vol_name=rootfs
+-
+-[rootfs_data]
+-# Volume mode (other option is static)
+-mode=ubi
+-# Volume ID in UBI image
+-vol_id=1
+-# Allow for dynamic resize
+-vol_type=dynamic
+-# Volume name
+-vol_name=rootfs_data
+-# Autoresize volume at first mount
+-vol_size=1MiB
+-vol_flags=autoresize

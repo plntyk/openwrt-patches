@@ -1,0 +1,133 @@
+--- openwrt.bb/openwrt/target/linux/ramips/patches/3002-MQ-fix-i2c-issue.patch	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/target/linux/ramips/patches/3002-MQ-fix-i2c-issue.patch	2015-08-15 05:39:10.258474717 +0200
+@@ -0,0 +1,130 @@
++From b191e35c998bd762f589b94504a5b07bcc861cba Mon Sep 17 00:00:00 2001
++From: benn <benn@mqmaker.com>
++Date: Tue, 12 May 2015 09:38:35 +0800
++Subject: [PATCH 2/3] MQWiti: fix i2c issue 1. rm dts support 2. enable rtc i2c
++ device
++
++---
++ arch/mips/ralink/Makefile       |  2 +-
++ arch/mips/ralink/dev-i2c.c      | 22 ++--------------------
++ drivers/i2c/busses/i2c-mt7621.c | 20 ++++++++------------
++ 3 files changed, 11 insertions(+), 33 deletions(-)
++
++diff --git a/arch/mips/ralink/Makefile b/arch/mips/ralink/Makefile
++index 6f19e57..f6bcab4 100644
++--- a/arch/mips/ralink/Makefile
+++++ b/arch/mips/ralink/Makefile
++@@ -14,7 +14,7 @@
++ 	$(CC) $(CFLAGS) -c $< -o $*.o
++ 
++ obj-y    := reset.o init.o irq.o \
++-            memory.o printf.o cmdline.o setup.o time.o
+++            memory.o printf.o cmdline.o setup.o time.o dev-i2c.o
++ 
++ ifeq ($(CONFIG_MIPS_MT_SMP),y)
++ 	obj-y += malta-amon.o
++diff --git a/arch/mips/ralink/dev-i2c.c b/arch/mips/ralink/dev-i2c.c
++index f9e04d1..e2d09da 100644
++--- a/arch/mips/ralink/dev-i2c.c
+++++ b/arch/mips/ralink/dev-i2c.c
++@@ -5,26 +5,11 @@
++ #include <linux/i2c.h>
++ #include <asm/mach-ralink/rt_mmap.h>
++ 
++-static struct at24_platform_data at24_config = {
++-	.byte_len	= 0x400 / 8,
++-	.page_size	= 8,
++-};
++-
++ static struct i2c_board_info i2c_info[] __initconst =  {
++ 	{	
++-		I2C_BOARD_INFO("24c01", 0x50),
++-		.platform_data	= &at24_config,
++-	},
++-};
++-
++-#if 0
++-static struct i2c_board_info __initdata mpc8313_i2c_devices[] = {
++-	{ I2C_BOARD_INFO("rtc-ds1307", 0x68),
++-	  .type = "ds1339",
++-	  /* REVISIT .irq = IRQ4 ... this RTC has an alarm */
+++		I2C_BOARD_INFO("pcf8563", 0x51),
++ 	},
++ };
++-#endif
++ 
++ static struct resource i2c_resources[] = {
++ 	{
++@@ -35,7 +20,7 @@ static struct resource i2c_resources[] = {
++ };
++ 
++ static struct platform_device ralink_i2c_device = {
++-	.name		= "Ralink-I2C",
+++	.name		= "i2c-mt7621",
++ 	.id		= 0,
++ 	.num_resources	= ARRAY_SIZE(i2c_resources),
++ 	.resource	= i2c_resources,
++@@ -48,9 +33,6 @@ int __init ralink_i2c_register(void)
++ 
++ 	platform_device_register(&ralink_i2c_device);
++ 	i2c_register_board_info(0, i2c_info, ARRAY_SIZE(i2c_info));
++-#if 0
++-	i2c_register_board_info(0, mpc8313_i2c_devices, ARRAY_SIZE(mpc8313_i2c_devices));
++-#endif
++ 
++ 	return 0;
++ }
++diff --git a/drivers/i2c/busses/i2c-mt7621.c b/drivers/i2c/busses/i2c-mt7621.c
++index fe36e2a..6659e68 100644
++--- a/drivers/i2c/busses/i2c-mt7621.c
+++++ b/drivers/i2c/busses/i2c-mt7621.c
++@@ -237,9 +237,14 @@ static int rt_i2c_probe(struct platform_device *pdev)
++ 		dev_err(&pdev->dev, "failed to allocate i2c_adapter\n");
++ 		return -ENOMEM;
++ 	}
++-	membase = devm_ioremap_resource(&pdev->dev, res);
++-	if (IS_ERR(membase))
++-		return PTR_ERR(membase);
+++
+++
+++	if (!request_mem_region(RALINK_I2C_BASE, resource_size(res), pdev->name)) {
+++		ret = -EBUSY;
+++		dev_err(&pdev->dev, "failed to request memory region\n");
+++		return ret;
+++	}
+++	membase = RALINK_I2C_BASE;
++ 
++ 	strlcpy(adapter->name, dev_name(&pdev->dev), sizeof(adapter->name));
++ 
++@@ -249,7 +254,6 @@ static int rt_i2c_probe(struct platform_device *pdev)
++ 	adapter->algo = &rt_i2c_algo;
++ 	adapter->class = I2C_CLASS_HWMON | I2C_CLASS_SPD;
++ 	adapter->dev.parent = &pdev->dev;
++-	adapter->dev.of_node = pdev->dev.of_node;
++ 
++ 	platform_set_drvdata(pdev, adapter);
++ 	
++@@ -268,20 +272,12 @@ static int rt_i2c_remove(struct platform_device *pdev)
++ 	return 0;
++ }
++ 
++-static const struct of_device_id i2c_rt_dt_ids[] = {
++-	{ .compatible = "ralink,i2c-mt7621", },
++-	{ /* sentinel */ }
++-};
++-
++-MODULE_DEVICE_TABLE(of, i2c_rt_dt_ids);
++-
++ static struct platform_driver rt_i2c_driver = {
++ 	.probe		= rt_i2c_probe,
++ 	.remove		= rt_i2c_remove,
++ 	.driver		= {
++ 		.owner	= THIS_MODULE,
++ 		.name	= "i2c-mt7621",
++-		.of_match_table = i2c_rt_dt_ids,
++ 	},
++ };
++ 
++-- 
++1.9.1
++

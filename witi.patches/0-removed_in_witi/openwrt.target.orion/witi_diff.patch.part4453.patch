@@ -1,0 +1,17 @@
+--- openwrt.bb/openwrt/target/linux/orion/generic/target.mk	2015-08-15 05:48:44.115131035 +0200
++++ witi-openwrt/target/linux/orion/generic/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,14 +0,0 @@
+-#
+-# Copyright (C) 2008-2010 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-BOARDNAME:=Generic
+-FEATURES:=squashfs
+-
+-define Target/Description
+-	Build firmware images for Marvell Orion based boards that boot from internal flash.
+-	(e.g.: Linksys WRT350N v2, Netgear WNR854T, ...)
+-endef

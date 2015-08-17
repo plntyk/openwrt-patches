@@ -1,0 +1,22 @@
+--- openwrt.bb/openwrt/target/linux/ixp4xx/generic/profiles/500-USR8200.mk	2015-08-15 05:48:44.058464370 +0200
++++ witi-openwrt/target/linux/ixp4xx/generic/profiles/500-USR8200.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,19 +0,0 @@
+-#
+-# Copyright (C) 2006-2008 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/USR8200
+-  NAME:=USRobotics USR8200
+-  PACKAGES:=-wpad-mini kmod-scsi-core \
+-	kmod-usb-core kmod-usb-uhci kmod-usb2 kmod-usb-storage \
+-	kmod-fs-ext4 kmod-firewire kmod-firewire-ohci kmod-firewire-sbp2
+-endef
+-
+-define Profile/USR8200/Description
+-	Package set optimized for the USRobotics USR8200
+-endef
+-$(eval $(call Profile,USR8200))
+-

@@ -1,0 +1,24 @@
+--- openwrt.bb/openwrt/target/linux/imx6/patches-3.10/0022-regulator-pfuze100-add-MODULE_LICENSE-in-pfuze100-dr.patch	2015-08-15 05:48:44.058464370 +0200
++++ witi-openwrt/target/linux/imx6/patches-3.10/0022-regulator-pfuze100-add-MODULE_LICENSE-in-pfuze100-dr.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-From: Robin Gong <b38343@freescale.com>
+-Subject: [PATCH] regulator: pfuze100: add MODULE_LICENSE() in pfuze100 driver
+-
+-Fix building error on x86_64 and i386:
+-WARNING: modpost: missing MODULE_LICENSE() in
+-drivers/regulator/pfuze100-regulator.o
+-
+-Signed-off-by: Robin Gong <b38343@freescale.com>
+-Signed-off-by: Mark Brown <broonie@linaro.org>
+----
+- drivers/regulator/pfuze100-regulator.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+---- a/drivers/regulator/pfuze100-regulator.c
+-+++ b/drivers/regulator/pfuze100-regulator.c
+-@@ -451,4 +451,5 @@ module_i2c_driver(pfuze_driver);
+- 
+- MODULE_AUTHOR("Robin Gong <b38343@freescale.com>");
+- MODULE_DESCRIPTION("Regulator Driver for Freescale PFUZE100 PMIC");
+-+MODULE_LICENSE("GPL v2");
+- MODULE_ALIAS("pfuze100-regulator");

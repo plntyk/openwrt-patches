@@ -1,0 +1,31 @@
+--- openwrt.bb/openwrt/target/linux/ar7/patches-3.10/500-serial_kludge.patch	2015-08-15 05:48:43.771797708 +0200
++++ witi-openwrt/target/linux/ar7/patches-3.10/500-serial_kludge.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,28 +0,0 @@
+---- a/drivers/tty/serial/8250/8250_core.c
+-+++ b/drivers/tty/serial/8250/8250_core.c
+-@@ -323,6 +323,13 @@ static const struct serial8250_config ua
+- 		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_10,
+- 		.flags		= UART_CAP_FIFO | UART_CAP_AFE,
+- 	},
+-+	[PORT_AR7] = {
+-+		.name		= "TI-AR7",
+-+		.fifo_size	= 16,
+-+		.tx_loadsz	= 16,
+-+		.fcr		= UART_FCR_ENABLE_FIFO | UART_FCR_R_TRIG_00,
+-+		.flags		= UART_CAP_FIFO | UART_CAP_AFE,
+-+	},
+- };
+- 
+- /* Uart divisor latch read */
+-@@ -2843,7 +2850,11 @@ static void serial8250_console_putchar(s
+- 	struct uart_8250_port *up =
+- 		container_of(port, struct uart_8250_port, port);
+- 
+-+#ifdef CONFIG_AR7
+-+	wait_for_xmitr(up, BOTH_EMPTY);
+-+#else
+- 	wait_for_xmitr(up, UART_LSR_THRE);
+-+#endif
+- 	serial_port_out(port, UART_TX, ch);
+- }
+- 

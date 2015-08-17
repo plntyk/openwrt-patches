@@ -1,0 +1,34 @@
+--- openwrt.bb/openwrt/target/linux/ramips/base-files/etc/uci-defaults/02_network	2015-08-15 05:48:44.118464369 +0200
++++ witi-openwrt/target/linux/ramips/base-files/etc/uci-defaults/02_network	2015-08-15 05:39:10.248474718 +0200
+@@ -55,7 +55,6 @@ ramips_setup_interfaces()
+                 ucidef_set_interface_lan "eth0.2"
+                 ;;
+ 
+-	mlwg2 | \
+ 	wl-330n | \
+ 	wmr300)
+ 		ucidef_set_interface_lan "eth0.1"
+@@ -198,6 +197,12 @@ ramips_setup_interfaces()
+ 		ucidef_set_interface_lan "eth0"
+ 		;;
+ 
++	witi)
++		ucidef_set_interfaces_lan_wan "eth0.2" "eth0.1"
++		ucidef_add_switch "switch0" "1" "1"
++		ucidef_add_switch_vlan "switch0" "2" "0 1 2 3 6t"
++		ucidef_add_switch_vlan "switch0" "1" "4 6t"
++		;;
+ 	*)
+ 		RT3X5X=`cat /proc/cpuinfo | egrep "(RT3.5|RT5350)"`
+ 		if [ -n "${RT3X5X}" ]; then
+@@ -287,6 +292,10 @@ ramips_setup_macs()
+ 	wnce2001)
+ 		wan_mac=$(mtd_get_mac_binary factory 46)
+ 		;;
++	ralink-soc)
++		lan_mac=$(eth_mac r lan)
++                wan_mac=$(eth_mac r wan)
++                ;;
+ 
+ 	*)
+ 		lan_mac=$(cat /sys/class/net/eth0/address)

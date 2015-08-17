@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/xway/profiles/aztech.mk	2015-08-15 05:48:44.108464368 +0200
++++ witi-openwrt/target/linux/lantiq/xway/profiles/aztech.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-define Profile/GR7000
+-  NAME:=Aztech GR7000
+-  PACKAGES:= \
+-	kmod-ltq-deu-ar9 kmod-ltq-hcd-ar9 \
+-	swconfig
+-endef
+-$(eval $(call Profile,GR7000))

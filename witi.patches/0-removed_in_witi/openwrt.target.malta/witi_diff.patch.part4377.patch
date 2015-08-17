@@ -1,0 +1,12 @@
+--- openwrt.bb/openwrt/target/linux/malta/be/config-default	2015-08-15 05:48:44.108464368 +0200
++++ witi-openwrt/target/linux/malta/be/config-default	1970-01-01 01:00:00.000000000 +0100
+@@ -1,9 +0,0 @@
+-CONFIG_CPU_BIG_ENDIAN=y
+-# CONFIG_CPU_LITTLE_ENDIAN is not set
+-CONFIG_CPU_MIPS32=y
+-# CONFIG_CPU_MIPS32_R1 is not set
+-CONFIG_CPU_MIPS32_R2=y
+-# CONFIG_CPU_MIPS64_R1 is not set
+-# CONFIG_CPU_MIPS64_R2 is not set
+-CONFIG_CPU_SUPPORTS_32BIT_KERNEL=y
+-# CONFIG_HAVE_64BIT_ALIGNED_ACCESS is not set

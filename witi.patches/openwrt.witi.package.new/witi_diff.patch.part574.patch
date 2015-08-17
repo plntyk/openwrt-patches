@@ -1,0 +1,4 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-splash/root/etc/config/luci_splash_leases	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-splash/root/etc/config/luci_splash_leases	2015-08-15 05:39:10.075141387 +0200
+@@ -0,0 +1 @@
++# This file should always stay empty and is just needed to be able to use this config in /var/state!

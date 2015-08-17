@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr-viz/luasrc/controller/olsr-viz.lua	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-olsr-viz/luasrc/controller/olsr-viz.lua	2015-08-15 05:39:10.065141388 +0200
+@@ -0,0 +1,5 @@
++module "luci.controller.olsr-viz"
++
++function index()
++	entry({"admin", "status", "olsr", "olsr-viz"}, template("olsr-viz/olsr-viz"), _("OLSR-Viz"), 90)
++end

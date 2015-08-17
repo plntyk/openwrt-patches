@@ -1,0 +1,31 @@
+--- openwrt.bb/openwrt/target/linux/avr32/base-files/lib/upgrade/platform.sh	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/avr32/base-files/lib/upgrade/platform.sh	1970-01-01 01:00:00.000000000 +0100
+@@ -1,28 +0,0 @@
+-#
+-# Copyright (C) 2013 OpenWrt.org
+-#
+-
+-PART_NAME=firmware
+-
+-platform_check_image() {
+-	local magic="$(get_magic_long "$1")"
+-
+-	[ "$#" -gt 1 ] && return 1
+-
+-	[ "$magic" != "27051956" ] && {
+-		echo "Invalid image type."
+-		return 1
+-	}
+-
+-	return 0
+-}
+-
+-disable_watchdog() {
+-	killall watchdog
+-	( ps | grep -v 'grep' | grep '/dev/watchdog' ) && {
+-		echo 'Could not disable watchdog'
+-		return 1
+-	}
+-}
+-
+-append sysupgrade_pre_upgrade disable_watchdog

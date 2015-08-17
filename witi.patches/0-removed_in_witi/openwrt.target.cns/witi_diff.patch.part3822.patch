@@ -1,0 +1,23 @@
+--- openwrt.bb/openwrt/target/linux/cns3xxx/patches-3.10/085-ethernet_support.patch	2015-08-15 05:48:43.981797704 +0200
++++ witi-openwrt/target/linux/cns3xxx/patches-3.10/085-ethernet_support.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,20 +0,0 @@
+---- a/drivers/net/ethernet/Kconfig
+-+++ b/drivers/net/ethernet/Kconfig
+-@@ -32,6 +32,7 @@ source "drivers/net/ethernet/calxeda/Kco
+- source "drivers/net/ethernet/chelsio/Kconfig"
+- source "drivers/net/ethernet/cirrus/Kconfig"
+- source "drivers/net/ethernet/cisco/Kconfig"
+-+source "drivers/net/ethernet/cavium/Kconfig"
+- source "drivers/net/ethernet/davicom/Kconfig"
+- 
+- config DNET
+---- a/drivers/net/ethernet/Makefile
+-+++ b/drivers/net/ethernet/Makefile
+-@@ -15,6 +15,7 @@ obj-$(CONFIG_NET_BFIN) += adi/
+- obj-$(CONFIG_NET_VENDOR_BROADCOM) += broadcom/
+- obj-$(CONFIG_NET_VENDOR_BROCADE) += brocade/
+- obj-$(CONFIG_NET_CALXEDA_XGMAC) += calxeda/
+-+obj-$(CONFIG_NET_VENDOR_CAVIUM) += cavium/
+- obj-$(CONFIG_NET_VENDOR_CHELSIO) += chelsio/
+- obj-$(CONFIG_NET_VENDOR_CIRRUS) += cirrus/
+- obj-$(CONFIG_NET_VENDOR_CISCO) += cisco/

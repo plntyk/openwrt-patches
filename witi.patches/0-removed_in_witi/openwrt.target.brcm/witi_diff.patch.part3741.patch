@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/smp/target.mk	2015-08-15 05:48:43.968464371 +0200
++++ witi-openwrt/target/linux/brcm63xx/smp/target.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-BOARDNAME:=smp
+-
+-define Target/Description
+-	Build firmware images for BCM63XX boards with SMP support.
+-	Currently only BCM6362 and BCM6368 supported.
+-endef
+-
+-

@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/docsrc/nixio.CryptoHash.lua	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/docsrc/nixio.CryptoHash.lua	2015-08-15 05:39:10.108474720 +0200
+@@ -0,0 +1,17 @@
++--- Cryptographical Hash and HMAC object.
++-- @cstyle	instance
++module "nixio.CryptoHash"
++
++--- Add another chunk of data to be hashed.
++-- @class function
++-- @name CryptoHash.update
++-- @param chunk Chunk of data
++-- @return CryptoHash object (self)
++
++--- Finalize the hash and return the digest.
++-- @class function
++-- @name CryptoHash.final
++-- @usage You cannot call update on a hash object that was already finalized
++-- you can however call final multiple times to get the digest.
++-- @return	hexdigest
++-- @return  buffer containing binary digest
+\ No newline at end of file

@@ -1,0 +1,21 @@
+--- openwrt.bb/openwrt/target/linux/brcm47xx/generic/profiles/215-Broadcom-tg3-none.mk	2015-08-15 05:48:43.948464371 +0200
++++ witi-openwrt/target/linux/brcm47xx/generic/profiles/215-Broadcom-tg3-none.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,18 +0,0 @@
+-#
+-# Copyright (C) 2006-2013 OpenWrt.org
+-#
+-# This is free software, licensed under the GNU General Public License v2.
+-# See /LICENSE for more information.
+-#
+-
+-define Profile/Broadcom-tg3-none
+-  NAME:=Broadcom SoC, tg3 Ethernet, no WiFi
+-  PACKAGES:=-wpad-mini kmod-tg3
+-endef
+-
+-define Profile/Broadcom-tg3-none/Description
+-	Package set compatible with hardware Broadcom BCM4705/BCM4785
+-	SoC without any Wifi cards and tg3 Ethernet driver.
+-endef
+-$(eval $(call Profile,Broadcom-tg3-none))
+-

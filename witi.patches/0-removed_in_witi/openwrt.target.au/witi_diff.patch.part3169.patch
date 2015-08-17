@@ -1,0 +1,7 @@
+--- openwrt.bb/openwrt/target/linux/au1000/au1550/config-default	2015-08-15 05:48:43.801797708 +0200
++++ witi-openwrt/target/linux/au1000/au1550/config-default	1970-01-01 01:00:00.000000000 +0100
+@@ -1,4 +0,0 @@
+-CONFIG_DMA_COHERENT=y
+-CONFIG_MIPS_DB1550=y
+-CONFIG_MIPS_DISABLE_OBSOLETE_IDE=y
+-# CONFIG_MIPS_MTX1 is not set

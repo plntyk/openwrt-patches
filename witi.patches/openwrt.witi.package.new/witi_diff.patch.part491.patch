@@ -1,0 +1,18 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/extensions_incoming_context_gtalk.conf.TEMPLATE	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-pbx/root/etc/pbx-asterisk/extensions_incoming_context_gtalk.conf.TEMPLATE	2015-08-15 05:39:10.071808055 +0200
+@@ -0,0 +1,15 @@
++exten => |USERNAME|,1,NoOp(${CALLERID})
++same => n,Set(CALLERID(name)=${CUT(CALLERID(name),@,1)})
++same => n,GotoIf($["${CALLERID(name):0:2}" != "+1"]?notrim)
++same => n,Set(CALLERID(name)=${CALLERID(name):2})
++same => n(notrim),Set(CALLERID(number)=${CALLERID(name)})
++same => n,Set(SOURCECONTEXT=context-incoming-gtalk)
++same => n,Set(SOURCEEXTEN=|USERNAME|)
++same => n,Goto(blacklist-call-context,s,1)
++same => n(doneblacklist),NoOp()
++same => n,Goto(callback-check-call-context,s,1)
++same => n(donecallback),NoOp()
++same => n,Goto(disa-check-call-context,s,1)
++same => n(donedisacheck),Dial(|LOCALUSERS|,${RINGTIME},D(:w11111111))
++same => n,Goto(context-voicemail,s,1)
++

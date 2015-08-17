@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/target/linux/ar7/base-files.mk	2015-08-15 05:48:43.768464375 +0200
++++ witi-openwrt/target/linux/ar7/base-files.mk	1970-01-01 01:00:00.000000000 +0100
+@@ -1,11 +0,0 @@
+-define Build/Compile
+-	$(call Build/Compile/Default)
+-	$(TARGET_CC) -o $(PKG_BUILD_DIR)/adam2patcher $(PLATFORM_DIR)/src/adam2patcher.c
+-endef
+-
+-define Package/base-files/install-target
+-	mkdir -p $(1)/sbin
+-	$(CP) $(PKG_BUILD_DIR)/adam2patcher $(1)/sbin
+-endef
+-
+-

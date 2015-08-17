@@ -1,0 +1,15 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_schwarzach	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/community-profiles/files/etc/config/profile_schwarzach	2015-08-15 05:39:10.085141388 +0200
+@@ -0,0 +1,12 @@
++config 'community' 'profile'
++	option 'name' 'Freifunk Schwarzach'
++	option 'homepage' 'http://schwarzach.freifunk.net'
++	option 'ssid' 'schwarzach.freifunk.net'
++	option 'mesh_network' '10.81.0.0/20'
++	option 'splash_network' '10.104.0.0/16'
++	option 'latitude' '49.373'
++	option 'longitude' '8.983'
++	option 'splash_prefix' '27'
++
++config 'defaults' 'interface'
++	option 'netmask' '255.255.240.0'

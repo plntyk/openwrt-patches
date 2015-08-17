@@ -1,0 +1,24 @@
+--- openwrt.bb/openwrt/target/linux/brcm63xx/patches-3.10/900-spi-bcm63xx-hsspi-make-it-compile-with-3.10.patch	2015-08-15 05:48:43.968464371 +0200
++++ witi-openwrt/target/linux/brcm63xx/patches-3.10/900-spi-bcm63xx-hsspi-make-it-compile-with-3.10.patch	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-From 69c15bfd4b9b78ab8f0dd9a2c0902bcc5d4f02e4 Mon Sep 17 00:00:00 2001
+-From: Jonas Gorski <jogo@openwrt.org>
+-Date: Sun, 1 Dec 2013 13:07:35 +0100
+-Subject: [PATCH] spi/bcm63xx-hsspi: make it compile with 3.10
+-
+----
+- drivers/spi/spi-bcm63xx-hsspi.c | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+---- a/drivers/spi/spi-bcm63xx-hsspi.c
+-+++ b/drivers/spi/spi-bcm63xx-hsspi.c
+-@@ -375,8 +375,7 @@ static int bcm63xx_hsspi_probe(struct pl
+- 	master->setup = bcm63xx_hsspi_setup;
+- 	master->transfer_one_message = bcm63xx_hsspi_transfer_one;
+- 	master->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH;
+--	master->bits_per_word_mask = SPI_BPW_MASK(8);
+--	master->auto_runtime_pm = true;
+-+	master->bits_per_word_mask = BIT(8 - 1);
+- 
+- 	platform_set_drvdata(pdev, master);
+- 

@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/package/libs/openssl/patches/140-makefile-dirs.patch	2015-08-15 05:48:43.551797713 +0200
++++ witi-openwrt/package/libs/openssl/patches/140-makefile-dirs.patch	2015-08-15 05:39:09.981808055 +0200
+@@ -1,6 +1,6 @@
+ --- a/Makefile.org
+ +++ b/Makefile.org
+-@@ -136,7 +136,7 @@ FIPSCANLIB=
++@@ -135,7 +135,7 @@ FIPSCANLIB=
+  
+  BASEADDR=
+  

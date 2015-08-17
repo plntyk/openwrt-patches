@@ -1,0 +1,5 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/axTLS/www/test_dir/no_http/.htpasswd	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/libs/nixio/axTLS/www/test_dir/no_http/.htpasswd	2015-08-15 05:39:10.108474720 +0200
+@@ -0,0 +1,2 @@
++abcd:CQhgDPyy0rvEU8OMxnQIvg==$YdJfIKZimFLYxPf/rbnhtQ==
++yaya:Syuss5jE2FNGVdr0kKGoHg==$WLw/SgHZFuAoOuml3GTJVw==

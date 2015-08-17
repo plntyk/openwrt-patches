@@ -1,0 +1,11 @@
+--- openwrt.bb/openwrt/target/linux/cns3xxx/files/arch/arm/mach-cns3xxx/include/mach/smp.h	2015-08-15 05:48:43.971797705 +0200
++++ witi-openwrt/target/linux/cns3xxx/files/arch/arm/mach-cns3xxx/include/mach/smp.h	1970-01-01 01:00:00.000000000 +0100
+@@ -1,8 +0,0 @@
+-#ifndef __MACH_SMP_H
+-#define __MACH_SMP_H
+-
+-extern void smp_dma_map_area(const void *, size_t, int);
+-extern void smp_dma_unmap_area(const void *, size_t, int);
+-extern void smp_dma_flush_range(const void *, const void *);
+-
+-#endif

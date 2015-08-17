@@ -1,0 +1,46 @@
+--- openwrt.bb/openwrt/package/ramips/drivers/exfat-nofuse/config.in	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/drivers/exfat-nofuse/config.in	2015-08-15 05:39:10.048474721 +0200
+@@ -0,0 +1,43 @@
++if PACKAGE_kmod-exfat-nofuse
++config EXFAT_FS
++    tristate #"exFAT fs support"
++    default m
++    select NLS
++    depends on PACKAGE_kmod-exfat-nofuse
++    help
++      This adds support for the exFAT file system.
++
++config EXFAT_DISCARD
++    bool "enable discard support"
++    depends on EXFAT_FS
++    default y
++
++config EXFAT_DELAYED_SYNC
++    bool "enable delayed sync"
++    depends on EXFAT_FS
++    default n
++
++config EXFAT_KERNEL_DEBUG
++    bool "enable kernel debug features via ioctl"
++    depends on EXFAT_FS
++    default n
++
++config EXFAT_DEBUG_MSG
++    bool "print debug messages"
++    depends on EXFAT_FS
++    default n
++
++config EXFAT_DEFAULT_CODEPAGE
++    int "Default codepage for exFAT"
++    default 437
++    depends on EXFAT_FS
++    help
++      This option should be set to the codepage of your exFAT filesystems.
++
++config EXFAT_DEFAULT_IOCHARSET
++    string "Default iocharset for exFAT"
++    default "utf8"
++    depends on EXFAT_FS
++    help
++      Set this to the default input/output character set you'd like exFAT to use.
++endif

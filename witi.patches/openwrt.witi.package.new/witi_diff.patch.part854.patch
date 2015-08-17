@@ -1,0 +1,14 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/contrib/package/meshwizard/files/usr/bin/meshwizard/helpers/restore_default_config.sh	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/contrib/package/meshwizard/files/usr/bin/meshwizard/helpers/restore_default_config.sh	2015-08-15 05:39:10.088474720 +0200
+@@ -0,0 +1,11 @@
++#!/bin/sh
++# This will restore default "factory" settings before running the meshwizard
++# and is used when cleanup=1
++# Warning: This will reset network settings for wan and lan to defaults too.
++
++echo "+ Restore default config as requested with cleanup=1"
++cp -f /rom/etc/config/* /etc/config/
++rm /etc/config/wireless
++wifi detect > /etc/config/wireless
++rm /etc/config/network
++/etc/init.d/defconfig start

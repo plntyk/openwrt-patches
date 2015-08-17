@@ -1,0 +1,8 @@
+--- openwrt.bb/openwrt/package/ramips/ui/luci-mtk/src/applications/luci-splash/README	1970-01-01 01:00:00.000000000 +0100
++++ witi-openwrt/package/ramips/ui/luci-mtk/src/applications/luci-splash/README	2015-08-15 05:39:10.071808055 +0200
+@@ -0,0 +1,5 @@
++
++* IPv6 support is only partial:
++  - will only work when used together with IPv4 (Dual stack)
++  - No bandwidth limiting
++

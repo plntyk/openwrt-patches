@@ -1,0 +1,10 @@
+--- openwrt.bb/openwrt/target/linux/lantiq/base-files/etc/init.d/esi	2015-08-15 05:48:44.091797703 +0200
++++ witi-openwrt/target/linux/lantiq/base-files/etc/init.d/esi	1970-01-01 01:00:00.000000000 +0100
+@@ -1,7 +0,0 @@
+-#!/bin/sh /etc/rc.common
+-# Copyright (C) 2013 OpenWrt.org
+-
+-START=19
+-start() {
+-	esi $(printf '%X' $((1+0x$(tr -d : </sys/class/net/eth0/address)))) 2>/dev/null || :
+-}
