@@ -1,0 +1,27 @@
+From f4d3a0efee9f899ceaf8d4260caec50b0e9cb319 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:06:40 +0200
+Subject: [PATCH 168/310] [packages] libgphoto2: disable bonjour
+
+disable errors on missing dns_sd headers
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libgphoto2/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libs/libgphoto2/Makefile b/libs/libgphoto2/Makefile
+index b5c4987..a42b1f2 100644
+--- a/libs/libgphoto2/Makefile
++++ b/libs/libgphoto2/Makefile
+@@ -49,6 +49,7 @@ CONFIGURE_ARGS += \
+ 	--without-included-ltdl \
+ 	--without-libiconv-prefix \
+ 	--without-libintl-prefix \
++	--without-bonjour
+ 
+ CONFIGURE_VARS += \
+ 	CPPFLAGS="$$$$CPPFLAGS $(ICONV_CFLAGS)" \
+-- 
+2.5.0
+

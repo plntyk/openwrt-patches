@@ -1,0 +1,25 @@
+From f759e45b5bb06cf109b5c82d553c375de62019a4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:29:41 +0200
+Subject: [PATCH 073/310] libvncserver: fix build with gnutls
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libvncserver/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libs/libvncserver/Makefile b/libs/libvncserver/Makefile
+index 81a2774..dcb9dee 100644
+--- a/libs/libvncserver/Makefile
++++ b/libs/libvncserver/Makefile
+@@ -41,6 +41,7 @@ CONFIGURE_ARGS += \
+ 	--without-fbpm \
+ 	--without-filetransfer \
+ 	--without-gcrypt \
++	--without-gnutls \
+ 	--without-libva \
+ 	--without-macosx-native \
+ 	--without-ssl \
+-- 
+2.5.0
+

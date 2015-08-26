@@ -1,0 +1,42 @@
+From 07379725fcbba12dbbba472601450605d61c43e8 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:38:31 +0200
+Subject: [PATCH 208/310] [packages] jtg: fix musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/jtg/patches/002-musl_fix_include.patch | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 net/jtg/patches/002-musl_fix_include.patch
+
+diff --git a/net/jtg/patches/002-musl_fix_include.patch b/net/jtg/patches/002-musl_fix_include.patch
+new file mode 100644
+index 0000000..e6019ed
+--- /dev/null
++++ b/net/jtg/patches/002-musl_fix_include.patch
+@@ -0,0 +1,22 @@
++--- a/jtg.h
+++++ b/jtg.h
++@@ -53,7 +53,6 @@
++ #include <setjmp.h>
++ 
++ #ifdef LinuxTCP
++-#include <sys/sysctl.h>
++ #define SIZE(x) sizeof(x)/sizeof(x[0])
++ #endif
++ 
++--- a/jtg_calc.h
+++++ b/jtg_calc.h
++@@ -4,6 +4,9 @@
++ #include <string.h>
++ #include <unistd.h>
++ 
+++#include <sys/time.h>
+++typedef unsigned int uint;
+++
++ #define VERSION "1.41 (28th November, 2006)"
++ 
++ #define TOOLOW(x) (x < (del_avg-jit_mdev))
+-- 
+2.5.0
+

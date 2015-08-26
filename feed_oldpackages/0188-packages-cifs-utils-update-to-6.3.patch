@@ -1,0 +1,32 @@
+From 37203785f6de7bf2a99e22a6e9e6a82632542882 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 16 Jun 2015 12:44:02 +0200
+Subject: [PATCH 188/310] [packages] cifs-utils: update to 6.3
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/cifs-utils/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/cifs-utils/Makefile b/net/cifs-utils/Makefile
+index 743e12b..5c32e91 100644
+--- a/net/cifs-utils/Makefile
++++ b/net/cifs-utils/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=cifs-utils
+-PKG_VERSION:=5.4
++PKG_VERSION:=6.3
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE_URL:=http://ftp.samba.org/pub/linux-cifs/cifs-utils
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+-PKG_MD5SUM:=dde98336c833b59777114145cb8f3c64
++PKG_MD5SUM:=93697dbc043cb4d5c66e15e281f872e5
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+-- 
+2.5.0
+

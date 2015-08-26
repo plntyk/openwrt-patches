@@ -1,0 +1,26 @@
+From 5e7ad3aa5a1d493c48dc50674672ea2c12ce7cb3 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 9 Jul 2015 13:09:26 +0200
+Subject: [PATCH 230/310] crypto-tools: do not build with musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/crypto-tools/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/crypto-tools/Makefile b/utils/crypto-tools/Makefile
+index 1bfcde4..7f3c5b5 100644
+--- a/utils/crypto-tools/Makefile
++++ b/utils/crypto-tools/Makefile
+@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/crypto-tools
+   SECTION:=utils
+   CATEGORY:=Utilities
+-  DEPENDS:=+libopenssl
++  DEPENDS:=+libopenssl @!USE_MUSL
+   TITLE:=OCF-Linux's crypto-tools
+   URL:=http://ocf-linux.sourceforge.net/
+ endef
+-- 
+2.5.0
+

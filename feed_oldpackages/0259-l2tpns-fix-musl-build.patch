@@ -1,0 +1,42 @@
+From 55bf92f104a4cd9ad55636246ce8e12a9a892572 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:01:25 +0200
+Subject: [PATCH 259/310] l2tpns: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/l2tpns/patches/002-musl_fcntl.patch | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 net/l2tpns/patches/002-musl_fcntl.patch
+
+diff --git a/net/l2tpns/patches/002-musl_fcntl.patch b/net/l2tpns/patches/002-musl_fcntl.patch
+new file mode 100644
+index 0000000..0b3af74
+--- /dev/null
++++ b/net/l2tpns/patches/002-musl_fcntl.patch
+@@ -0,0 +1,22 @@
++--- a/cli.c
+++++ b/cli.c
++@@ -24,6 +24,7 @@ char const *cvs_id_cli = "$Id: cli.c,v 1
++ #include <dlfcn.h>
++ #include <netdb.h>
++ #include <libcli.h>
+++#include <fcntl.h>
++ 
++ #include "l2tpns.h"
++ #include "constants.h"
++--- a/cluster.c
+++++ b/cluster.c
++@@ -17,7 +17,9 @@ char const *cvs_id_cluster = "$Id: clust
++ #include <string.h>
++ #include <malloc.h>
++ #include <errno.h>
+++#include <sys/time.h>
++ #include <libcli.h>
+++#include <fcntl.h>
++ 
++ #include "l2tpns.h"
++ #include "cluster.h"
+-- 
+2.5.0
+

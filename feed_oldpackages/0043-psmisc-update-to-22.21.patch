@@ -1,0 +1,72 @@
+From 84d12517f3426513ef7f72b134033e40054f242f Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 2 Apr 2015 01:51:37 +0200
+Subject: [PATCH 043/310] psmisc: update to 22.21
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/psmisc/Makefile | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/utils/psmisc/Makefile b/utils/psmisc/Makefile
+index cd06b08..5d5b051 100644
+--- a/utils/psmisc/Makefile
++++ b/utils/psmisc/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=psmisc
+-PKG_VERSION:=22.16
++PKG_VERSION:=22.21
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=@SF/psmisc
+-PKG_MD5SUM:=d52caf26159c905574c2ce4bd792b9ee
++PKG_MD5SUM:=935c0fd6eb208288262b385fa656f1bf
+ 
+ PKG_FIXUP:=autoreconf
+ PKG_INSTALL:=1
+@@ -29,8 +29,8 @@ define Package/psmisc
+ endef
+ 
+ define Package/psmisc/description
+- psmisc is a set of additional small useful utilities that use
+- the proc filesystem: fuser, killall, pstree, and prtstat
++  psmisc is a set of additional small useful utilities that use the
++  proc filesystem: fuser, killall, pstree, and prtstat
+ endef
+ 
+ CONFIGURE_ARGS += \
+@@ -41,13 +41,6 @@ MAKE_FLAGS += \
+ 	CPPFLAGS="$(TARGET_CPPFLAGS)" \
+ 	LDFLAGS="$(TARGET_LDFLAGS)"
+ 
+-define Package/psmisc/preinst
+-#!/bin/sh
+-if [ -e $${IPKG_INSTROOT}/usr/bin/killall ]; then
+-  rm $${IPKG_INSTROOT}/usr/bin/killall;
+-fi
+-endef
+-
+ define Package/psmisc/install
+ 	$(INSTALL_DIR) $(1)/usr/bin
+ 	$(INSTALL_BIN) \
+@@ -55,6 +48,14 @@ define Package/psmisc/install
+ 		$(1)/usr/bin/
+ endef
+ 
++define Package/psmisc/preinst
++#!/bin/sh
++if [ -L "$${IPKG_INSTROOT}/usr/bin/killall" ] ; then
++rm -f $${IPKG_INSTROOT}/usr/bin/killall;
++fi
++exit 0
++endef
++
+ define Package/psmisc/postrm
+ #!/bin/sh
+ ln -sf ../../bin/busybox $${IPKG_INSTROOT}/usr/bin/killall
+-- 
+2.5.0
+

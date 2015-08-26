@@ -1,0 +1,83 @@
+From 7829c713557b343fe5d8206ce234cda3998b5c6e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 4 May 2015 16:55:56 +0200
+Subject: [PATCH 112/310] mg: update to 20150323
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/mg/Makefile                   |  9 +++------
+ utils/mg/patches/001-musl_fix.patch | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 32 insertions(+), 6 deletions(-)
+ create mode 100644 utils/mg/patches/001-musl_fix.patch
+
+diff --git a/utils/mg/Makefile b/utils/mg/Makefile
+index de5265c..2842e6e 100644
+--- a/utils/mg/Makefile
++++ b/utils/mg/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=mg
+-PKG_VERSION:=20110120
++PKG_VERSION:=20150323
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=http://homepage.boetes.org/software/mg
+-PKG_MD5SUM:=f2fa8016a491aa2a9d4c5698c593f31b
++PKG_MD5SUM:=84deb782c161758a77b57cd0f9ecb3b8
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+@@ -35,12 +35,9 @@ define Package/mg/description
+ endef
+ 
+ define Build/Configure
+-	(cd $(PKG_BUILD_DIR); \
+-		$(TARGET_CONFIGURE_OPTS) \
+-		./configure \
+-	);
+ endef
+ 
++
+ define Build/Compile
+ 	$(MAKE) -C $(PKG_BUILD_DIR) \
+ 		LDFLAGS="$(TARGET_LDFLAGS) -lncurses" \
+diff --git a/utils/mg/patches/001-musl_fix.patch b/utils/mg/patches/001-musl_fix.patch
+new file mode 100644
+index 0000000..8e48a85
+--- /dev/null
++++ b/utils/mg/patches/001-musl_fix.patch
+@@ -0,0 +1,29 @@
++--- a/def.h
+++++ b/def.h
++@@ -13,13 +13,13 @@
++ #include        "chrdef.h"
++ #include        "ttydef.h"
++ 
++-
++ /* necesarry to get asprintf & friends with glibc XXX doesn't work for some
++  * mysterious reason! */
++-#ifdef __GLIBC__
++ #  define _GNU_SOURCE
++ #  define __USE_GNU
++-#endif
+++
+++#include	<unistd.h>
+++#include	<stdlib.h>
++ 
++ #if defined(__APPLE__) || defined(__FreeBSD__)
++ #  define LOGIN_NAME_MAX _POSIX_LOGIN_NAME_MAX
++--- a/dir.c
+++++ b/dir.c
++@@ -15,6 +15,7 @@
++ #include <stdio.h>
++ #include <string.h>
++ #include <unistd.h>
+++#include <ctype.h>
++ 
++ #include "def.h"
++ 
+-- 
+2.5.0
+

@@ -1,0 +1,40 @@
+From 62eb22149d804255e72ad3d81b337e414d7441a4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 8 Jun 2015 13:59:39 +0200
+Subject: [PATCH 163/310] phidget21: fix format-security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/phidget21/patches/001-fix_format_string.patch | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 libs/phidget21/patches/001-fix_format_string.patch
+
+diff --git a/libs/phidget21/patches/001-fix_format_string.patch b/libs/phidget21/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..159e4e6
+--- /dev/null
++++ b/libs/phidget21/patches/001-fix_format_string.patch
+@@ -0,0 +1,20 @@
++--- a/phidget21/pdictclient.c
+++++ b/phidget21/pdictclient.c
++@@ -443,7 +443,7 @@ cmd(pdc_session_t *pdcs, int desired, co
++ 
++ 	if (!(grcba = malloc(sizeof (*grcba)))) {
++ 		if (errdesc)
++-			(void) snprintf(errdesc, errlen, strerror(errno));
+++			(void) snprintf(errdesc, errlen, "%s", strerror(errno));
++ 		return 0;
++ 	}
++ 	r.r_tag = 0;
++@@ -527,7 +527,7 @@ jcmd(pdc_session_t *pdcs, const char *cm
++ 
++ 	if (!(grcba = malloc(sizeof (*grcba)))) {
++ 		if (errdesc)
++-			(void) snprintf(errdesc, errlen, strerror(errno));
+++			(void) snprintf(errdesc, errlen, "%s", strerror(errno));
++ 		return 0;
++ 	}
++ 	r.r_tag = 0;
+-- 
+2.5.0
+

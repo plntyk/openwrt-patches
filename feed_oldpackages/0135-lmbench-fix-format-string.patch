@@ -1,0 +1,31 @@
+From 6524c49a2320da0b72734c4507886d8b8817be72 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:43:25 +0200
+Subject: [PATCH 135/310] lmbench: fix format string
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/lmbench/patches/004-fix_format_string.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 utils/lmbench/patches/004-fix_format_string.patch
+
+diff --git a/utils/lmbench/patches/004-fix_format_string.patch b/utils/lmbench/patches/004-fix_format_string.patch
+new file mode 100644
+index 0000000..75beb3f
+--- /dev/null
++++ b/utils/lmbench/patches/004-fix_format_string.patch
+@@ -0,0 +1,11 @@
++--- a/src/lat_http.c
+++++ b/src/lat_http.c
++@@ -27,7 +27,7 @@ http(char *server, char *file, int prog)
++ 	sock = tcp_connect(server, prog, SOCKOPT_REUSE);
++ 	sprintf(buf, "GET /%s HTTP/1.0\r\n\r\n\n", file);
++ 	if (debug) {
++-		printf(buf);
+++		printf("%s", buf);
++ 	}
++ 	write(sock, buf, strlen(buf));
++ 	while ((n = read(sock, buf, XFERSIZE)) > 0) {
+-- 
+2.5.0
+

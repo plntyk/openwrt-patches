@@ -1,0 +1,221 @@
+From e1249ef458f1f0b87ba67ae101d7702653ccd45c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:06:08 +0200
+Subject: [PATCH 265/310] pure-ftpd: update to 1.0.42
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/pure-ftpd/Makefile                             |  9 ++-
+ .../patches/0001-ipstack-remove-warnings.patch     | 69 ++++++++++++++++++++++
+ net/pure-ftpd/patches/001-no_host_paths.patch      | 23 ++++++++
+ net/pure-ftpd/patches/002-musl_types.patch         | 14 +++++
+ .../patches/010-dont-add-host-paths.patch          | 29 ---------
+ 5 files changed, 112 insertions(+), 32 deletions(-)
+ create mode 100644 net/pure-ftpd/patches/0001-ipstack-remove-warnings.patch
+ create mode 100644 net/pure-ftpd/patches/001-no_host_paths.patch
+ create mode 100644 net/pure-ftpd/patches/002-musl_types.patch
+ delete mode 100644 net/pure-ftpd/patches/010-dont-add-host-paths.patch
+
+diff --git a/net/pure-ftpd/Makefile b/net/pure-ftpd/Makefile
+index 3b2403b..79892a0 100644
+--- a/net/pure-ftpd/Makefile
++++ b/net/pure-ftpd/Makefile
+@@ -8,15 +8,16 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=pure-ftpd
+-PKG_VERSION:=1.0.36
++PKG_VERSION:=1.0.42
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+ PKG_SOURCE_URL:=http://download.pureftpd.org/pub/pure-ftpd/releases
+-PKG_MD5SUM:=7899c75c1fed7dbad0352eb31080e066
++PKG_MD5SUM:=4022f38939f6a112b18c1a43dee552c1
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
+ 
++PKG_FIXUP:=autoreconf
+ PKG_INSTALL:=1
+ 
+ include $(INCLUDE_DIR)/package.mk
+@@ -25,7 +26,7 @@ define Package/pure-ftpd/Default
+   SUBMENU:=File Transfer
+   SECTION:=net
+   CATEGORY:=Network
+-  DEPENDS:=+libelf1
++  DEPENDS:=+libelf1 +libsodium
+   TITLE:=Secure FTP made easy!
+   URL:=http://www.pureftpd.org/project/pure-ftpd
+ endef
+@@ -59,6 +60,8 @@ endef
+ 
+ Package/pure-ftpd-tls/conffiles=$(Package/pure-ftpd/conffiles)
+ 
++TARGET_CFLAGS+= -save-temps -D_LARGEFILE64_SOURCE
++
+ CONFIGURE_ARGS += \
+ 	--with-everything \
+ 	--with-virtualchroot \
+diff --git a/net/pure-ftpd/patches/0001-ipstack-remove-warnings.patch b/net/pure-ftpd/patches/0001-ipstack-remove-warnings.patch
+new file mode 100644
+index 0000000..f8ef2f2
+--- /dev/null
++++ b/net/pure-ftpd/patches/0001-ipstack-remove-warnings.patch
+@@ -0,0 +1,69 @@
++From 329e9018968ebc4c188f814ccd5d50c26ce4d409 Mon Sep 17 00:00:00 2001
++From: Dirk Neukirchen <dirkneukirchen@web.de>
++Date: Wed, 5 Aug 2015 06:42:28 +0200
++Subject: [PATCH] ipstack: remove warnings
++
++Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
++---
++ src/ipstack.c | 8 ++++----
++ src/ipstack.h | 8 ++++----
++ 2 files changed, 8 insertions(+), 8 deletions(-)
++
++diff --git a/src/ipstack.c b/src/ipstack.c
++index 8904138..679750b 100644
++--- a/src/ipstack.c
+++++ b/src/ipstack.c
++@@ -180,28 +180,28 @@ int inet_pton(int af, const char *src, void *dst)
++ 
++ #endif
++ 
++-in_port_t *storage_port(struct sockaddr_storage * const ss)
+++in_port_t *storage_port(const struct sockaddr_storage * const ss)
++ {
++     struct sockaddr_in * const si = (struct sockaddr_in *) ss;
++ 
++     return &si->sin_port;
++ }
++ 
++-in_port_t *storage_port6(struct sockaddr_storage * const ss)
+++in_port_t *storage_port6(const struct sockaddr_storage * const ss)
++ {
++     struct sockaddr_in6 * const si = (struct sockaddr_in6 *) ss;
++ 
++     return &si->sin6_port;
++ }
++ 
++-struct in_addr *storage_sin_addr(struct sockaddr_storage * const ss)
+++struct in_addr *storage_sin_addr(const struct sockaddr_storage * const ss)
++ {
++     struct sockaddr_in * const si = (struct sockaddr_in *) ss;
++ 
++     return &si->sin_addr;
++ }
++ 
++-struct in6_addr *storage_sin_addr6(struct sockaddr_storage * const ss)
+++struct in6_addr *storage_sin_addr6(const struct sockaddr_storage * const ss)
++ {
++     struct sockaddr_in6 * const si = (struct sockaddr_in6 *) ss;
++ 
++diff --git a/src/ipstack.h b/src/ipstack.h
++index ac6595d..b633462 100644
++--- a/src/ipstack.h
+++++ b/src/ipstack.h
++@@ -111,9 +111,9 @@ void freeaddrinfo(struct addrinfo *res);
++ 
++ #endif
++ 
++-in_port_t *storage_port(struct sockaddr_storage * const ss);
++-in_port_t *storage_port6(struct sockaddr_storage * const ss);
++-struct in_addr *storage_sin_addr(struct sockaddr_storage * const ss);
++-struct in6_addr *storage_sin_addr6(struct sockaddr_storage * const ss);
+++in_port_t *storage_port(const struct sockaddr_storage * const ss);
+++in_port_t *storage_port6(const struct sockaddr_storage * const ss);
+++struct in_addr *storage_sin_addr(const struct sockaddr_storage * const ss);
+++struct in6_addr *storage_sin_addr6(const struct sockaddr_storage * const ss);
++ 
++ #endif
++-- 
++2.5.0
++
+diff --git a/net/pure-ftpd/patches/001-no_host_paths.patch b/net/pure-ftpd/patches/001-no_host_paths.patch
+new file mode 100644
+index 0000000..fdb709b
+--- /dev/null
++++ b/net/pure-ftpd/patches/001-no_host_paths.patch
+@@ -0,0 +1,23 @@
++--- a/configure.ac
+++++ b/configure.ac
++@@ -100,19 +100,7 @@ AC_ARG_VAR(PYTHON,local path to the pyth
++ python_possible_path="/usr/bin:/usr/local/bin:/bin:/opt/python/bin:/opt/python/usr/bin:/opt/python/usr/local/bin"
++ AC_PATH_PROG(PYTHON,python,/usr/bin/env python,$python_possible_path)
++ 
++-if test -d /usr/local/include; then
++-  CPPFLAGS="$CPPFLAGS -I/usr/local/include"
++-fi
++-
++-if test -d /usr/kerberos/include; then
++-  CPPFLAGS="$CPPFLAGS -I/usr/kerberos/include"
++-fi
++-
++-if test -d /usr/local/lib; then
++-  LDFLAGS="$LDFLAGS -L/usr/local/lib"
++-fi
++-
++-CPPFLAGS="$CPPFLAGS -D_FORTIFY_SOURCE=2"
+++	CPPFLAGS="$CPPFLAGS -D_FORTIFY_SOURCE=2"
++ 
++ dnl Checks for header files
++ 
+diff --git a/net/pure-ftpd/patches/002-musl_types.patch b/net/pure-ftpd/patches/002-musl_types.patch
+new file mode 100644
+index 0000000..e35207b
+--- /dev/null
++++ b/net/pure-ftpd/patches/002-musl_types.patch
+@@ -0,0 +1,14 @@
++--- a/src/ftpd.c
+++++ b/src/ftpd.c
++@@ -4123,7 +4123,11 @@ static int ul_exit(ULHandler * const ulh
++ 
++ int ul_check_free_space(const char *name, const double min_space)
++ {
+++#if defined (__GLIBC__)
++     STATFS_STRUCT statfsbuf;
+++#else
+++    struct statvfs statfsbuf;
+++#endif
++     char *z;
++     char *alloca_namedir;
++     size_t name_len;
+diff --git a/net/pure-ftpd/patches/010-dont-add-host-paths.patch b/net/pure-ftpd/patches/010-dont-add-host-paths.patch
+deleted file mode 100644
+index 42a9189..0000000
+--- a/net/pure-ftpd/patches/010-dont-add-host-paths.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+---- a/configure
+-+++ b/configure
+-@@ -4825,18 +4825,6 @@ fi
+- 
+- 
+- 
+--if test -d /usr/local/include; then
+--  CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+--fi
+--
+--if test -d /usr/kerberos/include; then
+--  CPPFLAGS="$CPPFLAGS -I/usr/kerberos/include"
+--fi
+--
+--if test -d /usr/local/lib; then
+--  LDFLAGS="$LDFLAGS -L/usr/local/lib"
+--fi
+--
+- if uname | fgrep SunOS > /dev/null 2> /dev/null ; then
+-   CPPFLAGS="$CPPFLAGS -D_XPG4_2=1"
+- fi
+-@@ -9222,7 +9210,6 @@ if test $ac_have_func = no; then
+-   # There is a commonly available library for RS/6000 AIX.
+-   # Since it is not a standard part of AIX, it might be installed locally.
+-   ac_getloadavg_LIBS=$LIBS
+--  LIBS="-L/usr/local/lib $LIBS"
+-   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for getloadavg in -lgetloadavg" >&5
+- $as_echo_n "checking for getloadavg in -lgetloadavg... " >&6; }
+- if test "${ac_cv_lib_getloadavg_getloadavg+set}" = set; then :
+-- 
+2.5.0
+

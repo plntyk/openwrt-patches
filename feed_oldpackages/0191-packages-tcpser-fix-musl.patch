@@ -1,0 +1,56 @@
+From 88ab6424f133371784d083f36ac19b5e052d6935 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:18:37 +0200
+Subject: [PATCH 191/310] [packages] tcpser: fix musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/tcpser/Makefile                            |  7 +------
+ utils/tcpser/patches/001-musl-fix_includes.patch | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 6 deletions(-)
+ create mode 100644 utils/tcpser/patches/001-musl-fix_includes.patch
+
+diff --git a/utils/tcpser/Makefile b/utils/tcpser/Makefile
+index 2fb5390..f272214 100644
+--- a/utils/tcpser/Makefile
++++ b/utils/tcpser/Makefile
+@@ -15,7 +15,7 @@ PKG_RELEASE:=2
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=http://www.jbrain.com/pub/linux/serial/
+ PKG_MD5SUM:=e712ae9fe6893bc825026b6dee6da9c0
+-
++PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+@@ -37,11 +37,6 @@ define Package/tcpser/description
+  outbound connections.
+ endef
+ 
+-define Build/Prepare
+-	$(call Build/Prepare/Default)
+-	$(CP) $(PKG_BUILD_DIR)/../$(PKG_NAME)/* $(PKG_BUILD_DIR)/
+-endef
+-
+ define Build/Compile
+ 	$(MAKE) -C $(PKG_BUILD_DIR) \
+ 	$(TARGET_CONFIGURE_OPTS) CFLAGS="$(TARGET_CFLAGS) -I$(LINUX_DIR)/include"
+diff --git a/utils/tcpser/patches/001-musl-fix_includes.patch b/utils/tcpser/patches/001-musl-fix_includes.patch
+new file mode 100644
+index 0000000..40506f5
+--- /dev/null
++++ b/utils/tcpser/patches/001-musl-fix_includes.patch
+@@ -0,0 +1,10 @@
++--- a/src/ip232.c
+++++ b/src/ip232.c
++@@ -6,6 +6,7 @@
++ #include <stdio.h>
++ #include <fcntl.h>
++ #include <sys/ioctl.h>
+++#include <sys/select.h>
++ #include <pthread.h>
++ 
++ #include "util.h"
+-- 
+2.5.0
+

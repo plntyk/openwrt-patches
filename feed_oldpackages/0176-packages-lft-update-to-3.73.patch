@@ -1,0 +1,58 @@
+From c5cd81310da915d699e3fe8d3f55c44c050c0284 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:15:18 +0200
+Subject: [PATCH 176/310] [packages] lft: update to 3.73
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/lft/Makefile                               |  4 ++--
+ net/lft/patches/002-remove_host_includes.patch | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+ create mode 100644 net/lft/patches/002-remove_host_includes.patch
+
+diff --git a/net/lft/Makefile b/net/lft/Makefile
+index 1c946b2..2175e63 100644
+--- a/net/lft/Makefile
++++ b/net/lft/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=lft
+-PKG_VERSION:=3.32
++PKG_VERSION:=3.73
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=http://pwhois.org/get
+-PKG_MD5SUM:=5f09c9ad2475cb237b8277a2d69c569c
++PKG_MD5SUM:=fd1277f55019786a0f03d4ce61f0e2c4
+ 
+ PKG_INSTALL:=1
+ 
+diff --git a/net/lft/patches/002-remove_host_includes.patch b/net/lft/patches/002-remove_host_includes.patch
+new file mode 100644
+index 0000000..fa7e338
+--- /dev/null
++++ b/net/lft/patches/002-remove_host_includes.patch
+@@ -0,0 +1,18 @@
++--- a/configure
+++++ b/configure
++@@ -5732,15 +5732,6 @@ fi
++ 
++ 
++ 
++-for incdir in /usr/local/include /usr/include
++-do
++-  if test -d $incdir/pcap
++-  then
++-    CFLAGS="$CFLAGS -I$incdir/pcap"
++-    CPPFLAGS="$CFLAGS -I$incdir/pcap"
++-  fi
++-done
++-
++ cat >conftest.$ac_ext <<_ACEOF
++ /* confdefs.h.  */
++ _ACEOF
+-- 
+2.5.0
+

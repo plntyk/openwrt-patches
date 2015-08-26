@@ -1,0 +1,26 @@
+From e5cd64f3c4d03315ac5c8907a64f2939634a8fd6 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:20:23 +0200
+Subject: [PATCH 179/310] [packages] bandwidthd: explicitly set C standard
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/bandwidthd/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/bandwidthd/Makefile b/utils/bandwidthd/Makefile
+index a91182d..7e80d2f 100644
+--- a/utils/bandwidthd/Makefile
++++ b/utils/bandwidthd/Makefile
+@@ -38,7 +38,7 @@ CONFIGURE_ARGS += \
+ 	ac_cv_file__usr_local_pgsql_include=no \
+ 	ac_cv_lib_pq_PQconnectdb=no \
+ 
+-EXTRA_CFLAGS+= $(TARGET_CPPFLAGS)
++EXTRA_CFLAGS+= $(TARGET_CPPFLAGS) -std=gnu89
+ EXTRA_LDFLAGS+= $(TARGET_LDFLAGS) -Wl,-rpath-link,$(STAGING_DIR)/usr/lib
+ 
+ define Package/bandwidthd/install
+-- 
+2.5.0
+

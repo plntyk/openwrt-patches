@@ -1,0 +1,31 @@
+From a596eece00c685dcb438d0bb521444e68d24673d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:46:16 +0200
+Subject: [PATCH 140/310] ossp-js: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/ossp-js/patches/001-fix_format_string.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 libs/ossp-js/patches/001-fix_format_string.patch
+
+diff --git a/libs/ossp-js/patches/001-fix_format_string.patch b/libs/ossp-js/patches/001-fix_format_string.patch
+new file mode 100644
+index 0000000..053a161
+--- /dev/null
++++ b/libs/ossp-js/patches/001-fix_format_string.patch
+@@ -0,0 +1,11 @@
++--- a/src/js.c
+++++ b/src/js.c
++@@ -160,7 +160,7 @@ GetLine(JSContext *cx, char *bufp, FILE
++ #endif
++     {
++         char line[256];
++-        fprintf(gOutFile, prompt);
+++        fprintf(gOutFile, "%s",  prompt);
++         fflush(gOutFile);
++         if (!fgets(line, sizeof line, file))
++             return JS_FALSE;
+-- 
+2.5.0
+

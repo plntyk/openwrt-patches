@@ -1,0 +1,31 @@
+From bef0efb4e5731d31a04a0ccd3ebec46d7ca4d999 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 28 Apr 2015 10:25:01 +0200
+Subject: [PATCH 102/310] boxbackup: fix format security
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/boxbackup/patches/001-fix_format_security.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 utils/boxbackup/patches/001-fix_format_security.patch
+
+diff --git a/utils/boxbackup/patches/001-fix_format_security.patch b/utils/boxbackup/patches/001-fix_format_security.patch
+new file mode 100644
+index 0000000..c5d1b7a
+--- /dev/null
++++ b/utils/boxbackup/patches/001-fix_format_security.patch
+@@ -0,0 +1,11 @@
++--- a/bin/bbackupquery/BackupQueries.cpp
+++++ b/bin/bbackupquery/BackupQueries.cpp
++@@ -613,7 +613,7 @@ void BackupQueries::List(int64_t DirID,
++ 			// terminate
++ 			*(f++) = ' ';
++ 			*(f++) = '\0';
++-			printf(displayflags);
+++			printf("%s", displayflags);
++ 			
++ 			if(en_flags != 0)
++ 			{
+-- 
+2.5.0
+

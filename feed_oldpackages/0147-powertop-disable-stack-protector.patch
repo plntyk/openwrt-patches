@@ -1,0 +1,43 @@
+From b7773e80cc3f782a0ff8160dc3206ed0295814a2 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:48:29 +0200
+Subject: [PATCH 147/310] powertop: disable stack protector
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ .../patches/001-disable_stack_protector.patch      | 23 ++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100644 utils/powertop/patches/001-disable_stack_protector.patch
+
+diff --git a/utils/powertop/patches/001-disable_stack_protector.patch b/utils/powertop/patches/001-disable_stack_protector.patch
+new file mode 100644
+index 0000000..f83335a
+--- /dev/null
++++ b/utils/powertop/patches/001-disable_stack_protector.patch
+@@ -0,0 +1,23 @@
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -127,7 +127,6 @@ powertop_CXXFLAGS = \
++ 	-Wformat \
++ 	-Wshadow \
++ 	-fno-omit-frame-pointer \
++-	-fstack-protector \
++ 	$(GLIB2_CFLAGS) \
++ 	$(LIBNL_CFLAGS) \
++ 	$(NCURSES_CFLAGS) \
++@@ -136,7 +135,6 @@ powertop_CXXFLAGS = \
++ 
++ powertop_CPPFLAGS = \
++ 	-DLOCALEDIR=\"$(localedir)\" \
++-	-D_FORTIFY_SOURCE=2 \
++ 	$(GLIB2_CFLAGS) \
++ 	$(LIBNL_CFLAGS) \
++ 	$(LIBZ_CFLAGS) \
++@@ -162,3 +160,4 @@ css.h: powertop.css
++ 	$(SHELL) ${srcdir}/csstoh.sh ${srcdir}/powertop.css css.h
++ 
++ EXTRA_DIST = ${srcdir}/csstoh.sh
+++
+-- 
+2.5.0
+

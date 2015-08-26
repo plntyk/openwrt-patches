@@ -1,0 +1,26 @@
+From f2ae9d8cc6e9246114065ed6129a45ad32abf7e4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:40:37 +0200
+Subject: [PATCH 213/310] [packages] lilo: disable on x86-64
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/lilo/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/utils/lilo/Makefile b/utils/lilo/Makefile
+index 1337c97..b995453 100644
+--- a/utils/lilo/Makefile
++++ b/utils/lilo/Makefile
+@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/lilo
+   SECTION:=base
+   CATEGORY:=Boot Loaders
+-  DEPENDS:=@TARGET_x86
++  DEPENDS:=@TARGET_x86&&@!TARGET_x86_64
+   TITLE:=lilo
+   URL:=http://lilo.alioth.debian.org/ftp/sources/
+ endef
+-- 
+2.5.0
+

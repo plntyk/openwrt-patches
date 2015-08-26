@@ -1,0 +1,26 @@
+From 15b7db474d3633d842554080e16a850815d4972a Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:12:48 +0200
+Subject: [PATCH 054/310] osiris: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ admin/osiris/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/admin/osiris/Makefile b/admin/osiris/Makefile
+index d93689b..286eb8f 100644
+--- a/admin/osiris/Makefile
++++ b/admin/osiris/Makefile
+@@ -25,7 +25,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/osirisd
+   SECTION:=admin
+   CATEGORY:=Administration
+-  DEPENDS:=+libopenssl +libpthread
++  DEPENDS:=+libopenssl +libpthread @BROKEN
+   TITLE:=Host integrity monitoring system (scanning agent)
+   URL:=http://osiris.shmoo.com/
+ endef
+-- 
+2.5.0
+

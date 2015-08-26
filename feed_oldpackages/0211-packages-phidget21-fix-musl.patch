@@ -1,0 +1,40 @@
+From 3aeb6129fc813c58f68bcd950111e4c7134412d1 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:39:36 +0200
+Subject: [PATCH 211/310] [packages] phidget21: fix musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/phidget21/patches/002-musl-fix_includes.patch | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 libs/phidget21/patches/002-musl-fix_includes.patch
+
+diff --git a/libs/phidget21/patches/002-musl-fix_includes.patch b/libs/phidget21/patches/002-musl-fix_includes.patch
+new file mode 100644
+index 0000000..1d201cb
+--- /dev/null
++++ b/libs/phidget21/patches/002-musl-fix_includes.patch
+@@ -0,0 +1,20 @@
++--- a/phidget21/libusb/usb.h
+++++ b/phidget21/libusb/usb.h
++@@ -16,6 +16,7 @@
++ #include <limits.h>
++ 
++ #include <dirent.h>
+++#include <sys/types.h>
++ 
++ /*
++  * USB spec information
++--- a/phidget21/libusb/linux.h
+++++ b/phidget21/libusb/linux.h
++@@ -4,6 +4,7 @@
++ #include <unistd.h>
++ #include <sys/stat.h>
++ #include <sys/ioctl.h>
+++#include <sys/types.h>
++ 
++ struct usb_ctrltransfer {
++ 	/* keep in sync with usbdevice_fs.h:usbdevfs_ctrltransfer */
+-- 
+2.5.0
+

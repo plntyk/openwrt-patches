@@ -1,0 +1,53 @@
+From 1ed9d18292c1039e74e372930f48c710f075f37a Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 23 Mar 2015 11:46:45 +0100
+Subject: [PATCH 029/310] streamripper: update package
+
+fixes build error
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ sound/streamripper/Makefile | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/sound/streamripper/Makefile b/sound/streamripper/Makefile
+index cf238ab..3b024bb 100644
+--- a/sound/streamripper/Makefile
++++ b/sound/streamripper/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=streamripper
+-PKG_VERSION:=1.62.0
+-PKG_RELEASE:=3
++PKG_VERSION:=1.63.0
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=@SF/$(PKG_NAME)
+-PKG_MD5SUM:=1a8353af3c36d56f2d8ee8552f632071
++PKG_MD5SUM:=97501462e1be4bf5fe04463469af6799
+ 
+ PKG_INSTALL:=1
+ PKG_FIXUP:=autoreconf
+@@ -24,7 +24,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/streamripper
+   SECTION:=multimedia
+   CATEGORY:=Multimedia
+-  DEPENDS:=+libmad +libfaad2 +libpthread
++  DEPENDS:=+libmad +libfaad2 +libpthread +glib2
+   TITLE:=streamripper
+   URL:=http://streamripper.sourceforge.net/
+ endef
+@@ -43,6 +43,8 @@ CONFIGURE_ARGS+= \
+ 	--without-libiconv-prefix \
+ 	--with-included-tre \
+ 	--with-gnu-ld \
++	--disable-oggtest \
++	--disable-vorbistest
+ 
+ define Package/streamripper/install
+ 	$(INSTALL_DIR) $(1)/usr/bin
+-- 
+2.5.0
+

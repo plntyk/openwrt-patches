@@ -1,0 +1,171 @@
+From 6e8f6321d4d83c491f2e9fbd8697bbab85b5f44b Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:38:56 +0200
+Subject: [PATCH 209/310] [packages] isc-dhcp: fix musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/isc-dhcp/Makefile                               | 10 ++++++----
+ net/isc-dhcp/patches/000-compile.patch              |  9 +++++++++
+ net/isc-dhcp/patches/001-musl_fix_headers.patch     | 21 +++++++++++++++++++++
+ .../patches/100-relay-rfc3527-link-selection.patch  | 20 ++++++++++----------
+ 4 files changed, 46 insertions(+), 14 deletions(-)
+ create mode 100644 net/isc-dhcp/patches/001-musl_fix_headers.patch
+
+diff --git a/net/isc-dhcp/Makefile b/net/isc-dhcp/Makefile
+index 5e5471f..ec526da 100644
+--- a/net/isc-dhcp/Makefile
++++ b/net/isc-dhcp/Makefile
+@@ -9,8 +9,8 @@ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=isc-dhcp
+ UPSTREAM_NAME:=dhcp
+-PKG_VERSION:=4.2.4
+-PKG_RELEASE:=3
++PKG_VERSION:=4.3.2
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(UPSTREAM_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=ftp://ftp.isc.org/isc/dhcp/$(PKG_VERSION)
+@@ -154,11 +154,13 @@ $(call Package/isc-dhcp-omshell/description)
+  This package is compiled with IPv4 and IPv6 support.
+ endef
+ 
++CONFIGURE_VARS += \
++	ac_cv_file__dev_random=yes
++
+ CONFIGURE_ARGS += \
+ 	--disable-tracing 		\
+ 	--enable-paranoia		\
+-	--disable-dependency-tracking	\
+-	ac_cv_file__dev_random=yes
++	--disable-dependency-tracking
+ 
+ ifeq ($(BUILD_VARIANT),ipv4)
+   CONFIGURE_ARGS += --disable-dhcpv6
+diff --git a/net/isc-dhcp/patches/000-compile.patch b/net/isc-dhcp/patches/000-compile.patch
+index 7f96ce0..1b739f4 100644
+--- a/net/isc-dhcp/patches/000-compile.patch
++++ b/net/isc-dhcp/patches/000-compile.patch
+@@ -1,5 +1,14 @@
+ --- a/bind/Makefile
+ +++ b/bind/Makefile
++@@ -52,7 +52,7 @@ all:
++ 	else                                                       \
++ 		echo Configuring BIND Export libraries for DHCP. ; \
++ 		rm -rf ./lib ./include ./configure.log ./build.log ./install.log ; \
++-		(cd ${bindsrcdir} && ./configure --disable-kqueue --disable-epoll --disable-devpoll --without-openssl --without-libxml2 --enable-exportlib --enable-threads=no --with-export-includedir=${binddir}/include --with-export-libdir=${binddir}/lib --with-gssapi=no > ${binddir}/configure.log); \
+++		(cd ${bindsrcdir} && ./configure --disable-kqueue --disable-epoll --disable-devpoll --without-openssl --without-libxml2 --enable-exportlib --enable-threads=no --with-export-includedir=${binddir}/include --with-export-libdir=${binddir}/lib --with-gssapi=no --with-randomdev=/dev/random > ${binddir}/configure.log); \
++ 	fi
++ 
++ # Build and install the export libraries
+ @@ -61,9 +61,12 @@ all:
+  		echo Bind export libraries already installed ;               \
+  	else                                                                 \
+diff --git a/net/isc-dhcp/patches/001-musl_fix_headers.patch b/net/isc-dhcp/patches/001-musl_fix_headers.patch
+new file mode 100644
+index 0000000..07378d0
+--- /dev/null
++++ b/net/isc-dhcp/patches/001-musl_fix_headers.patch
+@@ -0,0 +1,21 @@
++--- a/dst/dst_internal.h
+++++ b/dst/dst_internal.h
++@@ -20,6 +20,7 @@
++  */
++ #include <limits.h>
++ #include <sys/param.h>
+++#include <sys/types.h>
++ 
++ #ifndef PATH_MAX
++ # ifdef POSIX_PATH_MAX
++--- a/includes/arpa/nameser.h
+++++ b/includes/arpa/nameser.h
++@@ -57,6 +57,8 @@
++ #ifndef _ARPA_NAMESER_H_
++ #define _ARPA_NAMESER_H_
++ 
+++#include <sys/types.h>
+++
++ /*
++  * Revision information.  This is the release date in YYYYMMDD format.
++  * It can change every day so the right thing to do with it is use it
+diff --git a/net/isc-dhcp/patches/100-relay-rfc3527-link-selection.patch b/net/isc-dhcp/patches/100-relay-rfc3527-link-selection.patch
+index 1f593ee..b612fbd 100644
+--- a/net/isc-dhcp/patches/100-relay-rfc3527-link-selection.patch
++++ b/net/isc-dhcp/patches/100-relay-rfc3527-link-selection.patch
+@@ -1,6 +1,6 @@
+ --- a/relay/dhcrelay.c
+ +++ b/relay/dhcrelay.c
+-@@ -65,6 +65,7 @@ int server_packets_relayed = 0;	/* Packe
++@@ -60,6 +60,7 @@ int server_packets_relayed = 0;	/* Packe
+  int client_packet_errors = 0;	/* Errors sending packets to clients. */
+  
+  int add_agent_options = 0;	/* If nonzero, add relay agent options. */
+@@ -8,7 +8,7 @@
+  
+  int agent_option_errors = 0;    /* Number of packets forwarded without
+  				   agent options because there was no room. */
+-@@ -104,6 +105,8 @@ struct server_list {
++@@ -99,6 +100,8 @@ struct server_list {
+  	struct sockaddr_in to;
+  } *servers;
+  
+@@ -17,23 +17,23 @@
+  #ifdef DHCPv6
+  struct stream_list {
+  	struct stream_list *next;
+-@@ -144,6 +147,7 @@ static const char url[] =
++@@ -147,6 +150,7 @@ static const char url[] =
+  "                     [-pf <pid-file>] [--no-pid]\n"\
+  "                     [-m append|replace|forward|discard]\n" \
+  "                     [-i interface0 [ ... -i interfaceN]\n" \
+ +"                     [-l interface]\n" \
+  "                     server0 [ ... serverN]\n\n" \
+  "       dhcrelay -6   [-d] [-q] [-I] [-c <hops>] [-p <port>]\n" \
+- "                     [-pf <pid-file>] [--no-pid]\n"\
+-@@ -157,6 +161,7 @@ static const char url[] =
+- "                [-pf <pid-file>] [--no-pid]\n"\
++ "                     [-pf <pid-file>] [--no-pid]\n" \
++@@ -161,6 +165,7 @@ static const char url[] =
++ "                [-pf <pid-file>] [--no-pid]\n" \
+  "                [-m append|replace|forward|discard]\n" \
+  "                [-i interface0 [ ... -i interfaceN]\n" \
+ +"                [-l interface]\n" \
+  "                server0 [ ... serverN]\n\n"
+  #endif
+  
+-@@ -314,6 +319,20 @@ main(int argc, char **argv) {
++@@ -325,6 +330,20 @@ main(int argc, char **argv) {
+  				agent_relay_mode = discard;
+  			} else
+  				usage();
+@@ -54,7 +54,7 @@
+  		} else if (!strcmp(argv[i], "-D")) {
+  #ifdef DHCPv6
+  			if (local_family_set && (local_family == AF_INET6)) {
+-@@ -685,12 +704,17 @@ do_relay4(struct interface_info *ip, str
++@@ -711,12 +730,17 @@ do_relay4(struct interface_info *ip, str
+  					       ip->addresses[0])))
+  		return;
+  
+@@ -73,7 +73,7 @@
+  		packet->giaddr = ip->addresses[0];
+  	if (packet->hops < max_hop_count)
+  		packet->hops = packet->hops + 1;
+-@@ -1062,6 +1086,9 @@ add_relay_agent_options(struct interface
++@@ -1090,6 +1114,9 @@ add_relay_agent_options(struct interface
+  		optlen += ip->remote_id_len + 2;    /* RAI_REMOTE_ID + len */
+  	}
+  
+@@ -83,7 +83,7 @@
+  	/* We do not support relay option fragmenting(multiple options to
+  	 * support an option data exceeding 255 bytes).
+  	 */
+-@@ -1093,6 +1120,14 @@ add_relay_agent_options(struct interface
++@@ -1121,6 +1148,14 @@ add_relay_agent_options(struct interface
+  			memcpy(sp, ip->remote_id, ip->remote_id_len);
+  			sp += ip->remote_id_len;
+  		}
+-- 
+2.5.0
+

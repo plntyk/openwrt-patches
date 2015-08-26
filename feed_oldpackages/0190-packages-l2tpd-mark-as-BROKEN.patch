@@ -1,0 +1,28 @@
+From 660a1fefff62b6f0e46c1ec2be0a93a043e05569 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 16 Jun 2015 18:23:20 +0200
+Subject: [PATCH 190/310] [packages] l2tpd: mark as BROKEN
+
+- upstream project is inactive
+- musl compile broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/l2tpd/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/l2tpd/Makefile b/net/l2tpd/Makefile
+index 0ca884f..145b434 100644
+--- a/net/l2tpd/Makefile
++++ b/net/l2tpd/Makefile
+@@ -26,6 +26,7 @@ define Package/l2tpd
+   TITLE:=An L2TP (Layer 2 Tunneling Protocol) daemon
+   URL:=http://l2tpd.sourceforge.net/
+   SUBMENU:=VPN
++  DEPENDS:=@BROKEN
+ endef
+ 
+ define Package/l2tpd/description
+-- 
+2.5.0
+

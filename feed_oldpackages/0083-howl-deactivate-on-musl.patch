@@ -1,0 +1,44 @@
+From d94912d749f9be9cc7986459438a200d7a9eb077 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 15 Apr 2015 16:46:30 +0200
+Subject: [PATCH 083/310] howl: deactivate on musl
+
+error: unknown type name '__sighandler_t' +++
+Posix/posix_salt.c:110:36: error: 'PTHREAD_MUTEX_RECURSIVE_NP' undeclared
+(first use in this function)
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/howl/Makefile | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/libs/howl/Makefile b/libs/howl/Makefile
+index 3b70f7d..8cefd7b 100644
+--- a/libs/howl/Makefile
++++ b/libs/howl/Makefile
+@@ -26,6 +26,7 @@ define Package/howl/Default
+   CATEGORY:=Network
+   TITLE:=Zeroconf networking implementation
+   URL:=http://www.porchdogsoft.com/products/howl/
++  DEPENDS:=@!USE_MUSL
+ endef
+ 
+ define Package/libhowl
+@@ -90,12 +91,10 @@ define Package/howl-utils/description
+ 	This package contains mDNS (Multicast DNS) client utilities.
+ endef
+ 
+-define Build/Configure
+-	$(call Build/Configure/Default, \
++CONFIGURE_ARGS += \
+ 		--enable-shared \
+ 		--enable-static \
+-	);
+-endef
++
+ 
+ define Build/InstallDev
+ 	$(INSTALL_DIR) $(1)/usr/include
+-- 
+2.5.0
+

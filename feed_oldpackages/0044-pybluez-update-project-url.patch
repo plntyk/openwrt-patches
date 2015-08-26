@@ -1,0 +1,26 @@
+From 8f0b9a21e60e1fb3dbec0fc6cf8bac2168ed9916 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 2 Apr 2015 01:53:06 +0200
+Subject: [PATCH 044/310] pybluez: update project url
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/pybluez/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/pybluez/Makefile b/lang/pybluez/Makefile
+index 871ed8b..8e7686c 100644
+--- a/lang/pybluez/Makefile
++++ b/lang/pybluez/Makefile
+@@ -25,7 +25,7 @@ define Package/python-bluez
+   SECTION:=lang
+   CATEGORY:=Languages
+   TITLE:=Python wrapper for the BlueZ Bluetooth stack
+-  URL:=http://code.google.com/p/pybluez/
++  URL:=https://github.com/karulis/pybluez
+   DEPENDS:=+python-mini +bluez-libs
+ endef
+ 
+-- 
+2.5.0
+

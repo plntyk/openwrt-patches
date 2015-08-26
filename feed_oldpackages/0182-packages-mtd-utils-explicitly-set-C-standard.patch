@@ -1,0 +1,26 @@
+From afe565bee3cccef003d4d379760d476a043cadf9 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:27:40 +0200
+Subject: [PATCH 182/310] [packages] mtd-utils: explicitly set C standard
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/mtd-utils/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/utils/mtd-utils/Makefile b/utils/mtd-utils/Makefile
+index 7ff0dcf..11492b1 100644
+--- a/utils/mtd-utils/Makefile
++++ b/utils/mtd-utils/Makefile
+@@ -93,6 +93,8 @@ endef
+ 
+ $(foreach file,$(FILES),$(eval $(call PartGen,$(file))))
+ 
++TARGET_CFLAGS+=-std=gnu89
++
+ MAKE_FLAGS += \
+ 	DESTDIR="$(PKG_INSTALL_DIR)" \
+ 	BUILDDIR="$(PKG_BUILD_DIR)" \
+-- 
+2.5.0
+

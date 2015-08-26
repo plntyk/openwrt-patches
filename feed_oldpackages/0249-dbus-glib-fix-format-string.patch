@@ -1,0 +1,31 @@
+From f323e4b523455b15af44bf3eee63a0bcb05a3e3c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:56:15 +0200
+Subject: [PATCH 249/310] dbus-glib: fix format string
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/dbus-glib/patches/010-format_string.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 libs/dbus-glib/patches/010-format_string.patch
+
+diff --git a/libs/dbus-glib/patches/010-format_string.patch b/libs/dbus-glib/patches/010-format_string.patch
+new file mode 100644
+index 0000000..22c8cfc
+--- /dev/null
++++ b/libs/dbus-glib/patches/010-format_string.patch
+@@ -0,0 +1,11 @@
++--- a/dbus/dbus-gobject.c
+++++ b/dbus/dbus-gobject.c
++@@ -2350,7 +2350,7 @@ dbus_g_method_return (DBusGMethodInvocat
++       G_VALUE_COLLECT (&value, args, G_VALUE_NOCOPY_CONTENTS, &error);
++       if (error)
++ 	{
++-	  g_warning(error);
+++	  g_warning("%d",error);
++ 	  g_free (error);
++ 	}
++       _dbus_gvalue_marshal (&iter, &value);
+-- 
+2.5.0
+

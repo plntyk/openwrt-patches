@@ -1,0 +1,41 @@
+From 0a2260bccb106ccab06f10833c9d579af5177dfb Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 16 Apr 2015 07:51:02 +0200
+Subject: [PATCH 089/310] aprx: update to 2.08 svn r593
+
+TODO: musl missing AX25 protocol headers
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/aprx/Makefile | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/net/aprx/Makefile b/net/aprx/Makefile
+index 16e98ba..0cd3e7c 100644
+--- a/net/aprx/Makefile
++++ b/net/aprx/Makefile
+@@ -8,15 +8,15 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=aprx
+-PKG_REV:=421
+-PKG_VERSION:=2.00_r$(PKG_REV)
+-PKG_RELEASE:=3
++PKG_REV:=593
++PKG_VERSION:=2.08.svn$(PKG_REV)
++PKG_RELEASE:=1
+ 
+-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+-PKG_SOURCE_URL:=http://repo.ham.fi/svn/aprx/trunk/
++PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
++PKG_SOURCE_URL:=http://repo.ham.fi/svn/aprx
+ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+ PKG_SOURCE_VERSION:=$(PKG_REV)
+-PKG_SOURCE_PROTO:=svn
++PKG_MD5SUM:=f1b82e728736ca818c34b04bd9fd21dc
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+-- 
+2.5.0
+

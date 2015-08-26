@@ -1,0 +1,37 @@
+From 87abf31c7a4c977dda398d74b1121fee41886714 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 25 Mar 2015 12:08:50 +0100
+Subject: [PATCH 036/310] hping3: mark as Broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/hping3/Makefile | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/net/hping3/Makefile b/net/hping3/Makefile
+index 9d62db2..9ed9e1c 100644
+--- a/net/hping3/Makefile
++++ b/net/hping3/Makefile
+@@ -22,14 +22,14 @@ define Package/hping3
+   CATEGORY:=Network
+   TITLE:=TCP/IP packet assembler/analyzer
+   URL:=http://www.hping.org/
+-  DEPENDS:=+libpcap +libpthread
++  DEPENDS:=+libpcap +libpthread @BROKEN
+ endef
+ 
+ define Package/hping3/description
+-        hping is a command-line oriented TCP/IP packet assembler/analyzer. The interface is
+-        inspired to the ping(8) unix command, but hping isn't only able to send ICMP echo
+-        requests. It supports TCP, UDP, ICMP and RAW-IP protocols, has a traceroute mode, the
+-        ability to send files between a covered channel, and many other features.
++	hping is a command-line oriented TCP/IP packet assembler/analyzer. The interface is
++	inspired to the ping(8) unix command, but hping isn't only able to send ICMP echo
++	requests. It supports TCP, UDP, ICMP and RAW-IP protocols, has a traceroute mode, the
++	ability to send files between a covered channel, and many other features.
+ endef
+ 
+ define Build/Configure
+-- 
+2.5.0
+

@@ -1,0 +1,50 @@
+From ce0ed56c440c6cf4216e7b40b98b0fed2a651c65 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:07:56 +0200
+Subject: [PATCH 270/310] uftp: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/uftp/patches/001-musl_headers.patch | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 net/uftp/patches/001-musl_headers.patch
+
+diff --git a/net/uftp/patches/001-musl_headers.patch b/net/uftp/patches/001-musl_headers.patch
+new file mode 100644
+index 0000000..fb6a59e
+--- /dev/null
++++ b/net/uftp/patches/001-musl_headers.patch
+@@ -0,0 +1,30 @@
++--- a/server.h
+++++ b/server.h
++@@ -33,6 +33,7 @@
++ 
++ #include "uftp_common.h"
++ #include "encryption.h"
+++#include <sys/types.h>
++ 
++ #define MAXDEST 100000
++ #define MAXFILES 10000
++--- a/client.h
+++++ b/client.h
++@@ -33,6 +33,7 @@
++ 
++ #include "uftp_common.h"
++ #include "encryption.h"
+++#include <sys/types.h>
++ 
++ #define MAXLIST 100
++ #define MAXMISORDER 5
++--- a/proxy.h
+++++ b/proxy.h
++@@ -33,6 +33,7 @@
++ 
++ #include "uftp_common.h"
++ #include "encryption.h"
+++#include <sys/types.h>
++ 
++ #define MAX_PEND 10
++ #define MAXLIST 100
+-- 
+2.5.0
+

@@ -1,0 +1,1044 @@
+From 3457e1b9c3c2ee11cdb0f5f1139554dce28c8775 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:47:54 +0200
+Subject: [PATCH 146/310] lirc: fix format security
+
+by adopting fedora patch
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ ...e_puts_instead_of_printf_when_applicalble.patch | 1022 ++++++++++++++++++++
+ 1 file changed, 1022 insertions(+)
+ create mode 100644 utils/lirc/patches/0001-fedora_Use_puts_instead_of_printf_when_applicalble.patch
+
+diff --git a/utils/lirc/patches/0001-fedora_Use_puts_instead_of_printf_when_applicalble.patch b/utils/lirc/patches/0001-fedora_Use_puts_instead_of_printf_when_applicalble.patch
+new file mode 100644
+index 0000000..c0437e5
+--- /dev/null
++++ b/utils/lirc/patches/0001-fedora_Use_puts_instead_of_printf_when_applicalble.patch
+@@ -0,0 +1,1022 @@
++From 0be5fe98430ce738d0c176245cc4ee564bbc3fd2 Mon Sep 17 00:00:00 2001
++From: Alec Leamas <leamas.alec@gmail.com>
++Date: Mon, 9 Feb 2015 13:00:06 +0100
++Subject: [PATCH] Use puts instead of printf when applicalble
++
++Recent gcc generates warnings when using printf instead
++of puts()/fputs() when applicable.
++---
++ daemons/lircd.c        |   4 +-
++ daemons/lircmd.c       |   2 +-
++ lib/lirc_client.c      |   2 +
++ tools/irrecord.c       | 105 +++++++++++++++++++++++++------------------------
++ tools/irsend.c         |   2 +-
++ tools/irsimreceive.c   |  26 ++++++------
++ tools/irsimsend.c      |  14 +++----
++ tools/irtestcase.c     |  27 ++++++-------
++ tools/lirc-lsplugins.c |  34 ++++++++--------
++ tools/lirc-lsremotes.c |  14 +++----
++ tools/mode2.c          |  32 +++++++--------
++ tools/xmode2.c         |  23 +++++------
++ 12 files changed, 144 insertions(+), 141 deletions(-)
++
++diff --git a/daemons/lircd.c b/daemons/lircd.c
++index 4c8e37b..3af27d9 100644
++--- a/daemons/lircd.c
+++++ b/daemons/lircd.c
++@@ -2285,7 +2285,7 @@ static void lircd_parse_options(int argc, char** const argv)
++ 	{
++ 		switch (c) {
++ 		case 'h':
++-			printf(help);
+++			puts(help);
++ 			exit(EXIT_SUCCESS);
++ 		case 'v':
++ 			printf("lircd %s\n", VERSION);
++@@ -2433,7 +2433,7 @@ int main(int argc, char **argv)
++ 		opt = options_getstring("lircd:listen_hostport");
++ 		if (opt){
++ 			if (opt2host_port(opt, &address, &port, errmsg) != 0){
++-				fprintf(stderr, errmsg);
+++				fputs(errmsg, stderr);
++ 				return(EXIT_FAILURE);
++ 			}
++ 		} else
++diff --git a/daemons/lircmd.c b/daemons/lircmd.c
++index 023777c..869b3a9 100644
++--- a/daemons/lircmd.c
+++++ b/daemons/lircmd.c
++@@ -784,7 +784,7 @@ static void lircmd_parse_options(int argc,  char** const argv)
++ 	{
++ 		switch (c) {
++ 		case 'h':
++-			printf(help);
+++			puts(help);
++ 			exit(EXIT_SUCCESS);
++ 		case 'v':
++ 			printf("lircmd %s\n",  VERSION);
++diff --git a/lib/lirc_client.c b/lib/lirc_client.c
++index df2eaef..a0e3333 100644
++--- a/lib/lirc_client.c
+++++ b/lib/lirc_client.c
++@@ -105,6 +105,8 @@ chk_write(int fd, const void *buf, size_t count, const char* msg)
++ 		perror(msg);
++ 	}
++ }
+++
+++
++ int lirc_command_init(lirc_cmd_ctx* ctx, const char* fmt, ...)
++ {
++ 	va_list ap;
++diff --git a/tools/irrecord.c b/tools/irrecord.c
++index f52328c..788e425 100644
++--- a/tools/irrecord.c
+++++ b/tools/irrecord.c
++@@ -339,7 +339,7 @@ static void parse_options(int argc, char** const argv)
++ 			options_set_opt("irrecord:driver", optarg);
++ 			break;
++ 		case 'h':
++-			printf(help);
+++			puts(help);
++ 			exit(EXIT_SUCCESS);
++ 		case 'i':
++ 			options_set_opt("irrecord:invert", "True");
++@@ -374,14 +374,14 @@ static void parse_options(int argc, char** const argv)
++ 			printf("irrecord %s\n",  VERSION);
++ 			exit(EXIT_SUCCESS);
++ 		default:
++-			fprintf(stderr, USAGE);
+++			fputs(USAGE, stderr);
++ 			exit(EXIT_FAILURE);
++ 		}
++ 	}
++ 	if (optind == argc - 1) {
++ 		options_set_opt("configfile", argv[optind]);
++ 	} else if (optind != argc) {
++-		fprintf(stderr, "irrecord: invalid argument count\n");
+++		fputs("irrecord: invalid argument count\n", stderr);
++ 		exit(EXIT_FAILURE);
++ 	}
++ }
++@@ -416,7 +416,7 @@ int main(int argc, char **argv)
++ 	analyse = options_getboolean("irrecord:analyse");
++ 	if (hw_choose_driver(opt) != 0 && ! analyse) {
++ 		fprintf(stderr, "Driver `%s' not found", opt);
++-		fprintf(stderr, " (wrong or missing -U/--plugindir?).\n");
+++		fputs(" (wrong or missing -U/--plugindir?).\n", stderr);
++ 		hw_print_drivers(stderr);
++ 		exit(EXIT_FAILURE);
++ 	}
++@@ -526,9 +526,9 @@ int main(int argc, char **argv)
++ 		perror(progname);
++ 		exit(EXIT_FAILURE);
++ 	}
++-	printf("\nirrecord -  application for recording IR-codes" " for usage with lirc\n" "\n"
+++	puts("\nirrecord -  application for recording IR-codes" " for usage with lirc\n" "\n"
++ 	       "Copyright (C) 1998,1999 Christoph Bartelmus" "(lirc@bartelmus.de)\n");
++-	printf("\n");
+++	puts("\n");
++ 
++ 	if (curr_driver->init_func) {
++ 		if (!curr_driver->init_func()) {
++@@ -561,16 +561,16 @@ int main(int argc, char **argv)
++ 		exit(EXIT_FAILURE);
++ 	}
++ 
++-	printf("This program will record the signals from your remote control\n"
+++	puts("This program will record the signals from your remote control\n"
++ 	       "and create a config file for lircd.\n\n" "\n");
++ 	if (curr_driver->name && strcmp(curr_driver->name, "devinput") == 0) {
++-		printf("Usually it's not necessary to create a new config file for devinput\n"
+++		puts("Usually it's not necessary to create a new config file for devinput\n"
++ 		       "devices. A generic config file can be found at:\n"
++ 		       "https://sourceforge.net/p/lirc-remotes/code/ci/master/tree/remotes/devinput/devinput.lircd.conf"
++ 		       "It can be downloaded using irdb-get(1)\n"
++ 		       "Please try this config file before creating your own.\n" "\n");
++ 	}
++-	printf("A proper config file for lircd is maybe the most vital part of this\n"
+++	puts("A proper config file for lircd is maybe the most vital part of this\n"
++ 	       "package, so you should invest some time to create a working config\n"
++ 	       "file. Although I put a good deal of effort in this program it is often\n"
++ 	       "not possible to automatically recognize all features of a remote\n"
++@@ -610,7 +610,7 @@ int main(int argc, char **argv)
++ 					curr_driver->deinit_func();
++ 				exit(EXIT_FAILURE);
++ 			}
++-			printf("Creating config file in raw mode.\n");
+++			puts("Creating config file in raw mode.\n");
++ 			set_protocol(&remote, RAW_CODES);
++ 			remote.eps = eps;
++ 			remote.aeps = aeps;
++@@ -643,7 +643,7 @@ int main(int argc, char **argv)
++ 			curr_driver->rec_func(NULL);
++ 		}
++ 		if (!get_toggle_bit_mask(&remote)) {
++-			printf("But I know for sure that RC6 has a toggle bit!\n");
+++			puts("But I know for sure that RC6 has a toggle bit!\n");
++ 			fclose(fout);
++ 			unlink(filename);
++ 			if (curr_driver->deinit_func)
++@@ -651,7 +651,7 @@ int main(int argc, char **argv)
++ 			exit(EXIT_FAILURE);
++ 		}
++ 	}
++-	printf("Now enter the names for the buttons.\n");
+++	puts("Now enter the names for the buttons.\n");
++ 
++ 	fprint_copyright(fout);
++ 	fprint_comment(fout, &remote, commandline);
++@@ -663,8 +663,8 @@ int main(int argc, char **argv)
++ 
++ 		if (no_data) {
++ 			fprintf(stderr, "%s: no data for 10 secs," " aborting\n", progname);
++-			printf("The last button did not seem to generate any signal.\n");
++-			printf("Press RETURN to continue.\n\n");
+++			puts("The last button did not seem to generate any signal.\n");
+++			puts("Press RETURN to continue.\n\n");
++ 			getchar();
++ 			no_data = 0;
++ 		}
++@@ -678,13 +678,13 @@ int main(int argc, char **argv)
++ 		}
++ 		buffer[strlen(buffer) - 1] = 0;
++ 		if (strchr(buffer, ' ') || strchr(buffer, '\t')) {
++-			printf("The name must not contain any whitespace.\n");
++-			printf("Please try again.\n");
+++			puts("The name must not contain any whitespace.\n");
+++			puts("Please try again.\n");
++ 			continue;
++ 		}
++ 		if (strcasecmp(buffer, "begin") == 0 || strcasecmp(buffer, "end") == 0) {
++ 			printf("'%s' is not allowed as button name\n", buffer);
++-			printf("Please try again.\n");
+++			puts("Please try again.\n");
++ 			continue;
++ 		}
++ 		if (strlen(buffer) == 0) {
++@@ -693,7 +693,7 @@ int main(int argc, char **argv)
++ 		if (!disable_namespace && !is_in_namespace(buffer)) {
++ 			printf("'%s' is not in name space (use --disable-namespace to disable checks)\n", buffer);
++ 			printf("Use '%s --list-namespace' to see a full list of valid button names\n", progname);
++-			printf("Please try again.\n");
+++			puts("Please try again.\n");
++ 			continue;
++ 		}
++ 
++@@ -730,9 +730,9 @@ int main(int argc, char **argv)
++ 				}
++ 				if (count == 0) {
++ 					if (!is_space(data) || data < remote.gap - remote.gap * remote.eps / 100) {
++-						printf("Sorry, something went wrong.\n");
+++						puts("Sorry, something went wrong.\n");
++ 						sleep(3);
++-						printf("Try again.\n");
+++						puts("Try again.\n");
++ 						flushhw();
++ 						count = 0;
++ 						continue;
++@@ -742,13 +742,13 @@ int main(int argc, char **argv)
++ 					    && (is_const(&remote) ? data >
++ 						(remote.gap > sum ? (remote.gap - sum) * (100 - remote.eps) / 100 : 0)
++ 						: data > remote.gap * (100 - remote.eps) / 100)) {
++-						printf("Got it.\n");
+++						puts("Got it.\n");
++ 						printf("Signal length is %d\n", count - 1);
++ 						if (count % 2) {
++-							printf("That's weird because the signal length "
+++							puts("That's weird because the signal length "
++ 							       "must be odd!\n");
++ 							sleep(3);
++-							printf("Try again.\n");
+++							puts("Try again.\n");
++ 							flushhw();
++ 							count = 0;
++ 							continue;
++@@ -766,7 +766,7 @@ int main(int argc, char **argv)
++ 				count++;
++ 			}
++ 			if (count == MAX_SIGNALS) {
++-				printf("Signal is too long.\n");
+++				puts("Signal is too long.\n");
++ 			}
++ 			if (retval == EXIT_FAILURE)
++ 				break;
++@@ -814,7 +814,7 @@ int main(int argc, char **argv)
++ 				}
++ 				break;
++ 			} else {
++-				printf("Something went wrong. ");
+++				puts("Something went wrong. ");
++ 				if (retries > 1) {
++ 					fflush(stdout);
++ 					sleep(3);
++@@ -826,8 +826,8 @@ int main(int argc, char **argv)
++ 					flushhw();
++ 					printf("Please try again. (%d retries left)\n", retries - 1);
++ 				} else {
++-					printf("\n");
++-					printf("Try using the -f option.\n");
+++					puts("\n");
+++					puts("Try using the -f option.\n");
++ 				}
++ 				retries--;
++ 				continue;
++@@ -1033,8 +1033,8 @@ int get_toggle_bit_mask(struct ir_remote *remote)
++ 		}
++ 	}
++ 
++-	printf("Checking for toggle bit mask.\n");
++-	printf("Please press an arbitrary button repeatedly as fast as possible.\n"
+++	puts("Checking for toggle bit mask.\n");
+++	puts("Please press an arbitrary button repeatedly as fast as possible.\n"
++ 	       "Make sure you keep pressing the SAME button and that you DON'T HOLD\n" "the button down!.\n"
++ 	       "If you can't see any dots appear, then wait a bit between button presses.\n" "\n"
++ 	       "Press RETURN to continue.");
++@@ -1089,7 +1089,7 @@ int get_toggle_bit_mask(struct ir_remote *remote)
++ 					set_toggle_bit_mask(remote, first ^ decode_ctx.code);
++ 					found = 1;
++ 				}
++-				printf(".");
+++				puts(".");
++ 				fflush(stdout);
++ 				retries--;
++ 			} else {
++@@ -1101,12 +1101,12 @@ int get_toggle_bit_mask(struct ir_remote *remote)
++ 		}
++ 	}
++ 	if (!found) {
++-		printf("\nNo toggle bit mask found.\n");
+++		puts("\nNo toggle bit mask found.\n");
++ 	} else {
++ 		if (remote->toggle_bit_mask > 0) {
++ 			printf("\nToggle bit mask is 0x%llx.\n", (__u64) remote->toggle_bit_mask);
++ 		} else if (remote->toggle_mask != 0) {
++-			printf("\nToggle mask found.\n");
+++			puts("\nToggle mask found.\n");
++ 		}
++ 	}
++ 	if (seq > 0)
++@@ -1533,12 +1533,12 @@ int get_lengths(struct ir_remote *remote, int force, int interactive)
++ 	int first_signal;
++ 
++ 	if (interactive) {
++-		printf("Now start pressing buttons on your remote control.\n\n");
++-		printf("It is very important that you press many different buttons and hold them\n"
+++		puts("Now start pressing buttons on your remote control.\n\n");
+++		puts("It is very important that you press many different buttons and hold them\n"
++ 		       "down for approximately one second. Each button should generate at least one\n"
++ 		       "dot but in no case more than ten dots of output.\n"
++ 		       "Don't stop pressing buttons until two lines of dots (2x80) have been\n" "generated.\n\n");
++-		printf("Press RETURN now to start recording.");
+++		puts("Press RETURN now to start recording.");
++ 		fflush(stdout);
++ 		getchar();
++ 		flushhw();
++@@ -1647,7 +1647,7 @@ int get_lengths(struct ir_remote *remote, int force, int interactive)
++ 
++ 					if (interactive) {
++ 						for (i = maxcount - lastmaxcount; i > 0; i--) {
++-							printf(".");
+++							puts(".");
++ 							fflush(stdout);
++ 						}
++ 					}
++@@ -1715,7 +1715,7 @@ int get_lengths(struct ir_remote *remote, int force, int interactive)
++ 						int i;
++ 
++ 						if (interactive) {
++-							printf(".");
+++							puts(".");
++ 							fflush(stdout);
++ 						}
++ 						count_signals++;
++@@ -2130,7 +2130,7 @@ int get_repeat_length(struct ir_remote *remote, int interactive)
++ 
++ 	if (!((count_3repeats > SAMPLES / 2 ? 1 : 0) ^ (count_5repeats > SAMPLES / 2 ? 1 : 0))) {
++ 		if (count_3repeats > SAMPLES / 2 || count_5repeats > SAMPLES / 2) {
++-			printf("Repeat inconsitentcy.\n");
+++			puts("Repeat inconsitentcy.\n");
++ 			return (0);
++ 		}
++ 		i_printf(interactive, "No repeat code found.\n");
++@@ -2151,7 +2151,7 @@ int get_repeat_length(struct ir_remote *remote, int interactive)
++ 		}
++ 		if (max_count >= sum * TH_REPEAT / 100) {
++ 			if (count_5repeats > count_3repeats && !has_header(remote)) {
++-				printf("Repeat code has header," " but no header found!\n");
+++				puts("Repeat code has header," " but no header found!\n");
++ 				return (0);
++ 			}
++ 			if (count_5repeats > count_3repeats && has_header(remote)) {
++@@ -2199,7 +2199,7 @@ void unlink_length(struct lengths **first, struct lengths *remove)
++ 			scan = scan->next;
++ 		}
++ 	}
++-	printf("unlink_length(): report this bug!\n");
+++	puts("unlink_length(): report this bug!\n");
++ }
++ 
++ int get_data_length(struct ir_remote *remote, int interactive)
++@@ -2224,12 +2224,12 @@ int get_data_length(struct ir_remote *remote, int interactive)
++ 				max2_plength = NULL;
++ 		}
++ 		if (lirc_log_is_enabled_for(LIRC_DEBUG)) {
++-			printf("Pulse canditates: ");
+++			puts("Pulse canditates: ");
++ 			printf("%u x %u", max_plength->count, (__u32) calc_signal(max_plength));
++ 			if (max2_plength)
++ 				printf(", %u x %u", max2_plength->count, (__u32)
++ 				       calc_signal(max2_plength));
++-			printf("\n");
+++			puts("\n");
++ 		}
++ 
++ 		max_slength = get_max_length(first_space, &sum);
++@@ -2247,21 +2247,21 @@ int get_data_length(struct ir_remote *remote, int interactive)
++ 			}
++ 			if (lirc_log_is_enabled_for(LIRC_DEBUG)) {
++ 				if (max_count >= sum * TH_IS_BIT / 100) {
++-					printf("Space candidates: ");
+++					puts("Space candidates: ");
++ 					printf("%u x %u", max_slength->count,
++ 					       (__u32) calc_signal(max_slength));
++ 					if (max2_slength)
++ 						printf(", %u x %u",
++ 						       max2_slength->count,
++ 						       (__u32) calc_signal(max2_slength));
++-					printf("\n");
+++					puts("\n");
++ 				}
++ 			}
++ 			remote->eps = eps;
++ 			remote->aeps = aeps;
++ 			if (is_biphase(remote)) {
++ 				if (max2_plength == NULL || max2_slength == NULL) {
++-					printf("Unknown encoding found.\n");
+++					puts("Unknown encoding found.\n");
++ 					return (0);
++ 				}
++ 				i_printf(interactive, "Signals are biphase encoded.\n");
++@@ -2276,11 +2276,11 @@ int get_data_length(struct ir_remote *remote, int interactive)
++ 				remote->szero = remote->sone;
++ 			} else {
++ 				if (max2_plength == NULL && max2_slength == NULL) {
++-					printf("No encoding found.\n");
+++					puts("No encoding found.\n");
++ 					return (0);
++ 				}
++ 				if (max2_plength && max2_slength) {
++-					printf("Unknown encoding found.\n");
+++					puts("Unknown encoding found.\n");
++ 					return (0);
++ 				}
++ 				p1 = calc_signal(max_plength);
++@@ -2348,7 +2348,7 @@ int get_data_length(struct ir_remote *remote, int interactive)
++ 		}
++ 		free_lengths(&max_plength);
++ 	}
++-	printf("Could not find data lengths.\n");
+++	puts("Could not find data lengths.\n");
++ 	return (0);
++ }
++ 
++@@ -2366,7 +2366,7 @@ int get_gap_length(struct ir_remote *remote)
++ 
++ 	flag = 0;
++ 	lastmaxcount = 0;
++-	printf("Hold down an arbitrary button.\n");
+++	puts("Hold down an arbitrary button.\n");
++ 	while (1) {
++ 		while (availabledata()) {
++ 			curr_driver->rec_func(NULL);
++@@ -2398,7 +2398,7 @@ int get_gap_length(struct ir_remote *remote)
++ 			}
++ 			if (maxcount > lastmaxcount) {
++ 				lastmaxcount = maxcount;
++-				printf(".");
+++				puts(".");
++ 				fflush(stdout);
++ 			}
++ 		} else {
++@@ -2411,9 +2411,10 @@ int get_gap_length(struct ir_remote *remote)
++ 
++ void fprint_copyright(FILE * fout)
++ {
++-	fprintf(fout, "\n"
+++	fputs("\n"
++ 		"# Please take the time to finish this file as described in\n"
++ 		"# https://sourceforge.net/p/lirc-remotes/wiki/Checklist/\n"
++ 		"# and make it available to others by sending it to \n"
++-		"# <lirc@bartelmus.de>\n");
+++		"# <lirc@bartelmus.de>\n",
+++                fout);
++ }
++diff --git a/tools/irsend.c b/tools/irsend.c
++index 9a3fabc..16ee8d4 100644
++--- a/tools/irsend.c
+++++ b/tools/irsend.c
++@@ -117,7 +117,7 @@ int main(int argc, char **argv)
++ 			break;
++ 		switch (c) {
++ 		case 'h':
++-			printf(help);
+++			fputs(help, stdout);
++ 			return (EXIT_SUCCESS);
++ 		case 'v':
++ 			printf("%s %s\n", prog, VERSION);
++diff --git a/tools/irsimreceive.c b/tools/irsimreceive.c
++index 4a5a3b8..3c3d0bb 100644
++--- a/tools/irsimreceive.c
+++++ b/tools/irsimreceive.c
++@@ -43,25 +43,25 @@ static void setup(const char* path)
++ 		exit(EXIT_FAILURE);
++ 	}
++ 	if (hw_choose_driver("file") == -1) {
++-		fprintf(stderr,
++-			"Cannot load file driver (bad plugin path?)\n");
+++		fputs("Cannot load file driver (bad plugin path?)\n",
+++                      stderr);
++ 		exit(EXIT_FAILURE);
++ 	}
++ 	r = curr_driver->open_func("dummy.out");
++ 	if (r == 0) {
++-		fprintf(stderr, "Cannot open driver\n");
+++		fputs("Cannot open driver\n", stderr);
++ 		exit(EXIT_FAILURE);
++ 	}
++ 	r = curr_driver->init_func();
++ 	if (r == 0) {
++-		fprintf(stderr, "Cannot init driver\n");
+++		fputs("Cannot init driver\n", stderr);
++ 		exit(EXIT_FAILURE);
++ 	}
++ 	strcpy(option.key, "set-infile");
++ 	strncpy(option.value, path, sizeof(option.value));
++ 	r = curr_driver->drvctl_func(DRVCTL_SET_OPTION, (void*) &option);
++ 	if (r != 0) {
++-		fprintf(stderr, "Cannot set driver infile.\n");
+++		fputs("Cannot set driver infile.\n", stderr);
++ 		exit(EXIT_FAILURE);
++ 	}
++ }
++@@ -102,7 +102,7 @@ void printcode(char* s)
++ 	int len;
++ 
++ 	if (s == NULL) {
++-		printf( "None\n");
+++		puts("None\n");
++ 	} else {
++ 		len = strlen(s);
++                 if (strlen(s) > 2 && s[len -1] == '\n') {
++@@ -140,23 +140,23 @@ int main(int argc, char *argv[])
++ 	       != EOF) {
++ 		switch (c) {
++ 		case 'h':
++-			printf(USAGE);
++-			return (EXIT_SUCCESS);
+++			puts(USAGE);
+++			return EXIT_SUCCESS;
++ 		case 'v':
++ 			printf("%s\n", "irw " VERSION);
++-			return (EXIT_SUCCESS);
+++			return EXIT_SUCCESS;
++ 		case 'U':
++ 			options_set_opt("lircd:pluginpath", optarg);
++ 			break;
++ 		case '?':
++ 			fprintf(stderr, "unrecognized option: -%c\n", optopt);
++-			fprintf(stderr,
++-                                "Try `irsimsend -h' for more information.\n");
++-			return (EXIT_FAILURE);
+++			fputs("Try `irsimsend -h' for more information.\n",
+++                              stderr);
+++			return EXIT_FAILURE;
++ 		}
++ 	}
++ 	if (argc != optind + 2) {
++-		fprintf(stderr, USAGE);
+++		fputs(USAGE, stderr);
++ 		return EXIT_FAILURE;
++ 	}
++ 	lirc_log_get_clientlog("irsimreceive", path, sizeof(path));
++diff --git a/tools/irsimsend.c b/tools/irsimsend.c
++index b72831a..7572d84 100644
++--- a/tools/irsimsend.c
+++++ b/tools/irsimsend.c
++@@ -65,8 +65,8 @@ static struct ir_remote* setup(const char* path)
++ 	FILE* f;
++ 
++ 	if (hw_choose_driver("file") == -1) {
++-		fprintf(stderr,
++-			"Cannot load file driver (bad plugin path?)\n");
+++		fputs("Cannot load file driver (bad plugin path?)\n",
+++                       stderr);
++ 		exit(EXIT_FAILURE);
++ 	}
++ 	unlink(OUTFILE);
++@@ -196,7 +196,7 @@ int parse_uint_arg(const char* optind, const char* errmsg)
++ 
++ 	c = strtol(optarg, NULL, 10);
++ 	if (c > INT_MAX || c < 0 || errno == EINVAL || errno == ERANGE) {
++-		fprintf(stderr, errmsg);
+++		fputs(errmsg, stderr);
++ 		exit(EXIT_FAILURE);
++ 	}
++ 	return (int) c;
++@@ -213,7 +213,7 @@ int main(int argc, char *argv[])
++ 	       != EOF) {
++ 		switch (c) {
++ 		case 'h':
++-			printf(USAGE);
+++			puts(USAGE);
++ 			return (EXIT_SUCCESS);
++ 		case 'c':
++ 			opt_count = parse_uint_arg(optarg,
++@@ -237,13 +237,13 @@ int main(int argc, char *argv[])
++ 			break;
++ 		case '?':
++ 			fprintf(stderr, "unrecognized option: -%c\n", optopt);
++-			fprintf(stderr,
++-                                "Try `irsimsend -h' for more information.\n");
+++			fputs("Try `irsimsend -h' for more information.\n",
+++                               stderr);
++ 			return (EXIT_FAILURE);
++ 		}
++ 	}
++ 	if (argc != optind + 1) {
++-		fprintf(stderr, USAGE);
+++		fputs(USAGE, stderr);
++ 		return EXIT_FAILURE;
++ 	}
++ 	lirc_log_get_clientlog("irsimsend", path, sizeof(path));
++diff --git a/tools/irtestcase.c b/tools/irtestcase.c
++index 95d59b7..149c1ad 100644
++--- a/tools/irtestcase.c
+++++ b/tools/irtestcase.c
++@@ -92,7 +92,7 @@ static void set_testinput(int fd, const char* path)
++ 	lirc_command_init(&command, "DRV_OPTION set-infile %s\n", path);
++ 	r = lirc_command_run(&command, fd);
++ 	if (r != 0) {
++-		fprintf(stderr, "Cannot set test input file\n");
+++		fputs("Cannot set test input file\n", stderr);
++ 		exit(2);
++ 	}
++ }
++@@ -137,7 +137,7 @@ static int nextcode(int fd, char* buff, ssize_t size)
++ 		exit(errno);
++ 	};
++ 	if (strstr(buff, "__EOF") != NULL) {
++-		printf("Exit on EOF\n");
+++		puts("Exit on EOF\n");
++ 		exit(0);
++ 	}
++ 	if (i >= 0) {
++@@ -176,16 +176,16 @@ static int irtestcase(int fd_io, int fd_cmd)
++ 
++ 	if (opt_lircrc != NULL) {
++ 		if (lirc_readconfig_only(opt_lircrc, &config, NULL) != 0) {
++-			fprintf(stderr, "Cannot initiate lircrc decoding\n");
+++			fputs("Cannot initiate lircrc decoding\n", stderr);
++ 			exit(2);
++ 		}
++ 	}
++ 	while (nextcode(fd_io, code, sizeof(code)) == 1) {
++-		printf(code);
+++		puts(code);
++ 		if (strstr(code, "__EOF") != NULL) {
++ 			exit(0);
++ 		}
++-		fprintf(code_log, code);
+++		fputs(code, code_log);
++ 		if (opt_lircrc != NULL){
++ 			r = lirc_code2char(config, code, &c);
++ 			while (r == 0 && c != NULL) {
++@@ -222,36 +222,35 @@ int main(int argc, char *argv[])
++ 			opt_testdata = optarg;
++ 			break;
++ 		case 'h':
++-			printf(USAGE);
+++			puts(USAGE);
++ 			return (EXIT_SUCCESS);
++ 		case 'v':
++ 			printf("%s\n", "irtestcase " VERSION);
++ 			return (EXIT_SUCCESS);
++ 		case '?':
++ 			fprintf(stderr, "unrecognized option: -%c\n", optopt);
++-			fprintf(stderr, "Try `irtestcase --help'.\n");
+++			fputs("Try `irtestcase --help'.\n", stderr);
++ 			return (EXIT_FAILURE);
++ 		}
++ 	}
++ 	if (argc > optind + 1) {
++-		fprintf(stderr,
++-			"irtestcase: Too many arguments (max one).\n");
++-		fprintf(stderr, "Try `irtestcase --help'.\n");
+++		fputs("irtestcase: Too many arguments (max one).\n", stderr);
+++		fputs("Try `irtestcase --help'.\n", stderr);
++ 		return (EXIT_FAILURE);
++ 	}
++ 	if (strcmp(opt_prog, DEFAULT_PROG) != 0 && opt_lircrc == NULL) {
++-		fprintf(stderr, "--prog requires --lircrc/-l. Giving up.\n");
+++		fputs("--prog requires --lircrc/-l. Giving up.\n", stderr);
++ 		return (EXIT_FAILURE);
++ 	}
++ 	if (opt_lircrc != NULL && strcmp(opt_prog, DEFAULT_PROG) == 0) {
++-		fprintf(stderr, "--lircrc requires --prog/-p. Giving up.\n");
+++		fputs("--lircrc requires --prog/-p. Giving up.\n", stderr);
++ 		return (EXIT_FAILURE);
++ 	}
++ 
++ 	init_testdir();
++ 	fd_cmd = lirc_get_local_socket(NULL, 1);
++ 	if (fd_cmd < 0) {
++-		fprintf(stderr, "Cannot open lircd socket.\n");
+++		fputs("Cannot open lircd socket.\n", stderr);
++ 		exit(3);
++ 	}
++ 	set_devicelog(fd_cmd, DEVICE_LOG);
++@@ -267,7 +266,7 @@ int main(int argc, char *argv[])
++ 	setenv("LIRC_SOCKET_PATH", socketpath, 0);
++ 	fd_io = lirc_init(opt_prog, 1);
++ 	if (fd_io < 0) {
++-		fprintf(stderr, "Cannot run lirc_init.\n");
+++		fputs("Cannot run lirc_init.\n", stderr);
++ 		exit(3);
++ 	}
++ 
++diff --git a/tools/lirc-lsplugins.c b/tools/lirc-lsplugins.c
++index 9eceb3b..677cbb3 100644
++--- a/tools/lirc-lsplugins.c
+++++ b/tools/lirc-lsplugins.c
++@@ -111,7 +111,7 @@ static void  lines_next(line_t* line)
++ {
++ 	lines[line_ix++] = line;
++ 	if (line_ix >= MAX_PLUGINS -1){
++-		fprintf(stderr, "Too many plugins, giving up. Sorry.");
+++		fputs("Too many plugins, giving up. Sorry.", stderr);
++ 		exit(2);
++ 	}
++ }
++@@ -152,7 +152,7 @@ static void line_print(const line_t* line)
++ 	printf("%-20s%-6s%s\n",
++                line->name,  line->flags, line->path);
++ 	if (line->errors)
++-		printf(line->errors);
+++		puts(line->errors);
++ }
++ 
++ static void print_folded_item(const char* arg)
++@@ -163,7 +163,7 @@ static void print_folded_item(const char* arg)
++ 	char* token;
++ 
++ 	if (arg == NULL) {
++-		printf("None\n");
+++		puts("None\n");
++ 		return;
++ 	}
++ 	buff = alloca(strlen(arg) + 1);
++@@ -171,18 +171,18 @@ static void print_folded_item(const char* arg)
++ 	token = strtok(buff, " \t");
++ 	while (token != NULL) {
++ 		if (strlen(token) + pos > 80) {
++-			printf("\n\t\t");
+++			puts("\n\t\t");
++ 			pos = 0;
++ 		}
++ 		if (pos != START_POS && pos != 0){
++-			printf(" ");
+++			puts(" ");
++ 			pos += 1;
++ 		}
++-		printf(token);
+++		puts(token);
++ 		pos += strlen(token);
++ 		token = strtok(NULL, " \t");
++ 	}
++-	printf("\n");
+++	puts("\n");
++ }
++ 
++ 
++@@ -220,7 +220,7 @@ static void line_print_long(const line_t* line)
++ 	printf("Version:\t%s\n", line->version ? line->version : "(None)");
++ 	printf("Driver info:\t");
++ 	print_folded_item(line->info);
++-	printf("\n");
+++	puts("\n");
++ }
++ 
++ 
++@@ -356,13 +356,13 @@ void lsplugins(const char* pluginpath, const char* which)
++ 		}
++ 	}
++ 	if (!opt_quiet) {
++-		printf("#\n#\n");
+++		puts("#\n#\n");
++ 		if (!opt_long) {
++-			printf(LEGEND);
++-			printf("#\n");
+++			puts(LEGEND);
+++			puts("#\n");
++ 		}
++ 		if (opt_long)
++-			printf(LONG_LEGEND);
+++			puts(LONG_LEGEND);
++ 		}
++ }
++ 
++@@ -383,10 +383,10 @@ int main(int argc, char** argv)
++ 				pluginpath = optarg;
++ 				break;
++ 			case 'h':
++-				printf(USAGE);
+++				puts(USAGE);
++ 				exit(0);
++ 			case 'v':
++-				printf("Version: " VERSION "\n");
+++				puts("Version: " VERSION "\n");
++ 				exit(0);
++ 			case 'p':
++ 				printf("Default path: %s\n", pluginpath);
++@@ -404,13 +404,13 @@ int main(int argc, char** argv)
++ 				opt_long = 1;
++ 				break;
++ 			default:
++-				fprintf(stderr, USAGE);
+++				fputs(USAGE, stderr);
++ 				exit(1);
++ 		}
++ 	}
++         if (argc - optind  >  1) {
++-		fprintf(stderr, "Too many arguments.\n");
++-                fprintf(stderr, USAGE);
+++		fputs("Too many arguments.\n", stderr);
+++                fputs(USAGE, stderr);
++                 exit(2);
++         }
++ 	which = (argc - optind == 1 ?  argv[argc - 1] : "*");
++diff --git a/tools/lirc-lsremotes.c b/tools/lirc-lsremotes.c
++index 2ac7dad..11e806a 100644
++--- a/tools/lirc-lsremotes.c
+++++ b/tools/lirc-lsremotes.c
++@@ -258,16 +258,16 @@ int main(int argc, char** argv)
++ 			opt_silent = 1;
++ 			break;
++ 		case 'h':
++-			printf(USAGE);
++-			return (EXIT_SUCCESS);
+++			puts(USAGE);
+++			return EXIT_SUCCESS;
++ 		case 'v':
++ 			printf("%s\n", "lirc-lsremotes " VERSION);
++-			return (EXIT_SUCCESS);
+++			return EXIT_SUCCESS;
++ 		case '?':
++ 			fprintf(stderr, "unrecognized option: -%c\n", optopt);
++-			fprintf(stderr,
++-                                "Try `lirc-lsremotes -h' for more information.\n");
++-			return (EXIT_FAILURE);
+++			fputs("Try `lirc-lsremotes -h' for more information.\n",
+++                               stderr);
+++			return EXIT_FAILURE;
++ 		}
++ 	}
++ 	if (argc == optind + 2) {
++@@ -277,7 +277,7 @@ int main(int argc, char** argv)
++ 		dirpath = argv[optind];
++ 		configs = "*";
++ 	} else {
++-		fprintf(stderr, USAGE);
+++		fputs(USAGE, stderr);
++ 		return EXIT_FAILURE;
++ 	}
++ 	lirc_log_get_clientlog("lirc-lsremotes", path, sizeof(path));
++diff --git a/tools/mode2.c b/tools/mode2.c
++index 70c83f8..565cc2d 100644
++--- a/tools/mode2.c
+++++ b/tools/mode2.c
++@@ -98,7 +98,7 @@ static void parse_options(int argc, char** argv)
++ 	{
++ 		switch (c) {
++ 		case 'h':
++-			printf(help);
+++			puts(help);
++ 			exit(EXIT_SUCCESS);
++ 		case 'H':
++ 			strncpy(driver, optarg, sizeof(driver) - 1);
++@@ -194,11 +194,11 @@ int main(int argc, char **argv)
++ 			close(fd);
++ 			exit(EXIT_FAILURE);
++ 		} else if (ioctl(fd, LIRC_GET_REC_MODE, &mode) == -1) {
++-			printf("This program is only intended for receivers"
+++			puts("This program is only intended for receivers"
++ 			       " supporting the pulse/space layer.\n");
++-			printf("Note that this is no error, but this program "
+++			puts("Note that this is no error, but this program "
++ 			       "simply makes no sense for your\n" "receiver.\n");
++-			printf("In order to test your setup run lircd with "
+++			puts("In order to test your setup run lircd with "
++ 			       "the --nodaemon option and \n then check if the"
++ 			       " remote works with the irw tool.\n");
++ 			close(fd);
++@@ -213,11 +213,11 @@ int main(int argc, char **argv)
++ 		mode = curr_driver->rec_mode;
++ 		if (mode != LIRC_MODE_MODE2) {
++ 			if (strcmp(curr_driver->name, "default") == 0) {
++-				printf("Please use the --raw option to access "
+++				puts("Please use the --raw option to access "
++ 				       "the device directly instead through\n"
++ 				       "the abstraction layer.\n");
++ 			} else {
++-				printf("This program does not work for this"
+++				puts("This program does not work for this"
++  				       " hardware yet\n");
++ 			}
++ 			exit(EXIT_FAILURE);
++@@ -256,15 +256,15 @@ int main(int argc, char **argv)
++ 						(void *)&data : buffer),
++ 				      count);
++ 			if (result != count) {
++-				fprintf(stderr, "read() failed\n");
+++				fputs("read() failed\n", stderr);
++ 				break;
++ 			}
++ 		} else {
++ 			if (mode == LIRC_MODE_MODE2) {
++ 				data = curr_driver->readdata(0);
++ 				if (data == 0) {
++-					fprintf(stderr,
++-					        "readdata() failed\n");
+++					fputs("readdata() failed\n",
+++                                              stderr);
++ 					break;
++ 				}
++ 			} else {
++@@ -273,11 +273,11 @@ int main(int argc, char **argv)
++ 		}
++ 
++ 		if (mode != LIRC_MODE_MODE2) {
++-			printf("code: 0x");
+++			puts("code: 0x");
++ 			for (i = 0; i < count; i++) {
++ 				printf("%02x", (unsigned char)buffer[i]);
++ 			}
++-			printf("\n");
+++			puts("\n");
++ 			fflush(stdout);
++ 			continue;
++ 		}
++@@ -297,19 +297,19 @@ int main(int argc, char **argv)
++ 			if (data & PULSE_BIT) {
++ 				if ((bitno & 1) == 0) {
++ 					/* not in expected order */
++-					printf("-pulse");
+++					puts("-pulse");
++ 				}
++ 			} else {
++ 				if (bitno & 1) {
++ 					/* not in expected order */
++-					printf("-space");
+++					puts("-space");
++ 				}
++ 				if (((data & PULSE_MASK) > gap) || (bitno >= 6)) {
++ 					/* real long space or more
++ 					   than 6 codes, start new line */
++-					printf("\n");
+++					puts("\n");
++ 					if ((data & PULSE_MASK) > gap)
++-						printf("\n");
+++						puts("\n");
++ 					bitno = 0;
++ 				}
++ 			}
++@@ -317,7 +317,7 @@ int main(int argc, char **argv)
++ 		}
++ 		case 2:
++ 			if ((data & PULSE_MASK) > gap)
++-				printf("_\n\n_");
+++				puts("_\n\n_");
++ 			else
++ 				printf("%.*s",
++ 				       ((data & PULSE_MASK) + t_div/2) / t_div,
++diff --git a/tools/xmode2.c b/tools/xmode2.c
++index 6a45d4c..9a4e0a1 100644
++--- a/tools/xmode2.c
+++++ b/tools/xmode2.c
++@@ -139,12 +139,13 @@ static void parse_options(int argc, char** const argv)
++ 	add_defaults();
++ 	while ((c = getopt_long(argc, argv, "U:hvd:H:g:t:mr", options, NULL)) != -1) {
++ 		switch (c) {
++-		case 'h':printf(help);
+++		case 'h':puts(help);
++ 			exit (EXIT_SUCCESS);
++ 		case 'H':
++ 			if (hw_choose_driver(optarg) != 0) {
++ 				fprintf(stderr, "Driver `%s' not found", optarg);
++-				fprintf(stderr, " (wrong or missing -U/--plugindir?)\n");
+++				fputs(" (wrong or missing -U/--plugindir?)\n",
+++                                       stderr);
++ 				hw_print_drivers(stderr);
++ 				exit(EXIT_FAILURE);
++ 			}
++@@ -186,7 +187,7 @@ void initscreen(char *geometry)
++ {
++ 	d1 = XOpenDisplay(0);
++ 	if (d1 == NULL) {
++-		printf("Can't open display.\n");
+++		puts("Can't open display.\n");
++ 		exit(0);
++ 	}
++ 
++@@ -208,10 +209,10 @@ void initscreen(char *geometry)
++ 
++ 	cm1 = DefaultColormap(d1, 0);
++ 	if (!XAllocNamedColor(d1, cm1, "blue", &xc1, &xc2))
++-		printf("coudn't allocate blue color\n");
+++		puts("couldn't allocate blue color\n");
++ 	f1_str = XLoadQueryFont(d1, font1_name);
++ 	if (f1_str == NULL) {
++-		printf("could't load font\n");
+++		puts("could't load font\n");
++ 		exit(EXIT_FAILURE);
++ 	}
++ 
++@@ -266,10 +267,10 @@ int main(int argc, char **argv)
++ 			close(fd);
++ 			exit(EXIT_FAILURE);
++ 		} else if (ioctl(fd, LIRC_GET_REC_MODE, &mode) == -1) {
++-			printf("This program is only intended for receivers supporting the pulse/space layer.\n");
++-			printf("Note that this is no error, but this program "
+++			puts("This program is only intended for receivers supporting the pulse/space layer.\n");
+++			puts("Note that this is no error, but this program "
++ 			       "simply makes no sense for your\n" "receiver.\n");
++-			printf("In order to test your setup run lircd with "
+++			puts("In order to test your setup run lircd with "
++ 			       "the --nodaemon option and \n" "then check if the remote works with the irw tool.\n");
++ 			close(fd);
++ 			exit(EXIT_FAILURE);
++@@ -277,7 +278,7 @@ int main(int argc, char **argv)
++ 	} else {
++ 		curr_driver->open_func(device);
++ 		if (curr_driver->init_func  && !curr_driver->init_func()) {
++-			fprintf(stderr, "Cannot initialize hardware");
+++			fputs("Cannot initialize hardware", stderr);
++ 			exit(EXIT_FAILURE);
++ 		}
++ 
++@@ -285,10 +286,10 @@ int main(int argc, char **argv)
++ 		mode = curr_driver->rec_mode;
++ 		if (mode != LIRC_MODE_MODE2) {
++ 			if (strcmp(curr_driver->name, "default") == 0) {
++-				printf("Please use the --raw option to access "
+++				puts("Please use the --raw option to access "
++ 				       "the device directly instead through\n" "the abstraction layer.\n");
++ 			} else {
++-				printf("This program does not work for this hardware yet\n");
+++				puts("This program does not work for this hardware yet\n");
++ 			}
++ 			exit(EXIT_FAILURE);
++ 		}
++-- 
++2.1.0
++
+-- 
+2.5.0
+

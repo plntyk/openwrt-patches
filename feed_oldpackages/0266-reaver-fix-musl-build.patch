@@ -1,0 +1,30 @@
+From dd6978890143e62ceb5867703d8d29b9a52fd59e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:06:24 +0200
+Subject: [PATCH 266/310] reaver: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/reaver/patches/0004-musl_types.patch | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 net/reaver/patches/0004-musl_types.patch
+
+diff --git a/net/reaver/patches/0004-musl_types.patch b/net/reaver/patches/0004-musl_types.patch
+new file mode 100644
+index 0000000..7b8500c
+--- /dev/null
++++ b/net/reaver/patches/0004-musl_types.patch
+@@ -0,0 +1,10 @@
++--- a/src/libwps/libwps.h
+++++ b/src/libwps/libwps.h
++@@ -17,6 +17,7 @@
++ #include <stdio.h>
++ #include <string.h>
++ #include <arpa/inet.h>
+++#include <sys/types.h>
++ 
++ #define LIBWPS_MAX_STR_LEN 256
++ 
+-- 
+2.5.0
+

@@ -1,0 +1,86 @@
+From c6b20d908b4ab5d4477c74c6736ad9971dcd3c2b Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:28:42 +0200
+Subject: [PATCH 072/310] libmikmod: update to 3.3.7
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libmikmod/Makefile                          |  6 +++---
+ libs/libmikmod/patches/001-disable-doc.patch     | 21 ---------------------
+ libs/libmikmod/patches/003-automake-compat.patch | 16 ----------------
+ 3 files changed, 3 insertions(+), 40 deletions(-)
+ delete mode 100644 libs/libmikmod/patches/001-disable-doc.patch
+ delete mode 100644 libs/libmikmod/patches/003-automake-compat.patch
+
+diff --git a/libs/libmikmod/Makefile b/libs/libmikmod/Makefile
+index 50d7a3c..0f985b3 100644
+--- a/libs/libmikmod/Makefile
++++ b/libs/libmikmod/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=libmikmod
+-PKG_VERSION:=3.1.12
+-PKG_RELEASE:=3
++PKG_VERSION:=3.3.7
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=http://prdownloads.sourceforge.net/mikmod
+-PKG_MD5SUM:=9f3c740298260d5f88981fc0d51f6f16
++PKG_MD5SUM:=bc6bea190cb8d2ce2b105cc0ff811681
+ 
+ PKG_FIXUP:=autoreconf
+ PKG_INSTALL:=1
+diff --git a/libs/libmikmod/patches/001-disable-doc.patch b/libs/libmikmod/patches/001-disable-doc.patch
+deleted file mode 100644
+index 723102b..0000000
+--- a/libs/libmikmod/patches/001-disable-doc.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+---- libmikmod-3.1.12/Makefile.am	2004-01-21 17:43:53.000000000 +0000
+-+++ libmikmod-3.1.12/Makefile.am.new	2010-07-03 12:12:51.946725127 +0000
+-@@ -1,6 +1,6 @@
+- AUTOMAKE_OPTIONS = foreign
+- SUBDIRS = drivers include libmikmod loaders mmio playercode \
+--          docs dlapi macintosh posix os2 win32
+-+          dlapi macintosh posix os2 win32
+- 
+- bin_SCRIPTS = libmikmod-config
+- 
+---- libmikmod-3.1.12/Makefile.in	2004-01-21 17:43:53.000000000 +0000
+-+++ libmikmod-3.1.12/Makefile.in.new	2010-07-03 12:12:39.626725146 +0000
+-@@ -86,7 +86,7 @@
+- VERSION = @VERSION@
+- 
+- AUTOMAKE_OPTIONS = foreign
+--SUBDIRS = drivers include libmikmod loaders mmio playercode           docs dlapi macintosh posix os2 win32
+-+SUBDIRS = drivers include libmikmod loaders mmio playercode dlapi macintosh posix os2 win32
+- 
+- 
+- bin_SCRIPTS = libmikmod-config
+diff --git a/libs/libmikmod/patches/003-automake-compat.patch b/libs/libmikmod/patches/003-automake-compat.patch
+deleted file mode 100644
+index bf94fca..0000000
+--- a/libs/libmikmod/patches/003-automake-compat.patch
++++ /dev/null
+@@ -1,16 +0,0 @@
+---- a/libmikmod-config.in
+-+++ b/libmikmod-config.in
+-@@ -1,4 +1,4 @@
+--#! /bin/sh
+-+#! @SHELL@
+- 
+- prefix=@prefix@
+- exec_prefix=@exec_prefix@
+---- a/libmikmod/Makefile.in
+-+++ b/libmikmod/Makefile.in
+-@@ -1,3 +1,5 @@
+-+SHELL = @SHELL@
+-+
+- exec_prefix=@exec_prefix@
+- prefix=@prefix@
+- 
+-- 
+2.5.0
+

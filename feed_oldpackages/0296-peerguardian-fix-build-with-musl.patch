@@ -1,0 +1,26 @@
+From b5ff0ed7cc955a60fe57a1b8721eb9adc68bb1be Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:19:36 +0200
+Subject: [PATCH 296/310] peerguardian: fix build with musl
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/peerguardian/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/net/peerguardian/Makefile b/net/peerguardian/Makefile
+index 395f7bb..020ceed 100644
+--- a/net/peerguardian/Makefile
++++ b/net/peerguardian/Makefile
+@@ -40,6 +40,8 @@ define Package/peerguardian/conffiles
+ /etc/p2p.p2b.p2p
+ endef
+ 
++TARGET_CFLAGS+= -D_GNU_SOURCE
++
+ CONFIGURE_ARGS += \
+ 	--enable-lowmem \
+ 	--without-qt4 \
+-- 
+2.5.0
+

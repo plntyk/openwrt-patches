@@ -1,0 +1,71 @@
+From 5a1b22946fc1941ab5af480a93f61c3763e99b63 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 11 Nov 2014 13:57:02 +0100
+Subject: [PATCH 002/310] libdlna: fix build with ffmpeg 2.4.2
+
+fixes error:
+src/libdlna.so: undefined reference to `av_find_stream_info'
+src/libdlna.so: undefined reference to `av_close_input_file'
+collect2: error: ld returned 1 exit status
+
+ffmpeg API changes:
+av_find_stream_info -> avformat_find_stream_info
+av_close_input_file -> avformat_close_input
+
+patch libdlna instead of ffmpeg since recently
+av_close_input_file got removed in upstream git
+avformat: remove obsolete FF_API_CLOSE_INPUT_FILE cruft
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libdlna/patches/200-parallel-build.patch |  4 ++--
+ libs/libdlna/patches/300-ffmpeg_compat.patch  | 18 ++++++++++++++++++
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/libs/libdlna/patches/200-parallel-build.patch b/libs/libdlna/patches/200-parallel-build.patch
+index 7f9934b..0e1b942 100644
+--- a/libs/libdlna/patches/200-parallel-build.patch
++++ b/libs/libdlna/patches/200-parallel-build.patch
+@@ -2,8 +2,8 @@
+  Makefile |    4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+---- libdlna-0.2.3.orig/Makefile
+-+++ libdlna-0.2.3/Makefile
++--- a/Makefile
+++++ b/Makefile
+ @@ -32,8 +32,8 @@ lib:
+  
+  test: $(LIBTEST)
+diff --git a/libs/libdlna/patches/300-ffmpeg_compat.patch b/libs/libdlna/patches/300-ffmpeg_compat.patch
+index 8fb9b39..7ab69d1 100644
+--- a/libs/libdlna/patches/300-ffmpeg_compat.patch
++++ b/libs/libdlna/patches/300-ffmpeg_compat.patch
+@@ -16,6 +16,24 @@
+      {
+        video_stream = i;
+        continue;
++@@ -287,7 +287,7 @@ dlna_guess_media_profile (dlna_t *dlna,
++     return NULL;
++   }
++ 
++-  if (av_find_stream_info (ctx) < 0)
+++  if (avformat_find_stream_info (ctx, NULL) < 0)
++   {
++     if (dlna->verbosity)
++       fprintf (stderr, "can't find stream info\n");
++@@ -334,7 +334,7 @@ dlna_guess_media_profile (dlna_t *dlna,
++     p = p->next;
++   }
++ 
++-  av_close_input_file (ctx);
+++  avformat_close_input (&ctx);
++   free (codecs);
++   return profile;
++ }
+ --- a/src/profiles.h
+ +++ b/src/profiles.h
+ @@ -25,6 +25,14 @@
+-- 
+2.5.0
+

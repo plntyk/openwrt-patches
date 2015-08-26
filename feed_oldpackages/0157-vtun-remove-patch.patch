@@ -1,0 +1,59 @@
+From c518f2b28009f70f85c977b9947cb67acbc75ddf Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 20 May 2015 11:59:05 +0200
+Subject: [PATCH 157/310] vtun: remove patch
+
+patching autoconf created configure scripts is bad practise
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/vtun/patches/100-lzo2.patch | 37 -------------------------------------
+ 1 file changed, 37 deletions(-)
+ delete mode 100644 net/vtun/patches/100-lzo2.patch
+
+diff --git a/net/vtun/patches/100-lzo2.patch b/net/vtun/patches/100-lzo2.patch
+deleted file mode 100644
+index fa9ba8b..0000000
+--- a/net/vtun/patches/100-lzo2.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+---- a/configure
+-+++ b/configure
+-@@ -5459,7 +5459,7 @@ echo $ECHO_N "checking \"for lzo_asm.h\"
+- 	fi
+-         echo "$as_me:$LINENO: result: ($dir) yes " >&5
+- echo "${ECHO_T}($dir) yes " >&6
+--	LZOCHK="lzo2 lzo"
+-+	LZOCHK="lzo2"
+-     else
+-         echo "$as_me:$LINENO: result: \"no\"" >&5
+- echo "${ECHO_T}\"no\"" >&6
+-@@ -5504,8 +5504,7 @@ echo "${ECHO_T}($dir) yes " >&6
+-         echo "$as_me:$LINENO: result: \"no\"" >&5
+- echo "${ECHO_T}\"no\"" >&6
+- 	{ { echo "$as_me:$LINENO: error: LZO library not found. " >&5
+--echo "$as_me: error: LZO library not found. " >&2;}
+--   { (exit 1); exit 1; }; }
+-+echo "$as_me: error: LZO library not found. " >&2;} }
+- 
+-     fi
+- 
+-@@ -5598,13 +5597,11 @@ fi
+-       done
+-       if test $havelzo = 0; then
+- 	    { { echo "$as_me:$LINENO: error: LZO library not found. " >&5
+--echo "$as_me: error: LZO library not found. " >&2;}
+--   { (exit 1); exit 1; }; }
+-+echo "$as_me: error: LZO library not found. " >&2;} }
+-       fi
+-    else
+-         { { echo "$as_me:$LINENO: error: LZO headers not found. " >&5
+--echo "$as_me: error: LZO headers not found. " >&2;}
+--   { (exit 1); exit 1; }; }
+-+echo "$as_me: error: LZO headers not found. " >&2;} }
+-    fi
+- fi
+- 
+-- 
+2.5.0
+

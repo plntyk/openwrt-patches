@@ -1,0 +1,27 @@
+From a4fd6631590b4001d0f18a54fbd9281ac9035cea Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 27 Jun 2015 10:43:14 +0200
+Subject: [PATCH 218/310] [packages] bitchx: update to ...
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/bitchx/Makefile | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/net/bitchx/Makefile b/net/bitchx/Makefile
+index 812d518..2ff679b 100644
+--- a/net/bitchx/Makefile
++++ b/net/bitchx/Makefile
+@@ -31,6 +31,9 @@ define Package/bitchx
+   URL:=http://www.bitchx.org
+ endef
+ 
++CONFIGURE_ARGS += \
++		--without-ssl
++
+ define Package/bitchx/install
+ 	$(INSTALL_DIR) $(1)/usr/bin $(1)/usr/lib $(1)/etc/init.d
+ 	$(CP) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin
+-- 
+2.5.0
+

@@ -1,0 +1,31 @@
+From 5da8faf1c0c6a64a2d74ab3e9a376c65f55a229a Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 28 Apr 2015 10:19:59 +0200
+Subject: [PATCH 096/310] memtester: fix build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/memtester/Makefile | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/utils/memtester/Makefile b/utils/memtester/Makefile
+index 132ada2..37a660e 100644
+--- a/utils/memtester/Makefile
++++ b/utils/memtester/Makefile
+@@ -29,10 +29,11 @@ define Package/memtester/description
+ endef
+ 
+ define Build/Configure
+-	$(SED) 's,cc -O2,$(TARGET_CC) $(TARGET_CFLAGS),' $(PKG_BUILD_DIR)/conf-cc
+-	$(SED) "s,cc,$(TARGET_CC)," $(PKG_BUILD_DIR)/conf-ld
++	$(SED) 's|cc \-O2|$(TARGET_CC) $(TARGET_CFLAGS)|g' $(PKG_BUILD_DIR)/conf-cc
++	$(SED) 's|cc|$(TARGET_CC)|g' $(PKG_BUILD_DIR)/conf-ld
+ endef
+ 
++
+ define Build/Compile
+ 	$(MAKE) -C $(PKG_BUILD_DIR) all
+ endef
+-- 
+2.5.0
+

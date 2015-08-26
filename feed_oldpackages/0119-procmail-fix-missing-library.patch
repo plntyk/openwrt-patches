@@ -1,0 +1,30 @@
+From 0c0fdf7d1bfa6b47cb246ce0f7119b1ba48f6c0d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 May 2015 11:23:48 +0200
+Subject: [PATCH 119/310] procmail: fix missing library
+
+fix build error (mips64,glibc,gcc49):
+misc.o: In function `conditions':
+misc.c:(.text+0x1794): undefined reference to `pow'
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ mail/procmail/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mail/procmail/Makefile b/mail/procmail/Makefile
+index 84c35fe..7c503e7 100644
+--- a/mail/procmail/Makefile
++++ b/mail/procmail/Makefile
+@@ -36,7 +36,7 @@ define Build/Compile
+ 	$(MAKE) -C $(PKG_BUILD_DIR)/src -f ../Makefile.openwrt  \
+ 		$(TARGET_CONFIGURE_OPTS) \
+ 		CFLAGS="$(TARGET_CFLAGS)" \
+-		LDFLAGS="$(TARGET_LDFLAGS) $(if $(CONFIG_USE_MUSL),,-lnsl)"
++		LDFLAGS="$(TARGET_LDFLAGS) $(if $(CONFIG_USE_MUSL),,-lnsl) -lm"
+ endef
+ 
+ define Package/procmail/install
+-- 
+2.5.0
+

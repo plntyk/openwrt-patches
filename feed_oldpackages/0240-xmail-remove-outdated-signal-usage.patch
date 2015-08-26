@@ -1,0 +1,31 @@
+From 12af7231715ac856c59b03786103627c97e5a318 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 19:50:03 +0200
+Subject: [PATCH 240/310] xmail: remove outdated signal usage
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ mail/xmail/patches/100-remove_SIGCLD.patch | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 mail/xmail/patches/100-remove_SIGCLD.patch
+
+diff --git a/mail/xmail/patches/100-remove_SIGCLD.patch b/mail/xmail/patches/100-remove_SIGCLD.patch
+new file mode 100644
+index 0000000..db6a4fc
+--- /dev/null
++++ b/mail/xmail/patches/100-remove_SIGCLD.patch
+@@ -0,0 +1,11 @@
++--- a/MainLinux.cpp
+++++ b/MainLinux.cpp
++@@ -181,7 +181,7 @@ static int MnDaemonBootStrap(void)
++ 	/* Ignore childs dead. */
++ 
++ 	/* System V */
++-	signal(SIGCLD, SIG_IGN);
+++	signal(SIGCHLD, SIG_IGN);
++ 
++ 	return 0;
++ }
+-- 
+2.5.0
+

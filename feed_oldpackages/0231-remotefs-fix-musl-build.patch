@@ -1,0 +1,33 @@
+From d1f4bd03ac37a100ae5a0e0bb9d72386b4a3f650 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 9 Jul 2015 13:10:06 +0200
+Subject: [PATCH 231/310] remotefs: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/remotefs/patches/001-musl-fix_includes.patch | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 net/remotefs/patches/001-musl-fix_includes.patch
+
+diff --git a/net/remotefs/patches/001-musl-fix_includes.patch b/net/remotefs/patches/001-musl-fix_includes.patch
+new file mode 100644
+index 0000000..e3510b8
+--- /dev/null
++++ b/net/remotefs/patches/001-musl-fix_includes.patch
+@@ -0,0 +1,13 @@
++--- a/src/resume/client.c
+++++ b/src/resume/client.c
++@@ -7,9 +7,7 @@ See the file LICENSE.
++ */
++ 
++ #include <errno.h>
++-#ifdef SOLARIS
++-#	include <fcntl.h>
++-#endif
+++#include <fcntl.h>
++ #include <stdlib.h>
++ #include <string.h>
++ #include <sys/file.h>
+-- 
+2.5.0
+

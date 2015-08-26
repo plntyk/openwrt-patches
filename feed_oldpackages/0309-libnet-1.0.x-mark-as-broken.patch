@@ -1,0 +1,26 @@
+From ea804471347c9a6dac09d4e2e5b14ce07ce8cb16 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:25:45 +0200
+Subject: [PATCH 309/310] libnet-1.0.x: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/libnet-1.0.x/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/libnet-1.0.x/Makefile b/libs/libnet-1.0.x/Makefile
+index c35b7ee..1387c86 100644
+--- a/libs/libnet-1.0.x/Makefile
++++ b/libs/libnet-1.0.x/Makefile
+@@ -24,7 +24,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/libnet0
+   SECTION:=libs
+   CATEGORY:=Libraries
+-  DEPENDS:=+libpcap
++  DEPENDS:=+libpcap @BROKEN
+   TITLE:=Low-level packet creation library (v1.0.x)
+   URL:=http://www.packetfactory.net/libnet/
+ endef
+-- 
+2.5.0
+

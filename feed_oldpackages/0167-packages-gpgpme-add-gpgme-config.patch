@@ -1,0 +1,29 @@
+From 94b3af4028b3649de005592c0f9452ab3c464246 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:05:46 +0200
+Subject: [PATCH 167/310] [packages] gpgpme: add gpgme-config
+
+can make configuring software easier
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/gpgme/Makefile | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/libs/gpgme/Makefile b/libs/gpgme/Makefile
+index cf49318..ab10037 100644
+--- a/libs/gpgme/Makefile
++++ b/libs/gpgme/Makefile
+@@ -60,6 +60,9 @@ define Build/InstallDev
+ 
+ 	$(INSTALL_DIR) $(1)/usr/lib
+ 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgpgme{,-pthread}.{a,so*} $(1)/usr/lib/
++
++	$(INSTALL_DIR) $(1)/usr/bin
++	$(CP) $(PKG_INSTALL_DIR)/usr/bin/gpgme-config $(1)/usr/bin/
+ endef
+ 
+ define Package/libgpgme/install
+-- 
+2.5.0
+

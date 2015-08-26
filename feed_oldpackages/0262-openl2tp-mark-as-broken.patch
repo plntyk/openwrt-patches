@@ -1,0 +1,130 @@
+From d979ca0a4daf9fbaa6825ca3bca7ac74b0814754 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:03:50 +0200
+Subject: [PATCH 262/310] openl2tp: mark as broken
+
+add some musl fixes
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/openl2tp/Makefile                        |  2 +-
+ net/openl2tp/patches/020-musl_open.patch     | 10 +++++++++
+ net/openl2tp/patches/030-musl_WAIT_ANY.patch | 14 ++++++++++++
+ net/openl2tp/patches/040-musl_signal.patch   | 13 +++++++++++
+ net/openl2tp/patches/100-remove_Werror.patch | 33 ++++++++++++++++++++++++++++
+ 5 files changed, 71 insertions(+), 1 deletion(-)
+ create mode 100644 net/openl2tp/patches/020-musl_open.patch
+ create mode 100644 net/openl2tp/patches/030-musl_WAIT_ANY.patch
+ create mode 100644 net/openl2tp/patches/040-musl_signal.patch
+ create mode 100644 net/openl2tp/patches/100-remove_Werror.patch
+
+diff --git a/net/openl2tp/Makefile b/net/openl2tp/Makefile
+index fcb2962..9ae944c 100644
+--- a/net/openl2tp/Makefile
++++ b/net/openl2tp/Makefile
+@@ -30,7 +30,7 @@ define Package/openl2tp/Default
+   TITLE:=An L2TP (Layer 2 Tunneling Protocol) daemon
+   URL:=http://www.openl2tp.org/
+   PROVIDES:=openl2tp
+-  DEPENDS:=+ppp-mod-pppol2tp
++  DEPENDS:=+ppp-mod-pppol2tp @BROKEN
+ endef
+ 
+ define Package/openl2tp/description/Default
+diff --git a/net/openl2tp/patches/020-musl_open.patch b/net/openl2tp/patches/020-musl_open.patch
+new file mode 100644
+index 0000000..cf901b2
+--- /dev/null
++++ b/net/openl2tp/patches/020-musl_open.patch
+@@ -0,0 +1,10 @@
++--- a/cli/cli_readline.c
+++++ b/cli/cli_readline.c
++@@ -18,6 +18,7 @@
++  *
++  *****************************************************************************/
++ 
+++#include <fcntl.h>
++ #include <stdio.h>
++ #include <unistd.h>
++ #include <sys/types.h>
+diff --git a/net/openl2tp/patches/030-musl_WAIT_ANY.patch b/net/openl2tp/patches/030-musl_WAIT_ANY.patch
+new file mode 100644
+index 0000000..e1cf339
+--- /dev/null
++++ b/net/openl2tp/patches/030-musl_WAIT_ANY.patch
+@@ -0,0 +1,14 @@
++--- a/usl/usl.h
+++++ b/usl/usl.h
++@@ -31,6 +31,11 @@
++ #include <syslog.h>
++ #include <errno.h>
++ #include <sys/wait.h>
+++
+++#ifndef WAIT_ANY
+++#define WAIT_ANY (-1)
+++#endif
+++
++ #ifdef USL_DMALLOC
++ #include <dmalloc.h>
++ #endif
+diff --git a/net/openl2tp/patches/040-musl_signal.patch b/net/openl2tp/patches/040-musl_signal.patch
+new file mode 100644
+index 0000000..19c96e7
+--- /dev/null
++++ b/net/openl2tp/patches/040-musl_signal.patch
+@@ -0,0 +1,13 @@
++--- a/cli/cli_readline.c
+++++ b/cli/cli_readline.c
++@@ -33,6 +33,10 @@
++ #include "cli_api.h"
++ #include "cli_private.h"
++ 
+++#ifndef __sighandler_t
+++typedef void (*__sighandler_t) (int);
+++#endif
+++
++ static struct cli_node **cli_rl_nodes;
++ static int cli_rl_nodes_num;
++ static int cli_rl_display_help;
+diff --git a/net/openl2tp/patches/100-remove_Werror.patch b/net/openl2tp/patches/100-remove_Werror.patch
+new file mode 100644
+index 0000000..973ae7e
+--- /dev/null
++++ b/net/openl2tp/patches/100-remove_Werror.patch
+@@ -0,0 +1,33 @@
++--- a/Makefile
+++++ b/Makefile
++@@ -154,7 +154,7 @@ endif
++ 
++ CPPFLAGS=		$(CPPFLAGS.l2tptest) $(CPPFLAGS-y)
++ CFLAGS=			-I. -Iusl -Icli -isystem include \
++-				-MMD -Wall -Werror -Wno-strict-aliasing \
+++				-MMD -Wall -Wno-strict-aliasing \
++ 				$(CPPFLAGS) $(CPPFLAGS.dmalloc) \
++ 				-DSYS_LIBDIR=$(SYS_LIBDIR)
++ LDFLAGS.l2tpd=		-Wl,-E -L. -Lusl -lusl -ldl $(LIBS.dmalloc) -lc
++--- a/cli/Makefile
+++++ b/cli/Makefile
++@@ -7,7 +7,7 @@ CLI_SRCS_TEST.o=	$(CLI_SRCS_TEST.c:%.c=%
++ 
++ LDFLAGS.cli_test=	-L.. -L. $(READLINE_LDFLAGS) -lcli -lusl -lreadline -lcurses -lc
++ 
++-CFLAGS=			$(CFLAGS.optimize) -MMD -Wall -Werror -I.. $(READLINE_CFLAGS)
+++CFLAGS=			$(CFLAGS.optimize) -MMD -Wall -I.. $(READLINE_CFLAGS)
++ 
++ .PHONY:			all test clean
++ 
++--- a/usl/Makefile
+++++ b/usl/Makefile
++@@ -14,7 +14,7 @@ LIBS.dmalloc=		-ldmalloc
++ endif
++ 
++ CPPFLAGS+=		$(CFLAGS.optimize) -g
++-CFLAGS=			-I. -MMD -Wall -Werror -Wno-strict-aliasing $(CPPFLAGS) $(CPPFLAGS.dmalloc)
+++CFLAGS=			-I. -MMD -Wall -Wno-strict-aliasing $(CPPFLAGS) $(CPPFLAGS.dmalloc)
++ 
++ .PHONY:			all test clean
++ 
+-- 
+2.5.0
+

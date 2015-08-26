@@ -1,0 +1,42 @@
+From f931d23f79d34ccaf39eb36295c25a5f2dc44a69 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:23:36 +0200
+Subject: [PATCH 304/310] wiviz: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/wiviz/src/wiviz.c     | 2 ++
+ net/wiviz/src/wl_access.h | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/net/wiviz/src/wiviz.c b/net/wiviz/src/wiviz.c
+index d2ad9f2..217238a 100644
+--- a/net/wiviz/src/wiviz.c
++++ b/net/wiviz/src/wiviz.c
+@@ -15,8 +15,10 @@ along with Wi-viz; if not, write to the Free Software
+ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <pcap.h>
+ #include <signal.h>
++#include <string.h>
+ 
+ #define HOST_TIMEOUT 300
+ 
+diff --git a/net/wiviz/src/wl_access.h b/net/wiviz/src/wl_access.h
+index 96f239d..60f6542 100644
+--- a/net/wiviz/src/wl_access.h
++++ b/net/wiviz/src/wl_access.h
+@@ -18,6 +18,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ 
+ #define WL_DEVICE "eth1"
+ 
++#include <sys/types.h>
++
+ typedef unsigned int uint32;
+ typedef unsigned char uchar;
+ typedef int bool;
+-- 
+2.5.0
+

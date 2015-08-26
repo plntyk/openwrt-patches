@@ -1,0 +1,42 @@
+From a3d11dcb18e277b16ed6a69e1e583391305a5272 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:08:52 +0200
+Subject: [PATCH 272/310] vnc-reflector: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/vnc-reflector/patches/002-musl_types.patch | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 net/vnc-reflector/patches/002-musl_types.patch
+
+diff --git a/net/vnc-reflector/patches/002-musl_types.patch b/net/vnc-reflector/patches/002-musl_types.patch
+new file mode 100644
+index 0000000..ec3bedc
+--- /dev/null
++++ b/net/vnc-reflector/patches/002-musl_types.patch
+@@ -0,0 +1,22 @@
++--- a/reflector.h
+++++ b/reflector.h
++@@ -19,6 +19,8 @@
++ 
++ #define VERSION  "1.2.4"
++ 
+++#include <sys/types.h>
+++
++ /* FIXME: Too many header files with too many dependencies */
++ 
++ /* Framebuffer and related metadata */
++--- a/rfblib.h
+++++ b/rfblib.h
++@@ -17,6 +17,8 @@
++ #ifndef _REFLIB_RFBLIB_H
++ #define _REFLIB_RFBLIB_H
++ 
+++#include <sys/types.h>
+++
++ /*
++  * Define data types used in the RFB protocol.
++  */
+-- 
+2.5.0
+

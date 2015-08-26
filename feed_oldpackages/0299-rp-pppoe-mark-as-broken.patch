@@ -1,0 +1,26 @@
+From 741758d62c6239d819198c9e63924d05a1a6d521 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 13 Aug 2015 20:21:08 +0200
+Subject: [PATCH 299/310] rp-pppoe: mark as broken
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/rp-pppoe/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/rp-pppoe/Makefile b/net/rp-pppoe/Makefile
+index abb921f..6ff1de5 100644
+--- a/net/rp-pppoe/Makefile
++++ b/net/rp-pppoe/Makefile
+@@ -22,7 +22,7 @@ include $(INCLUDE_DIR)/package.mk
+ define Package/rp-pppoe/Default
+   SECTION:=net
+   CATEGORY:=Network
+-  DEPENDS:=+ppp
++  DEPENDS:=+ppp @BROKEN
+   TITLE:=PPPoE (PPP over Ethernet)
+   URL:=http://roaringpenguin.com/products/pppoe
+   SUBMENU:=dial-in/up
+-- 
+2.5.0
+

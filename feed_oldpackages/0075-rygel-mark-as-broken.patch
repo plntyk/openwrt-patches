@@ -1,0 +1,28 @@
+From 15253b79f03c131539769254e0679a555057a5d3 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 14 Apr 2015 16:31:57 +0200
+Subject: [PATCH 075/310] rygel: mark as broken
+
+for now
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ multimedia/rygel/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/multimedia/rygel/Makefile b/multimedia/rygel/Makefile
+index 2ed445f..add8e34 100644
+--- a/multimedia/rygel/Makefile
++++ b/multimedia/rygel/Makefile
+@@ -39,7 +39,7 @@ endef
+ define Package/rygel
+ $(call Package/rygel/Default)
+   DEPENDS:=+libgssdp +libgupnp +libgupnp-av +libgupnp-dlna +libgee \
+-    +libsoup +gstreamer +libgstvideo +libgstpbutils
++    +libsoup +gstreamer +libgstvideo +libgstpbutils @BROKEN
+ endef
+ 
+ define Package/rygel/conffiles
+-- 
+2.5.0
+

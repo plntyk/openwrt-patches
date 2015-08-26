@@ -1,0 +1,25 @@
+From 346dad5d847180fc1ad58475185444ef6bc8ca21 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 9 Jul 2015 13:06:48 +0200
+Subject: [PATCH 225/310] matrixssl: fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/matrixssl/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/libs/matrixssl/Makefile b/libs/matrixssl/Makefile
+index e9f1295..9568b40 100644
+--- a/libs/matrixssl/Makefile
++++ b/libs/matrixssl/Makefile
+@@ -17,6 +17,7 @@ PKG_MD5SUM:=2ed37e14b181bbc58e42d08ad05858fe
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)-open
+ PKG_BUILD_PARALLEL:=1
++PKG_USE_MIPS16:=0
+ 
+ include $(INCLUDE_DIR)/package.mk
+ 
+-- 
+2.5.0
+

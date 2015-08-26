@@ -1,0 +1,30 @@
+From 63417fe6f99b59902ad5ecce4be6179e28ec94f5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 18 May 2015 21:00:20 +0200
+Subject: [PATCH 155/310] nufw: mark as BROKEN
+
+- upstream is dead
+- broken since GNUtls 3.4 that
+removed some deprecated functions
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ net/nufw/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/net/nufw/Makefile b/net/nufw/Makefile
+index 50da611..8df0d5b 100644
+--- a/net/nufw/Makefile
++++ b/net/nufw/Makefile
+@@ -25,7 +25,7 @@ define Package/nufw/Default
+   SECTION:=net
+   CATEGORY:=Network
+   SUBMENU:=Firewall
+-  DEPENDS:=+glib2 +libgnutls +libgcrypt +libsasl2 +libnetfilter-queue $(ICONV_DEPENDS) $(INTL_DEPENDS)
++  DEPENDS:=+glib2 +libgnutls +libgcrypt +libsasl2 +libnetfilter-queue $(ICONV_DEPENDS) $(INTL_DEPENDS) @BROKEN
+   TITLE:=nufw
+   URL:=http://www.nufw.org/
+ endef
+-- 
+2.5.0
+

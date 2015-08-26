@@ -1,0 +1,26 @@
+From cbaa341255ef58d37057b0c8bea6ef3320157eb4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 10 Feb 2015 10:10:49 +0100
+Subject: [PATCH 018/310] ustl: change to try to fix compile
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/ustl/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libs/ustl/Makefile b/libs/ustl/Makefile
+index a03f961..ebbdecd 100644
+--- a/libs/ustl/Makefile
++++ b/libs/ustl/Makefile
+@@ -38,7 +38,7 @@ define Build/Configure
+ 	$(CP) ./files/Common.mk $(PKG_BUILD_DIR)/
+ endef
+ 
+-TARGET_CFLAGS += $(FPIC) -std=gnu++11
++TARGET_CFLAGS += $(FPIC)
+ 
+ define Build/Compile
+ 	$(MAKE) -C $(PKG_BUILD_DIR) \
+-- 
+2.5.0
+

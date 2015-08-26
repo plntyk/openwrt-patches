@@ -1,0 +1,60 @@
+From 202bb9303f5118774d81d050356e8eaeeda5b853 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 15 Jun 2015 12:09:10 +0200
+Subject: [PATCH 171/310] [packages] matrixssl: update to 3.7.2
+
+ABI changes
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ libs/matrixssl/Makefile | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
+
+diff --git a/libs/matrixssl/Makefile b/libs/matrixssl/Makefile
+index 7be51b6..e9f1295 100644
+--- a/libs/matrixssl/Makefile
++++ b/libs/matrixssl/Makefile
+@@ -8,7 +8,7 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=matrixssl
+-PKG_VERSION:=3-7-1
++PKG_VERSION:=3-7-2
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-open.tgz
+@@ -32,21 +32,24 @@ endef
+ define Build/Configure
+ endef
+ 
+-TARGET_CFLAGS += $(FPIC)
++TARGET_CFLAGS += $(FPIC) -Wall -ffunction-sections -fdata-sections -fomit-frame-pointer
+ 
+ define Build/Compile
+ 	+$(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) \
+ 		$(TARGET_CONFIGURE_OPTS) \
+-		DFLAGS="$(TARGET_CFLAGS) -Wall" \
+-		CROSS=$(TARGET_CROSS)
++		CFLAGS="$(TARGET_CFLAGS) -I$(PKG_BUILD_DIR) -I$(STAGING_DIR)/usr/include" \
++		CROSS=$(TARGET_CROSS) \
++		CCARCH="LINUX" \
++		OSDEP="POSIX"
+ endef
+ 
+ define Build/InstallDev
+-	$(INSTALL_DIR) $(1)/usr/include/matrixSsl
+-	$(CP) $(PKG_BUILD_DIR)/matrixSsl.h $(1)/usr/include/matrixSsl/
+-	ln -sf matrixSsl/matrixSsl.h $(1)/usr/include/matrixSsl.h
++	$(INSTALL_DIR) $(1)/usr/include
++	$(CP) $(PKG_BUILD_DIR)/matrixssl/matrixsslApi.h $(1)/usr/include
+ 	$(INSTALL_DIR) $(1)/usr/lib
+-	$(CP) $(PKG_BUILD_DIR)/src/libmatrixssl.so* $(1)/usr/lib/
++	$(CP) $(PKG_BUILD_DIR)/core/libcore_s.a $(1)/usr/lib/
++	$(CP) $(PKG_BUILD_DIR)/crypto/libcrypt_s.a $(1)/usr/lib/
++	$(CP) $(PKG_BUILD_DIR)/matrixssl/libssl_s.a $(1)/usr/lib/
+ endef
+ 
+ define Package/libmatrixssl/install
+-- 
+2.5.0
+

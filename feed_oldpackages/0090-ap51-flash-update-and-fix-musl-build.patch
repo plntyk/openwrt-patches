@@ -1,0 +1,127 @@
+From e18f5b2b616ac095336d887a06e75409f9564c27 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 16 Apr 2015 07:52:18 +0200
+Subject: [PATCH 090/310] ap51-flash: update and fix musl build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ utils/ap51-flash/Makefile                          | 13 ++++----
+ utils/ap51-flash/patches/001-compile_fix.patch     | 39 ++++++++++++++++++++++
+ .../patches/002-musl_include_fixes.patch           | 21 ++++++++++++
+ 3 files changed, 67 insertions(+), 6 deletions(-)
+ create mode 100644 utils/ap51-flash/patches/001-compile_fix.patch
+ create mode 100644 utils/ap51-flash/patches/002-musl_include_fixes.patch
+
+diff --git a/utils/ap51-flash/Makefile b/utils/ap51-flash/Makefile
+index ae5a8c3..baae2a9 100644
+--- a/utils/ap51-flash/Makefile
++++ b/utils/ap51-flash/Makefile
+@@ -7,9 +7,9 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=ap51-flash
+-PKG_REV:=232
++PKG_REV:=300
+ PKG_VERSION:=r$(PKG_REV)
+-PKG_RELEASE:=3
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE_PROTO:=svn
+ PKG_SOURCE_VERSION:=$(PKG_REV)
+@@ -31,16 +31,17 @@ define Package/ap51-flash
+   URL:=http://dev.cloudtrax.com/wiki/ap51-flash-station
+ endef
+ 
+-TARGET_EXTRA_CFLAGS:=-DFLASH_FROM_FILE -DNO_LIBPCAP
++TARGET_EXTRA_CFLAGS:=-std=gnu99 -fno-strict-aliasing -DFLASH_FROM_FILE -DLINUX -D_GNU_SOURCE
+ ifeq ($(CONFIG_BIG_ENDIAN),y)
+-	TARGET_EXTRA_CFLAGS:=$(TARGET_EXTRA_CFLAGS) -DUIP_CONF_BYTE_ORDER=1234
++	TARGET_EXTRA_CFLAGS+=$(TARGET_EXTRA_CFLAGS) -DUIP_CONF_BYTE_ORDER=1234
+ endif
+ 
+ # pass optimization flags
+ MAKE_FLAGS += \
+-	OFLAGS="$(TARGET_CFLAGS)" \
+-	EXTRA_CFLAGS="$(TARGET_EXTRA_CFLAGS)" \
++	PLATFORM="LINUX" \
+ 	REVISION="$(PKG_VERSION)" \
++	EXTRA_CFLAGS="$(TARGET_EXTRA_CFLAGS)"
++
+ 
+ define Package/ap51-flash/install
+ 	$(INSTALL_DIR) $(1)/etc/config $(1)/etc/init.d $(1)/usr/sbin \
+diff --git a/utils/ap51-flash/patches/001-compile_fix.patch b/utils/ap51-flash/patches/001-compile_fix.patch
+new file mode 100644
+index 0000000..a35c0bb
+--- /dev/null
++++ b/utils/ap51-flash/patches/001-compile_fix.patch
+@@ -0,0 +1,39 @@
++--- a/Makefile
+++++ b/Makefile
++@@ -109,34 +109,12 @@ ifneq ($(EMBED_UBOOT),)
++ endif
++ 
++ CMDLINE_O = $(AP51_O) commandline.o
++-CFLAGS += -Wall -Werror -W -g3 -std=gnu99 -Os -fno-strict-aliasing -D$(PLATFORM)
++-
++-NUM_CPUS = $(shell nproc 2> /dev/null || echo 1)
++-REVISION= $(shell	if [ -d .svn ]; then \
++-				if which svn > /dev/null; then \
++-					echo rv$$(svn info | grep "Rev:" | sed -e '1p' -n | awk '{print $$4}'); \
++-				else \
++-					echo "[unknown]"; \
++-				fi; \
++-			elif [ -d .git ]; then \
++-				if which git > /dev/null; then \
++-					echo $$(git describe --always --dirty 2> /dev/null); \
++-				else \
++-					echo "[unknown]"; \
++-				fi; \
++-			elif [ -d ~/.svk ]; then \
++-				if which svk > /dev/null; then \
++-					echo rv$$(svk info | grep "Mirrored From" | awk '{print $$5}'); \
++-				else \
++-					echo "[unknown]"; \
++-				fi; \
++-			fi)
++-CFLAGS += -DREVISION_VERSION=\"$(REVISION)\"
++ 
++ all:
++-	$(MAKE) -j $(NUM_CPUS) $(BINARY_NAME)
+++	$(MAKE) $(BINARY_NAME)
++ 
++ %.o: %.c
+++	echo 'CFLAGS=' $(CFLAGS) '<-'
++ 	$(Q_CC)$(CC) $(CFLAGS) $(EXTRA_CFLAGS) -MD -c $< -o $@
++ 
++ $(BINARY_NAME): $(EMBED_O) $(CMDLINE_O) $(AP51_H) Makefile
+diff --git a/utils/ap51-flash/patches/002-musl_include_fixes.patch b/utils/ap51-flash/patches/002-musl_include_fixes.patch
+new file mode 100644
+index 0000000..2b585de
+--- /dev/null
++++ b/utils/ap51-flash/patches/002-musl_include_fixes.patch
+@@ -0,0 +1,21 @@
++--- a/compat.h
+++++ b/compat.h
++@@ -26,13 +26,17 @@
++ #include <netinet/udp.h>
++ #include <netinet/if_ether.h>
++ #include <netpacket/packet.h>
++-#include <linux/if_ether.h>
++ #include <linux/netlink.h>
++ #include <linux/rtnetlink.h>
++ 
++ #define O_BINARY 0
++ #define USE_PCAP 0
++ 
+++#define ETH_ALEN        6
+++#define ETH_HLEN        14
+++#define ETH_DATA_LEN    1500
+++
+++#define IPPORT_TFTP	69
++ 
++ #elif defined(OSX)
++ 
+-- 
+2.5.0
+
