@@ -1,0 +1,75 @@
+--- scripts/checkpatch.pl	2015-09-17 12:23:59.106799346 +0200
++++ /mnt/3TBCN2/Media/kernel/linux/scripts/checkpatch.pl	2015-09-16 18:11:58.957980914 +0200
+@@ -3,7 +3,6 @@
+ # (c) 2005, Joel Schopp <jschopp@austin.ibm.com> (the ugly bit)
+ # (c) 2007,2008, Andy Whitcroft <apw@uk.ibm.com> (new conditions, test suite)
+ # (c) 2008-2010 Andy Whitcroft <apw@canonical.com>
+-# (c) 2013 Vasilis Tsiligiannis <acinonyx@openwrt.gr> (adapt for OpenWrt tree)
+ # Licensed under the terms of the GNU GPL License version 2
+ 
+ use strict;
+@@ -11,7 +10,7 @@ use strict;
+ my $P = $0;
+ $P =~ s@.*/@@g;
+ 
+-my $V = '0.32-openwrt';
++my $V = '0.32';
+ 
+ use Getopt::Long qw(:config no_auto_abbrev);
+ 
+@@ -160,20 +159,20 @@ if ($terse) {
+ 
+ if ($tree) {
+ 	if (defined $root) {
+-		if (!top_of_openwrt_tree($root)) {
++		if (!top_of_kernel_tree($root)) {
+ 			die "$P: $root: --root does not point at a valid tree\n";
+ 		}
+ 	} else {
+-		if (top_of_openwrt_tree('.')) {
++		if (top_of_kernel_tree('.')) {
+ 			$root = '.';
+ 		} elsif ($0 =~ m@(.*)/scripts/[^/]*$@ &&
+-						top_of_openwrt_tree($1)) {
++						top_of_kernel_tree($1)) {
+ 			$root = $1;
+ 		}
+ 	}
+ 
+ 	if (!defined $root) {
+-		print "Must be run from the top-level dir. of a OpenWrt tree\n";
++		print "Must be run from the top-level dir. of a kernel tree\n";
+ 		exit(2);
+ 	}
+ }
+@@ -407,13 +406,13 @@ for my $filename (@ARGV) {
+ 
+ exit($exit);
+ 
+-sub top_of_openwrt_tree {
++sub top_of_kernel_tree {
+ 	my ($root) = @_;
+ 
+ 	my @tree_check = (
+-		"BSDmakefile", "Config.in", "LICENSE", "Makefile", "README",
+-		"docs", "feeds.conf.default", "include", "package", "rules.mk",
+-		"scripts", "target", "toolchain", "tools"
++		"COPYING", "CREDITS", "Kbuild", "MAINTAINERS", "Makefile",
++		"README", "Documentation", "arch", "include", "drivers",
++		"fs", "init", "ipc", "kernel", "lib", "scripts",
+ 	);
+ 
+ 	foreach my $check (@tree_check) {
+@@ -1870,12 +1869,6 @@ sub process {
+ 			    "No space is necessary after a cast\n" . $hereprev);
+ 		}
+ 
+-		if ($rawline =~ /^\+[ \t]*\/\*[ \t]*$/ &&
+-		    $prevrawline =~ /^\+[ \t]*$/) {
+-			CHK("BLOCK_COMMENT_STYLE",
+-			    "Don't begin block comments with only a /* line, use /* comment...\n" . $hereprev);
+-		}
+-
+ # check for spaces at the beginning of a line.
+ # Exceptions:
+ #  1) within comments
