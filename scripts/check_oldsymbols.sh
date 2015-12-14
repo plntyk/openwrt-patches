@@ -25,6 +25,7 @@ find $KERNEL_TREE -name "Kconfig*" -exec grep -o "^[[:space:]]\?config\ [ ]\?[a-
 find $KERNEL_TREE -name "Kconfig*" -exec grep -o "^menuconfig\ [a-zA-Z0-9_]\+" {} \; |sort|uniq|awk '{ print $2 }' >> $KERNEL_SYMBOLS
 #Add OpenWrt symbols
 find $OPENWRT_DIR -name "Kconfig" -exec grep -o "^config\ [a-zA-Z0-9_]\+" {} \; |sort|uniq|awk '{ print $2 }' >> $KERNEL_SYMBOLS
+find $OPENWRT_DIR -name "Kconfig" -exec grep -o "^menuconfig\ [a-zA-Z0-9_]\+" {} \; |sort|uniq|awk '{ print $2 }' >> $KERNEL_SYMBOLS
 
 #OpenWrt patches some Kconfig files
 find $OPENWRT_DIR -type f -name "*.patch" -exec grep -o "^+config\ [a-zA-Z0-9_]\+" {} \; |sort|uniq|awk '{ print $2 }' >> $KERNEL_SYMBOLS
@@ -53,7 +54,7 @@ done
 echo "generic symbol errors:"
 for VAR in $GENERIC_SYMBOLS; do
 	CLEANVAR=$(echo $VAR | sed 's/^CONFIG_//g')
-	grep -q $CLEANVAR $KERNEL_SYMBOLS
+	grep -xq $CLEANVAR $KERNEL_SYMBOLS
         retval=$?
         if [ ! $retval -eq 0 ]
 	then
