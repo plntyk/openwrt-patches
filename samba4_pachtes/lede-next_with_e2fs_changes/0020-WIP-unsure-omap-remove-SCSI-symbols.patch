@@ -1,0 +1,28 @@
+From ea1cab0c3907b2e54480c4929a7213542ba1df8d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Jun 2016 11:44:28 +0200
+Subject: [PATCH 20/69] [WIP][unsure] omap: remove SCSI symbols
+
+might be required to usecase: boot from rootfs on USB storage ?
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/omap/config-4.4 | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/target/linux/omap/config-4.4 b/target/linux/omap/config-4.4
+index e311829..ff4e7c1 100644
+--- a/target/linux/omap/config-4.4
++++ b/target/linux/omap/config-4.4
+@@ -543,8 +543,6 @@ CONFIG_SATA_AHCI_PLATFORM=y
+ CONFIG_SCHEDSTATS=y
+ CONFIG_SCHED_HRTICK=y
+ CONFIG_SCHED_INFO=y
+-CONFIG_SCSI=y
+-CONFIG_SCSI_SCAN_ASYNC=y
+ CONFIG_SDIO_UART=y
+ CONFIG_SECCOMP=y
+ CONFIG_SECCOMP_FILTER=y
+-- 
+2.10.0
+

@@ -1,0 +1,28 @@
+From b4f8255613fee588d2f622c6e24b1e506f510c2e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 2 Aug 2016 15:37:15 +0200
+Subject: [PATCH 58/69] rbcfg: O_CREAT option needs additional arguments
+
+fixes build issue
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/boot/rbcfg/src/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package/boot/rbcfg/src/main.c b/package/boot/rbcfg/src/main.c
+index b7cf79f..7051f52 100644
+--- a/package/boot/rbcfg/src/main.c
++++ b/package/boot/rbcfg/src/main.c
+@@ -459,7 +459,7 @@ rbcfg_update(int tmp)
+ 	put_u32(ctx->buf + 4, crc);
+ 
+ 	name = (tmp) ? ctx->tmp_file : ctx->mtd_device;
+-	fd = open(name, O_WRONLY | O_CREAT);
++	fd = open(name, O_WRONLY | O_CREAT, 0600);
+ 	if (fd < 0) {
+ 		fprintf(stderr, "unable to open %s for writing\n", name);
+ 		err = RB_ERR_IO;
+-- 
+2.10.0
+

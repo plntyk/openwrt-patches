@@ -1,0 +1,26 @@
+From ac9028eb2b15845e69915e79a51d425202720b70 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 13 Aug 2016 18:41:55 +0200
+Subject: [PATCH 5/5] python: fix md5sum
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/python/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lang/python/Makefile b/lang/python/Makefile
+index 4c6ace9..ccc96a4 100644
+--- a/lang/python/Makefile
++++ b/lang/python/Makefile
+@@ -16,7 +16,7 @@ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=Python-$(PKG_VERSION).tar.xz
+ PKG_SOURCE_URL:=https://www.python.org/ftp/python/$(PKG_VERSION)
+-PKG_MD5SUM:=1dbcc848b4cd8399a8199d000f9f823c
++PKG_MD5SUM:=57dffcee9cee8bb2ab5f82af1d8e9a69
+ 
+ PKG_LICENSE:=PSF
+ PKG_LICENSE_FILES:=LICENSE Modules/_ctypes/libffi_msvc/LICENSE Modules/_ctypes/darwin/LICENSE Modules/_ctypes/libffi/LICENSE Modules/_ctypes/libffi_osx/LICENSE Tools/pybench/LICENSE
+-- 
+2.10.0
+

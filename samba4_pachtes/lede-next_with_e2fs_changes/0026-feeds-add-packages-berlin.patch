@@ -1,0 +1,23 @@
+From 0eee6519258a25091a3d4dc5b4c08c19a11c4c08 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 7 Jun 2016 13:24:05 +0200
+Subject: [PATCH 26/69] feeds: add packages-berlin
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ feeds.conf.default | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/feeds.conf.default b/feeds.conf.default
+index 1c26752..aea15a7 100644
+--- a/feeds.conf.default
++++ b/feeds.conf.default
+@@ -5,4 +5,5 @@ src-link routing /home/tenchi/programming/upstream/feeds/routing/packages
+ src-link telephony /home/tenchi/programming/upstream/feeds/telephony
+ src-link management /home/tenchi/programming/upstream/feeds/management/packages
+ src-link oldpackages /home/tenchi/programming/upstream/feeds/oldpackages/packages
++src-git packages_berlin git://github.com/freifunk-berlin/firmware-packages.git
+ #src-link custom /usr/src/openwrt/custom-feed
+-- 
+2.10.0
+

@@ -1,0 +1,25 @@
+From 04cce642c5857bdac5ea9e254441285b5d734ed1 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 15 Aug 2015 15:45:21 +0200
+Subject: [PATCH 1/5] [packages] python-package: enable C++ compilation
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/python/files/python-package.mk | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/lang/python/files/python-package.mk b/lang/python/files/python-package.mk
+index ff0c2dc..fdafdf9 100644
+--- a/lang/python/files/python-package.mk
++++ b/lang/python/files/python-package.mk
+@@ -90,6 +90,7 @@ define Build/Compile/PyMod
+ 	$(call HostPython, \
+ 		cd $(PKG_BUILD_DIR)/$(strip $(1)); \
+ 		CC="$(TARGET_CC)" \
++		CXX="$(TARGET_CXX)" \
+ 		CCSHARED="$(TARGET_CC) $(FPIC)" \
+ 		CXX="$(TARGET_CXX)" \
+ 		LD="$(TARGET_CC)" \
+-- 
+2.10.0
+

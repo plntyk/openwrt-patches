@@ -1,0 +1,356 @@
+From 19a464aa924adecd7b929fbdab17aec96a2417f6 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 6 Jul 2016 06:27:10 +0200
+Subject: [PATCH 41/69] samba 4: update to 4.4, compile fixes
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/samba4/Makefile           | 154 +++++++++++++++++++--
+ package/network/services/samba4/files/smb.conf     |  50 +++++++
+ .../patches/001-alpinelinux-getpwent_r.patch       |  80 +++++++++++
+ 3 files changed, 274 insertions(+), 10 deletions(-)
+ create mode 100644 package/network/services/samba4/files/smb.conf
+ create mode 100644 package/network/services/samba4/patches/001-alpinelinux-getpwent_r.patch
+
+diff --git a/package/network/services/samba4/Makefile b/package/network/services/samba4/Makefile
+index 8ec242f..7c89974 100644
+--- a/package/network/services/samba4/Makefile
++++ b/package/network/services/samba4/Makefile
+@@ -3,28 +3,44 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=samba4
+-PKG_VERSION:=4.4.0
++PKG_VERSION:=4.4.4
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=samba-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=https://download.samba.org/pub/samba/
+-PKG_MD5SUM:=e42b884d0e07528c8571641a4df40666
++PKG_MD5SUM:=b16919d43dfb5dd8c8ccf0af3a8e115b
+ 
+ PKG_LICENSE:=GPL3
+ PKG_LICENSE_FILES:=
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/samba-$(PKG_VERSION)
+ PKG_INSTALL:=1
+-PKG_BUILD_DEPENDS:=python/host python heimdal/host
++PKG_BUILD_DEPENDS:=python/host python heimdal/host e2fsprogs
+ 
+ include $(INCLUDE_DIR)/package.mk
+ include $(INCLUDE_DIR)/host-build.mk
+ 
+-define Package/samba4
++define Package/samba4-server
+   SECTION:=base
+   CATEGORY:=Base
+-  TITLE:=samba4 SMB/CIFS
+-  DEPENDS:=
++  TITLE:=samba4 SMB/CIFS server
++  DEPENDS:=+samba4-libs
++  URL:=http://www.samba.org
++endef
++
++define Package/samba4-client
++  SECTION:=base
++  CATEGORY:=Base
++  TITLE:=samba4 SMB/CIFS client
++  DEPENDS:=+samba4-libs
++  URL:=http://www.samba.org
++endef
++
++define Package/samba4-libs
++  SECTION:=base
++  CATEGORY:=Base
++  TITLE:=samba4 SMB/CIFS client
++  DEPENDS:=+zlib
+   URL:=http://www.samba.org
+ endef
+ 
+@@ -58,8 +74,12 @@ SAMBA4_CONF_ARGS:= \
+ 	--hostcc=gcc \
+ 	--nopyc \
+ 	--nopyo \
+-
+-#	--bundled-libraries='!asn1_compile,!compile_et' \
++	--with-configdir=/etc/samba \
++	--with-lockdir=/var/samba \
++	--with-sockets-dir=/var/samba \
++	--with-piddir=/var/run \
++	--with-privatedir=/var/samba/private \
++	--bundled-libraries='!asn1_compile,!compile_et'
+ 
+ 
+ define Build/Prepare
+@@ -102,10 +122,124 @@ endef
+ #	)
+ #endef
+ 
+-define Package/samba4/install
++define Package/samba36-server/conffiles
++/etc/samba/smb.conf
++endef
++
++define Package/samba4-libs/install
++	$(INSTALL_DIR) $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libCHARSET3-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libaddns-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libcli-smb-common-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libdcerpc-samba-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libgenrand-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/liblibsmb-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libpopt-samba3-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libpopt-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba-debug-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba-security-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba-sockets-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba3-util-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsmbregistry-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libtalloc.so.2* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libtevent.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libndr-standard.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libsamba-errors.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libsamba-util.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libsmbconf.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libtevent-util.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libutil-cmdline-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libasn1util-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libcli-cldap-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libcliauth-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libcom_err-samba4.so.0* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libdbwrap-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libdcerpc-binding.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libgensec-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libgse-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libgssapi-samba4.so.2* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libinterfaces-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libiov-buf-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libkrb5samba-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libmessages-dgm-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libmessages-util-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libndr-nbt.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libndr-samba-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libndr.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libreplace-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba-cluster-support-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libsamba-credentials.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libsamba-hostconfig.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsecrets3-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libserver-id-db-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libserver-role-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsmb-transport-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsmbd-shim-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsocket-blocking-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsys-rw-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libtalloc-report-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libtdb-wrap-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libtdb.so.1* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libtevent-unix-util.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libtime-basic-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libutil-reg-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libutil-setid-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libutil-tdb-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libasn1-samba4.so.8* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libauthkrb5-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libcli-ldap-common-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libcli-nbt-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libhcrypto-samba4.so.5* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libheimbase-samba4.so.1* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libkrb5-samba4.so.26* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libldb.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libldbsamba-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libmsghdr-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libroken-samba4.so.19* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba-modules-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamdb-common-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libsamdb.so.0* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libwbclient.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libauth-sam-reply-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libflag-mapping-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libhx509-samba4.so.5* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libndr-krb5pac.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libwinbind-client-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libwind-samba4.so.0* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libmsrpc3-samba4.so $(1)/usr/lib
++endef
++
++define Package/samba4-server/install
++	$(INSTALL_DIR) $(1)/usr/sbin
++	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/local/samba/sbin/nmbd $(1)/usr/sbin
++	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/local/samba/sbin/smbd $(1)/usr/sbin
++	$(INSTALL_DIR) $(1)/etc/samba
++	$(INSTALL_DATA) ./files/smb.conf $(1)/etc/samba
++	$(INSTALL_DIR) $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libauth-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsmbd-base-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libads-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libcli-spoolss-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/liblibcli-lsa3-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/liblibcli-netlogon3-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libndr-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libnpa-tstream-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libprinting-migrate-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsmbd-conn-samba4.so $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libsamba-passdb.so* $(1)/usr/lib
++	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/libnetapi.so* $(1)/usr/lib
++endef
++#	$(INSTALL_DIR) $(1)/var/samba/private
++#	$(INSTALL_DIR) $(1)/var/sock
++
++define Package/samba4-client/install
+ 	$(INSTALL_DIR) $(1)/usr/sbin
++	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/local/samba/bin/smbclient $(1)/usr/sbin
++	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/local/samba/bin/nmblookup $(1)/usr/sbin
+ endef
+ 
+ $(eval $(call HostBuild))
+-$(eval $(call BuildPackage,samba4))
++$(eval $(call BuildPackage,samba4-libs))
++$(eval $(call BuildPackage,samba4-server))
++$(eval $(call BuildPackage,samba4-client))
+ 
+diff --git a/package/network/services/samba4/files/smb.conf b/package/network/services/samba4/files/smb.conf
+new file mode 100644
+index 0000000..7c62c9c
+--- /dev/null
++++ b/package/network/services/samba4/files/smb.conf
+@@ -0,0 +1,50 @@
++[global]
++	netbios name = LEDE
++	interfaces =
++	server string = Samba4
++	workgroup = LEDEWORK
++	browseable = yes
++	deadtime = 30
++	domain master = yes
++	encrypt passwords = true
++	enable core files = no
++	guest account = nobody
++	guest ok = yes
++	invalid users = root
++	local master = yes
++	load printers = no
++	map to guest = Bad User
++	max protocol = SMB2
++	min receivefile size = 16384
++	null passwords = yes
++	obey pam restrictions = yes
++	os level = 20
++	passdb backend = smbpasswd
++	preferred master = yes
++	printable = no
++	security = user
++	smb encrypt = disabled
++	smb passwd file = /etc/samba/smbpasswd
++	socket options = TCP_NODELAY IPTOS_LOWDELAY
++	syslog = 0
++	use sendfile = yes
++	writeable = yes
++	lock directory = /var/samba/
++	pid directory = /var/run/
++	cache directory = /var/samba/cache
++	server role = standalone server
++	log level = 0
++	syslog only = yes
++
++[public]
++ path = /mnt/samba
++ public = yes
++ only guest = yes
++ writable = yes
++ printable = no
++
++[tmp]
++ path = /tmp
++ public = yes
++ writable = yes
++ printable = no
+diff --git a/package/network/services/samba4/patches/001-alpinelinux-getpwent_r.patch b/package/network/services/samba4/patches/001-alpinelinux-getpwent_r.patch
+new file mode 100644
+index 0000000..99ebeda
+--- /dev/null
++++ b/package/network/services/samba4/patches/001-alpinelinux-getpwent_r.patch
+@@ -0,0 +1,80 @@
++diff --git a/source4/torture/local/nss_tests.c b/source4/torture/local/nss_tests.c
++index 2cd6122..04f13c6 100644
++--- a/source4/torture/local/nss_tests.c
+++++ b/source4/torture/local/nss_tests.c
++@@ -247,7 +247,6 @@ static bool test_getgrnam_r(struct torture_context *tctx,
++ 	return true;
++ }
++ 
++-
++ static bool test_getgrgid(struct torture_context *tctx,
++ 			  gid_t gid,
++ 			  struct group *grp_p)
++@@ -333,6 +332,7 @@ static bool test_enum_passwd(struct torture_context *tctx,
++ 	return true;
++ }
++ 
+++#if HAVE_GETPWENT_R
++ static bool test_enum_r_passwd(struct torture_context *tctx,
++ 			       struct passwd **pwd_array_p,
++ 			       size_t *num_pwd_p)
++@@ -381,6 +381,7 @@ static bool test_enum_r_passwd(struct torture_context *tctx,
++ 
++ 	return true;
++ }
+++#endif
++ 
++ static bool torture_assert_passwd_equal(struct torture_context *tctx,
++ 					const struct passwd *p1,
++@@ -432,7 +433,7 @@ static bool test_passwd_r(struct torture_context *tctx)
++ 	struct passwd *pwd, pwd1, pwd2;
++ 	size_t num_pwd;
++ 
++-	torture_assert(tctx, test_enum_r_passwd(tctx, &pwd, &num_pwd),
+++	torture_assert(tctx, test_enum_passwd(tctx, &pwd, &num_pwd),
++ 						"failed to enumerate passwd");
++ 
++ 	for (i=0; i < num_pwd; i++) {
++@@ -460,7 +461,7 @@ static bool test_passwd_r_cross(struct torture_context *tctx)
++ 	struct passwd *pwd, pwd1, pwd2, pwd3, pwd4;
++ 	size_t num_pwd;
++ 
++-	torture_assert(tctx, test_enum_r_passwd(tctx, &pwd, &num_pwd),
+++	torture_assert(tctx, test_enum_passwd(tctx, &pwd, &num_pwd),
++ 						"failed to enumerate passwd");
++ 
++ 	for (i=0; i < num_pwd; i++) {
++@@ -531,6 +532,7 @@ static bool test_enum_group(struct torture_context *tctx,
++ 	return true;
++ }
++ 
+++#if HAVE_GETGRENT_R
++ static bool test_enum_r_group(struct torture_context *tctx,
++ 			      struct group **grp_array_p,
++ 			      size_t *num_grp_p)
++@@ -579,6 +581,7 @@ static bool test_enum_r_group(struct torture_context *tctx,
++ 
++ 	return true;
++ }
+++#endif
++ 
++ static bool torture_assert_group_equal(struct torture_context *tctx,
++ 				       const struct group *g1,
++@@ -635,7 +638,7 @@ static bool test_group_r(struct torture_context *tctx)
++ 	struct group *grp, grp1, grp2;
++ 	size_t num_grp;
++ 
++-	torture_assert(tctx, test_enum_r_group(tctx, &grp, &num_grp),
+++	torture_assert(tctx, test_enum_group(tctx, &grp, &num_grp),
++ 					       "failed to enumerate group");
++ 
++ 	for (i=0; i < num_grp; i++) {
++@@ -663,7 +666,7 @@ static bool test_group_r_cross(struct torture_context *tctx)
++ 	struct group *grp, grp1, grp2, grp3, grp4;
++ 	size_t num_grp;
++ 
++-	torture_assert(tctx, test_enum_r_group(tctx, &grp, &num_grp),
+++	torture_assert(tctx, test_enum_group(tctx, &grp, &num_grp),
++ 					       "failed to enumerate group");
++ 
++ 	for (i=0; i < num_grp; i++) {
+-- 
+2.10.0
+

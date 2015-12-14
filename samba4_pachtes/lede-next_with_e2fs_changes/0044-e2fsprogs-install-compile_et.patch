@@ -1,0 +1,27 @@
+From b335f181a93cd88644b13d9ef5d37a374ff26dc2 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 6 Jul 2016 06:42:37 +0200
+Subject: [PATCH 44/69] e2fsprogs: install compile_et
+
+required by samba4
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ tools/e2fsprogs/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tools/e2fsprogs/Makefile b/tools/e2fsprogs/Makefile
+index 1251361..f9d1ab6 100644
+--- a/tools/e2fsprogs/Makefile
++++ b/tools/e2fsprogs/Makefile
+@@ -39,6 +39,7 @@ define Host/Install
+ 	$(CP) $(STAGING_DIR_HOST)/include/uuid $(STAGING_DIR_HOST)/include/e2fsprogs/
+ 	rm -rf $(STAGING_DIR_HOST)/include/uuid
+ 	$(INSTALL_DATA) $(HOST_BUILD_DIR)/lib/uuid/libuuid.a $(STAGING_DIR_HOST)/lib/
++	$(INSTALL_BIN) $(HOST_BUILD_DIR)/lib/et/compile_et $(STAGING_DIR_HOST)/bin/
+ endef
+ 
+ define Host/Clean
+-- 
+2.10.0
+

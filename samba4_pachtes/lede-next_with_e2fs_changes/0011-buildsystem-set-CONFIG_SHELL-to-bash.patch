@@ -1,0 +1,28 @@
+From 62f4ada6f9d0d8d2e2c7c5b88504653ad14a82d7 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 22 May 2016 11:18:37 +0200
+Subject: [PATCH 11/69] buildsystem: set CONFIG_SHELL to bash
+
+see autoconf
+https://www.gnu.org/software/autoconf/manual/autoconf-2.69/html_node/config_002estatus-Invocation.html
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ rules.mk | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/rules.mk b/rules.mk
+index de24778..3abdd1b 100644
+--- a/rules.mk
++++ b/rules.mk
+@@ -63,6 +63,7 @@ BUILD_SUFFIX:=$(call qstrip,$(CONFIG_BUILD_SUFFIX))
+ SUBDIR:=$(patsubst $(TOPDIR)/%,%,${CURDIR})
+ BUILD_SUBDIR:=$(patsubst $(TOPDIR)/%,%,${CURDIR})
+ export SHELL:=/usr/bin/env bash
++export CONFIG_SHELL:=/bin/bash
+ 
+ IS_PACKAGE_BUILD := $(if $(filter package/%,$(BUILD_SUBDIR)),1)
+ 
+-- 
+2.10.0
+

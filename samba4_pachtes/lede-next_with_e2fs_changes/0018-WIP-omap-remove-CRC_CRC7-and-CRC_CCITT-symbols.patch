@@ -1,0 +1,26 @@
+From 802ffa8226afb3c316f025a61279e64a7d39634a Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Jun 2016 11:37:14 +0200
+Subject: [PATCH 18/69] [WIP] omap: remove CRC_CRC7 and CRC_CCITT symbols
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/omap/config-4.4 | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/target/linux/omap/config-4.4 b/target/linux/omap/config-4.4
+index a08e511..c346359 100644
+--- a/target/linux/omap/config-4.4
++++ b/target/linux/omap/config-4.4
+@@ -129,8 +129,6 @@ CONFIG_CPU_TLB_V7=y
+ CONFIG_CPU_V7=y
+ CONFIG_CRAMFS=y
+ CONFIG_CRC16=y
+-CONFIG_CRC7=y
+-CONFIG_CRC_CCITT=y
+ CONFIG_CRC_ITU_T=y
+ CONFIG_CRC_T10DIF=y
+ CONFIG_CRYPTO_CRC32C=y
+-- 
+2.10.0
+

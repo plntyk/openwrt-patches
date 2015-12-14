@@ -1,0 +1,49 @@
+From fdf5b808f139c58a0f40bda80273947ad0b0abca Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 3 Jul 2016 19:55:32 +0200
+Subject: [PATCH 59/69] dante: use musl only
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/utils/dante/Makefile | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/package/network/utils/dante/Makefile b/package/network/utils/dante/Makefile
+index a78c40d..518b7b2 100644
+--- a/package/network/utils/dante/Makefile
++++ b/package/network/utils/dante/Makefile
+@@ -42,6 +42,7 @@ endef
+ define Package/dante/default
+   TITLE:=Dante SOCKS
+   URL:=http://www.inet.no/dante/
++  DEPENDS:=@!USE_MUSL
+ endef
+ 
+ define Package/dante/default/description
+@@ -57,6 +58,7 @@ define Package/libsocks
+   SECTION:=libs
+   CATEGORY:=Libraries
+   TITLE+= Library
++  DEPENDS:=@!USE_MUSL
+ endef
+ 
+ define Package/libsocks/description
+@@ -76,6 +78,7 @@ define Package/sockd
+   SECTION:=net
+   CATEGORY:=Network
+   TITLE+= Daemon
++  DEPENDS:=@!USE_MUSL
+ endef
+ 
+ define Package/sockd/description
+@@ -94,6 +97,7 @@ define Package/socksify
+   SECTION:=net
+   CATEGORY:=Network
+   SUBMENU:=Web Servers/Proxies
++  DEPENDS:=@!USE_MUSL
+   TITLE+= Client
+ endef
+ 
+-- 
+2.10.0
+

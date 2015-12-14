@@ -1,0 +1,33 @@
+From 4ca502968a9f1cff1c47046f616b925ea105a55f Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 14 Jul 2016 10:23:10 +0200
+Subject: [PATCH 46/69] arm64: add missing config symbols
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/arm64/config-4.4 | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/target/linux/arm64/config-4.4 b/target/linux/arm64/config-4.4
+index d3f7f75..3ea205e 100644
+--- a/target/linux/arm64/config-4.4
++++ b/target/linux/arm64/config-4.4
+@@ -70,6 +70,7 @@ CONFIG_ARM_ARCH_TIMER=y
+ CONFIG_ARM_ARCH_TIMER_EVTSTREAM=y
+ CONFIG_ARM_GIC=y
+ CONFIG_ARM_GIC_V3=y
++CONFIG_ARM_PMU=y
+ CONFIG_ARM_PSCI_FW=y
+ # CONFIG_ARM_SP805_WATCHDOG is not set
+ CONFIG_ATOMIC64_SELFTEST=y
+@@ -225,6 +226,7 @@ CONFIG_IRQ_DOMAIN_HIERARCHY=y
+ CONFIG_IRQ_FORCED_THREADING=y
+ CONFIG_IRQ_WORK=y
+ CONFIG_JBD2=y
++# CONFIG_KASAN is not set
+ CONFIG_LIBFDT=y
+ # CONFIG_LIQUIDIO is not set
+ CONFIG_LOCKD=y
+-- 
+2.10.0
+

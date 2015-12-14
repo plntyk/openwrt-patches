@@ -1,0 +1,38 @@
+From 44617f91882238cc918af4c4af12f8bf9bc7bc89 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 3 Jul 2016 19:55:59 +0200
+Subject: [PATCH 40/69] samba4: build host package
+
+required for cross build process
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/samba4/Makefile | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/package/network/services/samba4/Makefile b/package/network/services/samba4/Makefile
+index 94124e3..8ec242f 100644
+--- a/package/network/services/samba4/Makefile
++++ b/package/network/services/samba4/Makefile
+@@ -15,9 +15,10 @@ PKG_LICENSE_FILES:=
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/samba-$(PKG_VERSION)
+ PKG_INSTALL:=1
+-PKG_BUILD_DEPENDS:=python/host python
++PKG_BUILD_DEPENDS:=python/host python heimdal/host
+ 
+ include $(INCLUDE_DIR)/package.mk
++include $(INCLUDE_DIR)/host-build.mk
+ 
+ define Package/samba4
+   SECTION:=base
+@@ -105,5 +106,6 @@ define Package/samba4/install
+ 	$(INSTALL_DIR) $(1)/usr/sbin
+ endef
+ 
++$(eval $(call HostBuild))
+ $(eval $(call BuildPackage,samba4))
+ 
+-- 
+2.10.0
+

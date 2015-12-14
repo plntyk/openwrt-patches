@@ -1,0 +1,112 @@
+From 73ace8ce9773640ea7a73a499fc752b3e387b8b5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 30 Jul 2016 08:17:44 +0200
+Subject: [PATCH 56/69] [WIP] samba4: update to 4.4.5
+
+- fix pam issues: PAM cannot be disabled
+with build options alone if headers are found:
+use gentoo patch that _really_ disables pam dependency
+- optional? popt deps
+- optional? libcap deps
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/samba4/Makefile           | 13 +++++++---
+ .../patches/002-gentoo-samba-4.4.0-pam.patch       | 29 ++++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 4 deletions(-)
+ create mode 100644 package/network/services/samba4/patches/002-gentoo-samba-4.4.0-pam.patch
+
+diff --git a/package/network/services/samba4/Makefile b/package/network/services/samba4/Makefile
+index 7c89974..609fd59 100644
+--- a/package/network/services/samba4/Makefile
++++ b/package/network/services/samba4/Makefile
+@@ -3,12 +3,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=samba4
+-PKG_VERSION:=4.4.4
++PKG_VERSION:=4.4.5
+ PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=samba-$(PKG_VERSION).tar.gz
+ PKG_SOURCE_URL:=https://download.samba.org/pub/samba/
+-PKG_MD5SUM:=b16919d43dfb5dd8c8ccf0af3a8e115b
++PKG_MD5SUM:=6950c5e9f7bdeb8a610c2ca957a15be4
+ 
+ PKG_LICENSE:=GPL3
+ PKG_LICENSE_FILES:=
+@@ -40,7 +40,7 @@ define Package/samba4-libs
+   SECTION:=base
+   CATEGORY:=Base
+   TITLE:=samba4 SMB/CIFS client
+-  DEPENDS:=+zlib
++  DEPENDS:=+libcap +libpopt +zlib
+   URL:=http://www.samba.org
+ endef
+ 
+@@ -49,6 +49,9 @@ CONF_ARGS = \
+ 	--cross-answers=$(PKG_BUILD_DIR)/target.txt \
+ 
+ 
++SAMBA4_CONF_VARS:= HAVE_SECURITY_PAM_APPL_H=0
++
++
+ SAMBA4_CONF_ARGS:= \
+ 	--disable-avahi \
+ 	--disable-cups \
+@@ -108,6 +111,7 @@ PYTHON_ENV:= \
+ 
+ define Build/Configure
+ 	(cd $(PKG_BUILD_DIR); \
++	$(SAMBA4_CONF_VARS) \
+ 	$(PYTHON_ENV) \
+ 	$(TARGET_CONFIGURE_OPTS) \
+ 	./configure \
+@@ -135,7 +139,8 @@ define Package/samba4-libs/install
+ 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libgenrand-samba4.so $(1)/usr/lib
+ 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/liblibsmb-samba4.so $(1)/usr/lib
+ 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libpopt-samba3-samba4.so $(1)/usr/lib
+-	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libpopt-samba4.so $(1)/usr/lib
++# pam depends?
++#	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libpopt-samba4.so $(1)/usr/lib
+ 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba-debug-samba4.so $(1)/usr/lib
+ 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba-security-samba4.so $(1)/usr/lib
+ 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/local/samba/lib/private/libsamba-sockets-samba4.so $(1)/usr/lib
+diff --git a/package/network/services/samba4/patches/002-gentoo-samba-4.4.0-pam.patch b/package/network/services/samba4/patches/002-gentoo-samba-4.4.0-pam.patch
+new file mode 100644
+index 0000000..4516013
+--- /dev/null
++++ b/package/network/services/samba4/patches/002-gentoo-samba-4.4.0-pam.patch
+@@ -0,0 +1,29 @@
++--- samba-4.4.0rc2/source3/wscript
+++++ samba-4.4.0rc2/source3/wscript
++@@ -870,7 +870,7 @@
++         if conf.env.with_iconv:
++             conf.DEFINE('HAVE_ICONV', 1)
++ 
++-    if Options.options.with_pam:
+++    if Options.options.with_pam != False:
++         use_pam=True
++         conf.CHECK_HEADERS('security/pam_appl.h pam/pam_appl.h')
++         if not conf.CONFIG_SET('HAVE_SECURITY_PAM_APPL_H') and not conf.CONFIG_SET('HAVE_PAM_PAM_APPL_H'):
++@@ -943,6 +943,17 @@
++             conf.DEFINE('WITH_PAM', 1)
++             conf.DEFINE('WITH_PAM_MODULES', 1)
++ 
+++    else:
+++        Logs.warn("PAM disabled")
+++        use_pam=False
+++        conf.undefine('WITH_PAM')
+++        conf.undefine('WITH_PAM_MODULES')
+++        conf.undefine('HAVE_SECURITY_PAM_APPL_H')
+++        conf.undefine('PAM_RHOST')
+++        conf.undefine('PAM_TTY')
+++        conf.undefine('HAVE_PAM_PAM_APPL_H')
+++
+++
++     seteuid = False
++ 
++ #
+-- 
+2.10.0
+

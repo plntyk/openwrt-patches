@@ -1,0 +1,28 @@
+From 3f62c82b833d98a8869aae745345ff7fcf883976 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 18 May 2016 09:06:16 +0200
+Subject: [PATCH 10/69] buildsystem: unify host and package configure
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ include/host-build.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/host-build.mk b/include/host-build.mk
+index 659cdc4..ea48cc1 100644
+--- a/include/host-build.mk
++++ b/include/host-build.mk
+@@ -83,9 +83,9 @@ define Host/Configure/Default
+ 	$(if $(HOST_CONFIGURE_PARALLEL),+)(cd $(HOST_BUILD_DIR)/$(3); \
+ 		if [ -x configure ]; then \
+ 			$(CP) $(SCRIPT_DIR)/config.{guess,sub} $(HOST_BUILD_DIR)/$(3)/ && \
++			$(HOST_CONFIGURE_VARS) \
+ 			$(2) \
+ 			$(HOST_CONFIGURE_CMD) \
+-			$(HOST_CONFIGURE_VARS) \
+ 			$(HOST_CONFIGURE_ARGS) \
+ 			$(1); \
+ 		fi \
+-- 
+2.10.0
+

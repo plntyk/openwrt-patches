@@ -1,0 +1,31 @@
+From 4c1eaf20236db24f6055b7c16c95e563df14cac0 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Fri, 10 Jun 2016 10:05:09 +0200
+Subject: [PATCH 34/69] Kernel: update to 3.18.35
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ include/kernel-version.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/include/kernel-version.mk b/include/kernel-version.mk
+index d1f5eb2..d5766cd 100644
+--- a/include/kernel-version.mk
++++ b/include/kernel-version.mk
+@@ -2,11 +2,11 @@
+ 
+ LINUX_RELEASE?=1
+ 
+-LINUX_VERSION-3.18 = .29
++LINUX_VERSION-3.18 = .35
+ LINUX_VERSION-4.1 = .20
+ LINUX_VERSION-4.4 = .21
+ 
+-LINUX_KERNEL_MD5SUM-3.18.29 = b25737a0bc98e80d12200de93f239c28
++LINUX_KERNEL_MD5SUM-3.18.35 = ea760acd822dd0a03607898cdc3422c6
+ LINUX_KERNEL_MD5SUM-4.1.20 = 075c38a3a23ca5bc80437b13606df00a
+ LINUX_KERNEL_MD5SUM-4.4.21 = 9a59fa5f60f47aab78aaa5f0691b24a2
+ 
+-- 
+2.10.0
+

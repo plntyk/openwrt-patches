@@ -1,0 +1,153 @@
+From 493f08b5fc3abd1341dd35b5f608fc24c274c2bb Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 25 Jun 2016 10:56:01 +0200
+Subject: [PATCH 29/69] WIP: libcom_err, libss
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ feeds.conf.default                                 |  3 +-
+ package/utils/e2fsprogs/Makefile                   | 40 ++++++++++++++++++----
+ .../e2fsprogs/patches/001-com_err_version.patch    | 13 -------
+ 3 files changed, 36 insertions(+), 20 deletions(-)
+ delete mode 100644 package/utils/e2fsprogs/patches/001-com_err_version.patch
+
+diff --git a/feeds.conf.default b/feeds.conf.default
+index 02edffd..0ca1d27 100644
+--- a/feeds.conf.default
++++ b/feeds.conf.default
+@@ -4,7 +4,8 @@ src-link luci /home/tenchi/programming/upstream/feeds/luci
+ src-link routing /home/tenchi/programming/upstream/feeds/routing/packages
+ src-link telephony /home/tenchi/programming/upstream/feeds/telephony
+ src-link management /home/tenchi/programming/upstream/feeds/management/packages
+-src-link oldpackages /home/tenchi/programming/upstream/feeds/oldpackages/packages
++#src-link oldpackages /home/tenchi/programming/upstream/feeds/oldpackages/packages
++src-link printing /home/tenchi/programming/upstream/feeds/openwrt-printing-packages
+ src-git packages_berlin git://github.com/freifunk-berlin/firmware-packages.git
+ src-link misc /home/tenchi/programming/upstream/feeds/packages-misc
+ #src-link custom /usr/src/openwrt/custom-feed
+diff --git a/package/utils/e2fsprogs/Makefile b/package/utils/e2fsprogs/Makefile
+index debc5ba..374e8e3 100644
+--- a/package/utils/e2fsprogs/Makefile
++++ b/package/utils/e2fsprogs/Makefile
+@@ -46,12 +46,28 @@ $(call Package/e2fsprogs/Default)
+   CATEGORY:=Libraries
+   DEPENDS:=+libuuid
+   TITLE:=ext2/3/4 filesystem library
++  DEPENDS:=+libcom-err
+ endef
+ 
+ define Package/libext2fs/description
+  libext2fs is a library which can access ext2, ext3 and ext4 filesystems.
+ endef
+ 
++define Package/libcom-err
++$(call Package/e2fsprogs/Default)
++  SECTION:=libs
++  CATEGORY:=Libraries
++  TITLE:=error description library
++endef
++
++define Package/libss
++$(call Package/e2fsprogs/Default)
++  SECTION:=libs
++  CATEGORY:=Libraries
++  TITLE:=command-line interface parsing library
++  DEPENDS:=+libcom-err
++endef
++
+ define Package/tune2fs
+ $(call Package/e2fsprogs)
+   TITLE:=Ext2 Filesystem tune utility
+@@ -91,7 +107,7 @@ endef
+ define Package/debugfs
+ $(call Package/e2fsprogs)
+   TITLE:=Ext2 Filesystem debugger
+-  DEPENDS:= +e2fsprogs
++  DEPENDS:= +e2fsprogs +libss
+ endef
+ 
+ define Package/chattr
+@@ -153,11 +169,15 @@ define Build/InstallDev
+ 	$(INSTALL_DIR) $(1)/usr/lib
+ 	$(CP) $(PKG_BUILD_DIR)/lib/libext2fs.{so,a}* $(1)/usr/lib
+ 	$(CP) $(PKG_BUILD_DIR)/lib/libcom_err.{so,a}* $(1)/usr/lib
++	$(CP) $(PKG_BUILD_DIR)/lib/libss.{so,a}* $(1)/usr/lib
+ 
+ 	$(INSTALL_DIR) $(1)/usr/include/ext2fs
+ 	$(CP) $(PKG_BUILD_DIR)/lib/ext2fs/*.h $(1)/usr/include/ext2fs
+ 	$(INSTALL_DIR) $(1)/usr/include/et
+ 	$(CP) $(PKG_BUILD_DIR)/lib/et/*.h $(1)/usr/include/et
++	$(LN) et/com_err.h $(1)/usr/include/com_err.h
++	$(INSTALL_DIR) $(1)/usr/include/ss
++	$(CP) $(PKG_BUILD_DIR)/lib/ss/{ss,ss_err}.h $(1)/usr/include/ss
+ endef
+ 
+ define Package/e2fsprogs/conffiles
+@@ -182,17 +202,24 @@ define Package/e2fsprogs/install
+ 	$(INSTALL_DATA) ./files/e2fsck.conf $(1)/etc/e2fsck.conf
+ endef
+ 
+-define Package/libcom_err/install
+-endef
+-
+ define Package/libext2fs/install
+ 	$(INSTALL_DIR) $(1)/usr/lib
+ 	$(CP) \
+ 		$(PKG_INSTALL_DIR)/usr/lib/libext2fs.so.* \
+-		$(PKG_INSTALL_DIR)/usr/lib/libcom_err.so.* \
+ 		$(1)/usr/lib/
+ endef
+ 
++define Package/libcom-err/install
++	$(INSTALL_DIR) $(1)/usr/lib
++	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libcom_err.so.* $(1)/usr/lib/
++endef
++
++define Package/libss/install
++	$(INSTALL_DIR) $(1)/usr/lib
++	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libss.so.* $(1)/usr/lib/
++endef
++
++
+ define Package/libext2fs/install_lib
+ 	$(INSTALL_DIR) $(1)/usr/lib
+ 	$(CP) $(PKG_BUILD_DIR)/lib/ext2fs/libext2fs.a $(1)/usr/lib/libext2fs_pic.a
+@@ -233,7 +260,6 @@ define Package/debugfs/install
+ 	$(INSTALL_DIR) $(1)/usr/sbin
+ 	$(INSTALL_DIR) $(1)/usr/lib
+ 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/debugfs $(1)/usr/sbin/
+-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libss.so.* $(1)/usr/lib/
+ endef
+ 
+ define Package/chattr/install
+@@ -248,6 +274,8 @@ endef
+ 
+ $(eval $(call BuildPackage,e2fsprogs))
+ $(eval $(call BuildPackage,libext2fs))
++$(eval $(call BuildPackage,libcom-err))
++$(eval $(call BuildPackage,libss))
+ $(eval $(call BuildPackage,tune2fs))
+ $(eval $(call BuildPackage,resize2fs))
+ $(eval $(call BuildPackage,badblocks))
+diff --git a/package/utils/e2fsprogs/patches/001-com_err_version.patch b/package/utils/e2fsprogs/patches/001-com_err_version.patch
+deleted file mode 100644
+index 62f1e08..0000000
+--- a/package/utils/e2fsprogs/patches/001-com_err_version.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+---- a/lib/et/Makefile.in
+-+++ b/lib/et/Makefile.in
+-@@ -25,8 +25,8 @@ SHARE_FILES= et_c.awk et_h.awk
+- LIBRARY= libcom_err
+- LIBDIR= et
+- 
+--ELF_VERSION = 2.1
+--ELF_SO_VERSION = 2
+-+ELF_VERSION = 0.0
+-+ELF_SO_VERSION = 0
+- ELF_IMAGE = libcom_err
+- ELF_MYDIR = et
+- ELF_INSTALL_DIR = $(root_libdir)
+-- 
+2.10.0
+

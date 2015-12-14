@@ -1,0 +1,30 @@
+From dfa908c7607f2bee7d44e3dadbcd53bddf2da42f Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 7 Jun 2016 13:24:37 +0200
+Subject: [PATCH 28/69] [WIP] Sitecom WLR-8100 add caldata
+
+enables ath10k hardware
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ .../linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata  | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/target/linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata b/target/linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata
+index d2f8120..1e9b6fe 100644
+--- a/target/linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata
++++ b/target/linux/ar71xx/base-files/etc/hotplug.d/firmware/11-ath10k-caldata
+@@ -97,6 +97,10 @@ case "$FIRMWARE" in
+ 	rb-911g-5hpacd)
+ 		ath10kcal_from_file "/sys/firmware/routerboot/ext_wlan_data" 20480 2116
+ 		;;
++	wlr8100)
++		ath10kcal_extract "art" 24576 2116
++		ath10kcal_patch_mac $(macaddr_add $(cat /sys/class/net/eth1/address) -2)
++		;;
+ 	esac
+ 	;;
+ *)
+-- 
+2.10.0
+

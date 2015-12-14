@@ -1,0 +1,43 @@
+From 867431177aaacce95a9de0d2d2aa1728e8eb5603 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 25 Jul 2016 16:19:37 +0200
+Subject: [PATCH 49/69] mbedtls: enable MBEDTLS_DHM_C
+
+fixes openvpn(git) compile with mbedtls:
+ssl_mbedtls.o: In function `tls_ctx_free':
+ssl_mbedtls.c:(.text+0x4b8): undefined reference to `mbedtls_dhm_free'
+ssl_mbedtls.o: In function `tls_ctx_load_dh_params':
+ssl_mbedtls.c:(.text+0x760): undefined reference to `mbedtls_dhm_parse_dhm'
+ssl_mbedtls.c:(.text+0x7a9): undefined reference to `mbedtls_dhm_parse_dhmfile'
+ssl_mbedtls.o: In function `key_state_ssl_init':
+ssl_mbedtls.c:(.text+0xf0e): undefined reference to `mbedtls_ssl_conf_dh_param_ctx'
+collect2: error: ld returned 1 exit status
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/libs/mbedtls/patches/200-config.patch | 9 ---------
+ 1 file changed, 9 deletions(-)
+
+diff --git a/package/libs/mbedtls/patches/200-config.patch b/package/libs/mbedtls/patches/200-config.patch
+index e4118ff..a490c6c 100644
+--- a/package/libs/mbedtls/patches/200-config.patch
++++ b/package/libs/mbedtls/patches/200-config.patch
+@@ -188,15 +188,6 @@
+  
+  /**
+   * \def MBEDTLS_DES_C
+-@@ -1733,7 +1733,7 @@
+-  * This module is used by the following key exchanges:
+-  *      DHE-RSA, DHE-PSK
+-  */
+--#define MBEDTLS_DHM_C
+-+//#define MBEDTLS_DHM_C
+- 
+- /**
+-  * \def MBEDTLS_ECDH_C
+ @@ -2151,7 +2151,7 @@
+   * Caller:  library/mbedtls_md.c
+   *
+-- 
+2.10.0
+

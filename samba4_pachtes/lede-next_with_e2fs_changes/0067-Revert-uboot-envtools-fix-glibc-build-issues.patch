@@ -1,0 +1,33 @@
+From 3ee30b74209ebc9657d64f46d85d10a26633b24d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Fri, 16 Sep 2016 09:55:52 +0200
+Subject: [PATCH 67/69] Revert "uboot-envtools: fix glibc build issues"
+
+This reverts commit 6c015694ef4a7dbed9e1157045f823efec5521a3.
+---
+ .../boot/uboot-envtools/patches/002-fix_glibc_stdint.patch  | 13 -------------
+ 1 file changed, 13 deletions(-)
+ delete mode 100644 package/boot/uboot-envtools/patches/002-fix_glibc_stdint.patch
+
+diff --git a/package/boot/uboot-envtools/patches/002-fix_glibc_stdint.patch b/package/boot/uboot-envtools/patches/002-fix_glibc_stdint.patch
+deleted file mode 100644
+index 8114e64..0000000
+--- a/package/boot/uboot-envtools/patches/002-fix_glibc_stdint.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+---- a/tools/env/fw_env.c
+-+++ b/tools/env/fw_env.c
+-@@ -22,9 +22,9 @@
+- #include <sys/ioctl.h>
+- #include <sys/stat.h>
+- #include <unistd.h>
+-+#include <stdint.h>
+- 
+- #ifdef MTD_OLD
+--# include <stdint.h>
+- # include <linux/mtd/mtd.h>
+- #else
+- # define  __user	/* nothing */
+-- 
+2.10.0
+

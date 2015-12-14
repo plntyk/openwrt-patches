@@ -1,0 +1,101 @@
+From a3859941799293da85ff77d5b6720181e15437c2 Mon Sep 17 00:00:00 2001
+From: Waldemar Brodkorb <wbx@openadk.org>
+Date: Sat, 4 Jun 2016 22:21:38 +0200
+Subject: [PATCH 30/69] uClibc-ng: allow to choose for all supported
+ architectures
+
+Update to 1.0.15 and allow to choose uClibc-ng for all
+supported architectures. Some users still need to port over
+their code from uClibc-ng to musl, with this change they
+can do it in a comfortable way.
+
+Extra pregen is not required.
+
+Signed-off-by: Waldemar Brodkorb <wbx@uclibc-ng.org>
+---
+ toolchain/Config.in               | 3 +--
+ toolchain/uClibc/Config.version   | 2 +-
+ toolchain/uClibc/Makefile         | 2 +-
+ toolchain/uClibc/common.mk        | 2 +-
+ toolchain/uClibc/config/common    | 1 +
+ toolchain/uClibc/headers/Makefile | 1 -
+ 6 files changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/toolchain/Config.in b/toolchain/Config.in
+index 75dc536..6c2898b 100644
+--- a/toolchain/Config.in
++++ b/toolchain/Config.in
+@@ -231,9 +231,8 @@ choice
+ 
+ 	config LIBC_USE_UCLIBC
+ 		select USE_UCLIBC
+-		bool "Use uClibc"
++		bool "Use uClibc-ng"
+ 		depends on !(aarch64 || aarch64_be)
+-		depends on BROKEN || !(arm || armeb || i386 || x86_64 || mips || mipsel || mips64 || mips64el || powerpc)
+ 
+ 	config LIBC_USE_MUSL
+ 		select USE_MUSL
+diff --git a/toolchain/uClibc/Config.version b/toolchain/uClibc/Config.version
+index 3c1c54d..7c32ee5 100644
+--- a/toolchain/uClibc/Config.version
++++ b/toolchain/uClibc/Config.version
+@@ -1,7 +1,7 @@
+ config UCLIBC_VERSION
+ 	string
+ 	depends on USE_UCLIBC
+-	default "1.0.14"
++	default "1.0.15"
+ 
+ config UCLIBC_VERSION_NG
+ 	bool
+diff --git a/toolchain/uClibc/Makefile b/toolchain/uClibc/Makefile
+index a5fb54b..813e5de 100644
+--- a/toolchain/uClibc/Makefile
++++ b/toolchain/uClibc/Makefile
+@@ -9,7 +9,7 @@ HOST_BUILD_PARALLEL:=1
+ 
+ define Host/SetToolchainInfo
+ 	$(SED) 's,^\(LIBC_TYPE\)=.*,\1=$(PKG_NAME),' $(TOOLCHAIN_DIR)/info.mk
+-	$(SED) 's,^\(LIBC_URL\)=.*,\1=http://www.uclibc.org/,' $(TOOLCHAIN_DIR)/info.mk
++	$(SED) 's,^\(LIBC_URL\)=.*,\1=http://www.uclibc-ng.org/,' $(TOOLCHAIN_DIR)/info.mk
+ 	$(SED) 's,^\(LIBC_VERSION\)=.*,\1=$(PKG_VERSION),' $(TOOLCHAIN_DIR)/info.mk
+ 	$(SED) 's,^\(LIBC_SO_VERSION\)=.*,\1=$(LIBC_SO_VERSION),' $(TOOLCHAIN_DIR)/info.mk
+ endef
+diff --git a/toolchain/uClibc/common.mk b/toolchain/uClibc/common.mk
+index 952f67d..bdf5faa 100644
+--- a/toolchain/uClibc/common.mk
++++ b/toolchain/uClibc/common.mk
+@@ -16,7 +16,7 @@ CONFIG_DIR:=$(PATH_PREFIX)/config
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+ LIBC_SO_VERSION:=$(PKG_VERSION)
+ 
+-PKG_MD5SUM=8eed7f3635216142c1c5e122874b89c6
++PKG_MD5SUM=31a558739311583b9bdf9017f5c93fa4
+ 
+ HOST_BUILD_DIR:=$(BUILD_DIR_TOOLCHAIN)/$(PKG_NAME)-$(PKG_VERSION)
+ 
+diff --git a/toolchain/uClibc/config/common b/toolchain/uClibc/config/common
+index b679c0a..3e160c2 100644
+--- a/toolchain/uClibc/config/common
++++ b/toolchain/uClibc/config/common
+@@ -224,3 +224,4 @@ WARNINGS="-Wall"
+ # UCLIBC_SUSV2_LEGACY is not set
+ # UCLIBC_HAS_CONTEXT_FUNCS is not set
+ UCLIBC_HAS_GETOPT_LONG=y
++# UCLIBC_HAS_ARGP is not set
+diff --git a/toolchain/uClibc/headers/Makefile b/toolchain/uClibc/headers/Makefile
+index abd3620..a4a9b56 100644
+--- a/toolchain/uClibc/headers/Makefile
++++ b/toolchain/uClibc/headers/Makefile
+@@ -18,7 +18,6 @@ define Host/Install
+ 		CC="$(TARGET_CC)" \
+ 		CPU_CFLAGS="$(TARGET_CFLAGS)" \
+ 		ARCH="$(CONFIG_ARCH)" \
+-		pregen \
+ 		install_headers
+ 	$(CP) $(BUILD_DIR_TOOLCHAIN)/linux-dev/* $(BUILD_DIR_TOOLCHAIN)/$(LIBC)-dev/
+ endef
+-- 
+2.10.0
+

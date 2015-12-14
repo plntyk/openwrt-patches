@@ -1,0 +1,26 @@
+From 847f69d8dc31e89d356ac49093ffd354dcca920c Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 2 Aug 2016 15:38:34 +0200
+Subject: [PATCH 62/69] iperf: fix glibc build
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/utils/iperf/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package/network/utils/iperf/Makefile b/package/network/utils/iperf/Makefile
+index c47830c..0394c5b 100644
+--- a/package/network/utils/iperf/Makefile
++++ b/package/network/utils/iperf/Makefile
+@@ -41,7 +41,7 @@ TARGET_CFLAGS += -D_GNU_SOURCE
+ CONFIGURE_ARGS += --disable-multicast
+ 
+ CONFIGURE_VARS += CXXFLAGS="$$$$CXXFLAGS -fno-rtti"
+-CONFIGURE_VARS += LIBS="-lpthread -lm"
++CONFIGURE_VARS += LIBS="-lpthread $(if $(CONFIG_USE_GLIBC),-lm)"
+ 
+ define Package/iperf/install
+ 	$(INSTALL_DIR) $(1)/usr/bin
+-- 
+2.10.0
+

@@ -1,0 +1,141 @@
+From f9daba41a7ab9a9d0bad0b0c69269438ed66b326 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 2 Aug 2016 15:36:52 +0200
+Subject: [PATCH 33/69] gettext-full: update to 0.19.8.1
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/libs/gettext-full/Makefile                  | 21 +++++++++++++++++----
+ .../libs/gettext-full/patches/001-autotools.patch   |  2 +-
+ .../patches/001-no_examples_and_tests.patch         |  4 ++--
+ .../gettext-full/patches/120-uclibc-nolocale.patch  |  2 +-
+ .../patches/150-disable_libxml_iconv.patch          |  4 ++--
+ 5 files changed, 23 insertions(+), 10 deletions(-)
+
+diff --git a/package/libs/gettext-full/Makefile b/package/libs/gettext-full/Makefile
+index abe311f..dea540c 100644
+--- a/package/libs/gettext-full/Makefile
++++ b/package/libs/gettext-full/Makefile
+@@ -8,12 +8,12 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=gettext-full
+-PKG_VERSION:=0.19.6
+-PKG_RELEASE:=3
++PKG_VERSION:=0.19.8.1
++PKG_RELEASE:=1
+ 
+ PKG_SOURCE:=gettext-$(PKG_VERSION).tar.xz
+ PKG_SOURCE_URL:=@GNU/gettext
+-PKG_MD5SUM:=69d79254ee3b41df23f41c2f4fd720d9
++PKG_MD5SUM:=df3f5690eaa30fd228537b00cb7b7590
+ PKG_BUILD_DIR:=$(BUILD_DIR)/gettext-$(PKG_VERSION)
+ HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/gettext-$(PKG_VERSION)
+ 
+@@ -24,6 +24,7 @@ PKG_FIXUP:=autoreconf
+ PKG_INSTALL:=1
+ PKG_BUILD_PARALLEL:=0
+ PKG_BUILD_DEPENDS:=gettext-full/host
++HOST_BUILD_DEPENDS:=libxml2/host
+ 
+ include $(INCLUDE_DIR)/package.mk
+ include $(INCLUDE_DIR)/host-build.mk
+@@ -46,6 +47,7 @@ endif
+ CONFIGURE_ARGS += \
+ 	--enable-shared \
+ 	--enable-static \
++	--disable-libasprintf \
+ 	--disable-rpath \
+ 	--enable-nls \
+ 	--disable-java \
+@@ -58,7 +60,16 @@ CONFIGURE_ARGS += \
+ 	--without-emacs
+ 
+ HOST_CONFIGURE_ARGS += \
+-	--with-included-libxml --without-libxml2-prefix --with-included-libcroco
++	--disable-libasprintf \
++	--disable-rpath \
++	--disable-java \
++	--disable-native-java \
++	--disable-openmp \
++	--without-emacs
++
++
++#	--with-libxml2-prefix \
++
+ 
+ HOST_CONFIGURE_VARS += \
+ 	EMACS="no"
+@@ -72,6 +83,8 @@ define Build/InstallDev
+ 
+ 	$(INSTALL_DIR) $(1)/usr/share/aclocal
+ 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/share/aclocal/* $(1)/usr/share/aclocal/
++
++	$(SED) '/read dummy/d' $(STAGING_DIR)/host/bin/gettextize
+ endef
+ 
+ define Package/libintl-full/install
+diff --git a/package/libs/gettext-full/patches/001-autotools.patch b/package/libs/gettext-full/patches/001-autotools.patch
+index 2f23c8e..4b1799f 100644
+--- a/package/libs/gettext-full/patches/001-autotools.patch
++++ b/package/libs/gettext-full/patches/001-autotools.patch
+@@ -12,7 +12,7 @@
+  	  $(INSTALL_DATA) $$dir/$$file $(DESTDIR)$(htmldir)/$$file; \
+ --- a/gettext-tools/man/Makefile.am
+ +++ b/gettext-tools/man/Makefile.am
+-@@ -154,8 +154,7 @@ recode-sr-latin.1.html: recode-sr-latin.
++@@ -153,8 +153,7 @@ recode-sr-latin.1.html: recode-sr-latin.
+  gettextize.1.html: gettextize.1
+  autopoint.1.html: autopoint.1
+  
+diff --git a/package/libs/gettext-full/patches/001-no_examples_and_tests.patch b/package/libs/gettext-full/patches/001-no_examples_and_tests.patch
+index 97353b1..abb1b24 100644
+--- a/package/libs/gettext-full/patches/001-no_examples_and_tests.patch
++++ b/package/libs/gettext-full/patches/001-no_examples_and_tests.patch
+@@ -15,8 +15,8 @@
+  AUTOMAKE_OPTIONS = 1.5 gnu no-dependencies
+  ACLOCAL_AMFLAGS = -I m4 -I ../gettext-runtime/m4 -I ../m4 -I gnulib-m4 -I libgrep/gnulib-m4 -I libgettextpo/gnulib-m4
+  
+--SUBDIRS = doc intl gnulib-lib libgrep src libgettextpo po projects styles misc man m4 tests gnulib-tests examples
+-+SUBDIRS = intl gnulib-lib libgrep src libgettextpo po projects styles misc m4
++-SUBDIRS = doc intl gnulib-lib libgrep src libgettextpo po projects styles misc man m4 tests gnulib-tests examples its
+++SUBDIRS = intl gnulib-lib libgrep src libgettextpo po projects styles misc m4 its
+  
+  EXTRA_DIST = misc/DISCLAIM
+  MOSTLYCLEANFILES = core *.stackdump
+diff --git a/package/libs/gettext-full/patches/120-uclibc-nolocale.patch b/package/libs/gettext-full/patches/120-uclibc-nolocale.patch
+index 4c6a73e..40ca10e 100644
+--- a/package/libs/gettext-full/patches/120-uclibc-nolocale.patch
++++ b/package/libs/gettext-full/patches/120-uclibc-nolocale.patch
+@@ -1,6 +1,6 @@
+ --- a/gettext-runtime/intl/localename.c
+ +++ b/gettext-runtime/intl/localename.c
+-@@ -2788,7 +2788,7 @@ gl_locale_name_posix (int category, cons
++@@ -2790,7 +2790,7 @@ gl_locale_name_posix (int category, cons
+  {
+    /* Use the POSIX methods of looking to 'LC_ALL', 'LC_xxx', and 'LANG'.
+       On some systems this can be done by the 'setlocale' function itself.  */
+diff --git a/package/libs/gettext-full/patches/150-disable_libxml_iconv.patch b/package/libs/gettext-full/patches/150-disable_libxml_iconv.patch
+index a8f5a5c..da037fe 100644
+--- a/package/libs/gettext-full/patches/150-disable_libxml_iconv.patch
++++ b/package/libs/gettext-full/patches/150-disable_libxml_iconv.patch
+@@ -1,6 +1,6 @@
+ --- a/gettext-tools/gnulib-lib/libxml/xmlversion.in.h
+ +++ b/gettext-tools/gnulib-lib/libxml/xmlversion.in.h
+-@@ -263,7 +263,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(i
++@@ -273,7 +273,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(i
+   *
+   * Whether iconv support is available
+   */
+@@ -11,7 +11,7 @@
+  
+ --- a/gnulib-local/lib/libxml/xmlversion.in.h
+ +++ b/gnulib-local/lib/libxml/xmlversion.in.h
+-@@ -263,7 +263,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(i
++@@ -273,7 +273,7 @@ XMLPUBFUN void XMLCALL xmlCheckVersion(i
+   *
+   * Whether iconv support is available
+   */
+-- 
+2.10.0
+

@@ -1,0 +1,53 @@
+From 15a8291b393e5a9458ab8cdb105233123b339031 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 30 May 2016 23:01:27 +0200
+Subject: [PATCH 15/69] kexec-tools: fix musl build
+
+take patch from OE
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ .../0010-OE-vmcore-dmesg-Define-_GNU_SOURCE.patch  | 31 ++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 package/boot/kexec-tools/patches/0010-OE-vmcore-dmesg-Define-_GNU_SOURCE.patch
+
+diff --git a/package/boot/kexec-tools/patches/0010-OE-vmcore-dmesg-Define-_GNU_SOURCE.patch b/package/boot/kexec-tools/patches/0010-OE-vmcore-dmesg-Define-_GNU_SOURCE.patch
+new file mode 100644
+index 0000000..90c2f6e
+--- /dev/null
++++ b/package/boot/kexec-tools/patches/0010-OE-vmcore-dmesg-Define-_GNU_SOURCE.patch
+@@ -0,0 +1,31 @@
++From d811875a41b4628040abaada3da29b7b9592e757 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 9 Jan 2016 17:16:16 -0800
++Subject: [PATCH] vmcore-dmesg: Define _GNU_SOURCE
++
++loff_t is guarded with _GNU_SOURCE on some C library implementations
++e.g. musl since this type is not defined by POSIX. Define _GNU_SOURCE to
++include this define, it should help compiling on musl while nothing
++changes for glibc based systems since there _GNU_SOURCE is already
++defined
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Submitted
++
++ vmcore-dmesg/vmcore-dmesg.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/vmcore-dmesg/vmcore-dmesg.c b/vmcore-dmesg/vmcore-dmesg.c
++index 0364636..a8f56df 100644
++--- a/vmcore-dmesg/vmcore-dmesg.c
+++++ b/vmcore-dmesg/vmcore-dmesg.c
++@@ -1,4 +1,5 @@
++ #define _XOPEN_SOURCE 600
+++#define _GNU_SOURCE
++ #define _LARGEFILE_SOURCE 1
++ #define _FILE_OFFSET_BITS 64
++ #include <endian.h>
++-- 
++2.7.0
++
+-- 
+2.10.0
+

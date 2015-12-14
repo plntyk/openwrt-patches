@@ -1,0 +1,25 @@
+From 2e6edee4226f08381e7b3a896bc8a74d60cdcdb6 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Jun 2016 13:53:53 +0200
+Subject: [PATCH 23/69] omap: remove DNS_RESOLVER
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/omap/config-4.4 | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/target/linux/omap/config-4.4 b/target/linux/omap/config-4.4
+index 38364b3..104ef33 100644
+--- a/target/linux/omap/config-4.4
++++ b/target/linux/omap/config-4.4
+@@ -174,7 +174,6 @@ CONFIG_DMA_ENGINE=y
+ CONFIG_DMA_OF=y
+ CONFIG_DMA_OMAP=y
+ CONFIG_DMA_VIRTUAL_CHANNELS=y
+-CONFIG_DNS_RESOLVER=y
+ CONFIG_DTC=y
+ CONFIG_EDAC_ATOMIC_SCRUB=y
+ CONFIG_EDAC_SUPPORT=y
+-- 
+2.10.0
+

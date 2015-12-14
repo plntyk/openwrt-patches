@@ -1,0 +1,117 @@
+From 274d07ef65d9cb47823c634b834f878f19bd23ee Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 25 Jul 2016 16:55:57 +0200
+Subject: [PATCH 51/69] openvpn: update to git version
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/openvpn/Makefile          | 23 ++++++++++++++++++----
+ .../patches/001-reproducible-remove_DATE.patch     |  2 +-
+ ...00-polarssl-disable-runtime-version-check.patch | 16 +++++++--------
+ 3 files changed, 28 insertions(+), 13 deletions(-)
+
+diff --git a/package/network/services/openvpn/Makefile b/package/network/services/openvpn/Makefile
+index c88fcbd..181328c 100644
+--- a/package/network/services/openvpn/Makefile
++++ b/package/network/services/openvpn/Makefile
+@@ -9,12 +9,20 @@ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=openvpn
+ 
+-PKG_VERSION:=2.3.12
+-PKG_RELEASE:=1
++PKG_VERSION:=2.3.11git
++#PKG_RELEASE:=1
+ 
+ PKG_SOURCE_URL:=http://swupdate.openvpn.net/community/releases
+-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+-PKG_MD5SUM:=e3d6cdf2fb58b7569bd628ddb3d76352aa7e85b9
++#PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
++#PKG_MD5SUM:=0f5f1ca1dc5743fa166d93dd4ec952f014b5f33bafd88f0ea34b455cae1434a7
++
++PKG_SOURCE_VERSION:=d728ebeda8c94fe401dc41b9fbda682ea0d780c9
++PKG_RELEASE:=$(PKG_SOURCE_VERSION)
++PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
++PKG_SOURCE_PROTO:=git
++PKG_SOURCE_URL:=https://github.com/OpenVPN/openvpn
++PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
++PKG_PROTO:=git
+ 
+ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(BUILD_VARIANT)/$(PKG_NAME)-$(PKG_VERSION)
+ 
+@@ -39,6 +47,7 @@ endef
+ 
+ Package/openvpn-openssl=$(call Package/openvpn/Default,openssl,OpenSSL,+libopenssl)
+ Package/openvpn-polarssl=$(call Package/openvpn/Default,polarssl,PolarSSL,+libpolarssl)
++Package/openvpn-mbedtls=$(call Package/openvpn/Default,mbedtls,mbedtls,+libmbedtls)
+ Package/openvpn-nossl=$(call Package/openvpn/Default,nossl,plaintext (no SSL))
+ 
+ define Package/openvpn/config/Default
+@@ -47,8 +56,12 @@ endef
+ 
+ Package/openvpn-openssl/config=$(call Package/openvpn/config/Default,openssl)
+ Package/openvpn-polarssl/config=$(call Package/openvpn/config/Default,polarssl)
++Package/openvpn-mbedtls/config=$(call Package/openvpn/config/Default,mbedtls)
+ Package/openvpn-nossl/config=$(call Package/openvpn/config/Default,nossl)
+ 
++ifeq ($(BUILD_VARIANT),mbedtls)
++CONFIG_OPENVPN_MBEDTLS:=y
++endif
+ ifeq ($(BUILD_VARIANT),polarssl)
+ CONFIG_OPENVPN_POLARSSL:=y
+ endif
+@@ -85,6 +98,7 @@ define Build/Configure
+ 		$(if $(CONFIG_OPENVPN_$(BUILD_VARIANT)_ENABLE_DEF_AUTH),--enable,--disable)-def-auth \
+ 		$(if $(CONFIG_OPENVPN_$(BUILD_VARIANT)_ENABLE_PF),--enable,--disable)-pf \
+ 		$(if $(CONFIG_OPENVPN_NOSSL),--disable-ssl --disable-crypto,--enable-ssl --enable-crypto) \
++		$(if $(CONFIG_OPENVPN_MBEDTLS),--with-crypto-library=mbedtls) \
+ 		$(if $(CONFIG_OPENVPN_OPENSSL),--with-crypto-library=openssl) \
+ 		$(if $(CONFIG_OPENVPN_POLARSSL),--with-crypto-library=polarssl) \
+ 	)
+@@ -118,6 +132,7 @@ define Package/openvpn-$(BUILD_VARIANT)/install
+ 		$(1)/lib/upgrade/keep.d/openvpn
+ endef
+ 
++$(eval $(call BuildPackage,openvpn-mbedtls))
+ $(eval $(call BuildPackage,openvpn-openssl))
+ $(eval $(call BuildPackage,openvpn-polarssl))
+ $(eval $(call BuildPackage,openvpn-nossl))
+diff --git a/package/network/services/openvpn/patches/001-reproducible-remove_DATE.patch b/package/network/services/openvpn/patches/001-reproducible-remove_DATE.patch
+index 3ceef6f..c96d9fa 100644
+--- a/package/network/services/openvpn/patches/001-reproducible-remove_DATE.patch
++++ b/package/network/services/openvpn/patches/001-reproducible-remove_DATE.patch
+@@ -1,6 +1,6 @@
+ --- a/src/openvpn/options.c
+ +++ b/src/openvpn/options.c
+-@@ -102,7 +102,6 @@ const char title_string[] =
++@@ -100,7 +100,6 @@ const char title_string[] =
+    " [MH]"
+  #endif
+    " [IPv6]"
+diff --git a/package/network/services/openvpn/patches/100-polarssl-disable-runtime-version-check.patch b/package/network/services/openvpn/patches/100-polarssl-disable-runtime-version-check.patch
+index c7955c2..c355730 100644
+--- a/package/network/services/openvpn/patches/100-polarssl-disable-runtime-version-check.patch
++++ b/package/network/services/openvpn/patches/100-polarssl-disable-runtime-version-check.patch
+@@ -1,11 +1,11 @@
+---- a/src/openvpn/ssl_polarssl.c
+-+++ b/src/openvpn/ssl_polarssl.c
+-@@ -1156,7 +1156,7 @@ const char *
++--- a/src/openvpn/ssl_mbedtls.c
+++++ b/src/openvpn/ssl_mbedtls.c
++@@ -1178,7 +1178,7 @@ const char *
+  get_ssl_library_version(void)
+  {
+-     static char polar_version[30];
+--    unsigned int pv = version_get_number();
+-+    unsigned int pv = POLARSSL_VERSION_NUMBER;
+-     sprintf( polar_version, "PolarSSL %d.%d.%d",
++     static char mbedtls_version[30];
++-    unsigned int pv = mbedtls_version_get_number();
+++    unsigned int pv = MBEDTLS_VERSION_NUMBER;
++     sprintf( mbedtls_version, "mbed TLS %d.%d.%d",
+  		(pv>>24)&0xff, (pv>>16)&0xff, (pv>>8)&0xff );
+-     return polar_version;
++     return mbedtls_version;
+-- 
+2.10.0
+

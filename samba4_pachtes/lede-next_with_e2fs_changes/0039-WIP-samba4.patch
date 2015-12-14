@@ -1,0 +1,96 @@
+From eaa8f297810177978f2e39750e01fddafe0caf0d Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 29 Mar 2016 17:20:38 +0200
+Subject: [PATCH 39/69] WIP samba4
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/samba4/Makefile   |  7 +++++--
+ package/network/services/samba4/target.txt | 32 +++++++++++++++++++++++-------
+ 2 files changed, 30 insertions(+), 9 deletions(-)
+
+diff --git a/package/network/services/samba4/Makefile b/package/network/services/samba4/Makefile
+index 633d0fa..94124e3 100644
+--- a/package/network/services/samba4/Makefile
++++ b/package/network/services/samba4/Makefile
+@@ -33,7 +33,6 @@ CONF_ARGS = \
+ 
+ 
+ SAMBA4_CONF_ARGS:= \
+-	--bundled-libraries='!asn1_compile,!compile_et' \
+ 	--disable-avahi \
+ 	--disable-cups \
+ 	--disable-glusterfs \
+@@ -41,6 +40,7 @@ SAMBA4_CONF_ARGS:= \
+ 	--disable-iprint \
+ 	--disable-rpath \
+ 	--disable-rpath-install \
++	--without-acl-support \
+ 	--without-ads \
+ 	--without-ad-dc \
+ 	--without-automount \
+@@ -56,7 +56,10 @@ SAMBA4_CONF_ARGS:= \
+ 	--without-regedit \
+ 	--hostcc=gcc \
+ 	--nopyc \
+-	--nopyo
++	--nopyo \
++
++#	--bundled-libraries='!asn1_compile,!compile_et' \
++
+ 
+ define Build/Prepare
+ 	$(call Build/Prepare/Default)
+diff --git a/package/network/services/samba4/target.txt b/package/network/services/samba4/target.txt
+index a7a387b..c9e34b6 100644
+--- a/package/network/services/samba4/target.txt
++++ b/package/network/services/samba4/target.txt
+@@ -1,13 +1,10 @@
+-Checking uname sysname type: "Linux"
+-Checking uname release type: "3.0.0"
+-Checking uname version type: "#1 Tue Nov 1 12:34:56 UTC 2013"
+ Checking simple C program: OK
+ rpath library support: OK
+ -Wl,--version-script support: OK
+ Checking getconf LFS_CFLAGS: NO
+ Checking for large file support without additional flags: OK
+ Checking for -D_LARGE_FILES: OK
+-Checking correct behavior of strtoll: OK
++Checking correct behavior of strtoll: NO
+ Checking for working strptime: OK
+ Checking for C99 vsnprintf: OK
+ Checking for HAVE_SHARED_MMAP: OK
+@@ -15,6 +12,27 @@ Checking for HAVE_MREMAP: OK
+ Checking for HAVE_INCOHERENT_MMAP: NO
+ Checking for HAVE_SECURE_MKSTEMP: OK
+ Checking for HAVE_IFACE_GETIFADDRS: OK
+-Checking for HAVE_IFACE_IFCONF: OK
+-Checking for HAVE_IFACE_IFREQ: OK
+-Checking for custom code: OK
++Checking for kernel change notify support: OK
++Checking for Linux kernel oplocks: OK
++Checking for kernel share modes: OK
++Checking if can we convert from CP850 to UCS-2LE: OK
++Checking if can we convert from UTF-8 to UCS-2LE: OK
++Checking whether we can use Linux thread-specific credentials with 32-bit system calls: OK
++Checking whether we can use Linux thread-specific credentials: OK
++Checking whether setreuid is available: OK
++Checking whether setresuid is available: OK
++Checking whether seteuid is available: OK
++Checking whether fcntl locking is available: OK
++Checking for the maximum value of the 'time_t' type: OK
++Checking whether the realpath function allows a NULL argument: OK
++Checking whether POSIX capabilities are available: OK
++Checking for ftruncate extend: OK
++vfs_fileid checking for statfs() and struct statfs.f_fsid: OK
++getcwd takes a NULL argument: OK
++Checking uname sysname type: "Linux"
++Checking uname release type: "3.0.0"
++Checking uname version type: "#1 Tue Nov 1 12:34:56 UTC 2013"
++Checking value of NSIG: "65"
++Checking value of _NSIG: "65"
++Checking value of SIGRTMAX: "64"
++Checking value of SIGRTMIN: "34"
+-- 
+2.10.0
+

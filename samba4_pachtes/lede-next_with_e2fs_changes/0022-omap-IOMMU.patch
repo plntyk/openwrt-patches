@@ -1,0 +1,33 @@
+From 8bfdf3ce0daa2664056a4981517e655d2c626271 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Jun 2016 13:53:15 +0200
+Subject: [PATCH 22/69] omap: IOMMU
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/omap/config-4.4 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/linux/omap/config-4.4 b/target/linux/omap/config-4.4
+index f1408c2..38364b3 100644
+--- a/target/linux/omap/config-4.4
++++ b/target/linux/omap/config-4.4
+@@ -49,6 +49,7 @@ CONFIG_ARM_L1_CACHE_SHIFT_6=y
+ # CONFIG_ARM_LPAE is not set
+ # CONFIG_ARM_OMAP2PLUS_CPUFREQ is not set
+ CONFIG_ARM_PATCH_PHYS_VIRT=y
++# CONFIG_ARM_SMMU is not set
+ CONFIG_ARM_THUMB=y
+ CONFIG_ARM_THUMBEE=y
+ CONFIG_ARM_VIRT_EXT=y
+@@ -294,7 +295,6 @@ CONFIG_I2C_OMAP=y
+ CONFIG_IKCONFIG=y
+ CONFIG_IKCONFIG_PROC=y
+ CONFIG_INITRAMFS_SOURCE=""
+-CONFIG_IOMMU_HELPER=y
+ CONFIG_IP_PNP=y
+ CONFIG_IP_PNP_BOOTP=y
+ CONFIG_IP_PNP_DHCP=y
+-- 
+2.10.0
+

@@ -1,0 +1,35 @@
+From 82a0a5bb95e7d66267500536fe2645f48448911e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Fri, 8 Jul 2016 14:16:31 +0200
+Subject: [PATCH 66/69] thc-ipv6: update to 3.0
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/ipv6/thc-ipv6/Makefile | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/package/network/ipv6/thc-ipv6/Makefile b/package/network/ipv6/thc-ipv6/Makefile
+index 563afa4..c60cd57 100644
+--- a/package/network/ipv6/thc-ipv6/Makefile
++++ b/package/network/ipv6/thc-ipv6/Makefile
+@@ -8,13 +8,14 @@
+ include $(TOPDIR)/rules.mk
+ 
+ PKG_NAME:=thc-ipv6
+-PKG_VERSION:=2.7
++PKG_VERSION:=3.0
+ PKG_RELEASE:=1
+ PKG_LICENSE:=GPL-3.0
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+-PKG_SOURCE_URL:=http://freeworld.thc.org/releases/
+-PKG_MD5SUM:=2975dd54be35b68c140eb2a6b8ef5e59
++PKG_SOURCE_URL:=http://www.thc.org/releases/ \
++	http://freeworld.thc.org/releases/
++PKG_MD5SUM:=bd0bed37139d05f5043ead170df4f0af
+ 
+ PKG_MAINTAINER:=Jo-Philipp Wich <jo@mein.io>
+ 
+-- 
+2.10.0
+

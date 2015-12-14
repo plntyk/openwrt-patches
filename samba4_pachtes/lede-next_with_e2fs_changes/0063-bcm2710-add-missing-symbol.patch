@@ -1,0 +1,25 @@
+From 5fcd3834ac0b72a57ee4beb5a5e8ec363495735b Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 25 Aug 2016 18:49:38 +0200
+Subject: [PATCH 63/69] bcm2710: add missing symbol
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/brcm2708/bcm2710/config-4.4 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/target/linux/brcm2708/bcm2710/config-4.4 b/target/linux/brcm2708/bcm2710/config-4.4
+index 9c271db..6374bc3 100644
+--- a/target/linux/brcm2708/bcm2710/config-4.4
++++ b/target/linux/brcm2708/bcm2710/config-4.4
+@@ -375,6 +375,7 @@ CONFIG_USB_UAS=y
+ CONFIG_USB_USBNET=y
+ CONFIG_USE_OF=y
+ CONFIG_VECTORS_BASE=0xffff0000
++CONFIG_VIDEO_BCM2835=y
+ CONFIG_VFP=y
+ CONFIG_VFPv3=y
+ CONFIG_VMSPLIT_2G=y
+-- 
+2.10.0
+

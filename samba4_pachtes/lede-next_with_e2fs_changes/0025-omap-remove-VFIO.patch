@@ -1,0 +1,25 @@
+From 3f6902f71bc46c334c3a2b7657cd1e4486a3e169 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Jun 2016 13:54:58 +0200
+Subject: [PATCH 25/69] omap: remove VFIO
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/omap/config-4.4 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/target/linux/omap/config-4.4 b/target/linux/omap/config-4.4
+index c916926..b24608d 100644
+--- a/target/linux/omap/config-4.4
++++ b/target/linux/omap/config-4.4
+@@ -658,6 +658,7 @@ CONFIG_USB_SUPPORT=y
+ CONFIG_USE_OF=y
+ CONFIG_VECTORS_BASE=0xffff0000
+ CONFIG_VFAT_FS=y
++# CONFIG_VFIO is not set
+ CONFIG_VFP=y
+ CONFIG_VFPv3=y
+ CONFIG_VIDEOMODE_HELPERS=y
+-- 
+2.10.0
+

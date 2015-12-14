@@ -1,0 +1,42 @@
+From f9377eb5ae95cc0792ebf5ae316a2086f8b2cca0 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 30 Jul 2016 08:09:44 +0200
+Subject: [PATCH 52/69] openvpn: various fixes
+
+- disable polarssl variant on git
+- add liblz4 depends
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/openvpn/Makefile | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/package/network/services/openvpn/Makefile b/package/network/services/openvpn/Makefile
+index 181328c..c91c8ad 100644
+--- a/package/network/services/openvpn/Makefile
++++ b/package/network/services/openvpn/Makefile
+@@ -45,10 +45,10 @@ define Package/openvpn/Default
+   MAINTAINER:=Mirko Vogt <mirko@openwrt.org>
+ endef
+ 
+-Package/openvpn-openssl=$(call Package/openvpn/Default,openssl,OpenSSL,+libopenssl)
+-Package/openvpn-polarssl=$(call Package/openvpn/Default,polarssl,PolarSSL,+libpolarssl)
+-Package/openvpn-mbedtls=$(call Package/openvpn/Default,mbedtls,mbedtls,+libmbedtls)
+-Package/openvpn-nossl=$(call Package/openvpn/Default,nossl,plaintext (no SSL))
++Package/openvpn-openssl=$(call Package/openvpn/Default,openssl,OpenSSL,+libopenssl +liblz4)
++#Package/openvpn-polarssl=$(call Package/openvpn/Default,polarssl,PolarSSL,+libpolarssl)
++Package/openvpn-mbedtls=$(call Package/openvpn/Default,mbedtls,mbedtls,+libmbedtls +liblz4)
++Package/openvpn-nossl=$(call Package/openvpn/Default,nossl,plaintext (no SSL),+liblz4)
+ 
+ define Package/openvpn/config/Default
+ 	source "$(SOURCE)/Config-$(1).in"
+@@ -134,5 +134,5 @@ endef
+ 
+ $(eval $(call BuildPackage,openvpn-mbedtls))
+ $(eval $(call BuildPackage,openvpn-openssl))
+-$(eval $(call BuildPackage,openvpn-polarssl))
++#$(eval $(call BuildPackage,openvpn-polarssl))
+ $(eval $(call BuildPackage,openvpn-nossl))
+-- 
+2.10.0
+

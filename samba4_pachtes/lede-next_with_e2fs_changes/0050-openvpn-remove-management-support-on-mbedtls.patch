@@ -1,0 +1,35 @@
+From 7b3702b7a3c169a7d8af4cc0e9a82361147db5c5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 25 Jul 2016 16:53:29 +0200
+Subject: [PATCH 50/69] openvpn: remove management support on mbedtls
+
+fix build issue with openvpn(git):
+ssl_mbedtls.o: In function `tls_ctx_use_external_private_key':
+ssl_mbedtls.c:(.text+0xe80): undefined reference to `mbedtls_pk_setup_rsa_alt'
+collect2: error: ld returned 1 exit status
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/openvpn/Config-mbedtls.in | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/package/network/services/openvpn/Config-mbedtls.in b/package/network/services/openvpn/Config-mbedtls.in
+index bfd21bd..933fe2b 100644
+--- a/package/network/services/openvpn/Config-mbedtls.in
++++ b/package/network/services/openvpn/Config-mbedtls.in
+@@ -12,9 +12,9 @@ config OPENVPN_mbedtls_ENABLE_SERVER
+ 	bool "Enable server support (otherwise only client mode is support)"
+ 	default y
+ 
+-config OPENVPN_mbedtls_ENABLE_MANAGEMENT
+-	bool "Enable management server support"
+-	default n
++#config OPENVPN_mbedtls_ENABLE_MANAGEMENT
++#	bool "Enable management server support"
++#	default n
+ 
+ #config OPENVPN_mbedtls_ENABLE_PKCS11
+ #	bool "Enable pkcs11 support"
+-- 
+2.10.0
+

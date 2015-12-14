@@ -1,0 +1,74 @@
+From 1c77dd5e92448a950c1e8cfa97625961482f5e11 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 18 Sep 2016 06:56:24 +0200
+Subject: [PATCH 69/69] WIP: updates MISC
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/x86/64/config-default | 1 +
+ target/linux/x86/config-4.4        | 2 ++
+ toolchain/uClibc/Config.version    | 2 +-
+ toolchain/uClibc/common.mk         | 2 +-
+ 4 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/target/linux/x86/64/config-default b/target/linux/x86/64/config-default
+index 216db70..2685456 100644
+--- a/target/linux/x86/64/config-default
++++ b/target/linux/x86/64/config-default
+@@ -136,6 +136,7 @@ CONFIG_KVM_GUEST=y
+ # CONFIG_LEGACY_VSYSCALL_NATIVE is not set
+ CONFIG_LEGACY_VSYSCALL_NONE=y
+ # CONFIG_LIQUIDIO is not set
++# CONFIG_LIVEPATCH is not set
+ CONFIG_LOCK_SPIN_ON_OWNER=y
+ CONFIG_LPC_ICH=y
+ # CONFIG_MAXSMP is not set
+diff --git a/target/linux/x86/config-4.4 b/target/linux/x86/config-4.4
+index 894fed0..00535f8 100644
+--- a/target/linux/x86/config-4.4
++++ b/target/linux/x86/config-4.4
+@@ -100,6 +100,7 @@ CONFIG_DEBUG_MEMORY_INIT=y
+ CONFIG_DECOMPRESS_BZIP2=y
+ CONFIG_DECOMPRESS_GZIP=y
+ CONFIG_DEFAULT_IO_DELAY_TYPE=0
++# CONFIG_DELL_RBTN is not set
+ # CONFIG_DELL_RBU is not set
+ CONFIG_DMI=y
+ CONFIG_DMIID=y
+@@ -400,6 +401,7 @@ CONFIG_X86_ALIGNMENT_16=y
+ # CONFIG_X86_CPUFREQ_NFORCE2 is not set
+ # CONFIG_X86_CPUID is not set
+ # CONFIG_X86_DEBUG_FPU is not set
++# CONFIG_X86_DECODER_SELFTEST is not set
+ # CONFIG_X86_EXTENDED_PLATFORM is not set
+ CONFIG_X86_F00F_BUG=y
+ CONFIG_X86_FEATURE_NAMES=y
+diff --git a/toolchain/uClibc/Config.version b/toolchain/uClibc/Config.version
+index 7c32ee5..fdfd0aa 100644
+--- a/toolchain/uClibc/Config.version
++++ b/toolchain/uClibc/Config.version
+@@ -1,7 +1,7 @@
+ config UCLIBC_VERSION
+ 	string
+ 	depends on USE_UCLIBC
+-	default "1.0.15"
++	default "1.0.17"
+ 
+ config UCLIBC_VERSION_NG
+ 	bool
+diff --git a/toolchain/uClibc/common.mk b/toolchain/uClibc/common.mk
+index bdf5faa..2698cea 100644
+--- a/toolchain/uClibc/common.mk
++++ b/toolchain/uClibc/common.mk
+@@ -16,7 +16,7 @@ CONFIG_DIR:=$(PATH_PREFIX)/config
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
+ LIBC_SO_VERSION:=$(PKG_VERSION)
+ 
+-PKG_MD5SUM=31a558739311583b9bdf9017f5c93fa4
++PKG_MD5SUM=1e64cb356452fd63b50f884c700e3547
+ 
+ HOST_BUILD_DIR:=$(BUILD_DIR_TOOLCHAIN)/$(PKG_NAME)-$(PKG_VERSION)
+ 
+-- 
+2.10.0
+

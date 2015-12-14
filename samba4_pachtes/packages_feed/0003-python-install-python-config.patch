@@ -1,0 +1,31 @@
+From 7bb1f9e9ea415356dc133ae9d97737c96808ef2a Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Thu, 4 Aug 2016 13:30:47 +0200
+Subject: [PATCH 3/5] python: install python-config
+
+required for building samba4
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/python/Makefile | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/lang/python/Makefile b/lang/python/Makefile
+index 91f19ec..e2e6c09 100644
+--- a/lang/python/Makefile
++++ b/lang/python/Makefile
+@@ -156,7 +156,10 @@ define Build/InstallDev
+ 		$(PKG_INSTALL_DIR)/usr/lib/python$(PYTHON_VERSION)/config \
+ 		$(1)/usr/lib/python$(PYTHON_VERSION)/
+ 	$(INSTALL_DIR) $(1)/usr/bin
+-	 $(CP) $(PKG_INSTALL_DIR)/usr/bin/python*config $(1)/usr/bin
++
++	$(CP) \
++		$(PKG_INSTALL_DIR)/usr/bin/python2*config \
++		$(1)/usr/bin
+ endef
+ 
+ PYTHON_BASE_LIB_FILES:= \
+-- 
+2.10.0
+

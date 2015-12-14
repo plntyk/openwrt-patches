@@ -1,0 +1,25 @@
+From be8f1f3c2650777f38351de2cf26d19643bbd9f4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Jun 2016 13:54:29 +0200
+Subject: [PATCH 24/69] omap: remove NR_CPU / SMP
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/omap/config-4.4 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/target/linux/omap/config-4.4 b/target/linux/omap/config-4.4
+index 104ef33..c916926 100644
+--- a/target/linux/omap/config-4.4
++++ b/target/linux/omap/config-4.4
+@@ -416,6 +416,7 @@ CONFIG_NO_BOOTMEM=y
+ CONFIG_NO_HZ=y
+ CONFIG_NO_HZ_COMMON=y
+ CONFIG_NO_HZ_IDLE=y
++CONFIG_NR_CPUS=4
+ CONFIG_OF=y
+ CONFIG_OF_ADDRESS=y
+ CONFIG_OF_EARLY_FLATTREE=y
+-- 
+2.10.0
+

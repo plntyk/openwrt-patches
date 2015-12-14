@@ -1,0 +1,30 @@
+From 96e732cebe501a431afe0a696878eba0d80c39cd Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 31 May 2016 07:41:25 +0200
+Subject: [PATCH 21/69] [WIP][am37xx] omap: add ARM errata
+
+upstream linux change:
+5c86c5339c566d943606f551332e0efa8cf87d03
+
+atm we do not ship am37xx-evm
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/omap/config-4.4 | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/target/linux/omap/config-4.4 b/target/linux/omap/config-4.4
+index ff4e7c1..f1408c2 100644
+--- a/target/linux/omap/config-4.4
++++ b/target/linux/omap/config-4.4
+@@ -37,6 +37,7 @@ CONFIG_ARM_ATAG_DTB_COMPAT=y
+ # CONFIG_ARM_ATAG_DTB_COMPAT_CMDLINE_EXTEND is not set
+ CONFIG_ARM_ATAG_DTB_COMPAT_CMDLINE_FROM_BOOTLOADER=y
+ CONFIG_ARM_CPU_SUSPEND=y
++CONFIG_ARM_ERRATA_430973=y
+ CONFIG_ARM_ERRATA_720789=y
+ CONFIG_ARM_ERRATA_754322=y
+ CONFIG_ARM_ERRATA_775420=y
+-- 
+2.10.0
+

@@ -1,0 +1,26 @@
+From 5131d98b308887740b1e32d9b61b8df4c952c669 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 14 Aug 2016 12:08:17 +0200
+Subject: [PATCH 65/69] [RFC] use armv7-a for brcm2710
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ include/target.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/target.mk b/include/target.mk
+index e5e9321..aa88cee 100644
+--- a/include/target.mk
++++ b/include/target.mk
+@@ -187,7 +187,7 @@ ifeq ($(DUMP),1)
+     CPU_CFLAGS_cortex-a8 = -march=armv7-a -mtune=cortex-a8
+     CPU_CFLAGS_cortex-a9 = -march=armv7-a -mtune=cortex-a9
+     CPU_CFLAGS_cortex-a15 = -march=armv7-a -mtune=cortex-a15
+-    CPU_CFLAGS_cortex-a53 = -march=armv8-a -mtune=cortex-a53
++    CPU_CFLAGS_cortex-a53 = -march=armv7-a -mtune=cortex-a53
+     CPU_CFLAGS_fa526 = -march=armv4 -mtune=fa526
+     CPU_CFLAGS_mpcore = -march=armv6k -mtune=mpcore
+     CPU_CFLAGS_xscale = -march=armv5te -mtune=xscale
+-- 
+2.10.0
+

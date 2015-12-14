@@ -1,0 +1,152 @@
+From be7df1b5e33dd3462c48f8f2da0de52590b4fe43 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 3 Jul 2016 19:55:03 +0200
+Subject: [PATCH 37/69] add new package: heimdal
+
+required for samba4
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/heimdal/Makefile          | 86 ++++++++++++++++++++++
+ .../heimdal/patches/001-roken_h_cross_fixes.patch  | 36 +++++++++
+ 2 files changed, 122 insertions(+)
+ create mode 100644 package/network/services/heimdal/Makefile
+ create mode 100644 package/network/services/heimdal/patches/001-roken_h_cross_fixes.patch
+
+diff --git a/package/network/services/heimdal/Makefile b/package/network/services/heimdal/Makefile
+new file mode 100644
+index 0000000..b6c3f92
+--- /dev/null
++++ b/package/network/services/heimdal/Makefile
+@@ -0,0 +1,86 @@
++include $(TOPDIR)/rules.mk
++
++PKG_NAME:=heimdal
++PKG_VERSION:=2016-06-23
++
++PKG_RELEASE:=$(PKG_SOURCE_VERSION)
++PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_VERSION).tar.gz
++PKG_SOURCE_PROTO:=git
++PKG_SOURCE_URL:=https://github.com/heimdal/heimdal
++PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
++PKG_SOURCE_VERSION:=f32fd2d56ddf6f848b5fe2139376d852a3af70bc
++
++PKG_LICENSE:=
++PKG_LICENSE_FILES:=
++
++PKG_BUILD_DEPENDS:=libncurses e2fsprogs heimdal/host
++#requires perl-json for der-protos.h
++
++PKG_BUILD_PARALLEL:=1
++PKG_FIXUP:=autoreconf
++PKG_INSTALL:=1
++
++include $(INCLUDE_DIR)/package.mk
++include $(INCLUDE_DIR)/host-build.mk
++
++define Package/heimdal
++  SECTION:=base
++  CATEGORY:=Base
++  DEPENDS:=+libncurses
++  TITLE:=heimdal krb5
++endef
++
++#CONFIGURE_VARS+= ASN1_COMPILE="$(STAGING_DIR)/host/usr/bin/asn1_compile"
++
++#CONFIGURE_ARGS+= \
++#	--disable-shared \
++#	--enable-static \
++#	--without-openldap \
++#	--without-capng \
++#	--without-sqlite3 \
++#	--without-libintl \
++#	--without-openssl \
++#	--without-berkeley-db \
++#	--without-readline \
++#	--without-libedit \
++#	--without-hesiod \
++#	--without-x \
++#	--disable-heimdal-documentation
++
++#	--without-berkeley-db \
++
++
++HOST_CONFIGURE_ARGS+= \
++	--disable-shared \
++	--enable-static \
++	--without-openldap \
++	--without-capng \
++	--without-sqlite3 \
++	--without-readline \
++	--without-libedit \
++	--without-libintl \
++	--without-openssl \
++	--without-x \
++	--disable-heimdal-documentation \
++	--without-hesiod
++
++define Host/Install
++	$(MAKE) -C $(HOST_BUILD_DIR) PREFIX=$(STAGING_DIR)/host/ install
++	$(INSTALL_DIR) $(STAGING_DIR)/host/bin/
++	ln -sf $(STAGING_DIR)/host/libexec/heimdal/asn1_compile $(STAGING_DIR)/host/bin/asn1_compile
++	ln -sf $(STAGING_DIR)/host/libexec/heimdal/slc $(STAGING_DIR)/host/bin/slc
++endef
++
++define Build/InstallDev
++	$(INSTALL_DIR) $(STAGING_DIR)/host/bin
++	$(CP) $(PKG_BUILD_DIR)/
++	$(INSTALL_DIR) $(1)/usr/lib/
++endef
++
++define Package/heimdal/install
++	$(INSTALL_DIR) $(1)/usr/bin
++	$(INSTALL_DIR) $(1)/usr/lib
++endef
++
++$(eval $(call HostBuild))
++$(eval $(call BuildPackage,heimdal))
+diff --git a/package/network/services/heimdal/patches/001-roken_h_cross_fixes.patch b/package/network/services/heimdal/patches/001-roken_h_cross_fixes.patch
+new file mode 100644
+index 0000000..76ebab6
+--- /dev/null
++++ b/package/network/services/heimdal/patches/001-roken_h_cross_fixes.patch
+@@ -0,0 +1,36 @@
++--- a/lib/roken/roken.h.in
+++++ b/lib/roken/roken.h.in
++@@ -1229,33 +1229,6 @@ rk_random(void);
++ int ROKEN_LIB_FUNCTION rk_socket(int, int, int);
++ #endif
++ 
++-/* Microsoft VC 2010 POSIX definitions */
++-#ifndef EAFNOSUPPORT
++-#define EAFNOSUPPORT            102
++-#endif
++-#ifndef EINPROGRESS
++-#define EINPROGRESS             112
++-#endif
++-#ifndef ELOOP
++-#define ELOOP			114
++-#endif
++-#ifndef ENOTSOCK
++-#define ENOTSOCK		128
++-#endif
++-#ifndef ENOTSUP
++-#define ENOTSUP                 129
++-#endif
++-#ifndef EOVERFLOW
++-#define EOVERFLOW               132
++-#endif
++-#ifndef ETIMEDOUT
++-#define ETIMEDOUT               138
++-#endif
++-#ifndef EWOULDBLOCK
++-#define EWOULDBLOCK             140
++-#endif
++-
++-
++ #ifdef SOCKET_WRAPPER_REPLACE
++ #include <socket_wrapper.h>
++ #endif
+-- 
+2.10.0
+

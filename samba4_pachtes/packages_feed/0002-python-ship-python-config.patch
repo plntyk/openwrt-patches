@@ -1,0 +1,26 @@
+From 208961da0facf6727998cf7072c29f66580f4a00 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 2 Aug 2016 15:18:32 +0200
+Subject: [PATCH 2/5] python: ship python*-config
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ lang/python/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/lang/python/Makefile b/lang/python/Makefile
+index 307f907..91f19ec 100644
+--- a/lang/python/Makefile
++++ b/lang/python/Makefile
+@@ -155,6 +155,8 @@ define Build/InstallDev
+ 	$(CP) \
+ 		$(PKG_INSTALL_DIR)/usr/lib/python$(PYTHON_VERSION)/config \
+ 		$(1)/usr/lib/python$(PYTHON_VERSION)/
++	$(INSTALL_DIR) $(1)/usr/bin
++	 $(CP) $(PKG_INSTALL_DIR)/usr/bin/python*config $(1)/usr/bin
+ endef
+ 
+ PYTHON_BASE_LIB_FILES:= \
+-- 
+2.10.0
+

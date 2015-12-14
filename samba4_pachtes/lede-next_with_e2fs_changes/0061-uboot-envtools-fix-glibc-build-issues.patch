@@ -1,0 +1,33 @@
+From af4a494144f011611379a711416faf8108c739d7 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Tue, 2 Aug 2016 15:40:02 +0200
+Subject: [PATCH 61/69] uboot-envtools: fix glibc build issues
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ .../boot/uboot-envtools/patches/002-fix_glibc_stdint.patch  | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 package/boot/uboot-envtools/patches/002-fix_glibc_stdint.patch
+
+diff --git a/package/boot/uboot-envtools/patches/002-fix_glibc_stdint.patch b/package/boot/uboot-envtools/patches/002-fix_glibc_stdint.patch
+new file mode 100644
+index 0000000..8114e64
+--- /dev/null
++++ b/package/boot/uboot-envtools/patches/002-fix_glibc_stdint.patch
+@@ -0,0 +1,13 @@
++--- a/tools/env/fw_env.c
+++++ b/tools/env/fw_env.c
++@@ -22,9 +22,9 @@
++ #include <sys/ioctl.h>
++ #include <sys/stat.h>
++ #include <unistd.h>
+++#include <stdint.h>
++ 
++ #ifdef MTD_OLD
++-# include <stdint.h>
++ # include <linux/mtd/mtd.h>
++ #else
++ # define  __user	/* nothing */
+-- 
+2.10.0
+

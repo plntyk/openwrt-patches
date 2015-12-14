@@ -1,0 +1,44 @@
+From 158e650aeb4a3f657d048a54e11c227273a6b5e5 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Mon, 25 Jul 2016 16:18:28 +0200
+Subject: [PATCH 47/69] openvpn: remove remaining eurephia configure options
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/openvpn/Config-openssl.in  | 4 ----
+ package/network/services/openvpn/Config-polarssl.in | 4 ----
+ 2 files changed, 8 deletions(-)
+
+diff --git a/package/network/services/openvpn/Config-openssl.in b/package/network/services/openvpn/Config-openssl.in
+index ac4c774..4ddb340 100644
+--- a/package/network/services/openvpn/Config-openssl.in
++++ b/package/network/services/openvpn/Config-openssl.in
+@@ -12,10 +12,6 @@ config OPENVPN_openssl_ENABLE_SERVER
+ 	bool "Enable server support (otherwise only client mode is support)"
+ 	default y
+ 
+-#config OPENVPN_openssl_ENABLE_EUREPHIA
+-#	bool "Enable support for the eurephia plug-in"
+-#	default n
+-
+ config OPENVPN_openssl_ENABLE_MANAGEMENT
+ 	bool "Enable management server support"
+ 	default n
+diff --git a/package/network/services/openvpn/Config-polarssl.in b/package/network/services/openvpn/Config-polarssl.in
+index 26692ce..30231e4 100644
+--- a/package/network/services/openvpn/Config-polarssl.in
++++ b/package/network/services/openvpn/Config-polarssl.in
+@@ -12,10 +12,6 @@ config OPENVPN_polarssl_ENABLE_SERVER
+ 	bool "Enable server support (otherwise only client mode is support)"
+ 	default y
+ 
+-#config OPENVPN_polarssl_ENABLE_EUREPHIA
+-#	bool "Enable support for the eurephia plug-in"
+-#	default n
+-
+ config OPENVPN_polarssl_ENABLE_MANAGEMENT
+ 	bool "Enable management server support"
+ 	default n
+-- 
+2.10.0
+

@@ -1,0 +1,33 @@
+From ca628782bd3d86bbeff4469e8d715aeb1e9a22d1 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 12 Dec 2015 06:43:14 +0100
+Subject: [PATCH 13/69] generic: add missing 4.4 symbols
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ target/linux/generic/config-4.4 | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/target/linux/generic/config-4.4 b/target/linux/generic/config-4.4
+index ba4b8c1..f52986c 100644
+--- a/target/linux/generic/config-4.4
++++ b/target/linux/generic/config-4.4
+@@ -613,6 +613,7 @@ CONFIG_CC_STACKPROTECTOR_NONE=y
+ # CONFIG_CHARGER_MAX8903 is not set
+ # CONFIG_CHARGER_RT9455 is not set
+ # CONFIG_CHARGER_SMB347 is not set
++# CONFIG_CHARGER_TPS65217 is not set
+ # CONFIG_CHARGER_TWL4030 is not set
+ # CONFIG_CHECKPOINT_RESTORE is not set
+ # CONFIG_CHELSIO_T1 is not set
+@@ -1023,6 +1024,7 @@ CONFIG_EXPERT=y
+ # CONFIG_EXT4_FS_POSIX_ACL is not set
+ # CONFIG_EXT4_FS_SECURITY is not set
+ CONFIG_EXT4_USE_FOR_EXT2=y
++CONFIG_EXT4_USE_FOR_EXT23=y
+ # CONFIG_EXTCON is not set
+ # CONFIG_EXTCON_ADC_JACK is not set
+ # CONFIG_EXTCON_GPIO is not set
+-- 
+2.10.0
+

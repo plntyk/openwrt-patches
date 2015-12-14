@@ -1,0 +1,129 @@
+From 5e99b6b32f6adc4d44758b6ab8438635c843f3e9 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 11 Jun 2016 06:58:02 +0200
+Subject: [PATCH 35/69] Kernel 3.18: refresh patches
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ ...-module_arch_freeing_init-new-hook-for-archs-before-m.patch | 10 +++++-----
+ target/linux/generic/patches-3.18/204-module_strip.patch       |  4 ++--
+ .../patches-3.18/494-mtd-ubi-add-EOF-marker-support.patch      |  2 +-
+ .../linux/generic/patches-3.18/773-bgmac-add-srab-switch.patch |  4 ++--
+ .../patches-3.18/811-pci_disable_usb_common_quirks.patch       |  2 +-
+ 5 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/target/linux/generic/patches-3.18/099-module_arch_freeing_init-new-hook-for-archs-before-m.patch b/target/linux/generic/patches-3.18/099-module_arch_freeing_init-new-hook-for-archs-before-m.patch
+index a6310c6..2e66de2 100644
+--- a/target/linux/generic/patches-3.18/099-module_arch_freeing_init-new-hook-for-archs-before-m.patch
++++ b/target/linux/generic/patches-3.18/099-module_arch_freeing_init-new-hook-for-archs-before-m.patch
+@@ -145,7 +145,7 @@ Origin: backport, https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.gi
+  #endif
+ --- a/kernel/module.c
+ +++ b/kernel/module.c
+-@@ -1837,6 +1837,10 @@ void __weak module_arch_cleanup(struct m
++@@ -1840,6 +1840,10 @@ void __weak module_arch_cleanup(struct m
+  {
+  }
+  
+@@ -156,7 +156,7 @@ Origin: backport, https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.gi
+  /* Free a module, remove from lists, etc. */
+  static void free_module(struct module *mod)
+  {
+-@@ -1869,6 +1873,7 @@ static void free_module(struct module *m
++@@ -1872,6 +1876,7 @@ static void free_module(struct module *m
+  
+  	/* This may be NULL, but that's OK */
+  	unset_module_init_ro_nx(mod);
+@@ -164,7 +164,7 @@ Origin: backport, https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.gi
+  	module_free(mod, mod->module_init);
+  	kfree(mod->args);
+  	percpu_modfree(mod);
+-@@ -2958,6 +2963,7 @@ static struct module *layout_and_allocat
++@@ -2978,6 +2983,7 @@ static struct module *layout_and_allocat
+  static void module_deallocate(struct module *mod, struct load_info *info)
+  {
+  	percpu_modfree(mod);
+@@ -172,8 +172,8 @@ Origin: backport, https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.gi
+  	module_free(mod, mod->module_init);
+  	module_free(mod, mod->module_core);
+  }
+-@@ -3081,6 +3087,7 @@ static int do_init_module(struct module
+- 	mod->strtab = mod->core_strtab;
++@@ -3100,6 +3106,7 @@ static int do_init_module(struct module
++ 	rcu_assign_pointer(mod->kallsyms, &mod->core_kallsyms);
+  #endif
+  	unset_module_init_ro_nx(mod);
+ +	module_arch_freeing_init(mod);
+diff --git a/target/linux/generic/patches-3.18/204-module_strip.patch b/target/linux/generic/patches-3.18/204-module_strip.patch
+index 5b640bf..58e4f6e 100644
+--- a/target/linux/generic/patches-3.18/204-module_strip.patch
++++ b/target/linux/generic/patches-3.18/204-module_strip.patch
+@@ -109,7 +109,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  config INIT_ALL_POSSIBLE
+ --- a/kernel/module.c
+ +++ b/kernel/module.c
+-@@ -2674,6 +2674,7 @@ static struct module *setup_load_info(st
++@@ -2694,6 +2694,7 @@ static struct module *setup_load_info(st
+  
+  static int check_modinfo(struct module *mod, struct load_info *info, int flags)
+  {
+@@ -117,7 +117,7 @@ Signed-off-by: Felix Fietkau <nbd@nbd.name>
+  	const char *modmagic = get_modinfo(info, "vermagic");
+  	int err;
+  
+-@@ -2699,6 +2700,7 @@ static int check_modinfo(struct module *
++@@ -2719,6 +2720,7 @@ static int check_modinfo(struct module *
+  		pr_warn("%s: module is from the staging directory, the quality "
+  			"is unknown, you have been warned.\n", mod->name);
+  	}
+diff --git a/target/linux/generic/patches-3.18/494-mtd-ubi-add-EOF-marker-support.patch b/target/linux/generic/patches-3.18/494-mtd-ubi-add-EOF-marker-support.patch
+index cd02c13..4b5eb45 100644
+--- a/target/linux/generic/patches-3.18/494-mtd-ubi-add-EOF-marker-support.patch
++++ b/target/linux/generic/patches-3.18/494-mtd-ubi-add-EOF-marker-support.patch
+@@ -41,7 +41,7 @@
+  		break;
+ --- a/drivers/mtd/ubi/ubi.h
+ +++ b/drivers/mtd/ubi/ubi.h
+-@@ -701,6 +701,7 @@ struct ubi_attach_info {
++@@ -705,6 +705,7 @@ struct ubi_attach_info {
+  	int mean_ec;
+  	uint64_t ec_sum;
+  	int ec_count;
+diff --git a/target/linux/generic/patches-3.18/773-bgmac-add-srab-switch.patch b/target/linux/generic/patches-3.18/773-bgmac-add-srab-switch.patch
+index b883d73..52fc252 100644
+--- a/target/linux/generic/patches-3.18/773-bgmac-add-srab-switch.patch
++++ b/target/linux/generic/patches-3.18/773-bgmac-add-srab-switch.patch
+@@ -30,7 +30,7 @@ Signed-off-by: Hauke Mehrtens <hauke@hauke-m.de>
+  /**************************************************
+   * BCMA bus ops
+   **************************************************/
+-@@ -1664,6 +1676,16 @@ static int bgmac_probe(struct bcma_devic
++@@ -1666,6 +1678,16 @@ static int bgmac_probe(struct bcma_devic
+  	net_dev->hw_features = net_dev->features;
+  	net_dev->vlan_features = net_dev->features;
+  
+@@ -47,7 +47,7 @@ Signed-off-by: Hauke Mehrtens <hauke@hauke-m.de>
+  	err = register_netdev(bgmac->net_dev);
+  	if (err) {
+  		bgmac_err(bgmac, "Cannot register net device\n");
+-@@ -1690,6 +1712,10 @@ static void bgmac_remove(struct bcma_dev
++@@ -1692,6 +1714,10 @@ static void bgmac_remove(struct bcma_dev
+  {
+  	struct bgmac *bgmac = bcma_get_drvdata(core);
+  
+diff --git a/target/linux/generic/patches-3.18/811-pci_disable_usb_common_quirks.patch b/target/linux/generic/patches-3.18/811-pci_disable_usb_common_quirks.patch
+index b54d150..a7bf0bb 100644
+--- a/target/linux/generic/patches-3.18/811-pci_disable_usb_common_quirks.patch
++++ b/target/linux/generic/patches-3.18/811-pci_disable_usb_common_quirks.patch
+@@ -84,7 +84,7 @@
+  #endif  /*  __LINUX_USB_PCI_QUIRKS_H  */
+ --- a/include/linux/usb/hcd.h
+ +++ b/include/linux/usb/hcd.h
+-@@ -444,7 +444,14 @@ extern int usb_hcd_pci_probe(struct pci_
++@@ -445,7 +445,14 @@ extern int usb_hcd_pci_probe(struct pci_
+  extern void usb_hcd_pci_remove(struct pci_dev *dev);
+  extern void usb_hcd_pci_shutdown(struct pci_dev *dev);
+  
+-- 
+2.10.0
+

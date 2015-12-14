@@ -1,0 +1,43 @@
+From 5c227746590d61390b8988b90a956feb64de6125 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 19 Jun 2016 16:52:14 +0200
+Subject: [PATCH 17/69] download: add GH github legacy download
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ include/download.mk | 2 +-
+ scripts/download.pl | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/include/download.mk b/include/download.mk
+index 74e2c31..d8c8e6c 100644
+--- a/include/download.mk
++++ b/include/download.mk
+@@ -15,7 +15,7 @@ DOWNLOAD_RDEP=$(STAMP_PREPARED) $(HOST_STAMP_PREPARED)
+ define dl_method
+ $(strip \
+   $(if $(2),$(2), \
+-    $(if $(filter @APACHE/% @GITHUB/% @GNOME/% @GNU/% @KERNEL/% @SF/% @SAVANNAH/% ftp://% http://% https://% file://%,$(1)),default, \
++    $(if $(filter @APACHE/% @GITHUB/% @GH/% @GNOME/% @GNU/% @KERNEL/% @SF/% @SAVANNAH/% ftp://% http://% https://% file://%,$(1)),default, \
+       $(if $(filter git://%,$(1)),git, \
+         $(if $(filter svn://%,$(1)),svn, \
+           $(if $(filter cvs://%,$(1)),cvs, \
+diff --git a/scripts/download.pl b/scripts/download.pl
+index 90d50a8..e13074d 100755
+--- a/scripts/download.pl
++++ b/scripts/download.pl
+@@ -191,6 +191,11 @@ foreach my $mirror (@ARGV) {
+ 		for (1 .. 5) {
+ 			push @mirrors, "https://raw.githubusercontent.com/$1";
+ 		}
++	} elsif ($mirror =~ /^\@GH\/(.+)$/) {
++		# give github a few more tries (different mirrors)
++		for (1 .. 5) {
++			push @mirrors, "https://codeload.github.com/$1/legacy.tar.gz";
++		}
+ 	} elsif ($mirror =~ /^\@GNU\/(.+)$/) {
+ 		push @mirrors, "https://mirrors.rit.edu/gnu/$1";
+ 		push @mirrors, "https://mirror.netcologne.de/gnu/$1";
+-- 
+2.10.0
+

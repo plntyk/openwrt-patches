@@ -1,0 +1,67 @@
+From 509b4718eb4f990089f973822900d3fdefd43192 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 4 Jun 2016 16:01:11 +0200
+Subject: [PATCH 16/69] kernel: add inet-diag, packet-diag modules
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/kernel/linux/modules/netsupport.mk | 39 ++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
+
+diff --git a/package/kernel/linux/modules/netsupport.mk b/package/kernel/linux/modules/netsupport.mk
+index 587229d..cb46fda 100644
+--- a/package/kernel/linux/modules/netsupport.mk
++++ b/package/kernel/linux/modules/netsupport.mk
+@@ -1,3 +1,4 @@
++
+ #
+ # Copyright (C) 2006-2011 OpenWrt.org
+ #
+@@ -267,6 +268,44 @@ endef
+ $(eval $(call KernelPackage,isdn4linux))
+ 
+ 
++define KernelPackage/inet-diag
++  SUBMENU=$(NETWORK_SUPPORT_MENU)
++  TITLE:=INET socket monitoring interface
++  KCONFIG:= \
++	CONFIG_SOCK_DIAG=y \
++	CONFIG_INET_DIAG \
++	CONFIG_INET_TCP_DIAG \
++	CONFIG_INET_UDP_DIAG
++  FILES:= \
++	$(LINUX_DIR)/net/ipv4/inet_diag.ko \
++	$(LINUX_DIR)/net/ipv4/tcp_diag.ko \
++	$(LINUX_DIR)/net/ipv4/udp_diag.ko
++  AUTOLOAD:=$(call AutoProbe,inet_diag tcp_diag udp_diag)
++endef
++
++define KernelPackage/inet-diag/description
++ Support for INET (TCP, DCCP, etc) socket monitoring interface
++endef
++
++$(eval $(call KernelPackage,inet-diag))
++
++
++define KernelPackage/packet-diag
++  SUBMENU=$(NETWORK_SUPPORT_MENU)
++  TITLE:= Packet sockets monitoring interface
++  DEPENDS:= +kmod-packet
++  KCONFIG:= CONFIG_PACKET_DIAG
++  FILES:= $(LINUX_DIR)/net/packet/af_packet_diag.ko
++  AUTOLOAD:=$(call AutoProbe,af_packet_diag)
++endef
++
++define KernelPackage/packet-diag/description
++ Support for PF_PACKET sockets monitoring interface used by the ss tool.
++endef
++
++$(eval $(call KernelPackage,packet-diag))
++
++
+ define KernelPackage/ipip
+   SUBMENU:=$(NETWORK_SUPPORT_MENU)
+   TITLE:=IP-in-IP encapsulation
+-- 
+2.10.0
+

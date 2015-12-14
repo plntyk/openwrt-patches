@@ -1,0 +1,40 @@
+From 8f909c3227a8287982dd5e868c1f0889b6142cff Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sat, 30 Jul 2016 08:07:48 +0200
+Subject: [PATCH 55/69] [BUG] heimdal: disable normal package compilation
+
+override configure/compile/install for target packages
+
+HostBuild seems to fail if "eval ..." for target
+is removed: package/packagename/host/compile does not work
+after that
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/network/services/heimdal/Makefile | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/package/network/services/heimdal/Makefile b/package/network/services/heimdal/Makefile
+index b6c3f92..23feeb7 100644
+--- a/package/network/services/heimdal/Makefile
++++ b/package/network/services/heimdal/Makefile
+@@ -71,9 +71,15 @@ define Host/Install
+ 	ln -sf $(STAGING_DIR)/host/libexec/heimdal/slc $(STAGING_DIR)/host/bin/slc
+ endef
+ 
++define Build/Configure
++endef
++define Build/Compile
++endef
++define Build/Install
++endef
++
+ define Build/InstallDev
+ 	$(INSTALL_DIR) $(STAGING_DIR)/host/bin
+-	$(CP) $(PKG_BUILD_DIR)/
+ 	$(INSTALL_DIR) $(1)/usr/lib/
+ endef
+ 
+-- 
+2.10.0
+

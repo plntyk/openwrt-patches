@@ -1,0 +1,25 @@
+From 737177bacc62fbfbfe51be87351b4e4907eb2a2e Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Fri, 16 Sep 2016 10:03:19 +0200
+Subject: [PATCH 68/69] e2fsprogs: fix libcom_err dependencies
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/utils/e2fsprogs/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/package/utils/e2fsprogs/Makefile b/package/utils/e2fsprogs/Makefile
+index 374e8e3..6b49325 100644
+--- a/package/utils/e2fsprogs/Makefile
++++ b/package/utils/e2fsprogs/Makefile
+@@ -58,6 +58,7 @@ $(call Package/e2fsprogs/Default)
+   SECTION:=libs
+   CATEGORY:=Libraries
+   TITLE:=error description library
++  DEPENDS+=+libuuid
+ endef
+ 
+ define Package/libss
+-- 
+2.10.0
+

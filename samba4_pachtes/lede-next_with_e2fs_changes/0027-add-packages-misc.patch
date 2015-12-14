@@ -1,0 +1,24 @@
+From 4b55dc50ab75470e80457a75a1e5588d832eb88f Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Wed, 29 Jun 2016 01:49:37 +0200
+Subject: [PATCH 27/69] add packages-misc
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ feeds.conf.default | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/feeds.conf.default b/feeds.conf.default
+index aea15a7..02edffd 100644
+--- a/feeds.conf.default
++++ b/feeds.conf.default
+@@ -6,4 +6,6 @@ src-link telephony /home/tenchi/programming/upstream/feeds/telephony
+ src-link management /home/tenchi/programming/upstream/feeds/management/packages
+ src-link oldpackages /home/tenchi/programming/upstream/feeds/oldpackages/packages
+ src-git packages_berlin git://github.com/freifunk-berlin/firmware-packages.git
++src-link misc /home/tenchi/programming/upstream/feeds/packages-misc
+ #src-link custom /usr/src/openwrt/custom-feed
++
+-- 
+2.10.0
+

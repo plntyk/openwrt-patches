@@ -1,0 +1,25 @@
+From b2203d2d9f6d3eea935e87e3a0b1c55c03809e7b Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 10 Jul 2016 08:45:30 +0200
+Subject: [PATCH 45/69] nand-utils: add missing build depends
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/utils/mtd-utils/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/package/utils/mtd-utils/Makefile b/package/utils/mtd-utils/Makefile
+index 56b8679..d39a253 100644
+--- a/package/utils/mtd-utils/Makefile
++++ b/package/utils/mtd-utils/Makefile
+@@ -19,6 +19,7 @@ PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+ PKG_SOURCE_VERSION:=$(PKG_REV)
+ 
+ PKG_INSTALL:=1
++PKG_BUILD_DEPENDS:=e2fsprogs zlib
+ 
+ PKG_BUILD_DEPENDS:=util-linux liblzo zlib
+ 
+-- 
+2.10.0
+
