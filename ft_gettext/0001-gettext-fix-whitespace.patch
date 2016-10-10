@@ -1,0 +1,26 @@
+From bfafb432318c5ef57cb4ee6677dfc64803fa2dd4 Mon Sep 17 00:00:00 2001
+From: Dirk Neukirchen <dirkneukirchen@web.de>
+Date: Sun, 3 Jul 2016 19:54:35 +0200
+Subject: [PATCH 1/3] gettext: fix whitespace
+
+Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
+---
+ package/libs/gettext/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package/libs/gettext/Makefile b/package/libs/gettext/Makefile
+index cb4ee12..1672b47 100644
+--- a/package/libs/gettext/Makefile
++++ b/package/libs/gettext/Makefile
+@@ -27,7 +27,7 @@ endef
+ define Build/Prepare
+ 	$(INSTALL_DIR) $(PKG_BUILD_DIR)
+ 	$(CP) ./src/* $(PKG_BUILD_DIR)/
+-endef      
++endef
+ 
+ define Build/Configure
+ endef
+-- 
+2.10.0
+
