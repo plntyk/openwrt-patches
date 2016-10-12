@@ -1,19 +1,24 @@
-From f4b418919caaf1cde931852320984ac0c9b210e5 Mon Sep 17 00:00:00 2001
+From 401d098747c0198c8dba0f6710ec27e2d269765f Mon Sep 17 00:00:00 2001
 From: Dirk Neukirchen <dirkneukirchen@web.de>
 Date: Tue, 2 Aug 2016 15:36:52 +0200
 Subject: [PATCH 3/3] gettext-full: update to 0.19.8.1
 
+- unify configs of host/target
+- disable stuff to decrease build time
+- disable interactive gettextize: see
+http://lists.busybox.net/pipermail/buildroot/2014-April/093394.html
+
 Signed-off-by: Dirk Neukirchen <dirkneukirchen@web.de>
 ---
- package/libs/gettext-full/Makefile                  | 21 +++++++++++++++++----
- .../libs/gettext-full/patches/001-autotools.patch   |  2 +-
- .../patches/001-no_examples_and_tests.patch         |  4 ++--
- .../gettext-full/patches/120-uclibc-nolocale.patch  |  2 +-
- .../patches/150-disable_libxml_iconv.patch          |  4 ++--
- 5 files changed, 23 insertions(+), 10 deletions(-)
+ package/libs/gettext-full/Makefile                     | 18 ++++++++++++++----
+ package/libs/gettext-full/patches/001-autotools.patch  |  2 +-
+ .../patches/001-no_examples_and_tests.patch            |  4 ++--
+ .../gettext-full/patches/120-uclibc-nolocale.patch     |  2 +-
+ .../patches/150-disable_libxml_iconv.patch             |  4 ++--
+ 5 files changed, 20 insertions(+), 10 deletions(-)
 
 diff --git a/package/libs/gettext-full/Makefile b/package/libs/gettext-full/Makefile
-index abe311f..dea540c 100644
+index abe311f..eb4236b 100644
 --- a/package/libs/gettext-full/Makefile
 +++ b/package/libs/gettext-full/Makefile
 @@ -8,12 +8,12 @@
@@ -32,15 +37,7 @@ index abe311f..dea540c 100644
  PKG_BUILD_DIR:=$(BUILD_DIR)/gettext-$(PKG_VERSION)
  HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/gettext-$(PKG_VERSION)
  
-@@ -24,6 +24,7 @@ PKG_FIXUP:=autoreconf
- PKG_INSTALL:=1
- PKG_BUILD_PARALLEL:=0
- PKG_BUILD_DEPENDS:=gettext-full/host
-+HOST_BUILD_DEPENDS:=libxml2/host
- 
- include $(INCLUDE_DIR)/package.mk
- include $(INCLUDE_DIR)/host-build.mk
-@@ -46,6 +47,7 @@ endif
+@@ -46,6 +46,7 @@ endif
  CONFIGURE_ARGS += \
  	--enable-shared \
  	--enable-static \
@@ -48,7 +45,7 @@ index abe311f..dea540c 100644
  	--disable-rpath \
  	--enable-nls \
  	--disable-java \
-@@ -58,7 +60,16 @@ CONFIGURE_ARGS += \
+@@ -58,7 +59,14 @@ CONFIGURE_ARGS += \
  	--without-emacs
  
  HOST_CONFIGURE_ARGS += \
@@ -58,15 +55,13 @@ index abe311f..dea540c 100644
 +	--disable-java \
 +	--disable-native-java \
 +	--disable-openmp \
-+	--without-emacs
-+
-+
-+#	--with-libxml2-prefix \
++	--without-emacs \
++	--without-libxml2-prefix
 +
  
  HOST_CONFIGURE_VARS += \
  	EMACS="no"
-@@ -72,6 +83,8 @@ define Build/InstallDev
+@@ -72,6 +80,8 @@ define Build/InstallDev
  
  	$(INSTALL_DIR) $(1)/usr/share/aclocal
  	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/share/aclocal/* $(1)/usr/share/aclocal/
